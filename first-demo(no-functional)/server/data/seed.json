@@ -1,0 +1,508 @@
+{
+  "config": {
+    "allergens": [
+      "gluten",
+      "crustaceos",
+      "huevos",
+      "pescado",
+      "cacahuetes",
+      "soja",
+      "leche",
+      "frutos de cascara",
+      "apio",
+      "mostaza",
+      "sesamo",
+      "sulfitos",
+      "altramuces",
+      "moluscos"
+    ],
+    "tags": [
+      "vegano",
+      "vegetariano",
+      "halal",
+      "kosher"
+    ]
+  },
+  "events": [
+    {
+      "id": 1,
+      "name": "Festival Rio",
+      "dateRange": "2026-03-01 al 2026-03-03"
+    }
+  ],
+  "restaurantGroups": [
+    {
+      "id": 1,
+      "name": "Brasa Norte",
+      "eventId": 1
+    },
+    {
+      "id": 2,
+      "name": "Mar Verde",
+      "eventId": 1
+    }
+  ],
+  "suppliers": [
+    {
+      "id": 1,
+      "name": "Campo Claro",
+      "technicalSheetUrlOrText": "Ficha tecnica interna"
+    },
+    {
+      "id": 2,
+      "name": "Mar Azul",
+      "technicalSheetUrlOrText": "Ficha tecnica interna"
+    },
+    {
+      "id": 3,
+      "name": "EcoGrain",
+      "technicalSheetUrlOrText": "Ficha tecnica interna"
+    },
+    {
+      "id": 4,
+      "name": "Mercado Central",
+      "technicalSheetUrlOrText": "Ficha tecnica interna"
+    }
+  ],
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Pan de trigo",
+      "supplierId": 3,
+      "allergens": ["gluten"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 2,
+      "name": "Harina de trigo",
+      "supplierId": 3,
+      "allergens": ["gluten"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 3,
+      "name": "Huevo",
+      "supplierId": 4,
+      "allergens": ["huevos"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 4,
+      "name": "Leche",
+      "supplierId": 4,
+      "allergens": ["leche"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 5,
+      "name": "Queso curado",
+      "supplierId": 4,
+      "allergens": ["leche"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 6,
+      "name": "Mantequilla",
+      "supplierId": 4,
+      "allergens": ["leche"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 7,
+      "name": "Aceite de oliva",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 8,
+      "name": "Tomate",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 9,
+      "name": "Cebolla",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 10,
+      "name": "Ajo",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 11,
+      "name": "Pollo",
+      "supplierId": 4,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 12,
+      "name": "Ternera",
+      "supplierId": 4,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 13,
+      "name": "Pescado blanco",
+      "supplierId": 2,
+      "allergens": ["pescado"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 14,
+      "name": "Gambas",
+      "supplierId": 2,
+      "allergens": ["crustaceos"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 15,
+      "name": "Almendra",
+      "supplierId": 1,
+      "allergens": ["frutos de cascara"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 16,
+      "name": "Nuez",
+      "supplierId": 1,
+      "allergens": ["frutos de cascara"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 17,
+      "name": "Soja texturizada",
+      "supplierId": 3,
+      "allergens": ["soja"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 18,
+      "name": "Garbanzos",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": ["altramuces"],
+      "notes": "",
+      "tracesNote": "Posibles trazas"
+    },
+    {
+      "id": 19,
+      "name": "Lentejas",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": ["altramuces"],
+      "notes": "",
+      "tracesNote": "Posibles trazas"
+    },
+    {
+      "id": 20,
+      "name": "Arroz",
+      "supplierId": 3,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 21,
+      "name": "Pimenton",
+      "supplierId": 1,
+      "allergens": [],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 22,
+      "name": "Mostaza en grano",
+      "supplierId": 4,
+      "allergens": ["mostaza"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 23,
+      "name": "Apio",
+      "supplierId": 1,
+      "allergens": ["apio"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 24,
+      "name": "Sesamo",
+      "supplierId": 1,
+      "allergens": ["sesamo"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 25,
+      "name": "Vino blanco",
+      "supplierId": 4,
+      "allergens": ["sulfitos"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 26,
+      "name": "Altramuces",
+      "supplierId": 1,
+      "allergens": ["altramuces"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    },
+    {
+      "id": 27,
+      "name": "Mejillones",
+      "supplierId": 2,
+      "allergens": ["moluscos"],
+      "tracesAllergens": [],
+      "notes": "",
+      "tracesNote": ""
+    }
+  ],
+  "preparations": [
+    {
+      "id": 1,
+      "name": "Salsa romesco",
+      "ingredientItems": [
+        { "ingredientId": 8 },
+        { "ingredientId": 10 },
+        { "ingredientId": 15 },
+        { "ingredientId": 7 },
+        { "ingredientId": 21 }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Caldo de verduras",
+      "ingredientItems": [
+        { "ingredientId": 9 },
+        { "ingredientId": 23 },
+        { "ingredientId": 7 }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Adobo de soja",
+      "ingredientItems": [
+        { "ingredientId": 17 },
+        { "ingredientId": 10 },
+        { "ingredientId": 7 }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Salsa de mostaza",
+      "ingredientItems": [
+        { "ingredientId": 22 },
+        { "ingredientId": 6 },
+        { "ingredientId": 4 }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Base de hummus",
+      "ingredientItems": [
+        { "ingredientId": 18 },
+        { "ingredientId": 24 },
+        { "ingredientId": 7 },
+        { "ingredientId": 10 }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Fondo marino",
+      "ingredientItems": [
+        { "ingredientId": 13 },
+        { "ingredientId": 27 },
+        { "ingredientId": 9 }
+      ]
+    }
+  ],
+  "dishes": [
+    {
+      "id": 1,
+      "name": "Paella de mar",
+      "preparationIds": [6],
+      "ingredientIds": [20, 14],
+      "tags": [],
+      "removableIngredientIds": [],
+      "isModifiable": false
+    },
+    {
+      "id": 2,
+      "name": "Ensalada vegana de garbanzos",
+      "preparationIds": [],
+      "ingredientIds": [18, 8, 9, 7],
+      "tags": ["vegano", "vegetariano", "halal", "kosher"],
+      "removableIngredientIds": [9],
+      "isModifiable": true
+    },
+    {
+      "id": 3,
+      "name": "Pollo al romesco",
+      "preparationIds": [1],
+      "ingredientIds": [11],
+      "tags": [],
+      "removableIngredientIds": [],
+      "isModifiable": false
+    },
+    {
+      "id": 4,
+      "name": "Bowl de arroz y verduras",
+      "preparationIds": [2],
+      "ingredientIds": [20, 8, 9, 7],
+      "tags": ["vegano", "vegetariano", "halal", "kosher"],
+      "removableIngredientIds": [9],
+      "isModifiable": true
+    },
+    {
+      "id": 5,
+      "name": "Ternera estofada",
+      "preparationIds": [2],
+      "ingredientIds": [12, 25],
+      "tags": [],
+      "removableIngredientIds": [],
+      "isModifiable": false
+    },
+    {
+      "id": 6,
+      "name": "Pasta con queso",
+      "preparationIds": [],
+      "ingredientIds": [1, 5, 3, 4],
+      "tags": ["vegetariano"],
+      "removableIngredientIds": [5],
+      "isModifiable": true
+    },
+    {
+      "id": 7,
+      "name": "Falafel al horno",
+      "preparationIds": [5],
+      "ingredientIds": [7],
+      "tags": ["vegano", "vegetariano", "halal", "kosher"],
+      "removableIngredientIds": [],
+      "isModifiable": true
+    },
+    {
+      "id": 8,
+      "name": "Merluza a la plancha",
+      "preparationIds": [4],
+      "ingredientIds": [13, 7],
+      "tags": [],
+      "removableIngredientIds": [22, 6, 4],
+      "isModifiable": true
+    },
+    {
+      "id": 9,
+      "name": "Hamburguesa vegetal",
+      "preparationIds": [3],
+      "ingredientIds": [1, 17, 9, 8],
+      "tags": ["vegetariano", "halal", "kosher"],
+      "removableIngredientIds": [1],
+      "isModifiable": true
+    },
+    {
+      "id": 10,
+      "name": "Ensalada de frutos secos",
+      "preparationIds": [],
+      "ingredientIds": [8, 15, 16, 7],
+      "tags": ["vegetariano"],
+      "removableIngredientIds": [15, 16],
+      "isModifiable": true
+    }
+  ],
+  "dailyMenus": [
+    {
+      "id": 1,
+      "date": "2026-03-01",
+      "restaurantGroupId": 1,
+      "dishIds": [1, 2, 3, 4, 6, 7, 9],
+      "revision": 1,
+      "updatedAt": "2026-03-01T08:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "date": "2026-03-02",
+      "restaurantGroupId": 1,
+      "dishIds": [1, 3, 5, 6, 8, 9, 10],
+      "revision": 1,
+      "updatedAt": "2026-03-02T08:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "date": "2026-03-01",
+      "restaurantGroupId": 2,
+      "dishIds": [2, 4, 7, 8, 10],
+      "revision": 1,
+      "updatedAt": "2026-03-01T08:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "date": "2026-03-02",
+      "restaurantGroupId": 2,
+      "dishIds": [1, 4, 5, 7, 8, 9],
+      "revision": 1,
+      "updatedAt": "2026-03-02T08:00:00.000Z"
+    }
+  ],
+  "tables": [
+    { "id": 1, "restaurantGroupId": 1, "nameOrNumber": "M1-1", "status": "libre" },
+    { "id": 2, "restaurantGroupId": 1, "nameOrNumber": "M1-2", "status": "libre" },
+    { "id": 3, "restaurantGroupId": 1, "nameOrNumber": "M1-3", "status": "libre" },
+    { "id": 4, "restaurantGroupId": 1, "nameOrNumber": "M1-4", "status": "libre" },
+    { "id": 5, "restaurantGroupId": 2, "nameOrNumber": "M2-1", "status": "libre" },
+    { "id": 6, "restaurantGroupId": 2, "nameOrNumber": "M2-2", "status": "libre" },
+    { "id": 7, "restaurantGroupId": 2, "nameOrNumber": "M2-3", "status": "libre" },
+    { "id": 8, "restaurantGroupId": 2, "nameOrNumber": "M2-4", "status": "libre" }
+  ],
+  "orders": []
+}
