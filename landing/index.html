@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="title">SERF - Menús i al·lèrgens, sense errors</title>
+    <meta name="description" data-i18n-attr="content:meta_desc"
+        content="Centralitza carta, sala i al·lèrgens perquè el teu equip treballi segur i ràpid." />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <canvas id="ascii-bg" aria-hidden="true"></canvas>
+
+    <div class="main-content">
+        <header class="header">
+            <div class="container header-inner">
+                <a href="#" class="logo-link">
+                    <img src="assets/logo.svg" alt="SERF Logo" class="logo" />
+                </a>
+                <nav class="nav">
+                    <a href="#how-it-works" data-i18n="nav_features">Característiques</a>
+                    <a href="#demo" data-i18n="nav_how_it_works">Com funciona</a>
+                    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+                    <div class="lang-switcher">
+                        <button class="lang-btn active" data-lang="ca" aria-label="Català">
+                            <svg viewBox="0 0 640 480" width="20" height="15">
+                                <rect width="640" height="480" fill="#fed10a" />
+                                <rect width="640" height="53.333" y="48" fill="#d90012" />
+                                <rect width="640" height="53.333" y="154.667" fill="#d90012" />
+                                <rect width="640" height="53.333" y="261.333" fill="#d90012" />
+                                <rect width="640" height="53.333" y="368" fill="#d90012" />
+                            </svg>
+                        </button>
+                        <button class="lang-btn" data-lang="es" aria-label="Español">
+                            <svg viewBox="0 0 640 480" width="20" height="15">
+                                <rect width="640" height="480" fill="#aa151b" />
+                                <rect width="640" height="240" y="120" fill="#f1bf00" />
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero container">
+                <div class="hero-content">
+                    <span class="badge badge-blue" data-i18n="hero_badge">En desenvolupament · Early access</span>
+                    <h1 class="hero-title" data-i18n="hero_title">SERF: menús i <span
+                            class="highlight-yellow">al·lèrgens</span>, sense errors.</h1>
+                    <p class="hero-subtitle" data-i18n="hero_subtitle">Centralitza carta, sala i al·lèrgens perquè el
+                        teu equip treballi segur i ràpid.</p>
+                    <button class="btn btn-primary cta-btn" data-i18n="hero_cta"
+                        onclick="document.getElementById('email-capture').scrollIntoView({behavior: 'smooth'})">
+                        Vull assabentar-me del llançament
+                    </button>
+                </div>
+            </section>
+
+            <!-- App Showcase Section -->
+            <section class="showcase container" id="how-it-works">
+                <div class="showcase-img-wrapper">
+                    <img src="assets/app-mockup.png" alt="Mockup de l'app SERF" class="showcase-img" />
+                </div>
+                <div class="showcase-bullets">
+                    <div class="bullet">
+                        <div class="bullet-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                            </svg>
+                        </div>
+                        <span data-i18n="showcase_1">Carta digital fàcil d'actualitzar</span>
+                    </div>
+                    <div class="bullet">
+                        <div class="bullet-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <path d="M3 9h18M9 21V9" />
+                            </svg>
+                        </div>
+                        <span data-i18n="showcase_2">Gestió de sala</span>
+                    </div>
+                    <div class="bullet">
+                        <div class="bullet-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                        </div>
+                        <span data-i18n="showcase_3">Al·lèrgens clars i centralitzats</span>
+                    </div>
+                    <div class="bullet">
+                        <div class="bullet-icon">
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <path d="M22 4 12 14.01l-3-3" />
+                            </svg>
+                        </div>
+                        <span data-i18n="showcase_4">Menys errors, més tranquil·litat</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Carousel Section -->
+            <section class="carousel-section" id="demo">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carousel-track">
+                        <div class="carousel-card">
+                            <h3 data-i18n="carousel_t1">Actualitza la teva carta en segons</h3>
+                            <p data-i18n="carousel_p1">Fes canvis en temps real que se sincronitzen a l'instant en tots
+                                els teus dispositius.</p>
+                            <div class="accent-line accent-blue"></div>
+                        </div>
+                        <div class="carousel-card">
+                            <h3 data-i18n="carousel_t2">Al·lèrgens clars per a tothom</h3>
+                            <p data-i18n="carousel_p2">Evita riscos assenyalant ingredients i traces sense donar marge a
+                                equívocs.</p>
+                            <div class="accent-line accent-yellow"></div>
+                        </div>
+                        <div class="carousel-card">
+                            <h3 data-i18n="carousel_t3">Control de sala sense caos</h3>
+                            <p data-i18n="carousel_p3">Atén a cada comensal amb calma.</p>
+                            <div class="accent-line accent-red"></div>
+                        </div>
+                        <div class="carousel-card">
+                            <h3 data-i18n="carousel_t4">Redueix errors i guanya temps</h3>
+                            <p data-i18n="carousel_p4">Automatitza comandes i avisa a cuina instantàniament, optimitzant
+                                els teus processos.</p>
+                            <div class="accent-line accent-blue"></div>
+                        </div>
+                        <div class="carousel-card">
+                            <h3 data-i18n="carousel_t5">Dissenyat per al ritme real del restaurant</h3>
+                            <p data-i18n="carousel_p5">Tot el teu personal treballant sota un sistema centralitzat,
+                                fàcil i intuïtiu.</p>
+                            <div class="accent-line accent-yellow"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev-btn" aria-label="Tarjeta anterior">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m15 18-6-6 6-6" />
+                        </svg>
+                    </button>
+                    <button class="carousel-btn next-btn" aria-label="Siguiente tarjeta">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="carousel-mockups container">
+                    <img src="assets/mockup2.jpeg" alt="Mockup SERF 2" class="carousel-mockup" />
+                    <img src="assets/mockup3.jpeg" alt="Mockup SERF 3" class="carousel-mockup" />
+                </div>
+            </section>
+
+            <!-- Email Capture Section -->
+            <section class="email-capture container" id="email-capture">
+                <div class="capture-box">
+                    <h2 data-i18n="email_title">Uneix-te a la beta de SERF</h2>
+                    <p data-i18n="email_subtitle">Zero spam. Només avenços reals del desenvolupament de SERF.</p>
+                    <form id="subscribe-form" class="subscribe-form" novalidate>
+                        <div class="input-group">
+                            <input type="email" id="email-input" data-i18n-attr="placeholder:email_placeholder"
+                                placeholder="tu@email.com" required aria-label="Dirección de correo electrónico">
+                            <button type="submit" class="btn btn-primary" id="submit-btn"
+                                data-i18n="email_btn">Aviseu-me</button>
+                        </div>
+                    </form>
+                    <p id="form-msg" class="form-msg" aria-live="polite"></p>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section container" id="faq">
+                <h2 class="section-title" data-i18n="faq_title">Preguntes Freqüents</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-1">
+                            <span class="accordion-title" data-i18n="faq_q1">Per a quin tipus de restaurant és
+                                SERF?</span>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-content" id="faq-1" hidden>
+                            <p data-i18n="faq_a1">SERF és ideal per a restaurants que volen modernitzar la gestió de la
+                                seva sala i carta sense perdre el tracte humà, mantenint la màxima seguretat en
+                                al·lèrgens i simplificant la feina dels cambrers.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-2">
+                            <span class="accordion-title" data-i18n="faq_q2">Com funciona el control
+                                d'al·lèrgens?</span>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-content" id="faq-2" hidden>
+                            <p data-i18n="faq_a2">Al panell de gestió configures cada plat i creues instantàniament la
+                                informació amb els al·lèrgens, mostrant advertències clares a l'app per evitar qualsevol
+                                error en sala o cuina.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-3">
+                            <span class="accordion-title" data-i18n="faq_q3">Podré editar la carta a l'instant?</span>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-content" id="faq-3" hidden>
+                            <p data-i18n="faq_a3">Sí, la carta digital de SERF s'actualitza en temps real. Si s'esgota
+                                un producte, només has d'ocultar-lo des del teu panell i deixarà d'aparèixer
+                                immediatament.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-4">
+                            <span class="accordion-title" data-i18n="faq_q4">Quan estarà disponible?</span>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-content" id="faq-4" hidden>
+                            <p data-i18n="faq_a4">Ens trobem en l'última fase de desenvolupament. Apunta't a la nostra
+                                llista i seràs dels primers en provar la nostra beta privada i gaudir de condicions
+                                especials.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-5">
+                            <span class="accordion-title" data-i18n="faq_q5">Com tracteu les dades?</span>
+                            <span class="accordion-icon"></span>
+                        </button>
+                        <div class="accordion-content" id="faq-5" hidden>
+                            <p data-i18n="faq_a5">Les teves dades i les dels teus clients estan completament protegides.
+                                No compartim la teva informació amb tercers, utilitzant-les només per al funcionament
+                                del servei i comunicació sobre l'estat de la beta.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container footer-inner">
+                <p class="copyright" data-i18n="footer_copy">&copy; 2026 SERF. Tots els drets reservats.</p>
+                <div class="footer-links">
+                    <a href="mailto:hola@serf.app" data-i18n="footer_contact">Contacte: hola@serf.app</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
