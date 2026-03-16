@@ -34,7 +34,9 @@ source ~/.bashrc
 # Instal·lar ruby-build (plugin per instal·lar versions de Ruby)
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
-# Instal·lar la versió correcta (definida a .ruby-version)
+# Instal·lar la versió correcta (definida a .ruby-version) i dependències
+sudo apt update
+sudo apt install build-essential ruby-dev libyaml-dev ruby-bundler libsqlite3-dev pkg-config zlib1g-dev
 rbenv install 3.1.2
 ```
 
@@ -51,6 +53,7 @@ cd Serf-APP
 
 # Instal·lar les dependències
 # Opció A — instal·lació estàndard (recomanada si tens permisos)
+bundle config set --local path ./vendor/bundle
 bundle install
 
 # Opció B — instal·lació a un directori local (útil en entorns compartits)
