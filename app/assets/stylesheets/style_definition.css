@@ -1,0 +1,67 @@
+/* Estils globals */
+
+:root {
+    /* Colors */
+    --color-bg: #F2F2E9;
+    --color-bg-secondary: #5E78E6; 
+    --color-text: #0D0D0D;
+    --color-text-secondary: #F2F2E9;
+    --color-text-terciary: #EDD754;
+    /* Els següents colors tenen tots la mateixa rellevància */
+    --color-accent-primary: #F2293A;
+    --color-accent-secondary: #5E78E6;
+    --color-accent-terciary: #EDD754;
+
+    /* Tipografies */
+    --font-general: "Arial", sans-serif;
+    --font-accent: "Arial Rounded MT Bold", "Arial Rounded", sans-serif;
+    --font-titles: "Impact", "Arial Black", sans-serif;
+    
+}
+
+/* Cos */
+
+body {
+    font-family: var(--font-general);
+    font-size: 1rem;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    margin: 1rem;
+    margin-bottom: 0;
+}
+
+/* Capçaleres */
+
+h1 {
+    font-family: var(--font-titles);
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-family: var(--font-titles);
+    font-size: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+h3 {
+    font-family: var(--font-accent);
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+/* Enllaços */
+
+a{
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: var(--color-accent-secondary);
+    text-decoration: underline;
+}
