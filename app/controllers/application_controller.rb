@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def after_sign_in_path_for(resource)
+    resource.admin? ? users_path : root_path
+  end
+
   def set_layout
     devise_controller? ? "login" : "application"
   end

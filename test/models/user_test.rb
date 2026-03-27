@@ -60,4 +60,20 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
     assert user.errors.added?(:password, :too_short, count: 6)
   end
+
+  test "search scope returns matching users" do
+    results = User.search("admin")
+    assert_includes results, users(:admin)
+    assert_not_includes results, users(:waiter)
+  end
+
+  test "search scope returns all users when query is blank" do
+    assert_equal User.all.to_a, User.search("").to_a
+    assert_equal User.all.to_a, User.search(nil).to_a
+  end
+
+  test "search scope is case-insensitive" do
+    results = User.search("ADMIN")
+    assert_includes results, users(:admin)
+  end
 end

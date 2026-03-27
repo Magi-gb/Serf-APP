@@ -100,7 +100,11 @@
 /* Cloche icon */
 .login-card__icon {
   margin-top: 3rem;
-  font-size: 2.5rem;
+}
+
+.login-card__logo {
+  width: 60px;
+  height: auto;
 }
 
 /* Flash messages */
