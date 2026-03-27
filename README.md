@@ -66,7 +66,7 @@ bundle install --path vendor/bundle
 # Crear i inicialitzar la base de dades
 bin/rails db:create db:migrate
 
-# (Opcional) Carregar dades de prova
+# Carregar les dades inicials (crea l'usuari admin per defecte)
 bin/rails db:seed
 ```
 
@@ -99,7 +99,7 @@ bin/rails test test/models/
 bin/rails test test/controllers/
 
 # Un test concret
-bin/rails test test/models/plat_test.rb
+bin/rails test test/models/user_test.rb
 ```
 
 Per als tests de sistema (Capybara + Selenium):
@@ -127,7 +127,7 @@ bin/brakeman
 ```
 app/
   controllers/    # Lògica de peticions HTTP
-  models/         # Models ActiveRecord (Plat, Menu, Ingredient, Restriccio, Usuari...)
+  models/         # Models ActiveRecord (User, Menu, Dish, Ingredient, Restriction...)
   views/          # Plantilles ERB
   services/       # Lògica de negoci complexa (SuggestionService, etc.)
 config/

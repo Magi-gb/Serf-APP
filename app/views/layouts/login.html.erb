@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Serf — Inicia la sessió</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="login-page">
+    <div class="login-stripes">
+      <div class="login-stripe--yellow"></div>
+      <div class="login-stripe--blue"></div>
+    </div>
+
+    <div class="login-main">
+      <div>
+        <% if alert.present? %>
+          <div class="login-flash">
+            <p class="login-flash__alert"><%= alert %></p>
+          </div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>
