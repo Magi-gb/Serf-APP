@@ -25,6 +25,7 @@
 | CSS | Plain CSS via Sprockets |
 | Auth | Devise + RBAC (`Authorizable` concern) |
 | Testing | MiniTest + Capybara + Selenium (headless Chrome) |
+| I18n QA | i18n-tasks (detect missing/unused keys) |
 | Security | Brakeman, RuboCop (rubocop-rails-omakase) |
 | Server | Puma (port 3000) |
 
@@ -122,7 +123,7 @@ What exists:
 ## Development conventions
 
 - **Language:** Catalan in UI and commit messages. **All model names, column names, variable names, and code must be in English** (e.g., `Dish`, `Restriction`, `User`).
-- **I18n:** All user-facing strings must use Rails I18n (`t()` in views, `I18n.t()` in controllers/models). **No hardcoded text in views or flash messages.** Translations go in `config/locales/ca.yml`. Default locale is `:ca`.
+- **I18n:** All user-facing strings must use Rails I18n (`t()` in views, `I18n.t()` in controllers/models). **No hardcoded text in views or flash messages.** Translations go in `config/locales/ca.yml`. Default locale is `:ca`. Use `i18n-tasks` to detect missing or unused translation keys (see tests in `test/i18n_test.rb` and config in `config/i18n-tasks.yml`).
 - **Testing:** MiniTest. **Every feature, model, controller, service object, and file must have corresponding tests.** No code is considered complete without tests. This includes: model validations and associations, controller actions (happy path + error cases), service object logic, integration/system tests for user-facing features, and helper methods. Aim for comprehensive coverage — untested code is unfinished code. **All features must include fixtures** (`test/fixtures/`) for tests **and seeds** (`db/seeds.rb`) for the development database.
 - **Definition of Done:** Implementation complete + **all tests written and passing** + no regressions + interface consistent with mockups + story marked Done in Taiga + relevant docs updated.
 - **Style:** RuboCop (rubocop-rails-omakase). Run `bin/rubocop` before committing. **No new RuboCop offenses may be introduced — all code must pass `bin/rubocop` with zero offenses.**
@@ -144,5 +145,9 @@ bin/rails test                # Run all tests
 bin/rails test test/models/   # Run model tests only
 bin/rubocop                   # Lint
 bin/brakeman                  # Security scan
+i18n-tasks missing            # Show missing translation keys
+i18n-tasks unused             # Show unused translation keys
+i18n-tasks normalize          # Sort and normalize locale files
+i18n-tasks health             # Full i18n health check
 ```
 

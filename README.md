@@ -118,7 +118,57 @@ bin/rubocop
 
 # Anàlisi de seguretat estàtica
 bin/brakeman
+
+# Gestió de traduccions (i18n-tasks)
+i18n-tasks missing            # Mostra claus de traducció que falten
+i18n-tasks unused             # Mostra claus de traducció no utilitzades
+i18n-tasks normalize          # Ordena i normalitza els fitxers de locale
+i18n-tasks health             # Revisió completa de l'estat de les traduccions
 ```
+
+---
+
+## Internacionalització (I18n)
+
+L'aplicació utilitza el sistema d'**internacionalització de Rails (I18n)** per gestionar tots els textos visibles a la interfície. L'idioma per defecte és el **català** (`:ca`).
+
+### Com funciona
+
+1. **Cap text hardcoded a les vistes.** Tots els textos visibles es defineixen com a claus de traducció als fitxers de locale.
+2. A les vistes ERB s'utilitza el helper `t()` (abreviatura de `I18n.t()`), i als controladors/models `I18n.t()`.
+3. Les traduccions es defineixen a `config/locales/ca.yml` (català) i `config/locales/en.yml` (anglès base). Les traduccions de Devise estan a `config/locales/devise.en.yml`.
+4. La configuració del locale es troba a `config/application.rb`:
+   - `config.i18n.default_locale = :ca`
+   - `config.i18n.available_locales = [:ca]`
+
+### Exemple
+
+```erb
+<%# A la vista: %>
+<h1><%= t('home.index.title') %></h1>
+```
+
+```yaml
+# A config/locales/ca.yml:
+ca:
+  home:
+    index:
+      title: "Benvingut a Serf"
+```
+
+### Validació amb i18n-tasks
+
+El projecte inclou la gem **[i18n-tasks](https://github.com/glebm/i18n-tasks)** per mantenir la qualitat de les traduccions. Aquesta eina:
+
+- **Detecta claus que falten** (`i18n-tasks missing`) — claus usades al codi però no definides als fitxers de locale
+- **Detecta claus no utilitzades** (`i18n-tasks unused`) — claus definides als fitxers de locale però mai referenciades al codi
+- **Normalitza** els fitxers YAML (`i18n-tasks normalize`) — ordena les claus alfabèticament i aplica un format consistent
+- **Verifica interpolacions** — comprova que les variables dins les traduccions siguin consistents entre locales
+
+La configuració d'i18n-tasks es troba a `config/i18n-tasks.yml`. A més, hi ha tests automatitzats a `test/i18n_test.rb` que verifiquen:
+- No hi ha claus de traducció que faltin
+- Els fitxers de locale estan normalitzats
+- Les interpolacions són consistents
 
 ---
 
