@@ -1,19 +1,19 @@
 <div class="login-card">
-  <h2 class="login-card__title">Inicia la sessió</h2>
+  <h2 class="login-card__title"><%= t("sessions.new.title") %></h2>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
     <%= f.text_field :username,
         autofocus: true,
         autocomplete: "username",
-        placeholder: "ID d'usuari",
+        placeholder: t("sessions.new.username_placeholder"),
         class: "login-form__input" %>
 
     <%= f.password_field :password,
         autocomplete: "current-password",
-        placeholder: "Contrassenya",
+        placeholder: t("sessions.new.password_placeholder"),
         class: "login-form__input" %>
 
-    <%= f.submit "Entra", class: "login-form__submit" %>
+    <%= f.submit t("sessions.new.submit"), class: "login-form__submit" %>
   <% end %>
 
   <div class="login-card__icon">🍽️</div>

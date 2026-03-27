@@ -1,0 +1,53 @@
+ca:
+  # App-wide
+  app_name: "Serf"
+
+  # Layouts
+  layouts:
+    login:
+      title: "Serf — Inicia la sessió"
+
+  # Login page
+  sessions:
+    new:
+      title: "Inicia la sessió"
+      username_placeholder: "ID d'usuari"
+      password_placeholder: "Contrassenya"
+      submit: "Entra"
+
+  # Home page
+  home:
+    index:
+      title: "Serf"
+
+  # Validation errors (fallback for ActiveRecord)
+  errors:
+    messages:
+      blank: "no pot estar en blanc"
+      taken: "ja està en ús"
+      too_short:
+        one: "és massa curt (mínim 1 caràcter)"
+        other: "és massa curt (mínim %{count} caràcters)"
+      too_long:
+        one: "és massa llarg (màxim 1 caràcter)"
+        other: "és massa llarg (màxim %{count} caràcters)"
+      not_a_number: "no és un número"
+      invalid: "no és vàlid"
+
+  # Authorization
+  authorization:
+    not_authorized: "No tens permís per accedir a aquesta pàgina."
+
+  # Devise
+  devise:
+    failure:
+      already_authenticated: "Ja has iniciat la sessió."
+      inactive: "El teu compte encara no està activat."
+      invalid: "Nom d'usuari o contrasenya incorrectes."
+      not_found_in_database: "Nom d'usuari o contrasenya incorrectes."
+      timeout: "La teva sessió ha caducat. Si us plau, inicia la sessió de nou."
+      unauthenticated: "Has d'iniciar la sessió per continuar."
+    sessions:
+      signed_in: "Sessió iniciada correctament."
+      signed_out: "Sessió tancada correctament."
+      already_signed_out: "Sessió tancada correctament."

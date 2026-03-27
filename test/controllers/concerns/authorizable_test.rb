@@ -43,14 +43,14 @@ class AuthorizableTest < ActionDispatch::IntegrationTest
     sign_in users(:kitchen_manager)
     get "/admin_only"
     assert_redirected_to root_path
-    assert_equal "You are not authorized to access this page.", flash[:alert]
+    assert_equal I18n.t("authorization.not_authorized"), flash[:alert]
   end
 
   test "require_admin! rejects waiter" do
     sign_in users(:waiter)
     get "/admin_only"
     assert_redirected_to root_path
-    assert_equal "You are not authorized to access this page.", flash[:alert]
+    assert_equal I18n.t("authorization.not_authorized"), flash[:alert]
   end
 
   test "require_kitchen_manager_or_above! allows admin" do
@@ -69,6 +69,6 @@ class AuthorizableTest < ActionDispatch::IntegrationTest
     sign_in users(:waiter)
     get "/kitchen_manager_or_above"
     assert_redirected_to root_path
-    assert_equal "You are not authorized to access this page.", flash[:alert]
+    assert_equal I18n.t("authorization.not_authorized"), flash[:alert]
   end
 end

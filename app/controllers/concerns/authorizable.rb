@@ -12,6 +12,6 @@ module Authorizable
   end
 
   def deny_access!
-    redirect_to root_path, alert: "You are not authorized to access this page."
+    redirect_to root_path, alert: I18n.t("authorization.not_authorized")
   end
 end

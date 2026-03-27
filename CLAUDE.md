@@ -122,6 +122,7 @@ What exists:
 ## Development conventions
 
 - **Language:** Catalan in UI and commit messages. **All model names, column names, variable names, and code must be in English** (e.g., `Dish`, `Restriction`, `User`).
+- **I18n:** All user-facing strings must use Rails I18n (`t()` in views, `I18n.t()` in controllers/models). **No hardcoded text in views or flash messages.** Translations go in `config/locales/ca.yml`. Default locale is `:ca`.
 - **Testing:** MiniTest. **Every feature, model, controller, service object, and file must have corresponding tests.** No code is considered complete without tests. This includes: model validations and associations, controller actions (happy path + error cases), service object logic, integration/system tests for user-facing features, and helper methods. Aim for comprehensive coverage — untested code is unfinished code. **All features must include fixtures** (`test/fixtures/`) for tests **and seeds** (`db/seeds.rb`) for the development database.
 - **Definition of Done:** Implementation complete + **all tests written and passing** + no regressions + interface consistent with mockups + story marked Done in Taiga + relevant docs updated.
 - **Style:** RuboCop (rubocop-rails-omakase). Run `bin/rubocop` before committing. **No new RuboCop offenses may be introduced — all code must pass `bin/rubocop` with zero offenses.**
@@ -145,8 +146,3 @@ bin/rubocop                   # Lint
 bin/brakeman                  # Security scan
 ```
 
----
-
-## Pending decisions
-
-- Catalan locale file needs to be added (`config/locales/ca.yml`)

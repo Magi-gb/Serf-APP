@@ -9,26 +9,26 @@ class UserTest < ActiveSupport::TestCase
   test "invalid without username" do
     user = User.new(password: "password", role: :waiter)
     assert_not user.valid?
-    assert_includes user.errors[:username], "can't be blank"
+    assert user.errors.added?(:username, :blank)
   end
 
   test "invalid without password on create" do
     user = User.new(username: "testuser", role: :waiter)
     assert_not user.valid?
-    assert_includes user.errors[:password], "can't be blank"
+    assert user.errors.added?(:password, :blank)
   end
 
   test "invalid with short password" do
     user = User.new(username: "testuser", password: "short", role: :waiter)
     assert_not user.valid?
-    assert_includes user.errors[:password], "is too short (minimum is 6 characters)"
+    assert user.errors.added?(:password, :too_short, count: 6)
   end
 
   test "username must be unique" do
     User.create!(username: "duplicate", password: "password", role: :waiter)
     user = User.new(username: "duplicate", password: "password", role: :waiter)
     assert_not user.valid?
-    assert_includes user.errors[:username], "has already been taken"
+    assert user.errors.added?(:username, :taken, value: "duplicate")
   end
 
   test "default role is waiter" do
@@ -58,6 +58,6 @@ class UserTest < ActiveSupport::TestCase
     user = users(:waiter)
     user.password = "short"
     assert_not user.valid?
-    assert_includes user.errors[:password], "is too short (minimum is 6 characters)"
+    assert user.errors.added?(:password, :too_short, count: 6)
   end
 end
