@@ -3,14 +3,15 @@
 :root {
     /* Colors */
     --color-bg: #F2F2E9;
-    --color-bg-secondary: #5E78E6; 
+    --color-bg-blue: #5E78E6; 
     --color-text: #0D0D0D;
-    --color-text-secondary: #F2F2E9;
-    --color-text-terciary: #EDD754;
+    --color-text-white: #F2F2E9;
+    --color-text-yellow: #EDD754;
+
     /* Els següents colors tenen tots la mateixa rellevància */
-    --color-accent-primary: #F2293A;
-    --color-accent-secondary: #5E78E6;
-    --color-accent-terciary: #EDD754;
+    --color-accent-red: #F2293A;
+    --color-accent-blue: #5E78E6;
+    --color-accent-yellow: #EDD754;
 
     /* Tipografies */
     --font-general: "Arial", sans-serif;
@@ -28,6 +29,7 @@ body {
     background-color: var(--color-bg);
     margin: 1rem;
     margin-bottom: 0;
+    display: inline-block;
 }
 
 /* Capçaleres */
@@ -37,6 +39,7 @@ h1 {
     font-size: 2.5rem;
     margin-top: 1rem;
     margin-bottom: 0;
+    display: inline;
 }
 
 h2 {
@@ -44,6 +47,7 @@ h2 {
     font-size: 2rem;
     margin-top: 1rem;
     margin-bottom: 0;
+    display: inline;
 }
 
 h3 {
@@ -51,6 +55,7 @@ h3 {
     font-size: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 0;
+    display: inline;
 }
 
 /* Enllaços */
@@ -62,6 +67,81 @@ a{
 }
 
 a:hover {
-    color: var(--color-accent-secondary);
+    color: var(--color-accent-blue);
     text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Botons */
+
+.btn-yellow {
+    padding: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    min-width: 16vw;
+    background-color: var(--color-accent-yellow);
+    color: var(--color-accent-red);
+    border: none;
+    border-radius: 2rem;
+    text-align: center;
+    font-family: var(--font-general);
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-white {
+    padding: 1rem;
+    background-color: var(--color-bg);
+    color: var(--color-accent-blue);
+    border: none;
+    border-radius: 1rem;
+    text-align: center;
+    font-family: var(--font-general);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Barra de navegació (side bar) */
+
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 20vw;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: var(--color-bg-blue);
+  overflow-x: hidden;
+  list-style-type: none;
+  margin: 0;
+  padding-top: 5vh;
+  padding-left: 0;
+  font-family: var(--font-general);
+  font-size: 1.5rem;
+}
+
+.sidenav li a {
+  display: block;
+  color: var(--color-text-white);
+  padding: 1rem 4rem;
+  text-decoration: none;
+}
+
+.sidenav li a:hover {
+  background-color: var(--color-bg);
+  color: var(--color-accent-red);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sidenav li a:active {
+  background-color: var(--color-bg);
+  color: var(--color-accent-red);
+  font-weight: bold;
 }
