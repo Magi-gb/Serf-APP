@@ -74,25 +74,37 @@ a:hover {
 
 /* Botons */
 
-.btn-yellow {
-    padding: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    min-width: 16vw;
+.btn-yellow-big, .btn-yellow-small {
     background-color: var(--color-accent-yellow);
     color: var(--color-accent-red);
     border: none;
-    border-radius: 2rem;
     text-align: center;
     font-family: var(--font-general);
-    font-size: 1.5rem;
     font-weight: 900;
     text-decoration: none;
     cursor: pointer;
 }
 
-.btn-white {
+.btn-yellow-big {
     padding: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    min-width: 16vw;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+}
+
+.btn-yellow-small {
+    padding: 0.7rem 1rem;
+    min-width: 8vw;
+    border-radius: 1rem;
+    font-size: 1rem;
+    
+}
+
+.btn-white {
+    padding: 1.3rem;
+    min-width: 12vw;
     background-color: var(--color-bg);
     color: var(--color-accent-blue);
     border: none;
@@ -117,10 +129,14 @@ a:hover {
   top: 0;
   left: 0;
   background-color: var(--color-bg-blue);
+  background-image: url(LogoHorBl.svg);
+  background-repeat: no-repeat;
+  background-position: 3vw 6vh;
+  background-size: 60%;
   overflow-x: hidden;
   list-style-type: none;
   margin: 0;
-  padding-top: 5vh;
+  padding-top: 10vh;
   padding-left: 0;
   font-family: var(--font-general);
   font-size: 1.5rem;
@@ -129,7 +145,7 @@ a:hover {
 .sidenav li a {
   display: block;
   color: var(--color-text-white);
-  padding: 1rem 4rem;
+  padding: 1rem 6rem;
   text-decoration: none;
 }
 
@@ -140,8 +156,29 @@ a:hover {
   cursor: pointer;
 }
 
-.sidenav li a:active {
+.sidenav li a.active {
   background-color: var(--color-bg);
   color: var(--color-accent-red);
   font-weight: bold;
 }
+
+/* Input general */
+
+input {
+    min-width: 50vw;
+    max-width: 70vw;
+    margin: 0.7rem;
+    padding: 1rem;
+    border: none;
+    background-color: white;
+    color: rgba(13, 13, 13, 0.5);  /* var(--color-text) amb opacitat modificada */
+    font-family: var(--font-general);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Errors */
+
+
+
+/* Falta: cercador + estilo errores + estilo containers + layouts

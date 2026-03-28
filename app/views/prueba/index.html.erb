@@ -1,6 +1,80 @@
-<h1>Título con Impact</h1>
-<h2 class="title">Otro título con Impact</h2>
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>"Prova d'Estils"</title>
+  <link rel="stylesheet" href="style_definition.css">
+</head>
+<body>
 
-<h3 class="title">Subtítulo con Arial Rounded</h3>
+  <!-- Sidebar -->
+  <ul class="sidenav">
 
-<p>Texto general con Arial</p>
+    <!-- Botón blanco dentro de la sidebar -->
+    <li style="margin-top: 2rem; margin-left: 1.5vw; padding: 1rem 2rem;">
+      <button class="btn-white">+ Nou usuari</button>
+    </li>
+
+    <li><a href="#inici">Inici</a></li>
+    <li><a href="#tipografies">Tipografies</a></li>
+    <li><a href="#botons">Botons</a></li>
+    <li><a href="#enllacos">Enllaços</a></li>
+
+  </ul>
+
+  <!-- Contenido principal -->
+  <main style="margin-left: 22vw; padding: 2rem;">
+
+    <!-- Sección 1 -->
+    <section id="inici">
+      <h1>"Prova d'Estils"</h1>
+      <p>
+        Aquesta pàgina serveix per provar tots els estils definits al full CSS:
+        tipografies, colors, botons i la barra lateral.
+      </p>
+    </section>
+
+    <!-- Sección 2 -->
+    <section id="tipografies" style="margin-top: 3rem;">
+      <h2>Tipografies</h2>
+      <p>Aquest és un paràgraf amb la font general.</p>
+      <h3>Subtítol amb font accent</h3>
+      <p>Més text per veure la jerarquia visual.</p>
+    </section>
+
+    <!-- Sección 3 -->
+    <section id="botons" style="margin-top: 3rem;">
+      <h2>Botons</h2>
+
+      <p>Botó groc gran:</p>
+      <button class="btn-yellow-big">Botó Gran</button>
+
+      <p style="margin-top: 1.5rem;">Botó groc petit:</p>
+      <button class="btn-yellow-small">Botó Petit</button>
+
+      <p style="margin-top: 1.5rem;">Botó blanc:</p>
+      <button class="btn-white">Botó Blanc</button>
+    </section>
+
+    <!-- Sección 4 -->
+    <section id="enllacos" style="margin-top: 3rem;">
+      <h2>Enllaços</h2>
+      <p>
+        Prova un <a href="#">enllaç amb hover</a> per veure el canvi de color.
+      </p>
+    </section>
+
+    <!-- Sección 5: Inputs -->
+    <section id="inputs" style="margin-top: 3rem;">
+      <h2>Inputs</h2>
+      <p>Prova del teu estil d'inputs: </p>
+
+      <input type="text" placeholder="Nom">
+      <input type="email" placeholder="Correu electrònic">
+      <input type="password" placeholder="Contrasenya">
+    </section>
+
+  </main>
+
+</body>
+</html>
