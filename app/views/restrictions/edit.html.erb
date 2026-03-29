@@ -1,0 +1,10 @@
+<div class="restrictions-container" style="background-color: transparent; box-shadow: none; padding: 0;">
+  <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem;">
+    <div class="restriction-icon" style="background-color: <%= @restriction.bg_color.presence || '#7bc143' %>; margin: 0; width: 40px; height: 40px; font-size: 0.7rem;">
+      <span><%= @restriction.name[0..2].upcase %></span>
+    </div>
+    <h1 style="color: #5E78E6; margin: 0;">Editar Restricció</h1>
+  </div>
+  
+  <%= render "form", restriction: @restriction %>
+</div>

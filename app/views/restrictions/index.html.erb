@@ -1,0 +1,29 @@
+<% content_for :title, "Filtrar restriccions" %>
+
+<div class="restrictions-container">
+  <div class="restrictions-header">
+    <div style="display: flex; gap: 1rem; align-items: center; width: 100%;">
+      <h1 style="color: #5E78E6; flex: 1;">Restriccions</h1>
+      <%= link_to "+ NOVA RESTRICCIÓ", new_restriction_path, class: "btn-nova-restriccio", style: "background-color: #5E78E6; color: white;" %>
+    </div>
+  </div>
+
+  <% if @restrictions.any? %>
+    <div class="restrictions-grid">
+      <% @restrictions.each do |restriction| %>
+        <%= link_to restriction_path(restriction), class: "restriction-bubble" do %>
+          <div class="restriction-icon" style="background-color: <%= restriction.bg_color.presence || '#7bc143' %>">
+            <% if restriction.icon_svg.present? %>
+              <%= raw restriction.icon_svg %>
+            <% else %>
+              <span><%= restriction.name[0..2].upcase %></span>
+            <% end %>
+          </div>
+          <span class="restriction-name"><%= restriction.name %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p style="text-align: center; color: #888; padding: 2rem;">Encara no hi ha restriccions guardades.</p>
+  <% end %>
+</div>

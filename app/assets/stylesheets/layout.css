@@ -5,14 +5,14 @@
   display: flex;
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #fff;
+  background-color: #F2F2E9;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
+  width: 260px;
   min-height: 100vh;
-  background-color: #3a5dae;
+  background-color: #5E78E6;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -40,28 +40,29 @@
 }
 
 .sidebar__item--active {
-  background-color: #f2ece0;
+  background-color: #F2F2E9;
 }
 
 .sidebar__item--active .sidebar__link {
-  color: #1a1a1a;
+  color: #F2293A; /* Red color for active from mockup */
+  font-weight: bold;
 }
 
 .sidebar__link {
   display: block;
-  padding: 0.8rem 1.5rem;
+  padding: 1rem 1.5rem;
   color: #fff;
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-family: Arial, sans-serif;
 }
 
 .sidebar__link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .sidebar__item--active .sidebar__link:hover {
-  background-color: #f2ece0;
+  background-color: #F2F2E9;
 }
 
 .sidebar__footer {
