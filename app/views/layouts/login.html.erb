@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= t("layouts.login.title") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="icon" href="<%= image_path('logos/Recurso 5.svg') %>" type="image/svg+xml">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="login-page">
+    <div class="login-stripes">
+      <div class="login-stripe--yellow"></div>
+      <div class="login-stripe--blue"></div>
+    </div>
+
+    <div class="login-main">
+      <div>
+        <% if alert.present? %>
+          <div class="login-flash">
+            <p class="login-flash__alert"><%= alert %></p>
+          </div>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

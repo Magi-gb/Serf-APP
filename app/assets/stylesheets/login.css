@@ -1,0 +1,140 @@
+/* Login page styles */
+
+.login-page {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  background-color: #e6222e;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Decorative vertical stripes */
+.login-stripes {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.login-stripe--yellow {
+  width: 80px;
+  background-color: #f5c518;
+}
+
+.login-stripe--blue {
+  width: 140px;
+  background-color: #3a5dae;
+}
+
+/* Main area holding the card */
+.login-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Card */
+.login-card {
+  background-color: #f2ece0;
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-card__title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 2rem;
+}
+
+/* Form */
+.login-form {
+  width: 100%;
+}
+
+.login-form__input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.login-form__input::placeholder {
+  color: #aaa;
+}
+
+.login-form__input:focus {
+  outline: 2px solid #f5c518;
+}
+
+.login-form__submit {
+  display: block;
+  width: 70%;
+  margin: 1rem auto 0;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 50px;
+  background-color: #f5c518;
+  color: #e6222e;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-form__submit:hover {
+  background-color: #e0b315;
+}
+
+/* Cloche icon */
+.login-card__icon {
+  margin-top: 3rem;
+}
+
+.login-card__logo {
+  width: 60px;
+  height: auto;
+}
+
+/* Flash messages */
+.login-flash {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+.login-flash__alert {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .login-stripe--yellow {
+    width: 40px;
+  }
+
+  .login-stripe--blue {
+    width: 70px;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+}
