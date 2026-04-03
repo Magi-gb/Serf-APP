@@ -1,0 +1,24 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "edf687f759ec9765bd5db185dbc615c80af77d6e7e19386fc42934e7a80307af",
+      "warning_type": "Unmaintained Dependency",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 3.1.2 ended on 2025-03-31",
+      "file": ".ruby-version",
+      "line": 1,
+      "note": "University project pinned to Ruby 3.1.2 - We don't want to update for now"
+    },
+    {
+      "fingerprint": "1454b1942b88f6f9e3aca5c0bf0134a4ba802ebed8e3d052cd1d6bbfb0b50d54",
+      "warning_type": "Mass Assignment",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/users_controller.rb",
+      "line": 56,
+      "note": "Controller is guarded by require_admin! - only admin users can access this endpoint"
+    }
+  ],
+  "updated": "2026-04-04",
+  "brakeman_version": "7.1.1"
+}
