@@ -8,6 +8,8 @@ on:
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: development
 
     steps:
       - name: Checkout code
@@ -24,6 +26,8 @@ jobs:
 
   scan_js:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: development
 
     steps:
       - name: Checkout code
@@ -40,6 +44,8 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: development
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,6 +61,8 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: development
 
     # services:
     #  redis:
