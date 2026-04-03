@@ -22,10 +22,9 @@
 | Database | SQLite3 (dev/test) |
 | Frontend | ERB views + Hotwire (Turbo + Stimulus) |
 | JS loading | importmap-rails (no bundler) |
-| CSS | Plain CSS via Sprockets |
-| Auth | Devise + RBAC (`Authorizable` concern) |
+| CSS | `application.css` via Sprockets (CSS framework TBD: Bootstrap / Bulma / Tailwind) |
+| Auth | Devise (to be added) + RBAC |
 | Testing | MiniTest + Capybara + Selenium (headless Chrome) |
-| I18n QA | i18n-tasks (detect missing/unused keys) |
 | Security | Brakeman, RuboCop (rubocop-rails-omakase) |
 | Server | Puma (port 3000) |
 
@@ -41,25 +40,25 @@ Client (Browser)
                     └── ActionController
                           ├── SuggestionService (service object)
                           └── ActiveRecord Models
-                                └── SQLite3 (dev/test) / MySQL (production)
+                                └── MySQL/MariaDB
                     └── ERB Views + Hotwire (Turbo Frames / Streams / Stimulus)
 ```
 
 ### Domain model (planned)
 
 ```
-Menu          has_many :dishes
-Dish          belongs_to :menu
-              has_many :ingredients, through: :dish_ingredients
-DishIngredient  (join table) — includes `essential` boolean flag
-Ingredient    has_many :dishes, through: :dish_ingredients
-              has_many :restrictions, through: :ingredient_restrictions
-IngredientRestriction  (join table)
-Restriction   (allergies, intolerances, preferences)
-User          role: admin | kitchen_manager | waiter  (implemented)
+Menu          has_many :plats
+Plat          belongs_to :menu
+              has_many :ingredients, through: :plat_ingredients
+PlatIngredient  (join table) — includes `imprescindible` boolean flag
+Ingredient    has_many :plats, through: :plat_ingredients
+              has_many :restriccions, through: :ingredients_restriccions
+IngredientsRestriccio  (join table)
+Restriccio    (allergies, intolerances, preferences)
+Usuari        role: admin | cuiner | cambrer
 ```
 
-Key rule: ingredients within a dish are classified as **essential** (blocking) or **replaceable** (substitutable). The suggestion engine uses this to filter or propose alternatives.
+Key rule: ingredients within a dish are classified as **imprescindible** (blocking) or **substituïble** (replaceable). The suggestion engine uses this to filter or propose alternatives.
 
 ---
 
@@ -67,21 +66,21 @@ Key rule: ingredients within a dish are classified as **essential** (blocking) o
 
 | Epic | Description |
 |---|---|
-| CRUD Menus | Create/read/update/delete menus; filter dishes by dietary restriction |
-| CRUD Dishes | Manage dishes with associated ingredients; show all incompatible restrictions |
+| CRUD Menús | Create/read/update/delete menus; filter dishes by dietary restriction |
+| CRUD Plats | Manage dishes with associated ingredients; show all incompatible restrictions |
 | CRUD Ingredients | Manage ingredients; each ingredient can have N substitutes and N restrictions |
-| CRUD Restrictions | Manage the restrictions catalog |
-| Suggestion Engine | Given a set of restrictions, show compatible dishes; suggest alternatives |
-| User Management | Authentication (done), roles (admin/kitchen_manager/waiter), permissions (done), user CRUD (pending) |
+| CRUD Restriccions alimentàries | Manage the restrictions catalog |
+| Motor de suggeriments | Given a set of restrictions, show compatible dishes; suggest alternatives |
+| Gestió d'usuaris | Authentication, roles (admin/cuiner/cambrer), permissions, CRUD |
 
 ### Stakeholder roles
 
 | Role | Type | Notes |
 |---|---|---|
-| Waiter | Direct user | Uses PDA or desktop; reads menus, uses suggestion engine |
-| Head Cook | Direct user | Manages dish/ingredient catalog |
-| Admin | Direct user | Full system access |
-| Groups/Diners | Indirect | Their dietary needs drive the system |
+| Cambrer | Direct user | Uses PDA or desktop; reads menus, uses suggestion engine |
+| Responsable de Cuina | Direct user | Manages dish/ingredient catalog |
+| Administrador | Direct user | Full system access |
+| Grups/Comensals | Indirect | Their dietary needs drive the system |
 | EFSA | External third party | EU food safety regulations |
 
 ---
@@ -108,25 +107,23 @@ Key rule: ingredients within a dish are classified as **essential** (blocking) o
 
 ## Current state of the codebase
 
-**Authentication and authorization are implemented.** The remaining domain models (Menu, Dish, Ingredient, Restriction) and their CRUDs are not yet built.
+The app is a **fresh Rails 7.2.2 scaffold** — no custom models, controllers, views, or routes have been implemented yet beyond Rails defaults. No migrations exist. Everything needs to be built.
 
-What exists:
-- **User model** with Devise (`database_authenticatable`), username login, role enum (`waiter`, `kitchen_manager`, `admin`)
-- **Authorizable concern** — `require_admin!`, `require_kitchen_manager_or_above!` guards
-- **Routes** — Devise sessions only (no registration, no password recovery); root → `home#index`
-- **Login page** — styled to match the project mockup (plain CSS, dedicated `login` layout)
-- **Seeds** — default admin user (`admin` / `password`)
-- **Tests** — 22 tests covering User model, Authorizable concern, and authentication flows
+Key files already present:
+- `config/routes.rb` — only health check and PWA routes
+- `app/controllers/application_controller.rb` — only `allow_browser versions: :modern`
+- `app/models/application_record.rb` — base class only
+- `app/views/layouts/application.html.erb` — base layout (no nav yet)
+- `db/seeds.rb` — empty
 
 ---
 
 ## Development conventions
 
-- **Language:** Catalan in UI and commit messages. **All model names, column names, variable names, and code must be in English** (e.g., `Dish`, `Restriction`, `User`).
-- **I18n:** All user-facing strings must use Rails I18n (`t()` in views, `I18n.t()` in controllers/models). **No hardcoded text in views or flash messages.** Translations go in `config/locales/ca.yml`. Default locale is `:ca`. Use `i18n-tasks` to detect missing or unused translation keys (see tests in `test/i18n_test.rb` and config in `config/i18n-tasks.yml`).
-- **Testing:** MiniTest. **Every feature, model, controller, service object, and file must have corresponding tests.** No code is considered complete without tests. This includes: model validations and associations, controller actions (happy path + error cases), service object logic, integration/system tests for user-facing features, and helper methods. Aim for comprehensive coverage — untested code is unfinished code. **All features must include fixtures** (`test/fixtures/`) for tests **and seeds** (`db/seeds.rb`) for the development database.
-- **Definition of Done:** Implementation complete + **all tests written and passing** + no regressions + interface consistent with mockups + story marked Done in Taiga + relevant docs updated.
-- **Style:** RuboCop (rubocop-rails-omakase). Run `bin/rubocop` before committing. **No new RuboCop offenses may be introduced — all code must pass `bin/rubocop` with zero offenses.**
+- **Language:** Catalan in UI, comments, and commit messages. Model/variable names in Catalan where they match the domain (e.g., `Plat`, `Restriccio`, `Usuari`).
+- **Testing:** MiniTest. Write tests for all models (validations, associations) and controllers.
+- **Definition of Done:** Implementation complete + basic functional tests passing + no regressions + interface consistent with mockups + story marked Done in Taiga + relevant docs updated.
+- **Style:** RuboCop (rubocop-rails-omakase). Run `bin/rubocop` before committing.
 - **Security:** Run `bin/brakeman` before committing.
 - **Service objects:** Business logic (especially the suggestion engine) goes in `app/services/`, not in controllers or models.
 
@@ -145,9 +142,12 @@ bin/rails test                # Run all tests
 bin/rails test test/models/   # Run model tests only
 bin/rubocop                   # Lint
 bin/brakeman                  # Security scan
-i18n-tasks missing            # Show missing translation keys
-i18n-tasks unused             # Show unused translation keys
-i18n-tasks normalize          # Sort and normalize locale files
-i18n-tasks health             # Full i18n health check
 ```
 
+---
+
+## Pending decisions
+
+- CSS framework: Bootstrap vs. Bulma.io vs. Tailwind CSS (to be evaluated based on team learning curve and design requirements)
+- Auth library: Devise vs. Rodauth
+- Catalan locale file needs to be added (`config/locales/ca.yml`)
