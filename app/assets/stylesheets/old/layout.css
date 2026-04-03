@@ -1,0 +1,115 @@
+/* Application layout: sidebar + main content */
+
+.app-body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fff;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  min-height: 100vh;
+  background-color: #3a5dae;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar__brand {
+  padding: 1.5rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.sidebar__logo {
+  width: 100px;
+  height: auto;
+}
+
+.sidebar__menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.sidebar__item {
+  margin: 0;
+}
+
+.sidebar__item--active {
+  background-color: #f2ece0;
+}
+
+.sidebar__item--active .sidebar__link {
+  color: #1a1a1a;
+}
+
+.sidebar__link {
+  display: block;
+  padding: 0.8rem 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sidebar__link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar__item--active .sidebar__link:hover {
+  background-color: #f2ece0;
+}
+
+.sidebar__footer {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 0;
+}
+
+.sidebar__link--logout {
+  color: #ffcccc;
+}
+
+.sidebar__link--logout:hover {
+  background-color: rgba(255, 0, 0, 0.15);
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+}
+
+/* Flash messages */
+.flash {
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.flash--notice {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash--alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 180px;
+  }
+
+  .main-content {
+    padding: 1.5rem 1.5rem;
+  }
+}

@@ -1,0 +1,13 @@
+<div class="user-detail">
+  <div class="user-detail__avatar" style="background-color: <%= user_avatar_color(@user) %>;">
+    <%= @user.username[0].upcase %>
+  </div>
+
+  <h1 class="user-detail__username"><%= @user.username %></h1>
+  <p class="user-detail__role"><%= t("users.roles.#{@user.role}") %></p>
+
+  <div class="user-detail__actions">
+    <%= link_to t("users.show.edit"), edit_user_path(@user), class: "btn btn--primary" %>
+    <%= link_to t("users.show.delete"), user_path(@user), data: { turbo_method: :delete, turbo_confirm: t("users.show.confirm_delete") }, class: "btn btn--danger" %>
+  </div>
+</div>
