@@ -1,46 +1,51 @@
-/* Login page styles */
+/* Estils de pàgina LogIn */
 
 .login-page {
   margin: 0;
   height: 100vh;
   display: flex;
-  background-color: #e6222e;
+  background-color: var(--color-accent-red);
   overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-general); /* Poner var stylesheet */
 }
 
-/* Decorative vertical stripes */
+/* Línies verticals decoratives */
 .login-stripes {
   display: flex;
   flex-shrink: 0;
 }
 
 .login-stripe--yellow {
-  width: 80px;
-  background-color: #f5c518;
+  width: 10vw;
+  background-color: var(--color-accent-yellow);
 }
 
 .login-stripe--blue {
-  width: 140px;
-  background-color: #3a5dae;
+  width: 15vw;
+  background-color: var(--color-accent-blue);
 }
 
-/* Main area holding the card */
-.login-main {
+/* Contenidor de la tarjeta principal */
+.login-container {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 1rem;
   padding: 2rem;
 }
 
-/* Card */
+/* Targeta */
 .login-card {
-  background-color: #f2ece0;
-  border-radius: 12px;
+  background-color: var(--color-bg);
+  background-image: url(logos/IconoRojo.svg);
+  background-repeat: no-repeat;
+  background-position: center 90%;
+  background-size: max(15%, 50px) auto;
+  border-radius: 1rem;
   padding: 3rem 2.5rem;
-  width: 100%;
-  max-width: 400px;
+  width: 23vw;
+  height: 40vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,31 +56,12 @@
   font-weight: 800;
   color: #1a1a1a;
   margin: 0 0 2rem;
-}
+} /*deberia ser un h3 y solo quedaria ver de modificar los márgees con respecto a lo definido en el stylesheet*/
 
 /* Form */
-.login-form {
-  width: 100%;
-}
 
-.login-form__input {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  margin-bottom: 1.2rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  color: #333;
-  background-color: #fff;
-  box-sizing: border-box;
-}
-
-.login-form__input::placeholder {
-  color: #aaa;
-}
-
-.login-form__input:focus {
-  outline: 2px solid #f5c518;
+input{
+  width: 21vw;
 }
 
 .login-form__submit {
@@ -85,32 +71,19 @@
   padding: 0.85rem;
   border: none;
   border-radius: 50px;
-  background-color: #f5c518;
+  background-color: #EDD754;
   color: #e6222e;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s;
 }
-
-.login-form__submit:hover {
-  background-color: #e0b315;
-}
-
-/* Cloche icon */
-.login-card__icon {
-  margin-top: 3rem;
-}
-
-.login-card__logo {
-  width: 60px;
-  height: auto;
-}
+/*esto no cal, se sustituye por el btn-yellow-big del stylesheet, añado el hover al stylesheet generico y lo quito de aquís*/
 
 /* Flash messages */
 .login-flash {
   width: 100%;
-  max-width: 400px;
+  max-width: 30vw;
   margin-bottom: 1rem;
 }
 
@@ -134,7 +107,9 @@
     width: 70px;
   }
 
-  .login-card {
-    padding: 2rem 1.5rem;
+  .login-container {
+  margin: 1rem;
+  padding: 0;
   }
+
 }

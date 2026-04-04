@@ -123,6 +123,14 @@ p {
     transform: scale(1.05);
 }
 
+.btn-yellow-big:hover, .btn-yellow-small:hover {
+    background-color: #f5c518;
+}
+
+.btn-white:hover {
+    background-color: #e2e2d5;
+}
+
 /* Barra de navegació (side bar) */
 
 .sidenav {
@@ -169,10 +177,9 @@ p {
     font-weight: bold;
 }
 
-/* Input general */
+/* Inputs en general */
 
 input {
-    min-width: 50vw;
     max-width: 70vw;
     margin: 0.7rem;
     padding: 1rem;
@@ -182,6 +189,14 @@ input {
     font-family: var(--font-general);
     font-size: 1rem;
     font-weight: bold;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+input:focus {
+  outline: 2px solid #f5c518;
 }
 
 /* Errors */
