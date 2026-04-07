@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+gluten:
+  name: Gluten
+  restriction_type: 0
+  description: Contains gluten
+
+kosher:
+  name: Kosher
+  restriction_type: 1
+  description: Kosher requirements

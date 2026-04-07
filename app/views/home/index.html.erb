@@ -1,1 +1,32 @@
-<h1><%= t("home.index.title") %></h1>
+<div class="dashboard">
+  <div class="dashboard__header">
+    <h1><%= t("home.index.title") %></h1>
+    <p class="dashboard__welcome"><%= t("home.index.welcome", username: current_user.username) %></p>
+  </div>
+
+  <div class="dashboard__content">
+    <% if current_user.kitchen_manager? || current_user.admin? %>
+      <div class="dashboard__section">
+        <h2><%= t("home.index.ingredients_management") %></h2>
+        <p class="dashboard__section-description"><%= t("home.index.ingredients_description") %></p>
+        <%= link_to t("home.index.add_ingredient"), new_ingredient_path, class: "btn btn--primary" %>
+        <%= link_to t("home.index.view_ingredients"), ingredients_path, class: "btn btn--secondary" %>
+      </div>
+    <% end %>
+
+    <% if current_user.admin? %>
+      <div class="dashboard__section">
+        <h2><%= t("home.index.user_management") %></h2>
+        <p class="dashboard__section-description"><%= t("home.index.users_description") %></p>
+        <%= link_to t("home.index.manage_users"), users_path, class: "btn btn--secondary" %>
+      </div>
+    <% end %>
+
+    <% if current_user.waiter? %>
+      <div class="dashboard__section">
+        <h2><%= t("home.index.waiter_features") %></h2>
+        <p class="dashboard__section-description"><%= t("home.index.waiter_description") %></p>
+      </div>
+    <% end %>
+  </div>
+</div>

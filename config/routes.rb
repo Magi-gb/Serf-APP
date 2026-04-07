@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   resources :users, constraints: { id: /\d+/ }
+  resources :ingredients, constraints: { id: /\d+/ }
+  get "ingredients-delete", to: "ingredients#delete", as: "ingredients_delete"
   resource :profile, only: [ :show, :edit, :update ]
 
   root "home#index"

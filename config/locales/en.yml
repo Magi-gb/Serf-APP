@@ -20,6 +20,7 @@ en:
       blank: can't be blank
       invalid: is invalid
       not_a_number: is not a number
+      record_invalid: Record is invalid
       taken: has already been taken
       too_long:
         one: is too long (maximum is 1 character)
@@ -32,7 +33,54 @@ en:
     notice: notice
   home:
     index:
+      add_ingredient: Add ingredient
+      ingredients_description: Create and manage restaurant ingredients with their dietary restrictions.
+      ingredients_management: Ingredients Management
+      manage_users: Manage users
       title: Serf
+      user_management: User Management
+      users_description: Manage system users.
+      view_ingredients: View ingredients
+      waiter_description: Here you will see the options available for waiters.
+      waiter_features: Waiter Features
+      welcome: Welcome, %{username}!
+  ingredients:
+    create:
+      success: Ingredient created successfully.
+    delete:
+      back: Back to ingredients
+      confirm_delete: Are you sure you want to delete this ingredient?
+      delete: Delete
+      no_ingredients: There are no ingredients to delete.
+      title: Delete ingredients
+    destroy:
+      success: Ingredient deleted successfully.
+    edit:
+      title: Edit ingredient
+    form:
+      intolerance_allergies: Intolerances and allergies
+      name: Ingredient name
+      religious_restrictions: Religious restrictions
+      restrictions: Dietary restrictions
+      submit_create: Create ingredient
+      submit_update: Save changes
+    index:
+      new_ingredient: New ingredient!
+      no_ingredients: No ingredients found.
+      no_restrictions: No restriction
+      search_placeholder: Search an ingredient!
+      title: Ingredients
+    new:
+      title: New ingredient
+    show:
+      back: Back
+      confirm_delete: Are you sure you want to delete this ingredient?
+      delete: Delete
+      edit: Edit details
+      no_restrictions: No dietary restrictions associated
+      restrictions: Dietary restrictions
+    update:
+      success: Ingredient updated successfully.
   layouts:
     login:
       title: Serf — Sign in
@@ -51,6 +99,10 @@ en:
     update:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
+  restrictions:
+    types:
+      intolerance_allergy: Intolerance/Allergy
+      religious: Religious
   sessions:
     new:
       password_placeholder: Password
@@ -58,10 +110,13 @@ en:
       title: Sign in
       username_placeholder: User ID
   sidebar:
+    add_ingredient: Add ingredient
+    ingredients: Ingredients
     logout: Sign out
     personal: Staff
     placeholder: Placeholder
     profile: My profile
+    remove_ingredient: Delete ingredients
   users:
     create:
       success: User created successfully.

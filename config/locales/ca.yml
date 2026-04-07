@@ -20,6 +20,7 @@ ca:
       blank: no pot estar en blanc
       invalid: no és vàlid
       not_a_number: no és un número
+      record_invalid: Registro inválido
       taken: ja està en ús
       too_long:
         one: és massa llarg (màxim 1 caràcter)
@@ -32,7 +33,55 @@ ca:
     notice: notice
   home:
     index:
+      add_ingredient: Afegir ingredient
+      ingredients_description: Crea i gestiona els ingredients del restaurant amb les seves restriccions alimentàries.
+      ingredients_management: Gestió d'Ingredients
+      manage_users: Gestionar usuaris
       title: Serf
+      user_management: Gestió d'Usuaris
+      users_description: Administra els usuaris del sistema.
+      view_ingredients: Veure ingredients
+      waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
+      waiter_features: Funcionalitats del Cambrer
+      welcome: Benvingut, %{username}!
+  ingredients:
+    create:
+      success: Ingredient creat correctament.
+    delete:
+      action: Acció
+      back: Tornar a ingredients
+      confirm_delete: Segur que vols eliminar aquest ingredient?
+      delete: Eliminar
+      no_ingredients: No hi ha ingredients per eliminar.
+      title: Eliminar ingredients
+    destroy:
+      success: Ingredient eliminat correctament.
+    edit:
+      title: Editar ingredient
+    form:
+      intolerance_allergies: Intoleràncies i al·lèrgies
+      name: Nom de l'ingredient
+      religious_restrictions: Restriccions religioses
+      restrictions: Restriccions alimentàries
+      submit_create: Crear ingredient
+      submit_update: Desar canvis
+    index:
+      new_ingredient: Nou ingredient!
+      no_ingredients: No s'han trobat ingredients.
+      no_restrictions: Cap restricció
+      search_placeholder: Cerca un ingredient!
+      title: Ingredients
+    new:
+      title: Nou ingredient
+    show:
+      back: Tornar
+      confirm_delete: Segur que vols eliminar aquest ingredient?
+      delete: Eliminar
+      edit: Editar dades
+      no_restrictions: Cap restricció alimentària associada
+      restrictions: Restriccions alimentàries
+    update:
+      success: Ingredient actualitzat correctament.
   layouts:
     login:
       title: Serf — Inicia la sessió
@@ -51,6 +100,10 @@ ca:
     update:
       invalid_current_password: La contrasenya actual no és correcta.
       success: Contrasenya actualitzada correctament.
+  restrictions:
+    types:
+      intolerance_allergy: Intolerància/Al·lèrgia
+      religious: Religiosa
   sessions:
     new:
       password_placeholder: Contrassenya
@@ -58,10 +111,13 @@ ca:
       title: Inicia la sessió
       username_placeholder: ID d'usuari
   sidebar:
+    add_ingredient: Afegir ingredient
+    ingredients: Ingredients
     logout: Tancar sessió
     personal: Personal
     placeholder: Placeholder
     profile: El meu perfil
+    remove_ingredient: Eliminar ingredients
   users:
     create:
       success: Usuari creat correctament.

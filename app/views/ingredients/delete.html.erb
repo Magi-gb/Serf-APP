@@ -1,0 +1,71 @@
+<div class="ingredients-header">
+  <h1><%= t("ingredients.delete.title") %></h1>
+</div>
+
+<div class="ingredients-delete">
+  <% if @ingredients.any? %>
+    <table class="ingredients-table ingredients-delete-table">
+      <thead>
+        <tr>
+          <th><%= t("ingredients.form.name") %></th>
+          <th><%= t("ingredients.form.intolerance_allergies") %></th>
+          <th><%= t("ingredients.form.religious_restrictions") %></th>
+          <th><%= t("ingredients.delete.action") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @ingredients.each do |ingredient| %>
+          <tr>
+            <td>
+              <span class="ingredients-table__name"><%= ingredient.name %></span>
+            </td>
+            <td>
+              <div class="ingredients-table__restrictions">
+                <% allergies = ingredient.restrictions.where(restriction_type: :intolerance_allergy) %>
+                <% if allergies.any? %>
+                  <% allergies.each do |restriction| %>
+                    <span class="ingredients-table__badge ingredients-table__badge--intolerance_allergy">
+                      <%= restriction.name %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <span class="ingredients-table__no-restrictions"><%= t("ingredients.index.no_restrictions") %></span>
+                <% end %>
+              </div>
+            </td>
+            <td>
+              <div class="ingredients-table__restrictions">
+                <% religious = ingredient.restrictions.where(restriction_type: :religious) %>
+                <% if religious.any? %>
+                  <% religious.each do |restriction| %>
+                    <span class="ingredients-table__badge ingredients-table__badge--religious">
+                      <%= restriction.name %>
+                    </span>
+                  <% end %>
+                <% else %>
+                  <span class="ingredients-table__no-restrictions"><%= t("ingredients.index.no_restrictions") %></span>
+                <% end %>
+              </div>
+            </td>
+            <td>
+              <div class="ingredients-delete-action">
+                <%= button_to t("ingredients.delete.delete"), ingredient_path(ingredient),
+                    method: :delete,
+                    data: { confirm: t("ingredients.delete.confirm_delete") },
+                    form_class: "inline-form",
+                    class: "btn btn--danger btn--small" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="ingredients-delete__empty"><%= t("ingredients.delete.no_ingredients") %></p>
+  <% end %>
+</div>
+
+<div class="ingredients-delete__back">
+  <%= link_to t("ingredients.delete.back"), ingredients_path, class: "btn btn--outline" %>
+</div>
+

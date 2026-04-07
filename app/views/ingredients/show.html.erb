@@ -1,0 +1,30 @@
+<div class="ingredients-header">
+  <h1><%= @ingredient.name %></h1>
+</div>
+
+<div class="ingredient-show">
+
+  <div class="ingredient-show__section">
+    <h2><%= t("ingredients.show.restrictions") %></h2>
+    <% if @ingredient.restrictions.any? %>
+      <div class="restrictions-list">
+        <% @ingredient.restrictions.each do |restriction| %>
+          <div class="restriction-item">
+            <span class="restriction-item__name"><%= restriction.name %></span>
+            <span class="restriction-item__type <%= "restriction-item__type--#{restriction.restriction_type}" %>">
+              <%= t("restrictions.types.#{restriction.restriction_type}") %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p><%= t("ingredients.show.no_restrictions") %></p>
+    <% end %>
+  </div>
+</div>
+
+<div class="ingredient-show__actions">
+  <%= link_to t("ingredients.show.edit"), edit_ingredient_path(@ingredient), class: "btn btn--secondary" %>
+  <%= link_to t("ingredients.show.delete"), ingredient_path(@ingredient), method: :delete, data: { confirm: t("ingredients.show.confirm_delete") }, class: "btn btn--danger" %>
+  <%= link_to t("ingredients.show.back"), ingredients_path, class: "btn btn--outline" %>
+</div>
