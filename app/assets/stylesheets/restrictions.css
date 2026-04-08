@@ -98,6 +98,17 @@
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.restriction-icon svg {
+  width: 70%;
+  height: 70%;
+  display: block;
+}
+
+.restriction-icon svg text {
+  fill: #fff;
+  font-weight: 700;
+}
+
 .restriction-name {
   color: #0D0D0D;
   font-size: 0.8rem;

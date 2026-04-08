@@ -65,6 +65,6 @@ class RestrictionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def restriction_params
-      params.require(:restriction).permit(:name, :description, :bg_color)
+      params.require(:restriction).permit(:name, :description, :bg_color, :icon_svg)
     end
 end

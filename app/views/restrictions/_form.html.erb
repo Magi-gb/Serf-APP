@@ -25,6 +25,12 @@
     <%= form.text_field :bg_color, class: "form-control", type: "color", style: "height: 50px; cursor: pointer; padding: 0.2rem;" %>
   </div>
 
+  <div class="form-group">
+    <%= form.label :icon_svg, "Icona (SVG)", class: "form-label" %>
+    <%= form.text_area :icon_svg, class: "form-control", rows: 6, placeholder: "<svg ...>...</svg>" %>
+    <small style="color:#666;">Enganxa aquí el codi SVG que es mostrarà a la icona.</small>
+  </div>
+
   <div style="display: flex; gap: 1rem; margin-top: 2rem;">
     <%= form.submit "Guardar restricció", class: "btn-primary" %>
     <%= link_to "Cancel·lar", restrictions_path, class: "btn-danger", style: "background-color: #eee; color: #333;" %>
