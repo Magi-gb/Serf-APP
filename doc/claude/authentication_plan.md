@@ -2,7 +2,7 @@
 
 ## Overview
 
-nDevise-based authentication with role-based access control. Users log in with **username + password**. Three roles: `waiter`, `kitchen_manager`, `admin`.
+Devise-based authentication with role-based access control. Users log in with **username + password**. Three roles: `waiter`, `kitchen_manager`, `admin`.
 
 ---
 
