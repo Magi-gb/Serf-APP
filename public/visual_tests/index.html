@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Prova Completa d'Estils</title>
+  <link rel="stylesheet" href="/visual_tests/style_definition.css">
+</head>
+
+<body class="layout-with-sidebar">
+
+  <!-- SIDEBAR -->
+  <ul class="sidenav">
+    <li style="margin-top: 2rem; margin-left: 1.5vw; padding: 1rem 2rem;">
+      <button class="btn-white">+ Nou usuari</button>
+    </li>
+
+    <li><a class="active" href="#tipografies">Tipografies</a></li>
+    <li><a href="#enllacos">Enllaços</a></li>
+    <li><a href="#botons">Botons</a></li>
+    <li><a href="#inputs">Inputs</a></li>
+    <li><a href="#errors">Errors</a></li>
+    <li><a href="#containers">Containers</a></li>
+    <li><a href="#cards">Cards</a></li>
+    <li><a href="#grid">Grid</a></li>
+    <li><a href="#footer">Footer</a></li>
+  </ul>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="page-content-with-sidebar">
+
+    <!-- HEADER -->
+    <header class="page-header">
+      <h1>Prova Completa d'Estils</h1>
+      <p>Aquesta pàgina serveix per provar tots els components del full CSS.</p>
+    </header>
+
+    <!-- TIPOGRAFIES -->
+    <section id="tipografies" class="section">
+      <h2>Tipografies</h2>
+      <p>Text general amb la font base.</p>
+      <h3>Subtítol amb font accent</h3>
+      <p>Més text per veure la jerarquia visual.</p>
+    </section>
+
+    <!-- ENLLAÇOS -->
+    <section id="enllacos" class="section">
+      <h2>Enllaços</h2>
+      <p>
+        Prova un <a href="#">enllaç normal</a> i un 
+        <a href="#" class="active">enllaç actiu</a>.
+      </p>
+    </section>
+
+    <!-- BOTONS -->
+    <section id="botons" class="section">
+      <h2>Botons</h2>
+
+      <p>Botó groc gran:</p>
+      <button class="btn-yellow-big">Botó Gran</button>
+
+      <p>Botó groc petit:</p>
+      <button class="btn-yellow-small">Botó Petit</button>
+
+      <p>Botó blanc:</p>
+      <button class="btn-white">Botó Blanc</button>
+    </section>
+
+    <!-- INPUTS -->
+    <section id="inputs" class="section">
+      <h2>Inputs</h2>
+      <p>Prova del teu estil d'inputs:</p>
+
+      <input type="text" placeholder="Nom">
+      <input type="email" placeholder="Correu electrònic">
+      <input type="password" placeholder="Contrasenya">
+    </section>
+
+    <!-- ERRORS -->
+    <section id="errors" class="section">
+      <h2>Errors</h2>
+      <p>Prova del teu estil base d'errors:</p>
+
+      <input type="text" class="input-error" placeholder="Nom (error)">
+      <span class="error">Aquest camp és obligatori</span>
+
+      <input type="email" class="input-error" placeholder="Correu electrònic (error)">
+      <span class="error">El correu no és vàlid</span>
+    </section>
+
+    <!-- CONTAINERS -->
+    <section id="containers" class="section">
+      <h2>Containers</h2>
+
+      <div class="container" style="background:white; border-radius:1rem; padding:1rem;">
+        <p>Això és un <strong>.container</strong> amb amplada màxima i centrat.</p>
+      </div>
+
+      <div class="container" style="background:white; border-radius:1rem; padding:1rem; margin-top:1rem;">
+        <p>Un altre container per veure separacions i marges.</p>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section id="cards" class="section">
+      <h2>Cards</h2>
+
+      <div class="card">
+        <h3>Card d'exemple</h3>
+        <p>Això és una targeta amb ombra i padding.</p>
+      </div>
+
+      <div class="card">
+        <h3>Una altra card</h3>
+        <p>Per provar marges, ombres i tipografies.</p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer" class="page-footer">
+      <p>© 2026 — Prova d'Estils</p>
+    </footer>
+
+  </main>
+
+</body>
+</html>
