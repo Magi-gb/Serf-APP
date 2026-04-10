@@ -79,9 +79,9 @@ ca:
       submit_update: Desar canvis
       username: Nom d'usuari
     index:
-      new_user: Nou usuari!
+      new_user: Nou usuari
       no_users: No s'han trobat usuaris.
-      search_placeholder: Cerca un usuari!
+      search_placeholder: Cerca un usuari
       title: Personal
     new:
       title: Nou usuari

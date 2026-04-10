@@ -41,15 +41,15 @@ h1 {
 h2 {
     font-family: var(--font-titles);
     font-size: 2rem;
-    display: inline;
-    margin: 1rem 0.5rem;
+    display: block;
+    margin: 0 0 1rem;
 }
 
 h3 {
     font-family: var(--font-accent);
     font-size: 1.5rem;
-    display: inline;
-    margin: 1rem 0.5rem;
+    display: block;
+    margin: 0 0 0.8rem;
 }
 
 /* Enllaços */
@@ -97,8 +97,8 @@ select:focus {
 /* Botons */
 
 .btn-primary-big, .btn-primary {
-    background-color: var(--color-accent-yellow);
-    color: var(--color-accent-red);
+    background-color: var(--color-accent-blue);
+    color: var(--color-text-white);
     border: none;
     text-align: center;
     font-family: var(--font-general);
@@ -146,7 +146,10 @@ select:focus {
 }
 
 .btn-primary-big:hover, .btn-primary:hover {
-    background-color: #f5c518;
+    background-color: var(--color-bg);
+    color: var(--color-accent-red);
+    outline: 2px solid var(--color-accent-red);
+    text-decoration: none;
 }
 
 .btn-secondary:hover {
@@ -351,6 +354,7 @@ input:focus {
 .section {
     padding-top: 5vh;
     padding-bottom: 5vh;
+    margin-bottom: 2rem;
 }
 
 .card {
@@ -423,19 +427,20 @@ input:focus {
     padding: 0.8rem 3rem 0.8rem 1.2rem;
     border: none;
     border-radius: 50px;
-    background-color: var(--color-accent-yellow);
+    background-color: var(--color-accent-blue);
     font-size: 1rem;
-    color: var(--color-text);
+    color: var(--color-text-white);
     box-sizing: border-box;
     margin: 0;
 }
 
 .search-bar input::placeholder {
-    color: #7a6a00;
+    color: var(--color-text-white);
+    opacity: 0.7;
 }
 
 .search-bar input:focus {
-    outline: 2px solid var(--color-accent-blue);
+    outline: 2px solid var(--color-accent-red);
 }
 
 .search-bar-icon {
@@ -445,7 +450,10 @@ input:focus {
     transform: translateY(-50%);
     font-size: 1.1rem;
     color: white;
-    pointer-events: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 }
 
 /* Formularis */
