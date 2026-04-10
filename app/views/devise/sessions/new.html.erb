@@ -1,22 +1,18 @@
 <div class="login-card">
-  <h2 class="login-card__title"><%= t("sessions.new.title") %></h2>
+  <h2 class="login-card-title"><%= t("sessions.new.title") %></h2>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
     <%= f.text_field :username,
         autofocus: true,
         autocomplete: "username",
         placeholder: t("sessions.new.username_placeholder"),
-        class: "login-form__input" %>
+        class: "login-form-input" %>
 
     <%= f.password_field :password,
         autocomplete: "current-password",
         placeholder: t("sessions.new.password_placeholder"),
-        class: "login-form__input" %>
+        class: "login-form-input" %>
 
-    <%= f.submit t("sessions.new.submit"), class: "login-form__submit" %>
+    <%= f.submit t("sessions.new.submit"), class: "btn-primary-big" %>
   <% end %>
-
-  <div class="login-card__icon">
-    <%= image_tag "logos/Recurso 5.svg", alt: "Serf", class: "login-card__logo" %>
-  </div>
 </div>
