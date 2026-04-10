@@ -23,10 +23,10 @@ ca:
   errors:
     messages:
       blank: no pot estar en blanc
+      confirmation: no coincideix
       invalid: no és vàlid
       not_a_number: no és un número
       record_invalid: Registre invàlid
-      confirmation: no coincideix
       taken: ja està en ús
       too_long:
         one: és massa llarg (màxim 1 caràcter)

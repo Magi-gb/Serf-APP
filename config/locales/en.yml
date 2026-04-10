@@ -1,5 +1,10 @@
 ---
 en:
+  activerecord:
+    attributes:
+      user:
+        password: Password
+        password_confirmation: Password confirmation
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.
@@ -18,6 +23,7 @@ en:
   errors:
     messages:
       blank: can't be blank
+      confirmation: doesn't match
       invalid: is invalid
       not_a_number: is not a number
       record_invalid: Record is invalid
@@ -48,6 +54,7 @@ en:
     create:
       success: Ingredient created successfully.
     delete:
+      action: Action
       back: Back to ingredients
       confirm_delete: Are you sure you want to delete this ingredient?
       delete: Delete
