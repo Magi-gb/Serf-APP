@@ -5,14 +5,16 @@
 
   <ul class="sidebar__menu">
     <% if current_user.kitchen_manager? || current_user.admin? %>
-      <li class="sidebar__item <%= "sidebar__item--active" if controller_name == "ingredients" %>">
+      <li class="sidebar__item <%= 'sidebar__item--active' if controller_name == 'ingredients' && action_name == 'index' %>">
         <%= link_to t("sidebar.ingredients"), ingredients_path, class: "sidebar__link" %>
       </li>
-      <li class="sidebar__item">
+
+      <li class="sidebar__item <%= 'sidebar__item--active' if controller_name == 'ingredients' && action_name == 'new' %>">
         <%= link_to t("sidebar.add_ingredient"), new_ingredient_path, class: "sidebar__link" %>
       </li>
-      <li class="sidebar__item">
-        <%= link_to t("sidebar.remove_ingredient"), ingredients_delete_path, class: "sidebar__link" %>
+
+      <li class="sidebar__item <%= 'sidebar__item--active' if controller_name == 'ingredients' && action_name == 'delete' %>">
+       <%= link_to t("sidebar.remove_ingredient"), ingredients_delete_path, class: "sidebar__link" %>
       </li>
     <% end %>
 
