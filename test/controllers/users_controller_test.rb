@@ -50,6 +50,18 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
+  test "create with mismatched password confirmation does not create user" do
+    assert_no_difference("User.count") do
+      post users_path, params: { user: { username: "newuser", password: "password", password_confirmation: "different", role: "waiter" } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "update with mismatched password confirmation re-renders form" do
+    patch user_path(@waiter), params: { user: { username: @waiter.username, password: "newpassword", password_confirmation: "mismatch" } }
+    assert_response :unprocessable_entity
+  end
+
   test "edit renders form" do
     get edit_user_path(@waiter)
     assert_response :success

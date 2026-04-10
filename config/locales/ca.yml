@@ -1,5 +1,10 @@
 ---
 ca:
+  activerecord:
+    attributes:
+      user:
+        password: Contrasenya
+        password_confirmation: Confirmar contrasenya
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
@@ -20,6 +25,7 @@ ca:
       blank: no pot estar en blanc
       invalid: no és vàlid
       not_a_number: no és un número
+      confirmation: no coincideix
       taken: ja està en ús
       too_long:
         one: és massa llarg (màxim 1 caràcter)
@@ -115,9 +121,9 @@ ca:
       submit_update: Desar canvis
       username: Nom d'usuari
     index:
-      new_user: Nou usuari!
+      new_user: Nou usuari
       no_users: No s'han trobat usuaris.
-      search_placeholder: Cerca un usuari!
+      search_placeholder: Cerca un usuari
       title: Personal
     new:
       title: Nou usuari
