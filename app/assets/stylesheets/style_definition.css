@@ -315,6 +315,20 @@ input:focus {
 
 /* Errors en línia (tooltip amb fletxa) */
 
+.field_with_errors {
+    display: contents;
+}
+
+.field_with_errors input,
+.field_with_errors select,
+.field_with_errors textarea {
+    border: 2px solid var(--color-accent-red);
+}
+
+.field_with_errors label {
+    color: var(--color-accent-red);
+}
+
 .field-error {
     max-width: 20vw;
     margin: 0.7rem;
