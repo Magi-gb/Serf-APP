@@ -1,19 +1,37 @@
-/* Ingredients List */
+/* ===========================================
+   Ingredients styles (tasca #73)
+   - Restriction tiles spacing + strong orange selected
+   - Index table header color
+   - Restriction big box background + title spacing
+   - Centered / shorter / bigger submit button
+   =========================================== */
+
+/* ---------- Header + search + actions layout ---------- */
+
 .ingredients-header {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 1.5rem;
+  padding: 1.5rem 0 0.75rem;
+  margin-bottom: 0.75rem;
+  border-bottom: none;
+  max-width: 1050px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .ingredients-header h1 {
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-family: var(--font-general);
+  color: var(--color-text);
+  display: block;
 }
 
 .ingredients-search {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  max-width: 1050px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .search-form {
@@ -24,137 +42,38 @@
 .search-form__input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.75rem;
   font-size: 1rem;
   font-family: inherit;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: #fff;
+  color: var(--color-text);
 }
 
 .search-form__input::placeholder {
-  color: #999;
+  color: rgba(13, 13, 13, 0.45);
 }
 
 .search-form__input:focus {
   outline: none;
-  border-color: #2c7f31;
-  box-shadow: 0 0 0 3px rgba(44, 127, 49, 0.1);
-  background-color: #fff;
-}
-
-.ingredients-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.ingredient-card {
-  display: block;
-  padding: 1.5rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.2s;
-  color: inherit;
-}
-
-.ingredient-card:hover {
-  border-color: #2c7f31;
-  box-shadow: 0 4px 12px rgba(44, 127, 49, 0.1);
-  transform: translateY(-2px);
-}
-
-.ingredient-card__info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.ingredient-card__name {
-  font-weight: 600;
-  font-size: 1.125rem;
-  color: #1a1a1a;
-}
-
-.ingredient-card__description {
-  font-size: 0.875rem;
-  color: #666;
-  line-height: 1.4;
-}
-
-.ingredient-card__restrictions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.ingredient-card__badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.ingredient-card__badge--intolerance_allergy {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
-}
-
-.ingredient-card__badge--religious {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-.ingredient-card__no-restrictions {
-  color: #999;
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-.ingredients-empty {
-  padding: 3rem;
-  text-align: center;
-  color: #666;
-  background: #f9f9f9;
-  border-radius: 8px;
+  border-color: var(--color-accent-blue);
+  box-shadow: 0 0 0 3px rgba(94, 120, 230, 0.18);
 }
 
 .ingredients-actions {
   display: flex;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
+  max-width: 1050px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
-/* Ingredient Form */
+/* ---------- Ingredient Form ---------- */
+
 .ingredient-form {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.form-errors {
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
-  color: #721c24;
-}
-
-.form-errors ul {
+  max-width: 1050px;
   margin: 0;
-  padding-left: 1.5rem;
-}
-
-.form-errors li {
-  margin: 0.25rem 0;
 }
 
 .form-group {
@@ -164,108 +83,170 @@
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #1a1a1a;
+  font-weight: 800;
+  color: var(--color-text);
 }
 
-.form-input,
-.form-textarea {
+.form-input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
   font-size: 1rem;
   font-family: inherit;
   box-sizing: border-box;
+  background: #fff;
+  color: var(--color-text);
 }
 
-.form-input:focus,
-.form-textarea:focus {
+.form-input:focus {
   outline: none;
-  border-color: #2c7f31;
-  box-shadow: 0 0 0 3px rgba(44, 127, 49, 0.1);
+  border-color: var(--color-accent-blue);
+  box-shadow: 0 0 0 3px rgba(94, 120, 230, 0.18);
 }
 
-.form-textarea {
-  resize: vertical;
-}
-
-.form-hint {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.875rem;
-  color: #666;
-}
-
+/* Big restrictions box: give it a background that contrasts with tiles */
 .form-fieldset {
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+
+  /* Not white: subtle warm background */
+  background: rgba(237, 215, 84, 0.10);
+
+  overflow: visible;
 }
 
 .form-legend {
-  font-weight: 600;
+  font-weight: 900;
   padding: 0 0.5rem;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
+  color: var(--color-text);
+  margin-bottom: 1.1rem;
 }
 
 .restrictions-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .restrictions-section:last-child {
   margin-bottom: 0;
 }
 
+/* Titles inside restrictions: more spacing above tiles */
 .restrictions-section h3 {
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 1rem;
-  margin-top: 0;
+  font-weight: 900;
+  color: var(--color-text);
+  margin: 0 0 1.25rem 0; /* <-- more separation from tiles */
 }
+
+/* --- Restriction tiles: spacing like | tile | ---gap--- | tile | --- */
 
 .restrictions-group {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 18px;
+  width: 100%;
+  align-items: stretch;
 }
 
+/* HTML:
+   <label class="form-checkbox">
+     <input type="checkbox" ...>
+     <span class="checkbox-label">Altamús</span>
+   </label>
+*/
 .form-checkbox {
+  position: relative;
+
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
+  justify-content: center;
 
-.form-checkbox input[type="checkbox"] {
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-}
+  width: 100%;
+  min-height: 46px;
 
-.checkbox-label {
+  padding: 0.45rem 0.55rem;
+  border-radius: 12px;
+
+  background: rgba(237, 215, 84, 0.32); /* beige */
+  border: 1px solid rgba(0, 0, 0, 0.14);
+
   cursor: pointer;
-  font-size: 0.95rem;
-  color: #333;
   user-select: none;
+
+  box-sizing: border-box;
+  background-clip: padding-box;
+
+  transition: background-color 160ms ease, border-color 160ms ease, transform 120ms ease, box-shadow 160ms ease;
 }
 
+.form-checkbox:hover {
+  background: rgba(237, 215, 84, 0.42);
+  transform: translateY(-1px);
+}
+
+/* Hide checkbox but keep it functional */
+.form-checkbox input[type="checkbox"] {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Text */
+.checkbox-label {
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.15;
+  padding: 0 0.2rem;
+  overflow-wrap: anywhere;
+}
+
+/* Selected = strong orange */
+.form-checkbox:has(input[type="checkbox"]:checked) {
+  background: #ff8a00;
+  border-color: rgba(0, 0, 0, 0.20);
+  box-shadow: 0 10px 22px rgba(255, 138, 0, 0.18);
+}
+
+.form-checkbox:has(input[type="checkbox"]:checked) .checkbox-label {
+  color: #0d0d0d;
+}
+
+/* Focus ring */
+.form-checkbox:has(input[type="checkbox"]:focus-visible) {
+  outline: 3px solid rgba(94, 120, 230, 0.35);
+  outline-offset: 2px;
+}
+
+/* Submit button: centered, larger, shorter width */
 .form-actions {
   display: flex;
-  gap: 1rem;
+  justify-content: center;
   margin-top: 2rem;
 }
 
-/* Buttons */
+.form-actions .btn--primary {
+  width: min(520px, 100%);
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+}
+
+/* ---------- Buttons ---------- */
+
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 900;
   text-decoration: none;
   cursor: pointer;
   transition: all 0.2s;
@@ -274,139 +255,97 @@
 }
 
 .btn--primary {
-  background-color: #2c7f31;
-  color: white;
+  background-color: var(--color-accent-yellow);
+  color: var(--color-accent-red);
 }
 
 .btn--primary:hover {
-  background-color: #245a27;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(44, 127, 49, 0.2);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+  filter: brightness(0.98);
 }
 
-.btn--secondary {
-  background-color: #6c757d;
-  color: white;
-}
+/* ---------- Ingredients TABLE (index) ---------- */
 
-.btn--secondary:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
-}
+.ingredients-table {
+  width: 100%;
+  border-collapse: collapse;
 
-.btn--outline {
-  background-color: transparent;
-  color: #2c7f31;
-  border: 1px solid #2c7f31;
-}
-
-.btn--outline:hover {
-  background-color: #f0f0f0;
-}
-
-.btn--danger {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn--danger:hover {
-  background-color: #c82333;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-}
-
-.btn--small {
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-}
-
-/* Ingredient Show */
-.ingredient-show {
   background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  max-width: 600px;
-}
-
-.ingredient-show__section {
-  margin-bottom: 2rem;
-}
-
-.ingredient-show__section:last-child {
-  margin-bottom: 0;
-}
-
-.ingredient-show__section h2 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0 0 1rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-.ingredient-show__section p {
-  margin: 0;
-  color: #333;
-  line-height: 1.6;
-}
-
-.restrictions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.restriction-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  background: #f9f9f9;
-  border-radius: 4px;
-  border-left: 3px solid #2c7f31;
-}
-
-.restriction-item__name {
-  font-weight: 500;
-  color: #1a1a1a;
-}
-
-.restriction-item__type {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
+  overflow: hidden;
+  margin-bottom: 2rem;
+
+  max-width: 1050px;
+  margin-left: 0;
+  margin-right: 0;
+
+  table-layout: fixed;
 }
 
-.restriction-item__type--intolerance_allergy {
-  background-color: #fff3cd;
-  color: #856404;
+.ingredients-table thead {
+  /* Not gray: warm header that fits the palette */
+  background: rgba(237, 215, 84, 0.22);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.restriction-item__type--religious {
-  background-color: #d1ecf1;
-  color: #0c5460;
+.ingredients-table th {
+  padding: 1.1rem 1.6rem;
+  font-weight: 900;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  white-space: normal;
 }
 
-.ingredient-show__actions {
+.ingredients-table td {
+  padding: 1.05rem 1.6rem;
+  color: rgba(13, 13, 13, 0.9);
+  vertical-align: middle;
+}
+
+.ingredients-table th:nth-child(1),
+.ingredients-table td:nth-child(1) {
+  text-align: left;
+}
+
+.ingredients-table th:nth-child(2),
+.ingredients-table td:nth-child(2),
+.ingredients-table th:nth-child(3),
+.ingredients-table td:nth-child(3) {
+  text-align: center;
+}
+
+.ingredients-table__restrictions {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .ingredients-list {
-    grid-template-columns: 1fr;
-  }
+.ingredients-table__no-restrictions {
+  display: block;
+  text-align: center;
+  color: rgba(13, 13, 13, 0.55);
+  font-size: 0.875rem;
+  font-style: italic;
+}
 
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .restrictions-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 14px;
+  }
+}
+
+@media (max-width: 768px) {
   .restrictions-group {
     grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 12px;
   }
 
   .ingredients-header h1 {
@@ -417,238 +356,9 @@
     padding: 0.6rem 1.2rem;
     font-size: 0.95rem;
   }
-}
-
-/* Ingredient Delete List */
-.ingredients-delete {
-  margin-bottom: 2rem;
-}
-
-.ingredients-delete__list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.ingredient-delete-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: all 0.2s;
-  gap: 1.5rem;
-}
-
-.ingredient-delete-item:hover {
-  border-color: #dc3545;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
-}
-
-.ingredient-delete-item__info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  min-width: 0;
-}
-
-.ingredient-delete-item__name {
-  font-weight: 600;
-  font-size: 1.125rem;
-  color: #1a1a1a;
-  word-break: break-word;
-}
-
-.ingredient-delete-item__restrictions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.ingredient-delete-item__badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.ingredient-delete-item__badge--intolerance_allergy {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
-}
-
-.ingredient-delete-item__badge--religious {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-.ingredient-delete-item__no-restrictions {
-  color: #999;
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-.ingredient-delete-item__action {
-  flex-shrink: 0;
-  display: flex;
-}
-
-.ingredient-delete-item__action .btn {
-  padding: 0.5rem 1rem;
-  font-size: 0.85rem;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.ingredient-delete-item__action .btn:hover {
-  background-color: #c82333;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2);
-}
-
-.ingredients-delete__empty {
-  padding: 2rem;
-  text-align: center;
-  color: #666;
-  background: #f9f9f9;
-  border-radius: 8px;
-}
-
-.ingredients-delete__back {
-  display: flex;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .ingredient-delete-item {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-
-  .ingredient-delete-item__action {
-    width: 100%;
-  }
-
-  .ingredient-delete-item__action .btn {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-/* Ingredients Table View */
-.ingredients-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-bottom: 2rem;
-}
-
-.ingredients-table thead {
-  background-color: #f5f5f5;
-  border-bottom: 2px solid #ddd;
-}
-
-.ingredients-table th {
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  color: #1a1a1a;
-  font-size: 0.95rem;
-}
-
-.ingredients-table tbody tr {
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.2s;
-}
-
-.ingredients-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.ingredients-table tbody tr:hover {
-  background-color: #fafafa;
-}
-
-.ingredients-table td {
-  padding: 1rem;
-  color: #333;
-}
-
-.ingredients-table__name {
-  font-weight: 500;
-  color: #1a1a1a;
-}
-
-.ingredients-table__restrictions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.ingredients-table__badge {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.ingredients-table__badge--intolerance_allergy {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeaa7;
-}
-
-.ingredients-table__badge--religious {
-  background-color: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
-}
-
-.ingredients-table__no-restrictions {
-  color: #999;
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-.ingredients-delete-action {
-  text-align: center;
-}
-
-.inline-form {
-  display: inline;
-}
-
-@media (max-width: 768px) {
-  .ingredients-table {
-    font-size: 0.9rem;
-  }
 
   .ingredients-table th,
   .ingredients-table td {
-    padding: 0.75rem;
-  }
-
-  .ingredients-table__badge {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.6rem;
+    padding: 0.85rem 1rem;
   }
 }
-

@@ -14,7 +14,6 @@
     <%= f.text_field :name, class: "form-input" %>
   </div>
 
-
   <fieldset class="form-fieldset">
     <legend class="form-legend"><%= t("ingredients.form.restrictions") %></legend>
 
@@ -22,10 +21,10 @@
       <h3><%= t("ingredients.form.intolerance_allergies") %></h3>
       <div class="restrictions-group">
         <% restrictions.select { |r| r.intolerance_allergy? }.each do |restriction| %>
-          <div class="form-checkbox">
+          <label class="form-checkbox">
             <%= f.check_box :restriction_ids, { multiple: true }, restriction.id, nil %>
-            <%= f.label "ingredient_restriction_ids_#{restriction.id}", restriction.name, class: "checkbox-label" %>
-          </div>
+            <span class="checkbox-label"><%= restriction.name %></span>
+          </label>
         <% end %>
       </div>
     </div>
@@ -34,10 +33,10 @@
       <h3><%= t("ingredients.form.religious_restrictions") %></h3>
       <div class="restrictions-group">
         <% restrictions.select { |r| r.religious? }.each do |restriction| %>
-          <div class="form-checkbox">
+          <label class="form-checkbox">
             <%= f.check_box :restriction_ids, { multiple: true }, restriction.id, nil %>
-            <%= f.label "ingredient_restriction_ids_#{restriction.id}", restriction.name, class: "checkbox-label" %>
-          </div>
+            <span class="checkbox-label"><%= restriction.name %></span>
+          </label>
         <% end %>
       </div>
     </div>
