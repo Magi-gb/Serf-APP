@@ -1,23 +1,25 @@
 <div class="restrictions-container">
-  <div class="restrictions-header" style="justify-content: flex-start; gap: 1rem; margin-bottom: 2rem;">
-    <div class="restriction-icon" style="background-color: <%= @restriction.bg_color.presence || '#7bc143' %>; margin: 0;">
+  <div class="restrictions-header restrictions-show-header">
+    <div class="restriction-icon restrictions-icon-nomargin" style="background-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
       <% if @restriction.icon_svg.present? %>
         <%= raw @restriction.icon_svg %>
       <% else %>
         <span><%= @restriction.name[0..2].upcase %></span>
       <% end %>
     </div>
-    <h1 style="color: #5E78E6; margin: 0;"><%= @restriction.name %></h1>
+    <h1 class="restrictions-title-nomargin"><%= @restriction.name %></h1>
   </div>
 
-  <div style="background-color: #f9f9f9; padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
-    <h3 style="margin-top: 0; color: #0D0D0D;">Descripció de la restricció</h3>
-    <p style="color: #333; line-height: 1.6; font-size: 1.1rem;"><%= @restriction.description.presence || "Sense descripció addicional." %></p>
+  <div class="restrictions-desc-box">
+    <h3 class="restrictions-desc-title"><%= t("restrictions.show.description_title") %></h3>
+    <p class="restrictions-desc-text"><%= @restriction.description.presence || t("restrictions.show.no_description") %></p>
   </div>
 
-  <div style="display: flex; gap: 1rem;">
-    <%= link_to "Editar", edit_restriction_path(@restriction), class: "btn-primary", style: "text-decoration: none;" %>
-    <%= button_to "Eliminar Restricció", @restriction, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: "N'estàs segur de voler eliminar aquesta restricció?" } } %>
-    <%= link_to "Tornar", restrictions_path, class: "btn-danger", style: "background-color: #eee; color: #333;" %>
+  <div class="form-actions">
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("restrictions.show.edit"), edit_restriction_path(@restriction), class: "btn-primary btn-primary-link" %>
+      <%= button_to t("restrictions.show.delete"), @restriction, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("restrictions.show.confirm_delete") } } %>
+    <% end %>
+    <%= link_to t("restrictions.show.back"), restrictions_path, class: "btn-secondary" %>
   </div>
 </div>

@@ -1,8 +1,8 @@
 <%= form_with(model: restriction, class: "form-container") do |form| %>
   <% if restriction.errors.any? %>
-    <div style="color: #F2293A; margin-bottom: 1rem; padding: 1rem; background-color: #ffeeee; border-radius: 8px;">
-      <h3 style="margin-top: 0;"><%= pluralize(restriction.errors.count, "error") %> han impedit guardar:</h3>
-      <ul style="margin-bottom: 0;">
+    <div class="form-errors">
+      <h3 class="form-errors-title"><%= pluralize(restriction.errors.count, "error") %> han impedit guardar:</h3>
+      <ul class="form-errors-list">
         <% restriction.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,22 +11,27 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :name, "Nom de la restricció", class: "form-label" %>
-    <%= form.text_field :name, class: "form-control", placeholder: "Ex: Celíac" %>
+    <%= form.label :name, t("restrictions.form.name"), class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :description, "Descripció detallada", class: "form-label" %>
-    <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "Detalls sobre la dieta..." %>
+    <%= form.label :description, t("restrictions.form.description"), class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 4 %>
   </div>
 
   <div class="form-group">
-    <%= form.label :bg_color, "Color de la icona", class: "form-label" %>
-    <%= form.text_field :bg_color, class: "form-control", type: "color", style: "height: 50px; cursor: pointer; padding: 0.2rem;" %>
+    <%= form.label :bg_color, t("restrictions.form.bg_color"), class: "form-label" %>
+    <%= form.text_field :bg_color, class: "form-control form-color-picker", type: "color" %>
   </div>
 
-  <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-    <%= form.submit "Guardar restricció", class: "btn-primary" %>
-    <%= link_to "Cancel·lar", restrictions_path, class: "btn-danger", style: "background-color: #eee; color: #333;" %>
+  <div class="form-group">
+    <%= form.label :icon_svg, t("restrictions.form.icon_svg"), class: "form-label" %>
+    <%= form.text_area :icon_svg, class: "form-control", rows: 4 %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit t("restrictions.form.submit"), class: "btn-primary" %>
+    <%= link_to t("restrictions.form.cancel"), restrictions_path, class: "btn-secondary" %>
   </div>
 <% end %>

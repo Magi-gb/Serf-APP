@@ -62,6 +62,13 @@ ca:
     personal: Personal
     placeholder: Placeholder
     profile: El meu perfil
+    menu: Menú
+    restrictions: Filtrar restriccions
+    alternatives: Alternatives freqüents
+    protocols: Protocols
+    glossary: Glossari
+    emergencies: Emergències
+    new_restriction: "+ Nova restricció"
   users:
     create:
       success: Usuari creat correctament.
@@ -96,3 +103,29 @@ ca:
       title: Detalls de l'usuari
     update:
       success: Usuari actualitzat correctament.
+  restrictions:
+    index:
+      title: Restriccions
+      empty: Encara no hi ha restriccions guardades.
+    new:
+      title: Crear Nova Restricció
+    edit:
+      title: Editar Restricció
+    show:
+      description_title: Descripció de la restricció
+      no_description: Sense descripció addicional.
+      delete: Eliminar Restricció
+      edit: Editar
+      back: Tornar
+      confirm_delete: Estàs segur que vols eliminar aquesta restricció?
+    form:
+      name: Nom de la restricció
+      description: Descripció detallada
+      bg_color: Color de fons
+      icon_svg: Icona (codi SVG)
+      submit: Guardar restricció
+      cancel: Cancel·lar
+    messages:
+      created_success: Restricció creada correctament.
+      updated_success: Restricció actualitzada correctament.
+      destroyed_success: Restricció eliminada correctament.

@@ -1,12 +1,13 @@
 class RestrictionsController < ApplicationController
+  before_action :require_kitchen_manager_or_above!, except: %i[index show]
   before_action :set_restriction, only: %i[ show edit update destroy ]
 
-  # GET /restrictions or /restrictions.json
+  # GET /restrictions
   def index
     @restrictions = Restriction.all
   end
 
-  # GET /restrictions/1 or /restrictions/1.json
+  # GET /restrictions/1
   def show
   end
 
@@ -19,42 +20,31 @@ class RestrictionsController < ApplicationController
   def edit
   end
 
-  # POST /restrictions or /restrictions.json
+  # POST /restrictions
   def create
     @restriction = Restriction.new(restriction_params)
 
-    respond_to do |format|
-      if @restriction.save
-        format.html { redirect_to @restriction, notice: "Restriction was successfully created." }
-        format.json { render :show, status: :created, location: @restriction }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @restriction.errors, status: :unprocessable_entity }
-      end
+    if @restriction.save
+      redirect_to @restriction, notice: I18n.t("restrictions.messages.created_success")
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /restrictions/1 or /restrictions/1.json
+  # PATCH/PUT /restrictions/1
   def update
-    respond_to do |format|
-      if @restriction.update(restriction_params)
-        format.html { redirect_to @restriction, notice: "Restriction was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @restriction }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @restriction.errors, status: :unprocessable_entity }
-      end
+    if @restriction.update(restriction_params)
+      redirect_to @restriction, notice: I18n.t("restrictions.messages.updated_success"), status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /restrictions/1 or /restrictions/1.json
+  # DELETE /restrictions/1
   def destroy
     @restriction.destroy!
 
-    respond_to do |format|
-      format.html { redirect_to restrictions_path, notice: "Restriction was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+    redirect_to restrictions_path, notice: I18n.t("restrictions.messages.destroyed_success"), status: :see_other
   end
 
   private
@@ -65,6 +55,6 @@ class RestrictionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def restriction_params
-      params.require(:restriction).permit(:name, :description, :bg_color)
+      params.require(:restriction).permit(:name, :description, :bg_color, :icon_svg)
     end
 end

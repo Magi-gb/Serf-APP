@@ -1,11 +1,13 @@
 <nav class="sidebar">
-  <div class="sidebar__brand" style="margin-bottom: 1rem;">
-    <%= image_tag "logos/Recurso 1.svg", alt: "Serf", class: "sidebar__logo", style: "width: 150px; filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));" %>
+  <div class="sidebar__brand">
+    <%= image_tag "logos/Recurso 1.svg", alt: "Serf", class: "sidebar__logo sidebar__logo--shadowed" %>
   </div>
 
-  <div style="padding: 0 1.5rem 1.5rem;">
-    <%= link_to "+ Nova restricció", new_restriction_path, class: "btn-nova-restriccio" %>
-  </div>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <div class="sidebar__action-box">
+      <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-nova-restriccio" %>
+    </div>
+  <% end %>
 
   <ul class="sidebar__menu">
     <% if current_user.admin? %>
@@ -15,33 +17,33 @@
     <% end %>
 
     <li class="sidebar__item">
-      <%= link_to "Menú", "#", class: "sidebar__link" %>
+      <%= link_to t("sidebar.menu", default: "Menú"), "#", class: "sidebar__link" %>
     </li>
 
     <li class="sidebar__item <%= "sidebar__item--active" if controller_name == "restrictions" %>">
-      <%= link_to "Filtrar restriccions", restrictions_path, class: "sidebar__link" %>
+      <%= link_to t("sidebar.restrictions", default: "Filtrar restriccions"), restrictions_path, class: "sidebar__link" %>
     </li>
 
     <li class="sidebar__item">
-      <%= link_to "Alternatives freqüents", "#", class: "sidebar__link" %>
+      <%= link_to t("sidebar.alternatives", default: "Alternatives freqüents"), "#", class: "sidebar__link" %>
     </li>
 
     <li class="sidebar__item">
-      <%= link_to "Protocols", "#", class: "sidebar__link" %>
+      <%= link_to t("sidebar.protocols", default: "Protocols"), "#", class: "sidebar__link" %>
     </li>
     
     <li class="sidebar__item">
-      <%= link_to "Glossari", "#", class: "sidebar__link" %>
+      <%= link_to t("sidebar.glossary", default: "Glossari"), "#", class: "sidebar__link" %>
     </li>
 
     <li class="sidebar__item <%= "sidebar__item--active" if controller_name == "profiles" %>">
-      <%= link_to "El meu perfil", profile_path, class: "sidebar__link" %>
+      <%= link_to t("sidebar.profile", default: "El meu perfil"), profile_path, class: "sidebar__link" %>
     </li>
   </ul>
 
-  <div class="sidebar__footer" style="padding: 1.5rem; text-align: center; border-top: none;">
-    <%= link_to "Emergències", "#", class: "btn-emergencies" %>
+  <div class="sidebar__footer sidebar__footer--custom">
+    <%= link_to t("sidebar.emergencies", default: "Emergències"), "#", class: "btn-emergencies" %>
     <br><br>
-    <%= button_to "Tancar sessió", destroy_user_session_path, method: :delete, class: "sidebar__link sidebar__link--logout", style: "background: none; border: none; padding: 0; cursor: pointer; text-decoration: underline; margin: 0 auto;" %>
+    <%= button_to t("sidebar.logout", default: "Tancar sessió"), destroy_user_session_path, method: :delete, class: "sidebar__link sidebar__link--logout sidebar__btn-logout" %>
   </div>
 </nav>

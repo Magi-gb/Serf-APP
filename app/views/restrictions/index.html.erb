@@ -1,10 +1,12 @@
-<% content_for :title, "Filtrar restriccions" %>
+<% content_for :title, t("restrictions.index.title") %>
 
 <div class="restrictions-container">
   <div class="restrictions-header">
-    <div style="display: flex; gap: 1rem; align-items: center; width: 100%;">
-      <h1 style="color: #5E78E6; flex: 1;">Restriccions</h1>
-      <%= link_to "+ NOVA RESTRICCIÓ", new_restriction_path, class: "btn-nova-restriccio", style: "background-color: #5E78E6; color: white;" %>
+    <div class="restrictions-header-inner">
+      <h1 class="restrictions-title"><%= t("restrictions.index.title") %></h1>
+      <% if current_user.admin? || current_user.kitchen_manager? %>
+        <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-nova-restriccio btn-nova-restriccio-primary" %>
+      <% end %>
     </div>
   </div>
 
@@ -24,6 +26,6 @@
       <% end %>
     </div>
   <% else %>
-    <p style="text-align: center; color: #888; padding: 2rem;">Encara no hi ha restriccions guardades.</p>
+    <p class="restrictions-empty-msg"><%= t("restrictions.index.empty") %></p>
   <% end %>
 </div>
