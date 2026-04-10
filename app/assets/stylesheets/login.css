@@ -6,7 +6,7 @@
   display: flex;
   background-color: var(--color-accent-red);
   overflow: hidden;
-  font-family: var(--font-general); /* Poner var stylesheet */
+  font-family: var(--font-general);
 }
 
 /* Línies verticals decoratives */
@@ -15,12 +15,12 @@
   flex-shrink: 0;
 }
 
-.login-stripe--yellow {
+.login-stripe-yellow {
   width: 10vw;
   background-color: var(--color-accent-yellow);
 }
 
-.login-stripe--blue {
+.login-stripe-blue {
   width: 15vw;
   background-color: var(--color-accent-blue);
 }
@@ -51,34 +51,23 @@
   align-items: center;
 }
 
-.login-card__title {
+.login-card-title {
   font-size: 1.8rem;
   font-weight: 800;
   color: #1a1a1a;
   margin: 0 0 2rem;
-} /*deberia ser un h3 y solo quedaria ver de modificar los márgees con respecto a lo definido en el stylesheet*/
+}
 
-/* Form */
-
-input{
+/* Formulari */
+.login-form-input {
   width: 21vw;
 }
 
-.login-form__submit {
+.login-form .btn-primary-big {
   display: block;
   width: 70%;
   margin: 1rem auto 0;
-  padding: 0.85rem;
-  border: none;
-  border-radius: 50px;
-  background-color: #EDD754;
-  color: #e6222e;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
-/*esto no cal, se sustituye por el btn-yellow-big del stylesheet, añado el hover al stylesheet generico y lo quito de aquís*/
 
 /* Flash messages */
 .login-flash {
@@ -87,7 +76,7 @@ input{
   margin-bottom: 1rem;
 }
 
-.login-flash__alert {
+.login-flash-alert {
   background-color: rgba(0, 0, 0, 0.3);
   color: #fff;
   padding: 0.6rem 1rem;
@@ -99,17 +88,16 @@ input{
 
 /* Responsive */
 @media (max-width: 600px) {
-  .login-stripe--yellow {
+  .login-stripe-yellow {
     width: 40px;
   }
 
-  .login-stripe--blue {
+  .login-stripe-blue {
     width: 70px;
   }
 
   .login-container {
-  margin: 1rem;
-  padding: 0;
+    margin: 1rem;
+    padding: 0;
   }
-
 }

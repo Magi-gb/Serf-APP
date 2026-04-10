@@ -11,15 +11,15 @@
 
   <body class="login-page">
     <div class="login-stripes">
-      <div class="login-stripe--yellow"></div>
-      <div class="login-stripe--blue"></div>
+      <div class="login-stripe-yellow"></div>
+      <div class="login-stripe-blue"></div>
     </div>
 
     <div class="login-container">
       <div>
         <% if alert.present? %>
           <div class="login-flash">
-            <p class="login-flash__alert"><%= alert %></p>
+            <p class="login-flash-alert"><%= alert %></p>
           </div>
         <% end %>
         <%= yield %>

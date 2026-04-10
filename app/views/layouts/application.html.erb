@@ -16,15 +16,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="app-body">
+  <body class="layout-with-sidebar">
     <%= render "layouts/sidebar" %>
 
-    <main class="main-content">
+    <main class="page-content-with-sidebar">
       <% if notice.present? %>
-        <div class="flash flash--notice"><%= notice %></div>
+        <div class="alert-success"><%= notice %></div>
       <% end %>
       <% if alert.present? %>
-        <div class="flash flash--alert"><%= alert %></div>
+        <div class="alert-error"><%= alert %></div>
       <% end %>
 
       <%= yield %>
