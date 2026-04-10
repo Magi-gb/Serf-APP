@@ -48,4 +48,3 @@ religious_restrictions = [
 religious_restrictions.each do |restriction|
   Restriction.find_or_create_by!(name: restriction, restriction_type: :religious)
 end
-

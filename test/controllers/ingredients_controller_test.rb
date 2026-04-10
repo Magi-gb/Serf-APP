@@ -48,7 +48,7 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     post ingredients_url, params: {
       ingredient: {
         name: "Bread #{Time.current.to_i}",
-        restriction_ids: [restriction.id]
+        restriction_ids: [ restriction.id ]
       }
     }
     ingredient = Ingredient.last
