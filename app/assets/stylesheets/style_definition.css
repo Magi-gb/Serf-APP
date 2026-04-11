@@ -178,6 +178,47 @@ select:focus {
     transform: scale(1.05);
 }
 
+.btn-nova-restriccio {
+    display: inline-block;
+    background-color: var(--color-bg);
+    color: var(--color-accent-blue);
+    padding: 0.8rem 1.5rem;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    text-decoration: none;
+}
+
+.btn-nova-restriccio:hover {
+    transform: translateY(-2px);
+    background-color: #ffffff;
+    color: var(--color-accent-blue);
+    text-decoration: none;
+}
+
+.btn-emergencies {
+    display: inline-block;
+    background-color: var(--color-accent-yellow);
+    color: var(--color-accent-red);
+    padding: 0.8rem 2rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+    text-decoration: none;
+}
+
+.btn-emergencies:hover {
+    transform: translateY(-2px);
+    background-color: #f7e671;
+    color: var(--color-accent-red);
+    text-decoration: none;
+}
+
 /* Barra de navegació (side bar) */
 
 .sidenav {
@@ -208,8 +249,10 @@ select:focus {
 }
 
 .sidenav-logo img {
-    width: 80%;
+    max-width: 140px;
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .sidenav li a {
@@ -224,6 +267,24 @@ select:focus {
     color: var(--color-accent-red);
     font-weight: bold;
     cursor: pointer;
+}
+
+.sidenav li a.btn-nova-restriccio {
+    display: block;
+    background-color: var(--color-bg);
+    color: var(--color-accent-blue);
+    padding: 0.8rem 1rem;
+    margin: 1rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sidenav li a.btn-nova-restriccio:hover {
+    background-color: #ffffff;
+    color: var(--color-accent-blue);
+    transform: translateY(-2px);
 }
 
 .sidenav li a:active {
@@ -241,7 +302,25 @@ select:focus {
 .sidenav-footer {
     margin-top: auto;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 0;
+    padding: 1.5rem 0;
+}
+
+.sidenav li.sidenav-footer a.btn-emergencies {
+    display: block;
+    background-color: var(--color-accent-yellow);
+    color: var(--color-accent-red);
+    padding: 0.8rem 1rem;
+    margin: 0 2rem;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+}
+
+.sidenav li.sidenav-footer a.btn-emergencies:hover {
+    background-color: #f7e671;
+    color: var(--color-accent-red);
+    transform: translateY(-2px);
 }
 
 .sidenav li.sidenav-logout a {

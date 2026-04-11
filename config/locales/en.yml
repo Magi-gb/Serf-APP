@@ -57,6 +57,32 @@ en:
     update:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
+  restrictions:
+    edit:
+      title: " "
+    form:
+      bg_color: " "
+      cancel: " "
+      description: " "
+      icon_svg: " "
+      name: " "
+      submit: " "
+    index:
+      empty: " "
+      title: " "
+    messages:
+      created_success: " "
+      destroyed_success: " "
+      updated_success: " "
+    new:
+      title: " "
+    show:
+      back: " "
+      confirm_delete: " "
+      delete: " "
+      description_title: " "
+      edit: " "
+      no_description: " "
   sessions:
     new:
       password_placeholder: Password
@@ -64,10 +90,17 @@ en:
       title: Sign in
       username_placeholder: User ID
   sidebar:
+    alternatives: " "
+    emergencies: " "
+    glossary: " "
     logout: Sign out
+    menu: " "
+    new_restriction: " "
     personal: Staff
     placeholder: Placeholder
     profile: My profile
+    protocols: " "
+    restrictions: " "
   users:
     create:
       success: User created successfully.

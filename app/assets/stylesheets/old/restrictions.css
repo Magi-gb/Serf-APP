@@ -1,42 +1,6 @@
 /* Restrictions Specific Styles */
 
-.btn-nova-restriccio {
-  display: block;
-  background-color: #F2F2E9;
-  color: #5E78E6;
-  text-decoration: none;
-  padding: 0.8rem 1rem;
-  border-radius: 20px;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-}
 
-.btn-nova-restriccio:hover {
-  transform: translateY(-2px);
-  background-color: #ffffff;
-}
-
-.btn-emergencies {
-  display: inline-block;
-  background-color: #EDD754;
-  color: #F2293A;
-  text-decoration: none;
-  padding: 0.8rem 2rem;
-  border-radius: 20px;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  font-size: 1.1rem;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s;
-}
-
-.btn-emergencies:hover {
-  transform: translateY(-2px);
-  background-color: #f7e671;
-}
 
 /* Restrictions Container */
 .restrictions-container {
