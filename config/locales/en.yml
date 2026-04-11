@@ -43,10 +43,21 @@ en:
     index:
       title: Serf
   ingredients:
+    edit:
+      title: Edit ingredient
+    form:
+      description: Description
+      name: Name
+      submit_create: Create ingredient
+      submit_update: Update ingredient
+    index:
+      title: Ingredients
     messages:
       created_success: Ingredient created successfully.
       destroyed_success: Ingredient deleted successfully.
       updated_success: Ingredient updated successfully.
+    new:
+      title: New ingredient
   layouts:
     login:
       title: Serf — Sign in

@@ -43,10 +43,21 @@ ca:
     index:
       title: Serf
   ingredients:
+    edit:
+      title: Editar ingredient
+    form:
+      description: Descripció
+      name: Nom
+      submit_create: Crear ingredient
+      submit_update: Actualitzar ingredient
+    index:
+      title: Ingredients
     messages:
       created_success: Ingredient creat correctament.
       destroyed_success: Ingredient eliminat correctament.
       updated_success: Ingredient actualitzat correctament.
+    new:
+      title: Nou ingredient
   layouts:
     login:
       title: Serf — Inicia la sessió
