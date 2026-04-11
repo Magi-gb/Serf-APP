@@ -1,66 +1,37 @@
-<div class="ingredients-header">
-  <h1><%= t("ingredients.index.title") %></h1>
-</div>
+<% content_for :title, t("ingredients.index.title") %>
 
-<div class="ingredients-search">
-  <%= form_tag ingredients_path, method: :get, class: "search-form" do %>
-    <%= text_field_tag :search, params[:search], placeholder: t("ingredients.index.search_placeholder"), class: "search-form__input" %>
-  <% end %>
-</div>
+<div class="page-card">
+  <div class="page-header">
+    <h1><%= t("ingredients.index.title") %></h1>
+  </div>
 
-<div class="ingredients-list">
-  <% if @ingredients.any? %>
-    <table class="ingredients-table">
-      <thead>
-        <tr>
-          <th><%= t("ingredients.form.name") %></th>
-          <th><%= t("ingredients.form.intolerance_allergies") %></th>
-          <th><%= t("ingredients.form.religious_restrictions") %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @ingredients.each do |ingredient| %>
-          <tr>
-            <td>
-              <%= link_to ingredient.name, ingredient_path(ingredient), class: "ingredients-table__name" %>
-            </td>
-            <td>
-              <div class="ingredients-table__restrictions">
-                <% allergies = ingredient.restrictions.where(restriction_type: :intolerance_allergy) %>
-                <% if allergies.any? %>
-                  <% allergies.each do |restriction| %>
-                    <span class="ingredients-table__badge ingredients-table__badge--intolerance_allergy">
-                      <%= restriction.name %>
-                    </span>
-                  <% end %>
-                <% else %>
-                  <span class="ingredients-table__no-restrictions"><%= t("ingredients.index.no_restrictions") %></span>
+  <div class="index-toolbar">
+    <%= render "shared/search_bar", url: ingredients_path, placeholder: t("ingredients.index.search_placeholder") %>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("ingredients.index.new_ingredient"), new_ingredient_path, class: "btn-pill btn-pill-primary" %>
+    <% end %>
+  </div>
+
+  <div class="list-card-group">
+    <% if @ingredients.any? %>
+      <% @ingredients.each do |ingredient| %>
+        <%= link_to ingredient_path(ingredient), class: "list-card" do %>
+          <div class="list-card-info">
+            <span class="list-card-title"><%= ingredient.name %></span>
+            <div class="badge-list">
+              <% if ingredient.restrictions.any? %>
+                <% ingredient.restrictions.each do |restriction| %>
+                  <span class="badge badge-<%= restriction.restriction_type %>"><%= restriction.name %></span>
                 <% end %>
-              </div>
-            </td>
-            <td>
-              <div class="ingredients-table__restrictions">
-                <% religious = ingredient.restrictions.where(restriction_type: :religious) %>
-                <% if religious.any? %>
-                  <% religious.each do |restriction| %>
-                    <span class="ingredients-table__badge ingredients-table__badge--religious">
-                      <%= restriction.name %>
-                    </span>
-                  <% end %>
-                <% else %>
-                  <span class="ingredients-table__no-restrictions"><%= t("ingredients.index.no_restrictions") %></span>
-                <% end %>
-              </div>
-            </td>
-          </tr>
+              <% else %>
+                <span class="list-card-subtitle"><%= t("ingredients.index.no_restrictions") %></span>
+              <% end %>
+            </div>
+          </div>
         <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p class="ingredients-empty"><%= t("ingredients.index.no_ingredients") %></p>
-  <% end %>
-</div>
-
-<div class="ingredients-actions">
-  <%= link_to t("ingredients.index.new_ingredient"), new_ingredient_path, class: "btn btn--primary" %>
+      <% end %>
+    <% else %>
+      <p class="empty-state"><%= t("ingredients.index.no_ingredients") %></p>
+    <% end %>
+  </div>
 </div>

@@ -43,13 +43,18 @@ ca:
   home:
     index:
       add_ingredient: Afegir ingredient
+      add_restriction: Afegir restricció
+      add_user: Afegir usuari
       ingredients_description: Crea i gestiona els ingredients del restaurant amb les seves restriccions alimentàries.
       ingredients_management: Gestió d'Ingredients
+      manage_ingredients: Gestionar ingredients
+      manage_restrictions: Gestionar restriccions
       manage_users: Gestionar usuaris
+      restrictions_description: Gestiona les restriccions alimentàries i religioses del sistema.
+      restrictions_management: Gestió de Restriccions
       title: Serf
       user_management: Gestió d'Usuaris
       users_description: Administra els usuaris del sistema.
-      view_ingredients: Veure ingredients
       waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
       waiter_features: Funcionalitats del Cambrer
       welcome: Benvingut, %{username}!
@@ -76,10 +81,10 @@ ca:
       submit_create: Crear ingredient
       submit_update: Desar canvis
     index:
-      new_ingredient: Nou ingredient!
+      new_ingredient: "+ Nou ingredient"
       no_ingredients: No s'han trobat ingredients.
       no_restrictions: Cap restricció
-      search_placeholder: Cerca un ingredient!
+      search_placeholder: Cerca un ingredient
       title: Ingredients
     new:
       title: Nou ingredient
@@ -119,6 +124,7 @@ ca:
       description: Descripció detallada
       icon_svg: Icona (codi SVG)
       name: Nom de la restricció
+      restriction_type: Tipus de restricció
       submit: Guardar restricció
     index:
       empty: Encara no hi ha restriccions guardades.
@@ -136,6 +142,7 @@ ca:
       description_title: Descripció de la restricció
       edit: Editar
       no_description: Sense descripció addicional.
+      restriction_type: Tipus
     types:
       intolerance_allergy: Intolerància/Al·lèrgia
       religious: Religiosa
@@ -148,6 +155,7 @@ ca:
   sidebar:
     add_ingredient: Afegir ingredient
     alternatives: Alternatives freqüents
+    dashboard: Inici
     emergencies: Emergències
     glossary: Glossari
     ingredients: Ingredients
@@ -159,7 +167,7 @@ ca:
     profile: El meu perfil
     protocols: Protocols
     remove_ingredient: Eliminar ingredients
-    restrictions: Filtrar restriccions
+    restrictions: Restriccions
   users:
     create:
       success: Usuari creat correctament.

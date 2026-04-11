@@ -43,13 +43,18 @@ en:
   home:
     index:
       add_ingredient: Add ingredient
+      add_restriction: Add restriction
+      add_user: Add user
       ingredients_description: Create and manage restaurant ingredients with their dietary restrictions.
       ingredients_management: Ingredients Management
+      manage_ingredients: Manage ingredients
+      manage_restrictions: Manage restrictions
       manage_users: Manage users
+      restrictions_description: Manage dietary and religious restrictions in the system.
+      restrictions_management: Restrictions Management
       title: Serf
       user_management: User Management
       users_description: Manage system users.
-      view_ingredients: View ingredients
       waiter_description: Here you will see the options available for waiters.
       waiter_features: Waiter Features
       welcome: Welcome, %{username}!
@@ -76,10 +81,10 @@ en:
       submit_create: Create ingredient
       submit_update: Save changes
     index:
-      new_ingredient: New ingredient!
+      new_ingredient: "+ New ingredient"
       no_ingredients: No ingredients found.
       no_restrictions: No restriction
-      search_placeholder: Search an ingredient!
+      search_placeholder: Search an ingredient
       title: Ingredients
     new:
       title: New ingredient
@@ -119,6 +124,7 @@ en:
       description: " "
       icon_svg: " "
       name: " "
+      restriction_type: Restriction type
       submit: " "
     index:
       empty: " "
@@ -136,6 +142,7 @@ en:
       description_title: " "
       edit: " "
       no_description: " "
+      restriction_type: Type
     types:
       intolerance_allergy: Intolerance/Allergy
       religious: Religious
@@ -148,6 +155,7 @@ en:
   sidebar:
     add_ingredient: Add ingredient
     alternatives: " "
+    dashboard: Home
     emergencies: " "
     glossary: " "
     ingredients: Ingredients

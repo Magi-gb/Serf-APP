@@ -21,6 +21,11 @@
   </div>
 
   <div class="form-group">
+    <%= form.label :restriction_type, t("restrictions.form.restriction_type") %>
+    <%= form.select :restriction_type, Restriction.restriction_types.keys.map { |k| [t("restrictions.types.#{k}"), k] }, {}, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
     <%= form.label :bg_color, t("restrictions.form.bg_color") %>
     <%= form.text_field :bg_color, class: "form-control form-color-picker", type: "color" %>
   </div>
