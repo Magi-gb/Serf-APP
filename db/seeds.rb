@@ -42,3 +42,31 @@ allergens.each do |allergen|
     r.icon_svg = vector_icon(allergen[:icon])
   end
 end
+
+# --- Ingredients ---
+
+ingredients_data = [
+  { name: "Farina de blat", description: "Farina procedent del blat, base de pa i pasta.", restrictions: [ "Gluten" ] },
+  { name: "Llet sencera", description: "Llet de vaca sencera pasteuritzada.", restrictions: [ "Lactis" ] },
+  { name: "Ou de gallina", description: "Ou fresc de gallina.", restrictions: [ "Ous" ] },
+  { name: "Gamba", description: "Gamba fresca de la Mediterrània.", restrictions: [ "Crustacis" ] },
+  { name: "Soja texturitzada", description: "Proteïna de soja texturitzada.", restrictions: [ "Soja" ] },
+  { name: "Cacauet torrat", description: "Cacauets torrats sense sal.", restrictions: [ "Cacauets" ] },
+  { name: "Salmó fresc", description: "Filet de salmó fresc.", restrictions: [ "Peix" ] },
+  { name: "Ametlla", description: "Ametlla crua sense pell.", restrictions: [ "Fruits de pela" ] },
+  { name: "Salsa de mostassa", description: "Mostassa de Dijon.", restrictions: [ "Mostassa" ] },
+  { name: "Pa de sèsam", description: "Pa elaborat amb grans de sèsam.", restrictions: [ "Gluten", "Sèsam" ] },
+  { name: "Tomàquet", description: "Tomàquet madur de temporada.", restrictions: [] },
+  { name: "Oli d'oliva", description: "Oli d'oliva verge extra.", restrictions: [] }
+]
+
+ingredients_data.each do |data|
+  ingredient = Ingredient.find_or_create_by!(name: data[:name]) do |i|
+    i.description = data[:description]
+  end
+
+  data[:restrictions].each do |restriction_name|
+    restriction = Restriction.find_by!(name: restriction_name)
+    IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
+  end
+end

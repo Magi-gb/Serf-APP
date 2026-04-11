@@ -11,6 +11,22 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2026_03_29_140613) do
+  create_table "ingredient_restrictions", force: :cascade do |t|
+    t.integer "ingredient_id", null: false
+    t.integer "restriction_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ingredient_id"], name: "index_ingredient_restrictions_on_ingredient_id"
+    t.index ["restriction_id"], name: "index_ingredient_restrictions_on_restriction_id"
+  end
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "restrictions", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -28,4 +44,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_29_140613) do
     t.datetime "updated_at", null: false
     t.index ["username"], name: "index_users_on_username", unique: true
   end
+
+  add_foreign_key "ingredient_restrictions", "ingredients"
+  add_foreign_key "ingredient_restrictions", "restrictions"
 end

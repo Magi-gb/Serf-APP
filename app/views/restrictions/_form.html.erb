@@ -1,7 +1,7 @@
 <%= form_with(model: restriction, class: "form-container") do |form| %>
   <% if restriction.errors.any? %>
     <div class="alert-error">
-      <h3><%= pluralize(restriction.errors.count, "error") %> han impedit guardar:</h3>
+      <h3><%= t("errors.form_header", count: restriction.errors.count) %></h3>
       <ul>
         <% restriction.errors.full_messages.each do |message| %>
           <li><%= message %></li>
