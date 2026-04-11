@@ -533,6 +533,7 @@ input:focus {
     font-size: 1.2rem;
     font-weight: 700;
     flex-shrink: 0;
+    background-color: var(--avatar-bg, #9b101b);
 }
 
 .list-card-info {
@@ -571,6 +572,7 @@ input:focus {
     font-weight: 700;
     flex-shrink: 0;
     margin-bottom: 1rem;
+    background-color: var(--avatar-bg, #9b101b);
 }
 
 .detail-actions {

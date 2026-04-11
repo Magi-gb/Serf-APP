@@ -3,6 +3,7 @@ require "test_helper"
 class RestrictionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @restriction = restrictions(:one)
+    sign_in users(:admin)
   end
 
   test "should get index" do

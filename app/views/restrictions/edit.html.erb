@@ -1,6 +1,6 @@
 <div class="restrictions-container restrictions-container-transparent">
   <div class="restrictions-edit-header">
-    <div class="restriction-icon restrictions-icon-small" style="background-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
+    <div class="restriction-icon restrictions-icon-small" style="--bg-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
       <span><%= @restriction.name[0..2].upcase %></span>
     </div>
     <h1 class="restrictions-title-nomargin"><%= t("restrictions.edit.title") %></h1>

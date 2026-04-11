@@ -1,8 +1,8 @@
 <div class="restrictions-container">
   <div class="restrictions-header restrictions-show-header">
-    <div class="restriction-icon restrictions-icon-nomargin" style="background-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
+    <div class="restriction-icon restrictions-icon-nomargin" style="--bg-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
       <% if @restriction.icon_svg.present? %>
-        <%= raw @restriction.icon_svg %>
+        <%= safe_svg(@restriction.icon_svg) %>
       <% else %>
         <span><%= @restriction.name[0..2].upcase %></span>
       <% end %>
