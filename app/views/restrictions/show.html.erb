@@ -1,23 +1,23 @@
-<div class="restrictions-container">
-  <div class="restrictions-header restrictions-show-header">
-    <div class="restriction-icon restrictions-icon-nomargin" style="--bg-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
+<div class="page-card">
+  <div class="detail-header">
+    <div class="restriction-icon" style="--bg-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
       <% if @restriction.icon_svg.present? %>
         <%= safe_svg(@restriction.icon_svg) %>
       <% else %>
         <span><%= @restriction.name[0..2].upcase %></span>
       <% end %>
     </div>
-    <h1 class="restrictions-title-nomargin"><%= @restriction.name %></h1>
+    <h1><%= @restriction.name %></h1>
   </div>
 
-  <div class="restrictions-desc-box">
-    <h3 class="restrictions-desc-title"><%= t("restrictions.show.description_title") %></h3>
-    <p class="restrictions-desc-text"><%= @restriction.description.presence || t("restrictions.show.no_description") %></p>
+  <div class="desc-box">
+    <h3><%= t("restrictions.show.description_title") %></h3>
+    <p class="desc-text"><%= @restriction.description.presence || t("restrictions.show.no_description") %></p>
   </div>
 
-  <div class="form-actions">
+  <div class="detail-actions">
     <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("restrictions.show.edit"), edit_restriction_path(@restriction), class: "btn-primary btn-primary-link" %>
+      <%= link_to t("restrictions.show.edit"), edit_restriction_path(@restriction), class: "btn-primary" %>
       <%= button_to t("restrictions.show.delete"), @restriction, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("restrictions.show.confirm_delete") } } %>
     <% end %>
     <%= link_to t("restrictions.show.back"), restrictions_path, class: "btn-secondary" %>

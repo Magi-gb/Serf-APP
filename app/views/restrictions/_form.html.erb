@@ -1,8 +1,8 @@
 <%= form_with(model: restriction, class: "form-container") do |form| %>
   <% if restriction.errors.any? %>
-    <div class="form-errors">
-      <h3 class="form-errors-title"><%= pluralize(restriction.errors.count, "error") %> han impedit guardar:</h3>
-      <ul class="form-errors-list">
+    <div class="alert-error">
+      <h3><%= pluralize(restriction.errors.count, "error") %> han impedit guardar:</h3>
+      <ul>
         <% restriction.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -11,22 +11,22 @@
   <% end %>
 
   <div class="form-group">
-    <%= form.label :name, t("restrictions.form.name"), class: "form-label" %>
+    <%= form.label :name, t("restrictions.form.name") %>
     <%= form.text_field :name, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :description, t("restrictions.form.description"), class: "form-label" %>
+    <%= form.label :description, t("restrictions.form.description") %>
     <%= form.text_area :description, class: "form-control", rows: 4 %>
   </div>
 
   <div class="form-group">
-    <%= form.label :bg_color, t("restrictions.form.bg_color"), class: "form-label" %>
+    <%= form.label :bg_color, t("restrictions.form.bg_color") %>
     <%= form.text_field :bg_color, class: "form-control form-color-picker", type: "color" %>
   </div>
 
   <div class="form-group">
-    <%= form.label :icon_svg, t("restrictions.form.icon_svg"), class: "form-label" %>
+    <%= form.label :icon_svg, t("restrictions.form.icon_svg") %>
     <%= form.text_area :icon_svg, class: "form-control", rows: 4 %>
   </div>
 

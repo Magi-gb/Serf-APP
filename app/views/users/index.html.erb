@@ -3,13 +3,17 @@
     <h1><%= t("users.index.title") %></h1>
   </div>
 
-  <div class="mb-3">
+  <div class="index-toolbar">
     <div class="search-bar">
       <%= form_tag users_path, method: :get, class: "search-form" do %>
         <%= text_field_tag :search, params[:search], placeholder: t("users.index.search_placeholder") %>
         <button type="submit" class="search-bar-icon"><%= image_tag "icons/search-white.svg", alt: "Cercar", size: "20x20" %></button>
       <% end %>
     </div>
+    <%= link_to new_user_path, class: "btn-pill btn-pill-primary" do %>
+      <%= image_tag "icons/user-plus-white.svg", size: "18x18" %>
+      <%= t("users.index.new_user") %>
+    <% end %>
   </div>
 
   <div class="list-card-group">
@@ -28,9 +32,5 @@
     <% else %>
       <p class="empty-state"><%= t("users.index.no_users") %></p>
     <% end %>
-  </div>
-
-  <div class="mt-2">
-    <%= link_to t("users.index.new_user"), new_user_path, class: "btn-primary" %>
   </div>
 </div>

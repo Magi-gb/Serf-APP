@@ -125,16 +125,16 @@ select:focus {
 }
 
 .btn-secondary {
-    padding: 1.3rem;
+    padding: 0.7rem 1rem;
     margin: 0.5rem;
-    min-width: 12vw;
+    min-width: 8vw;
     background-color: var(--color-bg);
     color: var(--color-accent-blue);
     border: none;
     border-radius: 1rem;
     text-align: center;
     font-family: var(--font-general);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
@@ -178,8 +178,10 @@ select:focus {
     transform: scale(1.05);
 }
 
-.btn-nova-restriccio {
-    display: inline-block;
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     background-color: var(--color-bg);
     color: var(--color-accent-blue);
     padding: 0.8rem 1.5rem;
@@ -189,13 +191,23 @@ select:focus {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     text-decoration: none;
+    white-space: nowrap;
 }
 
-.btn-nova-restriccio:hover {
+.btn-pill:hover {
     transform: translateY(-2px);
     background-color: #ffffff;
     color: var(--color-accent-blue);
     text-decoration: none;
+}
+
+.btn-pill-primary {
+    background-color: var(--color-accent-blue);
+    color: var(--color-text-white);
+}
+
+.btn-pill-primary:hover {
+    background-color: #4b62db;
 }
 
 .btn-emergencies {
@@ -225,7 +237,7 @@ select:focus {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    width: 20vw;
+    width: 260px;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -239,7 +251,7 @@ select:focus {
     padding-top: 0;
     padding-left: 0;
     font-family: var(--font-general);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
 }
 
 .sidenav-logo {
@@ -263,13 +275,11 @@ select:focus {
 }
 
 .sidenav li a:hover {
-    background-color: var(--color-bg);
-    color: var(--color-accent-red);
-    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
 }
 
-.sidenav li a.btn-nova-restriccio {
+.sidenav li a.btn-pill {
     display: block;
     background-color: var(--color-bg);
     color: var(--color-accent-blue);
@@ -281,16 +291,14 @@ select:focus {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-.sidenav li a.btn-nova-restriccio:hover {
+.sidenav li a.btn-pill:hover {
     background-color: #ffffff;
     color: var(--color-accent-blue);
     transform: translateY(-2px);
 }
 
 .sidenav li a:active {
-    background-color: var(--color-bg);
-    color: var(--color-accent-red);
-    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .sidenav li.sidenav-active a {
@@ -324,12 +332,20 @@ select:focus {
 }
 
 .sidenav li.sidenav-logout a {
-    color: #ffcccc;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.sidenav-logout-icon {
+    width: 1rem;
+    height: 1rem;
 }
 
 .sidenav li.sidenav-logout a:hover {
-    background-color: rgba(255, 0, 0, 0.15);
-    color: #ffcccc;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Inputs en general */
@@ -465,9 +481,9 @@ input:focus {
 }
 
 .page-content-with-sidebar {
-    margin-left: 20vw;
-    padding: 2rem 3vw;
-    width: calc(100vw - 20vw);
+    margin-left: 260px;
+    padding: 2rem 3rem;
+    flex: 1;
     box-sizing: border-box;
 }
 
@@ -506,13 +522,22 @@ input:focus {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Toolbar (cerca + accions) */
+
+.index-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
 /* Barra de cerca */
 
 .search-bar {
     position: relative;
+    flex: 1;
     max-width: 60%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .search-bar input {
@@ -552,11 +577,31 @@ input:focus {
 /* Formularis */
 
 .form-container {
-    max-width: 450px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 600px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .form-group {
     margin-bottom: 1.2rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: var(--font-general);
+}
+
+.form-color-picker {
+    height: 50px;
+    cursor: pointer;
+    padding: 0.2rem;
 }
 
 .form-hint {
@@ -567,6 +612,8 @@ input:focus {
 }
 
 .form-actions {
+    display: flex;
+    gap: 1rem;
     margin-top: 1.5rem;
 }
 
@@ -654,9 +701,29 @@ input:focus {
     background-color: var(--avatar-bg, #9b101b);
 }
 
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
 .detail-actions {
     display: flex;
     gap: 1rem;
+}
+
+.desc-box {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+}
+
+.desc-text {
+    color: #333;
+    line-height: 1.6;
+    font-size: 1.1rem;
 }
 
 /* Camps de visualització */
@@ -683,6 +750,59 @@ input:focus {
 .empty-state {
     color: #666;
     font-style: italic;
+}
+
+/* Restriccions */
+
+.restriction-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.restriction-bubble {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.restriction-bubble:hover {
+    transform: scale(1.1);
+}
+
+.restriction-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--bg-color, #7bc143);
+}
+
+.restriction-icon-small {
+    width: 40px;
+    height: 40px;
+    font-size: 0.7rem;
+    margin: 0;
+}
+
+.restriction-name {
+    color: var(--color-text);
+    font-size: 0.8rem;
+    font-family: var(--font-general);
+    text-align: center;
+    word-wrap: break-word;
 }
 
 /* ======================== */

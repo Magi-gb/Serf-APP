@@ -1,17 +1,15 @@
 <% content_for :title, t("restrictions.index.title") %>
 
-<div class="restrictions-container">
-  <div class="restrictions-header">
-    <div class="restrictions-header-inner">
-      <h1 class="restrictions-title"><%= t("restrictions.index.title") %></h1>
-      <% if current_user.admin? || current_user.kitchen_manager? %>
-        <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-nova-restriccio btn-nova-restriccio-primary" %>
-      <% end %>
-    </div>
+<div class="page-card">
+  <div class="index-toolbar">
+    <h1><%= t("restrictions.index.title") %></h1>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-pill btn-pill-primary" %>
+    <% end %>
   </div>
 
   <% if @restrictions.any? %>
-    <div class="restrictions-grid">
+    <div class="restriction-grid">
       <% @restrictions.each do |restriction| %>
         <%= link_to restriction_path(restriction), class: "restriction-bubble" do %>
           <div class="restriction-icon" style="--bg-color: <%= restriction.bg_color.presence || '#7bc143' %>">
@@ -26,6 +24,6 @@
       <% end %>
     </div>
   <% else %>
-    <p class="restrictions-empty-msg"><%= t("restrictions.index.empty") %></p>
+    <p class="empty-state text-center"><%= t("restrictions.index.empty") %></p>
   <% end %>
 </div>

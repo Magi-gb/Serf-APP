@@ -3,36 +3,14 @@
     <%= image_tag "logos/LogoHorBl.svg", alt: "Serf" %>
   </li>
 
-  <% if current_user.admin? || current_user.kitchen_manager? %>
-    <li>
-      <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-nova-restriccio" %>
-    </li>
-  <% end %>
-
   <% if current_user.admin? %>
     <li class="<%= "sidenav-active" if controller_name == "users" %>">
       <%= link_to t("sidebar.personal", default: "Personal"), users_path %>
     </li>
   <% end %>
 
-  <li>
-    <%= link_to t("sidebar.menu", default: "Menú"), "#" %>
-  </li>
-
   <li class="<%= "sidenav-active" if controller_name == "restrictions" %>">
     <%= link_to t("sidebar.restrictions", default: "Filtrar restriccions"), restrictions_path %>
-  </li>
-
-  <li>
-    <%= link_to t("sidebar.alternatives", default: "Alternatives freqüents"), "#" %>
-  </li>
-
-  <li>
-    <%= link_to t("sidebar.protocols", default: "Protocols"), "#" %>
-  </li>
-  
-  <li>
-    <%= link_to t("sidebar.glossary", default: "Glossari"), "#" %>
   </li>
 
   <li class="<%= "sidenav-active" if controller_name == "profiles" %>">
@@ -44,6 +22,9 @@
   </li>
 
   <li class="sidenav-logout">
-    <%= link_to t("sidebar.logout", default: "Tancar sessió"), destroy_user_session_path, data: { turbo_method: :delete } %>
+    <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
+      <%= image_tag "icons/log-out-white.svg", class: "sidenav-logout-icon" %>
+      <%= t("sidebar.logout", default: "Tancar sessió") %>
+    <% end %>
   </li>
 </ul>
