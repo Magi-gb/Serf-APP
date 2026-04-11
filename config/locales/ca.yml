@@ -1,10 +1,11 @@
+# config/locales/ca.yml
 ---
 ca:
   activerecord:
     attributes:
       user:
-        password: Contrasenya
-        password_confirmation: Confirmar contrasenya
+        password: "Contrasenya"
+        password_confirmation: "Confirmar contrasenya"
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
@@ -88,7 +89,7 @@ ca:
       no_description: Sense descripció addicional.
   sessions:
     new:
-      password_placeholder: Contrassenya
+      password_placeholder: Contrasenya
       submit: Entra
       title: Inicia la sessió
       username_placeholder: ID d'usuari

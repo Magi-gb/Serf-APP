@@ -1,5 +1,11 @@
+# config/locales/en.yml
 ---
 en:
+  activerecord:
+    attributes:
+      user:
+        password: "Password"
+        password_confirmation: "Password confirmation"
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.
@@ -18,6 +24,7 @@ en:
   errors:
     messages:
       blank: can't be blank
+      confirmation: "doesn't match %{attribute}"
       invalid: is invalid
       not_a_number: is not a number
       taken: has already been taken
