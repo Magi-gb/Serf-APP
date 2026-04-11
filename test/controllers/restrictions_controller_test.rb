@@ -18,7 +18,7 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create restriction" do
     assert_difference("Restriction.count") do
-      post restrictions_url, params: { restriction: { bg_color: @restriction.bg_color, description: @restriction.description, name: @restriction.name } }
+      post restrictions_url, params: { restriction: { bg_color: @restriction.bg_color, description: @restriction.description, name: "Ou" } }
     end
 
     assert_redirected_to restriction_url(Restriction.last)
