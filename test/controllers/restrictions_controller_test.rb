@@ -66,4 +66,3 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to restrictions_url
   end
 end
-
