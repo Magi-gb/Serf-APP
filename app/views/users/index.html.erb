@@ -1,31 +1,36 @@
-<div class="users-header">
-  <h1><%= t("users.index.title") %></h1>
-</div>
+<div class="page-card">
+  <div class="page-header">
+    <h1><%= t("users.index.title") %></h1>
+  </div>
 
-<div class="users-search">
-  <%= form_tag users_path, method: :get, class: "search-form" do %>
-    <%= text_field_tag :search, params[:search], placeholder: t("users.index.search_placeholder"), class: "search-form__input" %>
-  <% end %>
-</div>
-
-<div class="users-list">
-  <% if @users.any? %>
-    <% @users.each do |user| %>
-      <%= link_to user_path(user), class: "user-card" do %>
-        <div class="user-card__avatar" style="background-color: <%= user_avatar_color(user) %>;">
-          <%= user.username[0].upcase %>
-        </div>
-        <div class="user-card__info">
-          <span class="user-card__username"><%= user.username %></span>
-          <span class="user-card__role"><%= t("users.roles.#{user.role}") %></span>
-        </div>
+  <div class="mb-3">
+    <div class="search-bar">
+      <%= form_tag users_path, method: :get, class: "search-form" do %>
+        <%= text_field_tag :search, params[:search], placeholder: t("users.index.search_placeholder") %>
+        <button type="submit" class="search-bar-icon"><%= image_tag "icons/search-white.svg", alt: "Cercar", size: "20x20" %></button>
       <% end %>
-    <% end %>
-  <% else %>
-    <p class="users-empty"><%= t("users.index.no_users") %></p>
-  <% end %>
-</div>
+    </div>
+  </div>
 
-<div class="users-actions">
-  <%= link_to t("users.index.new_user"), new_user_path, class: "btn btn--primary" %>
+  <div class="list-card-group">
+    <% if @users.any? %>
+      <% @users.each do |user| %>
+        <%= link_to user_path(user), class: "list-card" do %>
+          <div class="list-card-avatar" style="background-color: <%= user_avatar_color(user) %>;">
+            <%= user.username[0].upcase %>
+          </div>
+          <div class="list-card-info">
+            <span class="list-card-title"><%= user.username %></span>
+            <span class="list-card-subtitle"><%= t("users.roles.#{user.role}") %></span>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="empty-state"><%= t("users.index.no_users") %></p>
+    <% end %>
+  </div>
+
+  <div class="mt-2">
+    <%= link_to t("users.index.new_user"), new_user_path, class: "btn-primary" %>
+  </div>
 </div>
