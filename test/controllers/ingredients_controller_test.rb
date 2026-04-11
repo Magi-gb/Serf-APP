@@ -14,10 +14,10 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "index requires kitchen_manager role" do
+  test "waiter can access index" do
     sign_in @waiter
     get ingredients_url
-    assert_redirected_to root_url
+    assert_response :success
   end
 
   test "index displays ingredients" do

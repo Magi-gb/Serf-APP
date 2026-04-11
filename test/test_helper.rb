@@ -2,6 +2,10 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+# Suppress SQLite fork-safety warnings — safe here because Rails
+# re-establishes DB connections in each forked test worker.
+SQLite3::ForkSafety.suppress_warnings!
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
@@ -11,14 +15,7 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+    include Devise::Test::IntegrationHelpers
   end
-end
-
-class ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
-end
-
-class ActionController::TestCase
-  include Devise::Test::ControllerHelpers
 end
 

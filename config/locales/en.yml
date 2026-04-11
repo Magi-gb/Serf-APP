@@ -1,5 +1,10 @@
 ---
 en:
+  activerecord:
+    attributes:
+      user:
+        password: Password
+        password_confirmation: Confirm password
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.
@@ -16,8 +21,12 @@ en:
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
   errors:
+    form_header:
+      one: '1 error prevented saving:'
+      other: "%{count} errors prevented saving:"
     messages:
       blank: can't be blank
+      confirmation: doesn't match
       invalid: is invalid
       not_a_number: is not a number
       record_invalid: Record is invalid
@@ -48,6 +57,7 @@ en:
     create:
       success: Ingredient created successfully.
     delete:
+      action: Action
       back: Back to ingredients
       confirm_delete: Are you sure you want to delete this ingredient?
       delete: Delete
@@ -58,6 +68,7 @@ en:
     edit:
       title: Edit ingredient
     form:
+      description: Description
       intolerance_allergies: Intolerances and allergies
       name: Ingredient name
       religious_restrictions: Religious restrictions
@@ -100,6 +111,31 @@ en:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
   restrictions:
+    edit:
+      title: " "
+    form:
+      bg_color: " "
+      cancel: " "
+      description: " "
+      icon_svg: " "
+      name: " "
+      submit: " "
+    index:
+      empty: " "
+      title: " "
+    messages:
+      created_success: " "
+      destroyed_success: " "
+      updated_success: " "
+    new:
+      title: " "
+    show:
+      back: " "
+      confirm_delete: " "
+      delete: " "
+      description_title: " "
+      edit: " "
+      no_description: " "
     types:
       intolerance_allergy: Intolerance/Allergy
       religious: Religious
@@ -111,12 +147,19 @@ en:
       username_placeholder: User ID
   sidebar:
     add_ingredient: Add ingredient
+    alternatives: " "
+    emergencies: " "
+    glossary: " "
     ingredients: Ingredients
     logout: Sign out
+    menu: " "
+    new_restriction: " "
     personal: Staff
     placeholder: Placeholder
     profile: My profile
+    protocols: " "
     remove_ingredient: Delete ingredients
+    restrictions: " "
   users:
     create:
       success: User created successfully.
@@ -134,9 +177,10 @@ en:
       submit_update: Save changes
       username: Username
     index:
-      new_user: New user!
+      new_user: New user
       no_users: No users found.
-      search_placeholder: Search a user!
+      search_alt: Search
+      search_placeholder: Search a user
       title: Staff
     new:
       title: New user

@@ -128,6 +128,8 @@ What exists:
 - **Definition of Done:** Implementation complete + **all tests written and passing** + no regressions + interface consistent with mockups + story marked Done in Taiga + relevant docs updated.
 - **Style:** RuboCop (rubocop-rails-omakase). Run `bin/rubocop` before committing. **No new RuboCop offenses may be introduced — all code must pass `bin/rubocop` with zero offenses.**
 - **Security:** Run `bin/brakeman` before committing.
+- **CSS:** **No inline styles.** Always use CSS classes or IDs defined in stylesheets. Never use `style="..."` attributes in ERB views or helpers.
+- **No API responses:** The API is out of scope. **Do not include Jbuilder templates, `respond_to :json`, `render json:`, or any JSON API endpoints.** Controllers should only serve HTML views.
 - **Service objects:** Business logic (especially the suggestion engine) goes in `app/services/`, not in controllers or models.
 
 ---

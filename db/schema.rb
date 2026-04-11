@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_06_105253) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_29_134613) do
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -22,6 +22,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_06_105253) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_ingredients_on_name", unique: true
@@ -31,6 +32,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_06_105253) do
     t.string "name", null: false
     t.integer "restriction_type", null: false
     t.text "description"
+    t.string "bg_color"
+    t.text "icon_svg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_restrictions_on_name", unique: true

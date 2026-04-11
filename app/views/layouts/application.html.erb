@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Serf App" %></title>
+    <title><%= content_for(:title) || t("app_name") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -10,21 +10,21 @@
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="<%= image_path('logos/Recurso 5.svg') %>" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="<%= image_path('logos/Recurso 5.svg') %>">
+    <link rel="icon" href="<%= image_path('logos/IconoRojo.svg') %>" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="<%= image_path('logos/IconoRojo.svg') %>">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="app-body">
+  <body class="layout-with-sidebar">
     <%= render "layouts/sidebar" %>
 
-    <main class="main-content">
+    <main class="page-content-with-sidebar">
       <% if notice.present? %>
-        <div class="flash flash--notice"><%= notice %></div>
+        <div class="alert-success"><%= notice %></div>
       <% end %>
       <% if alert.present? %>
-        <div class="flash flash--alert"><%= alert %></div>
+        <div class="alert-error"><%= alert %></div>
       <% end %>
 
       <%= yield %>

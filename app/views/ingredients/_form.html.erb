@@ -14,6 +14,10 @@
     <%= f.text_field :name, class: "form-input" %>
   </div>
 
+  <div class="form-group">
+    <%= f.label :description, t("ingredients.form.description"), class: "form-label" %>
+    <%= f.text_area :description, class: "form-input" %>
+  </div>
 
   <fieldset class="form-fieldset">
     <legend class="form-legend"><%= t("ingredients.form.restrictions") %></legend>
@@ -47,4 +51,3 @@
     <%= f.submit ingredient.persisted? ? t("ingredients.form.submit_update") : t("ingredients.form.submit_create"), class: "btn btn--primary" %>
   </div>
 <% end %>
-
