@@ -1,24 +1,115 @@
 {
   "ignored_warnings": [
     {
-      "fingerprint": "edf687f759ec9765bd5db185dbc615c80af77d6e7e19386fc42934e7a80307af",
-      "warning_type": "Unmaintained Dependency",
-      "check_name": "EOLRuby",
-      "message": "Support for Ruby 3.1.2 ended on 2025-03-31",
-      "file": ".ruby-version",
-      "line": 1,
-      "note": "University project pinned to Ruby 3.1.2 - We don't want to update for now"
-    },
-    {
-      "fingerprint": "1454b1942b88f6f9e3aca5c0bf0134a4ba802ebed8e3d052cd1d6bbfb0b50d54",
       "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "1454b1942b88f6f9e3aca5c0bf0134a4ba802ebed8e3d052cd1d6bbfb0b50d54",
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/users_controller.rb",
       "line": 56,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:username, :role, :password, :password_confirmation)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
       "note": "Controller is guarded by require_admin! - only admin users can access this endpoint"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "a9cb08a36a31701265e9f6715a9a84dac4dd1f9018ab888249c43010f61c9fc4",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/restrictions/show.html.erb",
+      "line": 6,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Restriction.find(params[:id]).icon_svg",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "RestrictionsController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/restrictions_controller.rb",
+          "rendered": {
+            "name": "restrictions/show",
+            "file": "app/views/restrictions/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "restrictions/show"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "eb092908e23cc4503cfdbfd87e1db44d4432dc7c8f95040a44d3c5fba128f710",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/restrictions/index.html.erb",
+      "line": 19,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "Restriction.new.icon_svg",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "RestrictionsController",
+          "method": "index",
+          "line": 8,
+          "file": "app/controllers/restrictions_controller.rb",
+          "rendered": {
+            "name": "restrictions/index",
+            "file": "app/views/restrictions/index.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "restrictions/index"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 121,
+      "fingerprint": "edf687f759ec9765bd5db185dbc615c80af77d6e7e19386fc42934e7a80307af",
+      "check_name": "EOLRuby",
+      "message": "Support for Ruby 3.1.2 ended on 2025-03-31",
+      "file": ".ruby-version",
+      "line": 1,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "cwe_id": [
+        1104
+      ],
+      "note": "University project pinned to Ruby 3.1.2 - We don't want to update for now"
     }
   ],
-  "updated": "2026-04-04",
-  "brakeman_version": "7.1.1"
+  "brakeman_version": "8.0.4"
 }
