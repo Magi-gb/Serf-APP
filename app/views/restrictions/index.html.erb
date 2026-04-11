@@ -16,7 +16,7 @@
         <%= link_to restriction_path(restriction), class: "restriction-bubble" do %>
           <div class="restriction-icon" style="background-color: <%= restriction.bg_color.presence || '#7bc143' %>">
             <% if restriction.icon_svg.present? %>
-              <%= restriction.icon_svg.html_safe %>
+              <%= raw restriction.icon_svg %>
             <% else %>
               <span><%= restriction.name[0..2].upcase %></span>
             <% end %>
