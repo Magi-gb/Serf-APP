@@ -239,11 +239,11 @@ select:focus {
     padding-top: 0;
     padding-left: 0;
     font-family: var(--font-general);
-    font-size: 1.5rem;
+    font-size: 1.15rem;
 }
 
 .sidenav-logo {
-    padding: 4vh 2vw 4vh;
+    padding: 2.5rem 1rem 1.5rem;
     text-align: center;
     list-style: none;
 }
@@ -258,7 +258,7 @@ select:focus {
 .sidenav li a {
     display: block;
     color: var(--color-text-white);
-    padding: 1vw 4vw;
+    padding: 0.8rem 2.5rem;
     text-decoration: none;
 }
 
@@ -273,8 +273,8 @@ select:focus {
     display: block;
     background-color: var(--color-bg);
     color: var(--color-accent-blue);
-    padding: 0.8rem 1rem;
-    margin: 1rem 2rem;
+    padding: 0.7rem 1rem;
+    margin: 0.5rem 1.5rem 1.5rem;
     border-radius: 20px;
     text-align: center;
     font-weight: bold;
@@ -310,7 +310,7 @@ select:focus {
     background-color: var(--color-accent-yellow);
     color: var(--color-accent-red);
     padding: 0.8rem 1rem;
-    margin: 0 2rem;
+    margin: 0 1.5rem;
     border-radius: 20px;
     text-align: center;
     font-weight: bold;
