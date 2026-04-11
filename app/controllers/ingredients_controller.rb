@@ -1,5 +1,6 @@
 class IngredientsController < ApplicationController
   before_action :set_ingredient, only: [:show, :edit, :update, :destroy]
+  before_action :require_kitchen_manager_or_above!, except: %i[index show]
 
   def index
     @ingredients = Ingredient.all
@@ -15,7 +16,7 @@ class IngredientsController < ApplicationController
   def create
     @ingredient = Ingredient.new(ingredient_params)
     if @ingredient.save
-      redirect_to @ingredient, notice: "Ingredient created successfully."
+      redirect_to @ingredient, notice: t("ingredients.messages.created_success")
     else
       render :new
     end
@@ -26,7 +27,7 @@ class IngredientsController < ApplicationController
 
   def update
     if @ingredient.update(ingredient_params)
-      redirect_to @ingredient, notice: "Ingredient updated successfully."
+      redirect_to @ingredient, notice: t("ingredients.messages.updated_success")
     else
       render :edit
     end
@@ -34,7 +35,7 @@ class IngredientsController < ApplicationController
 
   def destroy
     @ingredient.destroy
-    redirect_to ingredients_path, notice: "Ingredient deleted."
+    redirect_to ingredients_path, notice: t("ingredients.messages.destroyed_success")
   end
 
   private
@@ -44,7 +45,7 @@ class IngredientsController < ApplicationController
   end
 
   def ingredient_params
-    params.require(:ingredient).permit(:name, :description, restriccio_ids: [])
+    params.require(:ingredient).permit(:name, :description, restriction_ids: [])
   end
 end
 

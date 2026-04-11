@@ -21,6 +21,9 @@ en:
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
   errors:
+    form_header:
+      one: '1 error prevented saving:'
+      other: "%{count} errors prevented saving:"
     messages:
       blank: can't be blank
       confirmation: doesn't match
@@ -39,6 +42,11 @@ en:
   home:
     index:
       title: Serf
+  ingredients:
+    messages:
+      created_success: Ingredient created successfully.
+      destroyed_success: Ingredient deleted successfully.
+      updated_success: Ingredient updated successfully.
   layouts:
     login:
       title: Serf — Sign in
@@ -120,6 +128,7 @@ en:
     index:
       new_user: New user
       no_users: No users found.
+      search_alt: Search
       search_placeholder: Search a user
       title: Staff
     new:

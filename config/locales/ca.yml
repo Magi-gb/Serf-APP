@@ -21,6 +21,9 @@ ca:
       signed_in: Sessió iniciada correctament.
       signed_out: Sessió tancada correctament.
   errors:
+    form_header:
+      one: '1 error ha impedit guardar:'
+      other: "%{count} errors han impedit guardar:"
     messages:
       blank: no pot estar en blanc
       confirmation: no coincideix
@@ -39,6 +42,11 @@ ca:
   home:
     index:
       title: Serf
+  ingredients:
+    messages:
+      created_success: Ingredient creat correctament.
+      destroyed_success: Ingredient eliminat correctament.
+      updated_success: Ingredient actualitzat correctament.
   layouts:
     login:
       title: Serf — Inicia la sessió
@@ -120,6 +128,7 @@ ca:
     index:
       new_user: Nou usuari
       no_users: No s'han trobat usuaris.
+      search_alt: Cercar
       search_placeholder: Cerca un usuari
       title: Personal
     new:
