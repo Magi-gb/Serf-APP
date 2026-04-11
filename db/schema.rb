@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_28_173734) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_29_140613) do
   create_table "ingredient_restriccios", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriccio_id", null: false
@@ -32,6 +32,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_28_173734) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "restrictions", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "bg_color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "icon_svg"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,5 +1,10 @@
 ---
 en:
+  activerecord:
+    attributes:
+      user:
+        password: Password
+        password_confirmation: Confirm password
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.
@@ -18,6 +23,7 @@ en:
   errors:
     messages:
       blank: can't be blank
+      confirmation: doesn't match
       invalid: is invalid
       not_a_number: is not a number
       taken: has already been taken
@@ -51,6 +57,32 @@ en:
     update:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
+  restrictions:
+    edit:
+      title: " "
+    form:
+      bg_color: " "
+      cancel: " "
+      description: " "
+      icon_svg: " "
+      name: " "
+      submit: " "
+    index:
+      empty: " "
+      title: " "
+    messages:
+      created_success: " "
+      destroyed_success: " "
+      updated_success: " "
+    new:
+      title: " "
+    show:
+      back: " "
+      confirm_delete: " "
+      delete: " "
+      description_title: " "
+      edit: " "
+      no_description: " "
   sessions:
     new:
       password_placeholder: Password
@@ -58,10 +90,17 @@ en:
       title: Sign in
       username_placeholder: User ID
   sidebar:
+    alternatives: " "
+    emergencies: " "
+    glossary: " "
     logout: Sign out
+    menu: " "
+    new_restriction: " "
     personal: Staff
     placeholder: Placeholder
     profile: My profile
+    protocols: " "
+    restrictions: " "
   users:
     create:
       success: User created successfully.
@@ -79,9 +118,9 @@ en:
       submit_update: Save changes
       username: Username
     index:
-      new_user: New user!
+      new_user: New user
       no_users: No users found.
-      search_placeholder: Search a user!
+      search_placeholder: Search a user
       title: Staff
     new:
       title: New user

@@ -54,6 +54,20 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
   end
 
+  test "invalid when password confirmation does not match on create" do
+    user = User.new(username: "testuser", password: "password", password_confirmation: "different", role: :waiter)
+    assert_not user.valid?
+    assert user.errors.added?(:password_confirmation, :confirmation, attribute: "Contrasenya")
+  end
+
+  test "invalid when password confirmation does not match on update" do
+    user = users(:waiter)
+    user.password = "newpassword"
+    user.password_confirmation = "mismatch"
+    assert_not user.valid?
+    assert user.errors.added?(:password_confirmation, :confirmation, attribute: "Contrasenya")
+  end
+
   test "persisted user validates password if provided" do
     user = users(:waiter)
     user.password = "short"

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
+  resources :restrictions
 
   root "home#index"
 end

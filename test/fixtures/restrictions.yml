@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Gluten
+  description: Conté gluten (blat, sègol, ordi, civada)
+  bg_color: "#E8A838"
+
+two:
+  name: Lactosa
+  description: Conté lactosa (llet i derivats)
+  bg_color: "#5E78E6"
