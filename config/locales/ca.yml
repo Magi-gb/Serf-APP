@@ -1,11 +1,10 @@
-# config/locales/ca.yml
 ---
 ca:
   activerecord:
     attributes:
       user:
-        password: "Contrasenya"
-        password_confirmation: "Confirmar contrasenya"
+        password: Contrasenya
+        password_confirmation: Confirmar contrasenya
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
@@ -24,7 +23,7 @@ ca:
   errors:
     messages:
       blank: no pot estar en blanc
-      confirmation: no coincideix
+      confirmation: no coincideix %{attribute}
       invalid: no és vàlid
       not_a_number: no és un número
       taken: ja està en ús
