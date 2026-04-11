@@ -29,6 +29,7 @@ ca:
       confirmation: no coincideix
       invalid: no és vàlid
       not_a_number: no és un número
+      record_invalid: Registre no vàlid
       taken: ja està en ús
       too_long:
         one: és massa llarg (màxim 1 caràcter)
@@ -41,23 +42,61 @@ ca:
     notice: notice
   home:
     index:
+      add_ingredient: Afegir ingredient
+      add_restriction: Afegir restricció
+      add_user: Afegir usuari
+      ingredients_description: Crea i gestiona els ingredients del restaurant amb les seves restriccions alimentàries.
+      ingredients_management: Gestió d'Ingredients
+      manage_ingredients: Gestionar ingredients
+      manage_restrictions: Gestionar restriccions
+      manage_users: Gestionar usuaris
+      restrictions_description: Gestiona les restriccions alimentàries i religioses del sistema.
+      restrictions_management: Gestió de Restriccions
       title: Serf
+      user_management: Gestió d'Usuaris
+      users_description: Administra els usuaris del sistema.
+      waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
+      waiter_features: Funcionalitats del Cambrer
+      welcome: Benvingut, %{username}!
   ingredients:
+    create:
+      success: Ingredient creat correctament.
+    delete:
+      action: Acció
+      back: Tornar a ingredients
+      confirm_delete: Segur que vols eliminar aquest ingredient?
+      delete: Eliminar
+      no_ingredients: No hi ha ingredients per eliminar.
+      title: Eliminar ingredients
+    destroy:
+      success: Ingredient eliminat correctament.
     edit:
       title: Editar ingredient
     form:
       description: Descripció
-      name: Nom
+      intolerance_allergies: Intoleràncies i al·lèrgies
+      name: Nom de l'ingredient
+      religious_restrictions: Restriccions religioses
+      restrictions: Restriccions alimentàries
       submit_create: Crear ingredient
-      submit_update: Actualitzar ingredient
+      submit_update: Desar canvis
     index:
+      new_ingredient: "+ Nou ingredient"
+      no_ingredients: No s'han trobat ingredients.
+      no_restrictions: Cap restricció
+      search_placeholder: Cerca un ingredient
       title: Ingredients
-    messages:
-      created_success: Ingredient creat correctament.
-      destroyed_success: Ingredient eliminat correctament.
-      updated_success: Ingredient actualitzat correctament.
     new:
       title: Nou ingredient
+    show:
+      back: Tornar
+      confirm_delete: Segur que vols eliminar aquest ingredient?
+      delete: Eliminar
+      edit: Editar dades
+      no_restrictions: Cap restricció alimentària associada
+      restrictions: Restriccions alimentàries
+    update:
+      success: Ingredient actualitzat correctament.
   layouts:
     login:
       title: Serf — Inicia la sessió
@@ -85,6 +124,7 @@ ca:
       description: Descripció detallada
       icon_svg: Icona (codi SVG)
       name: Nom de la restricció
+      restriction_type: Tipus de restricció
       submit: Guardar restricció
     index:
       empty: Encara no hi ha restriccions guardades.
@@ -102,6 +142,10 @@ ca:
       description_title: Descripció de la restricció
       edit: Editar
       no_description: Sense descripció addicional.
+      restriction_type: Tipus
+    types:
+      intolerance_allergy: Intolerància/Al·lèrgia
+      religious: Religiosa
   sessions:
     new:
       password_placeholder: Contrassenya
@@ -109,9 +153,12 @@ ca:
       title: Inicia la sessió
       username_placeholder: ID d'usuari
   sidebar:
+    add_ingredient: Afegir ingredient
     alternatives: Alternatives freqüents
+    dashboard: Inici
     emergencies: Emergències
     glossary: Glossari
+    ingredients: Ingredients
     logout: Tancar sessió
     menu: Menú
     new_restriction: "+ Nova restricció"
@@ -119,7 +166,8 @@ ca:
     placeholder: Placeholder
     profile: El meu perfil
     protocols: Protocols
-    restrictions: Filtrar restriccions
+    remove_ingredient: Eliminar ingredients
+    restrictions: Restriccions
   users:
     create:
       success: Usuari creat correctament.

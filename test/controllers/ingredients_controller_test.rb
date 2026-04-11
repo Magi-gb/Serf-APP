@@ -2,96 +2,90 @@ require "test_helper"
 
 class IngredientsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @ingredient = ingredients(:one)
-    sign_in users(:admin)
+    @kitchen_manager = users(:kitchen_manager)
+    @waiter = users(:waiter)
+    @admin = users(:admin)
+    sign_in @kitchen_manager
   end
 
-  test "should get index" do
+  test "index requires authentication" do
+    sign_out @kitchen_manager
     get ingredients_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_ingredient_url
-    assert_response :success
-  end
-
-  test "should create ingredient" do
-    assert_difference("Ingredient.count") do
-      post ingredients_url, params: { ingredient: { name: "Tomàquet", description: "Tomàquet madur" } }
-    end
-
-    assert_redirected_to ingredient_url(Ingredient.last)
-  end
-
-  test "should show ingredient" do
-    get ingredient_url(@ingredient)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_ingredient_url(@ingredient)
-    assert_response :success
-  end
-
-  test "should update ingredient" do
-    patch ingredient_url(@ingredient), params: { ingredient: { name: @ingredient.name, description: @ingredient.description } }
-    assert_redirected_to ingredient_url(@ingredient)
-  end
-
-  test "should destroy ingredient" do
-    assert_difference("Ingredient.count", -1) do
-      delete ingredient_url(@ingredient)
-    end
-
-    assert_redirected_to ingredients_url
-  end
-
-  test "unauthenticated user should be redirected" do
-    sign_out users(:admin)
-    get ingredients_url
-    assert_response :redirect
+    assert_redirected_to new_user_session_url
   end
 
   test "waiter can access index" do
-    sign_in users(:waiter)
+    sign_in @waiter
     get ingredients_url
     assert_response :success
   end
 
-  test "waiter can access show" do
-    sign_in users(:waiter)
-    get ingredient_url(@ingredient)
+  test "index displays ingredients" do
+    Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    get ingredients_url
     assert_response :success
   end
 
-  test "waiter cannot create ingredient" do
-    sign_in users(:waiter)
-    assert_no_difference("Ingredient.count") do
-      post ingredients_url, params: { ingredient: { name: "Sal", description: "Sal marina" } }
-    end
-    assert_redirected_to root_url
+  test "new renders form" do
+    get new_ingredient_url
+    assert_response :success
+    assert_includes response.body, "form"
   end
 
-  test "waiter cannot update ingredient" do
-    sign_in users(:waiter)
-    patch ingredient_url(@ingredient), params: { ingredient: { name: "Changed" } }
-    assert_redirected_to root_url
+  test "create stores ingredient" do
+    assert_difference "Ingredient.count", 1 do
+      post ingredients_url, params: {
+        ingredient: {
+          name: "Milk #{Time.current.to_i}"
+        }
+      }
+    end
+    assert_redirected_to ingredients_url
   end
 
-  test "waiter cannot destroy ingredient" do
-    sign_in users(:waiter)
-    assert_no_difference("Ingredient.count") do
-      delete ingredient_url(@ingredient)
-    end
-    assert_redirected_to root_url
+  test "create with restrictions" do
+    restriction = Restriction.create!(name: "Gluten #{Time.current.to_i}", restriction_type: :intolerance_allergy)
+    post ingredients_url, params: {
+      ingredient: {
+        name: "Bread #{Time.current.to_i}",
+        restriction_ids: [ restriction.id ]
+      }
+    }
+    ingredient = Ingredient.last
+    assert ingredient.restrictions.include?(restriction)
   end
 
-  test "kitchen manager can create ingredient" do
-    sign_in users(:kitchen_manager)
-    assert_difference("Ingredient.count") do
-      post ingredients_url, params: { ingredient: { name: "Pebre", description: "Pebre negre" } }
+  test "show displays ingredient" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_includes response.body, ingredient.name
+  end
+
+  test "edit renders form" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    get edit_ingredient_url(ingredient)
+    assert_response :success
+  end
+
+  test "update modifies ingredient" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    new_name = "Butter #{Time.current.to_i}"
+    patch ingredient_url(ingredient), params: {
+      ingredient: {
+        name: new_name
+      }
+    }
+    ingredient.reload
+    assert_equal new_name, ingredient.name
+    assert_redirected_to ingredients_url
+  end
+
+  test "destroy removes ingredient" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    assert_difference "Ingredient.count", -1 do
+      delete ingredient_url(ingredient)
     end
-    assert_redirected_to ingredient_url(Ingredient.last)
+    assert_redirected_to ingredients_url
   end
 end

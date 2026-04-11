@@ -3,9 +3,9 @@ require "test_helper"
 class PostLoginRedirectTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
-  test "admin logs in and lands on users index" do
+  test "admin logs in and lands on dashboard" do
     post user_session_path, params: { user: { username: "admin", password: "password" } }
-    assert_redirected_to users_path
+    assert_redirected_to root_path
   end
 
   test "waiter logs in and lands on root" do

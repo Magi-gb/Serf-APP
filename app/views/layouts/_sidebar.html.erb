@@ -3,15 +3,23 @@
     <%= image_tag "logos/LogoHorBl.svg", alt: "Serf" %>
   </li>
 
+  <li class="<%= "sidenav-active" if controller_name == "home" %>">
+    <%= link_to t("sidebar.dashboard"), root_path %>
+  </li>
+
+  <li class="<%= "sidenav-active" if controller_name == "ingredients" %>">
+    <%= link_to t("sidebar.ingredients"), ingredients_path %>
+  </li>
+
+  <li class="<%= "sidenav-active" if controller_name == "restrictions" %>">
+    <%= link_to t("sidebar.restrictions"), restrictions_path %>
+  </li>
+
   <% if current_user.admin? %>
     <li class="<%= "sidenav-active" if controller_name == "users" %>">
       <%= link_to t("sidebar.personal"), users_path %>
     </li>
   <% end %>
-
-  <li class="<%= "sidenav-active" if controller_name == "restrictions" %>">
-    <%= link_to t("sidebar.restrictions"), restrictions_path %>
-  </li>
 
   <li class="<%= "sidenav-active" if controller_name == "profiles" %>">
     <%= link_to t("sidebar.profile"), profile_path %>

@@ -1,44 +1,45 @@
 require "test_helper"
 
 class IngredientTest < ActiveSupport::TestCase
-  test "has many restrictions through ingredient_restrictions" do
-    ingredient = ingredients(:one)
-    assert_respond_to ingredient, :restrictions
-    assert_respond_to ingredient, :ingredient_restrictions
+  test "creates an ingredient with valid attributes" do
+    ingredient = Ingredient.new(name: "Milk #{Time.current.to_i}")
+    assert ingredient.valid?
   end
 
-  test "fixture ingredient has associated restriction" do
-    ingredient = ingredients(:one)
-    assert_includes ingredient.restrictions, restrictions(:one)
+  test "validates presence of name" do
+    ingredient = Ingredient.new
+    assert_not ingredient.valid?
+    assert ingredient.errors[:name].any?
+  end
+
+  test "validates uniqueness of name" do
+    unique_name = "Milk #{Time.current.to_i}"
+    Ingredient.create!(name: unique_name)
+    ingredient = Ingredient.new(name: unique_name)
+    assert_not ingredient.valid?
+    assert ingredient.errors[:name].any?
+  end
+
+  test "has_many ingredient_restrictions association" do
+    assert Ingredient.new.respond_to?(:ingredient_restrictions)
+  end
+
+  test "has_many restrictions association through ingredient_restrictions" do
+    assert Ingredient.new.respond_to?(:restrictions)
   end
 
   test "destroying ingredient destroys associated ingredient_restrictions" do
-    ingredient = ingredients(:one)
+    ingredient = ingredients(:bread)
     assert_difference("IngredientRestriction.count", -1) do
       ingredient.destroy
     end
   end
 
-  test "is valid with name and description" do
-    ingredient = Ingredient.new(name: "Sal", description: "Sal marina")
-    assert ingredient.valid?
-  end
+  test "search scope returns matching ingredients" do
+    milk = Ingredient.create!(name: "Milk Test #{Time.current.to_i}")
+    butter = Ingredient.create!(name: "Butter Test #{Time.current.to_i}")
 
-  test "is invalid without name" do
-    ingredient = Ingredient.new(description: "Some description")
-    assert_not ingredient.valid?
-    assert_includes ingredient.errors[:name], I18n.t("errors.messages.blank")
-  end
-
-  test "is invalid without description" do
-    ingredient = Ingredient.new(name: "Sal")
-    assert_not ingredient.valid?
-    assert_includes ingredient.errors[:description], I18n.t("errors.messages.blank")
-  end
-
-  test "is invalid with duplicate name" do
-    ingredient = Ingredient.new(name: ingredients(:one).name, description: "Another flour")
-    assert_not ingredient.valid?
-    assert_includes ingredient.errors[:name], I18n.t("errors.messages.taken")
+    assert_equal 1, Ingredient.search(milk.name).count
+    assert Ingredient.search("Cheese").empty?
   end
 end

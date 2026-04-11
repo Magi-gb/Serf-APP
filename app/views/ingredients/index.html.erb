@@ -1,1 +1,37 @@
-<h1><%= t("ingredients.index.title") %></h1>
+<% content_for :title, t("ingredients.index.title") %>
+
+<div class="page-card">
+  <div class="page-header">
+    <h1><%= t("ingredients.index.title") %></h1>
+  </div>
+
+  <div class="index-toolbar">
+    <%= render "shared/search_bar", url: ingredients_path, placeholder: t("ingredients.index.search_placeholder") %>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("ingredients.index.new_ingredient"), new_ingredient_path, class: "btn-pill btn-pill-primary" %>
+    <% end %>
+  </div>
+
+  <div class="list-card-group">
+    <% if @ingredients.any? %>
+      <% @ingredients.each do |ingredient| %>
+        <%= link_to ingredient_path(ingredient), class: "list-card" do %>
+          <div class="list-card-info">
+            <span class="list-card-title"><%= ingredient.name %></span>
+            <div class="badge-list">
+              <% if ingredient.restrictions.any? %>
+                <% ingredient.restrictions.each do |restriction| %>
+                  <span class="badge badge-<%= restriction.restriction_type %>"><%= restriction.name %></span>
+                <% end %>
+              <% else %>
+                <span class="list-card-subtitle"><%= t("ingredients.index.no_restrictions") %></span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="empty-state"><%= t("ingredients.index.no_ingredients") %></p>
+    <% end %>
+  </div>
+</div>

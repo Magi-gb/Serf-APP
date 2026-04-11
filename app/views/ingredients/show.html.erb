@@ -1,1 +1,35 @@
-<h1><%= @ingredient.name %></h1>
+<div class="page-card">
+  <div class="detail-header">
+    <h1><%= @ingredient.name %></h1>
+  </div>
+
+  <% if @ingredient.description.present? %>
+    <div class="desc-box">
+      <h3><%= t("ingredients.form.description") %></h3>
+      <p class="desc-text"><%= @ingredient.description %></p>
+    </div>
+  <% end %>
+
+  <div class="desc-box">
+    <h3><%= t("ingredients.show.restrictions") %></h3>
+    <% if @ingredient.restrictions.any? %>
+      <div class="badge-list">
+        <% @ingredient.restrictions.each do |restriction| %>
+          <span class="badge badge-<%= restriction.restriction_type %>">
+            <%= restriction.name %>
+          </span>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="empty-state"><%= t("ingredients.show.no_restrictions") %></p>
+    <% end %>
+  </div>
+
+  <div class="detail-actions">
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("ingredients.show.edit"), edit_ingredient_path(@ingredient), class: "btn-primary" %>
+      <%= button_to t("ingredients.show.delete"), @ingredient, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("ingredients.show.confirm_delete") } } %>
+    <% end %>
+    <%= link_to t("ingredients.show.back"), ingredients_path, class: "btn-secondary" %>
+  </div>
+</div>

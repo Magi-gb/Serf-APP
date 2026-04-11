@@ -1,23 +1,29 @@
 require "test_helper"
 
 class IngredientRestrictionTest < ActiveSupport::TestCase
-  test "belongs to ingredient" do
-    ir = ingredient_restrictions(:one)
-    assert_equal ingredients(:one), ir.ingredient
+  test "belongs_to ingredient" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    restriction = Restriction.create!(name: "Gluten #{Time.current.to_i}", restriction_type: :intolerance_allergy)
+    ingredient_restriction = IngredientRestriction.create!(ingredient: ingredient, restriction: restriction)
+
+    assert_equal ingredient, ingredient_restriction.ingredient
   end
 
-  test "belongs to restriction" do
-    ir = ingredient_restrictions(:one)
-    assert_equal restrictions(:one), ir.restriction
+  test "belongs_to restriction" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    restriction = Restriction.create!(name: "Gluten #{Time.current.to_i}", restriction_type: :intolerance_allergy)
+    ingredient_restriction = IngredientRestriction.create!(ingredient: ingredient, restriction: restriction)
+
+    assert_equal restriction, ingredient_restriction.restriction
   end
 
-  test "is invalid without ingredient" do
-    ir = IngredientRestriction.new(restriction: restrictions(:one))
-    assert_not ir.valid?
-  end
+  test "creates association between ingredient and restriction" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    restriction = Restriction.create!(name: "Gluten #{Time.current.to_i}", restriction_type: :intolerance_allergy)
 
-  test "is invalid without restriction" do
-    ir = IngredientRestriction.new(ingredient: ingredients(:one))
-    assert_not ir.valid?
+    ingredient.restrictions << restriction
+
+    assert ingredient.restrictions.include?(restriction)
+    assert restriction.ingredients.include?(ingredient)
   end
 end

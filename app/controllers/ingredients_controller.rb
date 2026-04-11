@@ -3,7 +3,7 @@ class IngredientsController < ApplicationController
   before_action :require_kitchen_manager_or_above!, except: %i[index show]
 
   def index
-    @ingredients = Ingredient.all
+    @ingredients = Ingredient.search(params[:search]).order(:name)
   end
 
   def show
@@ -11,31 +11,36 @@ class IngredientsController < ApplicationController
 
   def new
     @ingredient = Ingredient.new
+    @restrictions = Restriction.order(:name)
   end
 
   def create
     @ingredient = Ingredient.new(ingredient_params)
+
     if @ingredient.save
-      redirect_to @ingredient, notice: t("ingredients.messages.created_success")
+      redirect_to ingredients_path, notice: t("ingredients.create.success")
     else
-      render :new
+      @restrictions = Restriction.order(:name)
+      render :new, status: :unprocessable_entity
     end
   end
 
   def edit
+    @restrictions = Restriction.order(:name)
   end
 
   def update
     if @ingredient.update(ingredient_params)
-      redirect_to @ingredient, notice: t("ingredients.messages.updated_success")
+      redirect_to ingredients_path, notice: t("ingredients.update.success")
     else
-      render :edit
+      @restrictions = Restriction.order(:name)
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @ingredient.destroy
-    redirect_to ingredients_path, notice: t("ingredients.messages.destroyed_success")
+    redirect_to ingredients_path, notice: t("ingredients.destroy.success")
   end
 
   private

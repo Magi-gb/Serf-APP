@@ -1,11 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+gluten:
   name: Gluten
-  description: Conté gluten (blat, sègol, ordi, civada)
+  restriction_type: 0
+  description: Contains gluten
   bg_color: "#E8A838"
 
-two:
-  name: Lactosa
-  description: Conté lactosa (llet i derivats)
+kosher:
+  name: Kosher
+  restriction_type: 1
+  description: Kosher requirements
   bg_color: "#5E78E6"

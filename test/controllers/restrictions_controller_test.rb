@@ -2,7 +2,7 @@ require "test_helper"
 
 class RestrictionsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @restriction = restrictions(:one)
+    @restriction = restrictions(:gluten)
     sign_in users(:admin)
   end
 
@@ -18,7 +18,7 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create restriction" do
     assert_difference("Restriction.count") do
-      post restrictions_url, params: { restriction: { bg_color: @restriction.bg_color, description: @restriction.description, name: "Ou" } }
+      post restrictions_url, params: { restriction: { name: "Ou", description: "Conté ou", restriction_type: :intolerance_allergy } }
     end
 
     assert_redirected_to restriction_url(Restriction.last)
@@ -35,7 +35,7 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update restriction" do
-    patch restriction_url(@restriction), params: { restriction: { bg_color: @restriction.bg_color, description: @restriction.description, name: @restriction.name } }
+    patch restriction_url(@restriction), params: { restriction: { description: @restriction.description, name: @restriction.name } }
     assert_redirected_to restriction_url(@restriction)
   end
 

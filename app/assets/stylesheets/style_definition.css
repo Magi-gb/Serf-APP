@@ -591,11 +591,15 @@ input:focus {
 .form-control {
     width: 100%;
     padding: 0.8rem;
+    margin: 0;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 1rem;
     box-sizing: border-box;
     font-family: var(--font-general);
+    font-weight: normal;
+    color: var(--color-text);
+    background-color: white;
 }
 
 .form-color-picker {
@@ -803,6 +807,81 @@ input:focus {
     font-family: var(--font-general);
     text-align: center;
     word-wrap: break-word;
+}
+
+/* Badges (restriction types) */
+
+.badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.badge.badge-intolerance_allergy {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.badge.badge-religious {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Formularis: fieldset i checkboxes */
+
+.form-fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.form-fieldset legend {
+    font-weight: 600;
+    padding: 0 0.5rem;
+}
+
+.form-fieldset h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    margin: 1rem 0 0.75rem 0;
+}
+
+.form-fieldset h4:first-of-type {
+    margin-top: 0;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.5rem;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.checkbox-item input[type="checkbox"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
 }
 
 /* ======================== */

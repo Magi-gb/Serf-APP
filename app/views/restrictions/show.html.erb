@@ -8,6 +8,9 @@
       <% end %>
     </div>
     <h1><%= @restriction.name %></h1>
+    <span class="badge badge-<%= @restriction.restriction_type %>">
+      <%= t("restrictions.types.#{@restriction.restriction_type}") %>
+    </span>
   </div>
 
   <div class="desc-box">
