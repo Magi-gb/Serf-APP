@@ -117,31 +117,31 @@ en:
       success: Password updated successfully.
   restrictions:
     edit:
-      title: " "
+      title: Edit Restriction
     form:
-      bg_color: " "
-      cancel: " "
-      description: " "
-      icon_svg: " "
-      name: " "
+      bg_color: Background colour
+      cancel: Cancel
+      description: Detailed description
+      icon_svg: Icon (SVG code)
+      name: Restriction name
       restriction_type: Restriction type
-      submit: " "
+      submit: Save restriction
     index:
-      empty: " "
-      title: " "
+      empty: No restrictions saved yet.
+      title: Restrictions
     messages:
-      created_success: " "
-      destroyed_success: " "
-      updated_success: " "
+      created_success: Restriction created successfully.
+      destroyed_success: Restriction deleted successfully.
+      updated_success: Restriction updated successfully.
     new:
-      title: " "
+      title: Create New Restriction
     show:
-      back: " "
-      confirm_delete: " "
-      delete: " "
-      description_title: " "
-      edit: " "
-      no_description: " "
+      back: Back
+      confirm_delete: Are you sure you want to delete this restriction?
+      delete: Delete Restriction
+      description_title: Restriction description
+      edit: Edit
+      no_description: No additional description.
       restriction_type: Type
     types:
       intolerance_allergy: Intolerance/Allergy
@@ -154,20 +154,20 @@ en:
       username_placeholder: User ID
   sidebar:
     add_ingredient: Add ingredient
-    alternatives: " "
+    alternatives: Common alternatives
     dashboard: Home
-    emergencies: " "
-    glossary: " "
+    emergencies: Emergencies
+    glossary: Glossary
     ingredients: Ingredients
     logout: Sign out
-    menu: " "
-    new_restriction: " "
+    menu: Menu
+    new_restriction: "+ New restriction"
     personal: Staff
     placeholder: Placeholder
     profile: My profile
-    protocols: " "
+    protocols: Protocols
     remove_ingredient: Delete ingredients
-    restrictions: " "
+    restrictions: Restrictions
   users:
     create:
       success: User created successfully.

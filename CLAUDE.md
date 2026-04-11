@@ -24,7 +24,7 @@
 | JS loading | importmap-rails (no bundler) |
 | CSS | Plain CSS via Sprockets |
 | Auth | Devise + RBAC (`Authorizable` concern) |
-| Testing | MiniTest + Capybara + Selenium (headless Chrome) |
+| Testing | MiniTest (unit, functional, integration) |
 | I18n QA | i18n-tasks (detect missing/unused keys) |
 | Security | Brakeman, RuboCop (rubocop-rails-omakase) |
 | Server | Puma (port 3000) |
@@ -124,13 +124,21 @@ What exists:
 
 - **Language:** Catalan in UI and commit messages. **All model names, column names, variable names, and code must be in English** (e.g., `Dish`, `Restriction`, `User`).
 - **I18n:** All user-facing strings must use Rails I18n (`t()` in views, `I18n.t()` in controllers/models). **No hardcoded text in views or flash messages.** Translations go in `config/locales/ca.yml`. Default locale is `:ca`. Use `i18n-tasks` to detect missing or unused translation keys (see tests in `test/i18n_test.rb` and config in `config/i18n-tasks.yml`).
-- **Testing:** MiniTest. **Every feature, model, controller, service object, and file must have corresponding tests.** No code is considered complete without tests. This includes: model validations and associations, controller actions (happy path + error cases), service object logic, integration/system tests for user-facing features, and helper methods. Aim for comprehensive coverage — untested code is unfinished code. **All features must include fixtures** (`test/fixtures/`) for tests **and seeds** (`db/seeds.rb`) for the development database.
+- **Testing:** MiniTest. **Every feature, model, controller, service object, and file must have corresponding tests.** No code is considered complete without tests. This includes: model validations and associations, controller actions (happy path + error cases), service object logic, integration tests, and helper methods. Aim for comprehensive coverage — untested code is unfinished code. **All features must include fixtures** (`test/fixtures/`) for tests **and seeds** (`db/seeds.rb`) for the development database. **Do NOT create system tests** (Capybara/Selenium). We do not use `test/system/` or `bin/rails test:system`. Test user-facing features through controller/integration tests instead.
 - **Definition of Done:** Implementation complete + **all tests written and passing** + no regressions + interface consistent with mockups + story marked Done in Taiga + relevant docs updated.
 - **Style:** RuboCop (rubocop-rails-omakase). Run `bin/rubocop` before committing. **No new RuboCop offenses may be introduced — all code must pass `bin/rubocop` with zero offenses.**
 - **Security:** Run `bin/brakeman` before committing.
-- **CSS:** **No inline styles.** Always use CSS classes or IDs defined in stylesheets. Never use `style="..."` attributes in ERB views or helpers.
+- **CSS:** **No inline styles.** Always use CSS classes or IDs defined in stylesheets. Never use `style="..."` attributes in ERB views or helpers. **Prefer existing classes and components** — avoid adding new styles whenever possible. If new styles are strictly necessary, ensure they are placed in the correct stylesheet section, follow the existing naming conventions, and are generic and reusable rather than one-off.
 - **No API responses:** The API is out of scope. **Do not include Jbuilder templates, `respond_to :json`, `render json:`, or any JSON API endpoints.** Controllers should only serve HTML views.
 - **Service objects:** Business logic (especially the suggestion engine) goes in `app/services/`, not in controllers or models.
+- **DRY (Don't Repeat Yourself):** Avoid duplicated code. Extract shared logic into helper methods, partials, modules, concerns, or service objects as appropriate. Before writing new code, check if similar functionality already exists in the codebase.
+- **Simplicity:** Keep code simple and clean. Do not implement speculative features or abstractions "just in case." If it's not needed now, don't build it. Do not leave dead code, unused files, empty generated files, or commented-out blocks in the codebase — delete them.
+- **Documentation:** All project documentation goes in `doc/`. Documentation intended only for LLM agents (implementation plans, context notes, etc.) goes in `doc/claude/`. Do not create documentation files in the project root or other directories.
+- **Scaffold cleanup:** After using `rails generate`, remove everything that is not needed: `.jbuilder` files, `respond_to` blocks with `format.json`, placeholder views (`create.html.erb`, `update.html.erb`), auto-generated GET routes that duplicate those from `resources`, and any other generated file that is not used.
+- **Authorization:** Controllers should apply `Authorizable` concern guards (`require_admin!`, `require_kitchen_manager_or_above!`, etc.) as appropriate. Evaluate which actions require restriction on a case-by-case basis.
+- **Model validations:** Every model must have the necessary validations to ensure data integrity. If a field is required, it must also have `null: false` in the migration. If a field must be unique, in addition to `validates :uniqueness` in the model, add an index with a `UNIQUE` constraint in the migration.
+- **REST conventions:** Use `resources` to define routes. Do not create manual routes that duplicate what `resources` already provides. Controller actions must follow standard HTTP verbs (GET, POST, PATCH, DELETE).
+- **`dependent: :destroy` on associations:** Every `has_many` relationship with a join table must declare `dependent: :destroy` to avoid orphaned records when the parent record is deleted.
 
 ---
 
