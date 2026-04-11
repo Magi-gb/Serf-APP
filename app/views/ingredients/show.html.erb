@@ -25,6 +25,6 @@
 
 <div class="ingredient-show__actions">
   <%= link_to t("ingredients.show.edit"), edit_ingredient_path(@ingredient), class: "btn btn--secondary" %>
-  <%= link_to t("ingredients.show.delete"), ingredient_path(@ingredient), method: :delete, data: { confirm: t("ingredients.show.confirm_delete") }, class: "btn btn--danger" %>
+  <%= button_to t("ingredients.show.delete"), @ingredient, method: :delete, class: "btn btn--danger", form: { data: { turbo_confirm: t("ingredients.show.confirm_delete") } } %>
   <%= link_to t("ingredients.show.back"), ingredients_path, class: "btn btn--outline" %>
 </div>

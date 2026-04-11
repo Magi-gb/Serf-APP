@@ -32,4 +32,11 @@ class RestrictionTest < ActiveSupport::TestCase
   test "has_many ingredients association through ingredient_restrictions" do
     assert Restriction.new.respond_to?(:ingredients)
   end
+
+  test "destroying restriction destroys associated ingredient_restrictions" do
+    restriction = restrictions(:gluten)
+    assert_difference("IngredientRestriction.count", -1) do
+      restriction.destroy
+    end
+  end
 end

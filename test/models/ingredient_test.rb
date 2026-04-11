@@ -28,6 +28,13 @@ class IngredientTest < ActiveSupport::TestCase
     assert Ingredient.new.respond_to?(:restrictions)
   end
 
+  test "destroying ingredient destroys associated ingredient_restrictions" do
+    ingredient = ingredients(:bread)
+    assert_difference("IngredientRestriction.count", -1) do
+      ingredient.destroy
+    end
+  end
+
   test "search scope returns matching ingredients" do
     milk = Ingredient.create!(name: "Milk Test #{Time.current.to_i}")
     butter = Ingredient.create!(name: "Butter Test #{Time.current.to_i}")

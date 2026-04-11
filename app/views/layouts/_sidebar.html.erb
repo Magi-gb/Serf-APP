@@ -1,33 +1,36 @@
-<nav class="sidebar">
-  <div class="sidebar__brand">
-    <%= image_tag "logos/IsologoBl.svg", alt: "Serf", class: "sidebar__logo" %>
-  </div>
+<ul class="sidenav">
+  <li class="sidenav-logo">
+    <%= image_tag "logos/LogoHorBl.svg", alt: "Serf" %>
+  </li>
 
-  <ul class="sidebar__menu">
-    <% if current_user.kitchen_manager? || current_user.admin? %>
-      <li class="sidebar__item <%= "sidebar__item--active" if controller_name == "ingredients" %>">
-        <%= link_to t("sidebar.ingredients"), ingredients_path, class: "sidebar__link" %>
-      </li>
-      <li class="sidebar__item">
-        <%= link_to t("sidebar.add_ingredient"), new_ingredient_path, class: "sidebar__link" %>
-      </li>
-      <li class="sidebar__item">
-        <%= link_to t("sidebar.remove_ingredient"), ingredients_delete_path, class: "sidebar__link" %>
-      </li>
-    <% end %>
-
-    <% if current_user.admin? %>
-      <li class="sidebar__item <%= "sidebar__item--active" if controller_name == "users" %>">
-        <%= link_to t("sidebar.personal"), users_path, class: "sidebar__link" %>
-      </li>
-    <% end %>
-
-    <li class="sidebar__item <%= "sidebar__item--active" if controller_name == "profiles" %>">
-      <%= link_to t("sidebar.profile"), profile_path, class: "sidebar__link" %>
+  <% if current_user.kitchen_manager? || current_user.admin? %>
+    <li class="<%= "sidenav-active" if controller_name == "ingredients" %>">
+      <%= link_to t("sidebar.ingredients"), ingredients_path %>
     </li>
-  </ul>
+  <% end %>
 
-  <div class="sidebar__footer">
-    <%= link_to t("sidebar.logout"), destroy_user_session_path, data: { turbo_method: :delete }, class: "sidebar__link sidebar__link--logout" %>
-  </div>
-</nav>
+  <% if current_user.admin? %>
+    <li class="<%= "sidenav-active" if controller_name == "users" %>">
+      <%= link_to t("sidebar.personal"), users_path %>
+    </li>
+  <% end %>
+
+  <li class="<%= "sidenav-active" if controller_name == "restrictions" %>">
+    <%= link_to t("sidebar.restrictions"), restrictions_path %>
+  </li>
+
+  <li class="<%= "sidenav-active" if controller_name == "profiles" %>">
+    <%= link_to t("sidebar.profile"), profile_path %>
+  </li>
+
+  <li class="sidenav-footer">
+    <%= link_to t("sidebar.emergencies"), "#", class: "btn-emergencies" %>
+  </li>
+
+  <li class="sidenav-logout">
+    <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
+      <%= image_tag "icons/log-out-white.svg", class: "sidenav-logout-icon" %>
+      <%= t("sidebar.logout") %>
+    <% end %>
+  </li>
+</ul>

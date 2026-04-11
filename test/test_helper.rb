@@ -18,4 +18,3 @@ module ActiveSupport
     include Devise::Test::IntegrationHelpers
   end
 end
-

@@ -43,10 +43,6 @@ class IngredientsController < ApplicationController
     redirect_to ingredients_path, notice: t("ingredients.destroy.success")
   end
 
-  def delete
-    @ingredients = Ingredient.order(:name)
-  end
-
   private
 
   def set_ingredient

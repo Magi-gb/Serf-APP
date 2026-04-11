@@ -1,3 +1,5 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-# Fixtures are created dynamically in tests
 
+bread_gluten:
+  ingredient: bread
+  restriction: gluten
