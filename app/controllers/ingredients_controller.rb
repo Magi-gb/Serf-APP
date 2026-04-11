@@ -1,5 +1,5 @@
 class IngredientsController < ApplicationController
-  before_action :set_ingredient, only: [:show, :edit, :update, :destroy]
+  before_action :set_ingredient, only: [ :show, :edit, :update, :destroy ]
   before_action :require_kitchen_manager_or_above!, except: %i[index show]
 
   def index
@@ -48,4 +48,3 @@ class IngredientsController < ApplicationController
     params.require(:ingredient).permit(:name, :description, restriction_ids: [])
   end
 end
-
