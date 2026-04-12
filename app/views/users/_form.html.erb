@@ -34,5 +34,6 @@
 
   <div class="form-actions">
     <%= f.submit user.persisted? ? t("users.form.submit_update") : t("users.form.submit_create"), class: "btn-primary" %>
+    <%= link_to t("users.form.cancel"), users_path, class: "btn-secondary" %>
   </div>
 <% end %>

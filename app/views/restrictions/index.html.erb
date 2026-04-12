@@ -2,7 +2,7 @@
 
 <div class="page-card">
   <div class="index-toolbar">
-    <h1><%= t("restrictions.index.title") %></h1>
+    <h1 class="serf-page-title"><%= t("restrictions.index.title") %></h1>
     <% if current_user.admin? || current_user.kitchen_manager? %>
       <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-pill btn-pill-primary" %>
     <% end %>

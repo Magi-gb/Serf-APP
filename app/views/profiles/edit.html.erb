@@ -1,5 +1,7 @@
 <div class="page-card">
+
   <h1><%= t("profile.edit.title") %></h1>
+  
 
   <%= form_with(scope: :profile, url: profile_path, method: :patch, class: "form-container") do |f| %>
     <% if current_user.errors.any? %>
