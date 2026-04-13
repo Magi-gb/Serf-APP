@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_29_134613) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["ingredient_id", "restriction_id"], name: "idx_on_ingredient_id_restriction_id_97ea466c4a", unique: true
     t.index ["ingredient_id"], name: "index_ingredient_restrictions_on_ingredient_id"
     t.index ["restriction_id"], name: "index_ingredient_restrictions_on_restriction_id"
   end
@@ -37,6 +38,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_29_134613) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_restrictions_on_name", unique: true
+    t.check_constraint "restriction_type IN (0, 1)", name: "chk_restrictions_restriction_type"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,6 +48,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_29_134613) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["username"], name: "index_users_on_username", unique: true
+    t.check_constraint "role IN (0, 1, 2)", name: "chk_users_role"
   end
 
   add_foreign_key "ingredient_restrictions", "ingredients"

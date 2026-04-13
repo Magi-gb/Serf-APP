@@ -17,6 +17,16 @@ class IngredientRestrictionTest < ActiveSupport::TestCase
     assert_equal restriction, ingredient_restriction.restriction
   end
 
+  test "rejects duplicate ingredient-restriction pair" do
+    ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    restriction = Restriction.create!(name: "Gluten #{Time.current.to_i}", restriction_type: :intolerance_allergy)
+    IngredientRestriction.create!(ingredient: ingredient, restriction: restriction)
+
+    duplicate = IngredientRestriction.new(ingredient: ingredient, restriction: restriction)
+    assert_not duplicate.valid?
+    assert_includes duplicate.errors[:ingredient_id], I18n.t("errors.messages.taken")
+  end
+
   test "creates association between ingredient and restriction" do
     ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
     restriction = Restriction.create!(name: "Gluten #{Time.current.to_i}", restriction_type: :intolerance_allergy)
