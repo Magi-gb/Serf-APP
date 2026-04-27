@@ -1,0 +1,14 @@
+admin:
+  username: admin
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  role: 2
+
+kitchen_manager:
+  username: kitchen_manager
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  role: 1
+
+waiter:
+  username: waiter
+  encrypted_password: <%= Devise::Encryptor.digest(User, "password") %>
+  role: 0

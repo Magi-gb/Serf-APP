@@ -1,0 +1,36 @@
+<div class="page-card">
+
+  <h1><%= t("profile.edit.title") %></h1>
+  
+
+  <%= form_with(scope: :profile, url: profile_path, method: :patch, class: "form-container") do |f| %>
+    <% if current_user.errors.any? %>
+      <div class="alert-error">
+        <ul>
+          <% current_user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :current_password, t("profile.edit.current_password") %>
+      <%= f.password_field :current_password %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, t("profile.edit.new_password") %>
+      <%= f.password_field :password %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation, t("profile.edit.new_password_confirmation") %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit t("profile.edit.submit"), class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>

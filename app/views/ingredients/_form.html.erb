@@ -1,0 +1,51 @@
+<%= form_with(model: ingredient, class: "form-container") do |form| %>
+  <% if ingredient.errors.any? %>
+    <div class="alert-error">
+      <h3><%= t("errors.form_header", count: ingredient.errors.count) %></h3>
+      <ul>
+        <% ingredient.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, t("ingredients.form.name") %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :description, t("ingredients.form.description") %>
+    <%= form.text_area :description, class: "form-control", rows: 4 %>
+  </div>
+
+  <fieldset class="form-fieldset">
+    <legend><%= t("ingredients.form.restrictions") %></legend>
+
+    <h4><%= t("ingredients.form.intolerance_allergies") %></h4>
+    <div class="checkbox-grid">
+      <% restrictions.select { |r| r.intolerance_allergy? }.each do |restriction| %>
+        <label class="checkbox-item">
+          <%= form.check_box :restriction_ids, { multiple: true }, restriction.id, nil %>
+          <%= restriction.name %>
+        </label>
+      <% end %>
+    </div>
+
+    <h4><%= t("ingredients.form.religious_restrictions") %></h4>
+    <div class="checkbox-grid">
+      <% restrictions.select { |r| r.religious? }.each do |restriction| %>
+        <label class="checkbox-item">
+          <%= form.check_box :restriction_ids, { multiple: true }, restriction.id, nil %>
+          <%= restriction.name %>
+        </label>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <div class="form-actions">
+    <%= form.submit ingredient.persisted? ? t("ingredients.form.submit_update") : t("ingredients.form.submit_create"), class: "btn-primary" %>
+    <%= link_to t("restrictions.form.cancel"), ingredients_path, class: "btn-secondary" %>
+  </div>
+<% end %>

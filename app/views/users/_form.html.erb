@@ -1,0 +1,39 @@
+<%= form_with(model: user, class: "form-container") do |f| %>
+  <% if user.errors.any? %>
+    <div class="alert-error">
+      <ul>
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :username, t("users.form.username") %>
+    <%= f.text_field :username %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :role, t("users.form.role") %>
+    <%= f.select :role, User.roles.keys.map { |r| [t("users.roles.#{r}"), r] }, {} %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, t("users.form.password") %>
+    <%= f.password_field :password %>
+    <% if user.persisted? %>
+      <span class="form-hint"><%= t("users.form.password_hint_edit") %></span>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password_confirmation, t("users.form.password_confirmation") %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit user.persisted? ? t("users.form.submit_update") : t("users.form.submit_create"), class: "btn-primary" %>
+    <%= link_to t("users.form.cancel"), users_path, class: "btn-secondary" %>
+  </div>
+<% end %>

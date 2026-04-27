@@ -1,0 +1,44 @@
+<div class="page-card">
+  <div class="page-header">
+    <h1 class="serf-page-title">Tauler de Control</h1>
+    <p><%= t("home.index.welcome", username: current_user.username) %></p>
+  </div>
+
+  <% if current_user.kitchen_manager? || current_user.admin? %>
+    <div class="desc-box">
+      <h3><%= t("home.index.ingredients_management") %></h3>
+      <p class="desc-text"><%= t("home.index.ingredients_description") %></p>
+      <div class="detail-actions mt-3">
+        <%= link_to t("home.index.add_ingredient"), new_ingredient_path, class: "btn-primary" %>
+        <%= link_to t("home.index.manage_ingredients"), ingredients_path, class: "btn-secondary" %>
+      </div>
+    </div>
+
+    <div class="desc-box">
+      <h3><%= t("home.index.restrictions_management") %></h3>
+      <p class="desc-text"><%= t("home.index.restrictions_description") %></p>
+      <div class="detail-actions mt-3">
+        <%= link_to t("home.index.add_restriction"), new_restriction_path, class: "btn-primary" %>
+        <%= link_to t("home.index.manage_restrictions"), restrictions_path, class: "btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <div class="desc-box">
+      <h3><%= t("home.index.user_management") %></h3>
+      <p class="desc-text"><%= t("home.index.users_description") %></p>
+      <div class="detail-actions mt-3">
+        <%= link_to t("home.index.add_user"), new_user_path, class: "btn-primary" %>
+        <%= link_to t("home.index.manage_users"), users_path, class: "btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if current_user.waiter? %>
+    <div class="desc-box">
+      <h3><%= t("home.index.waiter_features") %></h3>
+      <p class="desc-text"><%= t("home.index.waiter_description") %></p>
+    </div>
+  <% end %>
+</div>

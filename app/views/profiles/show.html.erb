@@ -1,0 +1,17 @@
+<div class="page-card">
+  <h1 class="serf-page-title"><%= t("profile.show.title") %></h1>
+
+  <div class="field-group">
+    <span class="field-label"><%= t("profile.show.username") %></span>
+    <span class="field-value"><%= current_user.username %></span>
+  </div>
+
+  <div class="field-group">
+    <span class="field-label"><%= t("profile.show.role") %></span>
+    <span class="field-value"><%= t("users.roles.#{current_user.role}") %></span>
+  </div>
+
+  <div class="mt-4">
+    <%= link_to t("profile.show.change_password"), edit_profile_path, class: "btn-primary" %>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<% content_for :title, t("restrictions.index.title") %>
+
+<div class="page-card">
+  <div class="index-toolbar">
+    <h1 class="serf-page-title"><%= t("restrictions.index.title") %></h1>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-pill btn-pill-primary" %>
+    <% end %>
+  </div>
+
+  <% if @restrictions.any? %>
+    <div class="restriction-grid">
+      <% @restrictions.each do |restriction| %>
+        <%= link_to restriction_path(restriction), class: "restriction-bubble" do %>
+          <div class="restriction-icon" style="--bg-color: <%= restriction.bg_color.presence || '#7bc143' %>">
+            <% if restriction.icon_svg.present? %>
+              <%= safe_svg(restriction.icon_svg) %>
+            <% else %>
+              <span><%= restriction.name[0..2].upcase %></span>
+            <% end %>
+          </div>
+          <span class="restriction-name"><%= restriction.name %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="empty-state text-center"><%= t("restrictions.index.empty") %></p>
+  <% end %>
+</div>
