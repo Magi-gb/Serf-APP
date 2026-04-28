@@ -1,0 +1,32 @@
+<%= form_with(model: @plat) do |f| %>
+  <% if @plat.errors.any? %>
+    <div class="errors">
+      <h2><%= pluralize(@plat.errors.count, "error") %> han impedit guardar el plat:</h2>
+      <ul>
+        <% @plat.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name, "Nom" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description, "Descripció" %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :ingredient_ids, "Ingredients" %>
+    <%= f.collection_select :ingredient_ids, @ingredients, :id, :name,
+          {}, { multiple: true, size: 6 } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

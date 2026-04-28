@@ -1,0 +1,31 @@
+<h1>Llista de Plats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Descripció</th>
+      <th>Ingredients</th>
+      <th>Accions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @plats.each do |plat| %>
+      <tr>
+        <td><%= plat.name %></td>
+        <td><%= plat.description %></td>
+        <td>
+          <%= plat.ingredients.map(&:name).join(", ") %>
+        </td>
+        <td>
+          <%= link_to "Mostrar", plat %> |
+          <%= link_to "Editar", edit_plat_path(plat) %> |
+          <%= link_to "Eliminar", plat, method: :delete, data: { confirm: "Segur?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Nou Plat", new_plat_path %>

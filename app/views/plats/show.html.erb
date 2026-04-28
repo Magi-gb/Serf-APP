@@ -1,0 +1,10 @@
+<h1><%= @plat.name %></h1>
+
+<p><strong>Descripció:</strong> <%= @plat.description %></p>
+
+<p><strong>Ingredients:</strong>
+  <%= @plat.ingredients.map(&:name).join(", ") %>
+</p>
+
+<%= link_to "Editar", edit_plat_path(@plat) %> |
+<%= link_to "Tornar", plats_path %>
