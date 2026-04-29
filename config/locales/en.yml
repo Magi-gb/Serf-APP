@@ -24,6 +24,10 @@ en:
     form_header:
       one: '1 error prevented saving:'
       other: "%{count} errors prevented saving:"
+    template:
+      header:
+        one: '1 error prevented saving:'
+        other: "%{count} errors prevented saving:"
     messages:
       blank: can't be blank
       confirmation: doesn't match
@@ -37,10 +41,6 @@ en:
       too_short:
         one: is too short (minimum is 1 character)
         other: is too short (minimum is %{count} characters)
-    template:
-      header:
-        one: '1 error prevented saving:'
-        other: "%{count} errors prevented saving:"
   flash:
     alert: alert
     notice: notice
@@ -123,15 +123,11 @@ en:
     edit:
       title: Edit Protocol
     form:
-      bg_color_hint: TODO
       cancel: Cancel
-      icon_svg_hint: TODO
       submit: Save
     index:
       create: "+ New protocol"
       empty: No protocols saved yet.
-      new_protocol: TODO
-      search_placeholder: TODO
       title: Protocols
     messages:
       created_success: Protocol created successfully.

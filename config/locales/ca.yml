@@ -27,6 +27,10 @@ ca:
     form_header:
       one: '1 error ha impedit guardar:'
       other: "%{count} errors han impedit guardar:"
+    template:
+      header:
+        one: '1 error ha impedit guardar:'
+        other: "%{count} errors han impedit guardar:"
     messages:
       blank: no pot estar en blanc
       confirmation: no coincideix
@@ -40,10 +44,6 @@ ca:
       too_short:
         one: és massa curt (mínim 1 caràcter)
         other: és massa curt (mínim %{count} caràcters)
-    template:
-      header:
-        one: '1 error ha impedit guardar:'
-        other: "%{count} errors han impedit guardar:"
   flash:
     alert: alert
     notice: notice
@@ -130,15 +130,11 @@ ca:
     edit:
       title: Editar Protocol
     form:
-      bg_color_hint: Tria un color representatiu
       cancel: Cancel·lar
-      icon_svg_hint: Pots enganxar el codi de la icona SVG
       submit: Guardar canvis
     index:
       create: "+ Nou protocol"
       empty: Encara no hi ha protocols guardats.
-      new_protocol: "+ Nou protocol"
-      search_placeholder: Cerca un protocol
       title: Protocols
     messages:
       created_success: Protocol creat correctament.
