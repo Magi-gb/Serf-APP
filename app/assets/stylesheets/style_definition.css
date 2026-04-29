@@ -715,6 +715,14 @@ input:focus {
     background-color: var(--avatar-bg, #9b101b);
 }
 
+.restriction-icon svg,
+.list-card-avatar svg,
+.detail-avatar svg {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
 .detail-header {
     display: flex;
     align-items: center;

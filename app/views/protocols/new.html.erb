@@ -1,7 +1,9 @@
 <% content_for :title, t(".title") %>
 
 <div class="page-card">
-  <h1 class="serf-page-title"><%= t(".title") %></h1>
+  <div class="page-header">
+    <h1 class="serf-page-title"><%= t(".title") %></h1>
+  </div>
 
   <%= render "form", protocol: @protocol %>
 </div>

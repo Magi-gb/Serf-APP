@@ -3,8 +3,12 @@
 <div class="page-card">
   <div class="detail-section">
     <div class="detail-header">
-      <div class="detail-avatar" style="background-color: var(--color-bg-blue);">
-        <%= @protocol.name[0].upcase %>
+      <div class="detail-avatar" style="background-color: <%= @protocol.bg_color.presence || 'var(--color-bg-blue)' %>;">
+        <% if @protocol.icon_svg.present? %>
+          <%= safe_svg(@protocol.icon_svg) %>
+        <% else %>
+          <%= @protocol.name[0..1].upcase %>
+        <% end %>
       </div>
       <h2 class="serf-page-title"><%= @protocol.name %></h2>
     </div>
@@ -20,7 +24,7 @@
       <%= link_to t(".back"), protocols_path, class: "btn-secondary" %>
       <% if current_user.admin? %>
         <%= link_to t(".edit"), edit_protocol_path(@protocol), class: "btn-primary" %>
-        <%= link_to t(".delete"), protocol_path(@protocol), method: :delete, data: { confirm: t(".confirm_delete") }, class: "btn-danger" %>
+        <%= button_to t(".delete"), @protocol, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t(".confirm_delete") } } %>
       <% end %>
     </div>
   </div>
