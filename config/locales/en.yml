@@ -177,6 +177,7 @@ en:
     edit:
       title: Edit user
     form:
+      cancel: Cancel
       password: Password
       password_confirmation: Confirm password
       password_hint_edit: "(leave blank to keep current)"

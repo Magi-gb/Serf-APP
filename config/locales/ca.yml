@@ -177,6 +177,7 @@ ca:
     edit:
       title: Editar usuari
     form:
+      cancel: Cancel·lar
       password: Contrasenya
       password_confirmation: Confirmar contrasenya
       password_hint_edit: "(deixa en blanc per no canviar)"
