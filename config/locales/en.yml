@@ -2,6 +2,9 @@
 en:
   activerecord:
     attributes:
+      protocol:
+        description: Description
+        name: Name
       user:
         password: Password
         password_confirmation: Confirm password
@@ -24,6 +27,10 @@ en:
     form_header:
       one: '1 error prevented saving:'
       other: "%{count} errors prevented saving:"
+    template:
+      header:
+        one: '1 error prevented saving:'
+        other: "%{count} errors prevented saving:"
     messages:
       blank: can't be blank
       confirmation: doesn't match
@@ -115,6 +122,28 @@ en:
     update:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
+  protocols:
+    edit:
+      title: Edit Protocol
+    form:
+      cancel: Cancel
+      submit: Save
+    index:
+      create: "+ New protocol"
+      empty: No protocols saved yet.
+      title: Protocols
+    messages:
+      created_success: Protocol created successfully.
+      destroyed_success: Protocol deleted successfully.
+      updated_success: Protocol updated successfully.
+    new:
+      title: Create New Protocol
+    show:
+      back: Back
+      confirm_delete: Are you sure you want to delete this protocol?
+      delete: Delete Protocol
+      edit: Edit
+      no_description: No additional description.
   restrictions:
     edit:
       title: Edit Restriction
@@ -177,6 +206,7 @@ en:
     edit:
       title: Edit user
     form:
+      cancel: Cancel
       password: Password
       password_confirmation: Confirm password
       password_hint_edit: "(leave blank to keep current)"

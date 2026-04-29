@@ -27,6 +27,10 @@ ca:
     form_header:
       one: '1 error ha impedit guardar:'
       other: "%{count} errors han impedit guardar:"
+    template:
+      header:
+        one: '1 error ha impedit guardar:'
+        other: "%{count} errors han impedit guardar:"
     messages:
       blank: no pot estar en blanc
       confirmation: no coincideix
@@ -123,17 +127,23 @@ ca:
       title: Editar Protocol
     form:
       cancel: Cancel·lar
-      submit: Guardar canvis
+      submit: Guardar
     index:
+      create: "+ Nou protocol"
       empty: Encara no hi ha protocols guardats.
       title: Protocols
+    messages:
+      created_success: Protocol creat correctament.
+      destroyed_success: Protocol eliminat correctament.
+      updated_success: Protocol actualitzat correctament.
+    new:
+      title: Crear Nou Protocol
     show:
       back: Tornar
+      confirm_delete: Estàs segur que vols eliminar aquest protocol?
+      delete: Eliminar Protocol
       edit: Editar
       no_description: Sense descripció addicional.
-      title: Detalls del Protocol
-    update:
-      success: Protocol actualitzat correctament.
   restrictions:
     edit:
       title: Editar Restricció
@@ -196,6 +206,7 @@ ca:
     edit:
       title: Editar usuari
     form:
+      cancel: Cancel·lar
       password: Contrasenya
       password_confirmation: Confirmar contrasenya
       password_hint_edit: "(deixa en blanc per no canviar)"
