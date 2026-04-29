@@ -84,3 +84,17 @@ ingredients_data.each do |data|
     IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
   end
 end
+
+# --- Protocols ---
+
+protocols_data = [
+  { name: "Protocol de Contaminació Creuada", description: "Mesures estrictes per evitar la contaminació creuada amb al·lèrgens a la cuina." },
+  { name: "Protocol de Neteja", description: "Passos a seguir per la neteja d'estris abans de preparar plats per celíacs." },
+  { name: "Protocol d'Emergència Mèdica", description: "Procediment d'actuació ràpida en cas d'un xoc anafilàctic." }
+]
+
+protocols_data.each do |data|
+  Protocol.find_or_create_by!(name: data[:name]) do |p|
+    p.description = data[:description]
+  end
+end

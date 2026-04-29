@@ -1,0 +1,24 @@
+<% content_for :title, t(".title") %>
+
+<div class="page-card">
+  <div class="index-toolbar">
+    <h1 class="serf-page-title"><%= t(".title") %></h1>
+  </div>
+
+  <% if @protocols.any? %>
+    <div class="list-card-group">
+      <% @protocols.each do |protocol| %>
+        <%= link_to protocol_path(protocol), class: "list-card" do %>
+          <div class="list-card-avatar" style="background-color: var(--color-bg-blue);">
+            <%= protocol.name[0].upcase %>
+          </div>
+          <div class="list-card-info">
+            <span class="list-card-title"><%= protocol.name %></span>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="empty-state text-center"><%= t(".empty") %></p>
+  <% end %>
+</div>

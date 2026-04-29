@@ -1,0 +1,29 @@
+<div class="form-container">
+  <%= form_with(model: protocol) do |form| %>
+    <% if protocol.errors.any? %>
+      <div class="alert-error">
+        <h2><%= t("errors.template.header", model: Protocol.model_name.human, count: protocol.errors.count) %></h2>
+        <ul>
+          <% protocol.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description %>
+      <%= form.text_area :description, class: "form-control", rows: 5 %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit t(".submit"), class: "btn-primary" %>
+      <%= link_to t(".cancel"), protocol.new_record? ? protocols_path : protocol_path(protocol), class: "btn-secondary" %>
+    </div>
+  <% end %>
+</div>

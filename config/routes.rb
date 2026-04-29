@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :ingredients, constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
+  resources :protocols, only: [ :index, :show, :edit, :update ]
 
   root "home#index"
 end
