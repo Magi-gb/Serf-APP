@@ -1,7 +1,7 @@
 class ProtocolsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin!, only: %i[edit update]
-  before_action :set_protocol, only: %i[show edit update]
+  before_action :require_admin!, only: %i[new create edit update destroy]
+  before_action :set_protocol, only: %i[show edit update destroy]
 
   def index
     @protocols = Protocol.all
@@ -10,13 +10,18 @@ class ProtocolsController < ApplicationController
   def show
   end
 
-  # def new
-  #   Creació de protocols no inclosa en la iteració actual per requeriments
-  # end
+  def new
+    @protocol = Protocol.new
+  end
 
-  # def create
-  #   Creació de protocols no inclosa en la iteració actual per requeriments
-  # end
+  def create
+    @protocol = Protocol.new(protocol_params)
+    if @protocol.save
+      redirect_to @protocol, notice: t(".success")
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
   def edit
   end
@@ -29,9 +34,10 @@ class ProtocolsController < ApplicationController
     end
   end
 
-  # def destroy
-  #   Eliminació de protocols no inclosa en la iteració actual per requeriments
-  # end
+  def destroy
+    @protocol.destroy!
+    redirect_to protocols_path, notice: t(".success"), status: :see_other
+  end
 
   private
 

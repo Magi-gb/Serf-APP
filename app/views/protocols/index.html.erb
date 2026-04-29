@@ -3,6 +3,9 @@
 <div class="page-card">
   <div class="index-toolbar">
     <h1 class="serf-page-title"><%= t(".title") %></h1>
+    <% if current_user.admin? %>
+      <%= link_to t(".create"), new_protocol_path, class: "btn-primary" %>
+    <% end %>
   </div>
 
   <% if @protocols.any? %>

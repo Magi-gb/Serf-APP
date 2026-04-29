@@ -49,4 +49,20 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     @protocol.reload
     assert_equal "Updated Name", @protocol.name
   end
+
+  test "waiter should NOT destroy protocol" do
+    sign_in @waiter
+    assert_no_difference("Protocol.count") do
+      delete protocol_url(@protocol)
+    end
+    assert_redirected_to root_url
+  end
+
+  test "admin should destroy protocol" do
+    sign_in @admin
+    assert_difference("Protocol.count", -1) do
+      delete protocol_url(@protocol)
+    end
+    assert_redirected_to protocols_url
+  end
 end
