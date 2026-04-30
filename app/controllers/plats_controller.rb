@@ -1,5 +1,5 @@
 class PlatsController < ApplicationController
-  before_action :set_plat, only: [:show, :edit, :update, :destroy]
+  before_action :set_plat, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @plats = Plat.all
