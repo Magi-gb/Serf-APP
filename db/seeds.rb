@@ -81,6 +81,9 @@ ingredients_data.each do |data|
 
   data[:restrictions].each do |restriction_name|
     restriction = Restriction.find_by!(name: restriction_name)
+    IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
+  end
+end
 User.find_or_create_by!(username: "admin") do |u|
   u.password = "password"
   u.role = :admin

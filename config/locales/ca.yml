@@ -131,21 +131,13 @@ ca:
       icon_svg_hint: Pots enganxar el codi de la icona SVG
       submit: Guardar
     index:
-      create: "+ Nou protocol"
       empty: Encara no hi ha protocols guardats.
-      new_protocol: "+ Nou protocol"
       search_placeholder: Cerca un protocol
       title: Protocols
     messages:
-      created_success: Protocol creat correctament.
-      destroyed_success: Protocol eliminat correctament.
       updated_success: Protocol actualitzat correctament.
-    new:
-      title: Crear Nou Protocol
     show:
       back: Tornar
-      confirm_delete: Estàs segur que vols eliminar aquest protocol?
-      delete: Eliminar Protocol
       edit: Editar
       no_description: Sense descripció addicional.
   restrictions:

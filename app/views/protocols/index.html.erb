@@ -7,9 +7,6 @@
 
   <div class="index-toolbar">
     <%= render "shared/search_bar", url: protocols_path, placeholder: t(".search_placeholder") %>
-    <% if current_user.admin? %>
-      <%= link_to t(".new_protocol"), new_protocol_path, class: "btn-pill btn-pill-primary" %>
-    <% end %>
   </div>
 
   <% if @protocols.any? %>

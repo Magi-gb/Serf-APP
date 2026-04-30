@@ -12,10 +12,24 @@ class ProtocolTest < ActiveSupport::TestCase
     assert_includes protocol.errors[:name], I18n.t("errors.messages.blank")
   end
 
+  test "should raise validation error without name" do
+    assert_raises ActiveRecord::RecordInvalid do
+      Protocol.create!(description: "This is a test.")
+    end
+  end
+
   test "should require a unique name" do
     existing_protocol = protocols(:allergy)
     protocol = Protocol.new(name: existing_protocol.name)
     assert_not protocol.valid?
     assert_includes protocol.errors[:name], I18n.t("errors.messages.taken")
+  end
+
+  test "should raise validation error with duplicate name" do
+    existing_protocol = protocols(:allergy)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      Protocol.create!(name: existing_protocol.name)
+    end
   end
 end

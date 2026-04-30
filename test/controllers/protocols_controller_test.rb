@@ -24,20 +24,6 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "waiter should NOT get new" do
-    sign_in @waiter
-    get new_protocol_url
-    assert_redirected_to root_url
-  end
-
-  test "waiter should NOT create protocol" do
-    sign_in @waiter
-    assert_no_difference("Protocol.count") do
-      post protocols_url, params: { protocol: { name: "New Protocol", description: "Test" } }
-    end
-    assert_redirected_to root_url
-  end
-
   test "waiter should NOT get edit" do
     sign_in @waiter
     get edit_protocol_url(@protocol)
@@ -46,30 +32,10 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
 
   test "waiter should NOT update protocol" do
     sign_in @waiter
-    patch protocol_url(@protocol), params: { protocol: { name: "Updated Name" } }
-    assert_redirected_to root_url
-  end
-
-  test "waiter should NOT destroy protocol" do
-    sign_in @waiter
-    assert_no_difference("Protocol.count") do
-      delete protocol_url(@protocol)
+    assert_no_changes -> { @protocol.reload.name } do
+      patch protocol_url(@protocol), params: { protocol: { name: "Updated Name" } }
     end
     assert_redirected_to root_url
-  end
-
-  test "admin should get new" do
-    sign_in @admin
-    get new_protocol_url
-    assert_response :success
-  end
-
-  test "admin should create protocol" do
-    sign_in @admin
-    assert_difference("Protocol.count") do
-      post protocols_url, params: { protocol: { name: "New Test Protocol", description: "A new protocol" } }
-    end
-    assert_redirected_to protocol_url(Protocol.last)
   end
 
   test "admin should get edit" do
@@ -86,27 +52,20 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Updated Name", @protocol.name
   end
 
-  test "admin should destroy protocol" do
+  test "update protocol with invalid name should fail" do
     sign_in @admin
-    protocol_to_delete = protocols(:cross_contamination)
-    assert_difference("Protocol.count", -1) do
-      delete protocol_url(protocol_to_delete)
-    end
-    assert_redirected_to protocols_url
-  end
-
-  test "create protocol with invalid name should fail" do
-    sign_in @admin
-    assert_no_difference("Protocol.count") do
-      post protocols_url, params: { protocol: { name: "", description: "Test" } }
+    assert_no_changes -> { @protocol.reload.name } do
+      patch protocol_url(@protocol), params: { protocol: { name: "" } }
     end
     assert_response :unprocessable_entity
   end
 
-  test "create protocol with duplicate name should fail" do
+  test "update protocol with duplicate name should fail" do
     sign_in @admin
-    assert_no_difference("Protocol.count") do
-      post protocols_url, params: { protocol: { name: @protocol.name, description: "Test" } }
+    duplicated_protocol = protocols(:cross_contamination)
+
+    assert_no_changes -> { @protocol.reload.name } do
+      patch protocol_url(@protocol), params: { protocol: { name: duplicated_protocol.name } }
     end
     assert_response :unprocessable_entity
   end
