@@ -126,9 +126,7 @@ en:
     edit:
       title: Edit Protocol
     form:
-      bg_color_hint: TODO
       cancel: Cancel
-      icon_svg_hint: TODO
       submit: Save
     index:
       empty: No protocols saved yet.

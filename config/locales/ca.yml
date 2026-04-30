@@ -126,9 +126,7 @@ ca:
     edit:
       title: Editar Protocol
     form:
-      bg_color_hint: Tria un color representatiu
       cancel: Cancel·lar
-      icon_svg_hint: Pots enganxar el codi de la icona SVG
       submit: Guardar
     index:
       empty: Encara no hi ha protocols guardats.
