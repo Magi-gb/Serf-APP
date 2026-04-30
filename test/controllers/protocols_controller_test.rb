@@ -16,12 +16,15 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     sign_in @waiter
     get protocols_url
     assert_response :success
+    assert_select "a[href='#{protocol_path(@protocol)}']"
+    assert_select "a[href='#{protocols_path}']", text: I18n.t("sidebar.protocols")
   end
 
   test "waiter should get show" do
     sign_in @waiter
     get protocol_url(@protocol)
     assert_response :success
+    assert_select ".serf-page-title", text: @protocol.name
   end
 
   test "waiter should NOT get edit" do

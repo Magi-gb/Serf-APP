@@ -8,6 +8,10 @@ en:
       user:
         password: Password
         password_confirmation: Confirm password
+    models:
+      protocol:
+        one: Protocol
+        other: Protocols
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.

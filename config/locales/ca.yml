@@ -8,6 +8,10 @@ ca:
       user:
         password: Contrasenya
         password_confirmation: Confirmar contrasenya
+    models:
+      protocol:
+        one: Protocol
+        other: Protocols
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
