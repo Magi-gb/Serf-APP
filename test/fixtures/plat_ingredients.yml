@@ -1,9 +1,7 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+breakfast_milk:
+  plat: Paella
+  ingredient: milk
 
-one:
-  plat: one
-  ingredient: one
-
-two:
-  plat: two
-  ingredient: two
+snack_bread:
+  plat: Olivas
+  ingredient: bread
