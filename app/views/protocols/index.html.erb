@@ -1,0 +1,51 @@
+<% content_for :title, t(".title") %>
+
+<div class="page-card">
+  <h1 class="serf-page-title"><%= t(".title") %></h1>
+
+  <% if @protocols.any? %>
+    <table class="serf-table">
+      <thead>
+        <tr>
+          <th><%= t("activerecord.attributes.protocol.name") %></th>
+          <th><%= t("activerecord.attributes.protocol.description") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @protocols.each do |protocol| %>
+          <tr>
+            <td><%= protocol.name %></td>
+            <td><%= protocol.description %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="empty-state text-center"><%= t(".empty") %></p>
+  <% end %>
+</div><% content_for :title, t(".title") %>
+
+<div class="page-card">
+  <h1 class="serf-page-title"><%= t(".title") %></h1>
+
+  <% if @protocols.any? %>
+    <table class="serf-table">
+      <thead>
+        <tr>
+          <th><%= t("activerecord.attributes.protocol.name") %></th>
+          <th><%= t("activerecord.attributes.protocol.description") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @protocols.each do |protocol| %>
+          <tr>
+            <td><%= protocol.name %></td>
+            <td><%= protocol.description %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="empty-state text-center"><%= t(".empty") %></p>
+  <% end %>
+</div>
