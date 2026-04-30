@@ -5,6 +5,8 @@ class ProtocolsController < ApplicationController
   before_action :require_admin!, only: %i[new create edit update destroy]
   before_action :set_protocol, only: %i[show edit update destroy]
 
+  # GET /protocols
+  # Only accessible by kitchen_manager or admin. Lists all protocols (read-only).
   def index
     @protocols = Protocol.all
   end

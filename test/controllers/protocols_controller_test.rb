@@ -5,6 +5,12 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     @protocol = protocols(:allergy)
     @admin = users(:admin)
     @waiter = users(:waiter)
+    @kitchen_manager = users(:kitchen_manager)
+  end
+  test "kitchen_manager should get index" do
+    sign_in @kitchen_manager
+    get protocols_url
+    assert_response :success
   end
 
   test "should redirect index when not logged in" do
@@ -12,10 +18,10 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "waiter should get index" do
+  test "waiter should NOT get index" do
     sign_in @waiter
     get protocols_url
-    assert_response :success
+    assert_redirected_to root_url
   end
 
   test "waiter should get show" do
