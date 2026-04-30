@@ -1,5 +1,5 @@
 <div class="login-card">
-  <h2 class="serf-page-title"><%= t("sessions.new.title") %></h2>
+  <h2 class="login-card-title"><%= t("sessions.new.title") %></h2>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
     <%= f.text_field :username,
