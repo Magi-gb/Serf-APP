@@ -1,5 +1,7 @@
+
 class ProtocolsController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_kitchen_manager_or_above!, only: %i[index]
   before_action :require_admin!, only: %i[new create edit update destroy]
   before_action :set_protocol, only: %i[show edit update destroy]
 

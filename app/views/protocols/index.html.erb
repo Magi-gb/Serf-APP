@@ -1,26 +1,25 @@
 <% content_for :title, t(".title") %>
 
 <div class="page-card">
-  <div class="index-toolbar">
-    <h1 class="serf-page-title"><%= t(".title") %></h1>
-    <% if current_user.admin? %>
-      <%= link_to t(".create"), new_protocol_path, class: "btn-primary" %>
-    <% end %>
-  </div>
+  <h1 class="serf-page-title"><%= t(".title") %></h1>
 
   <% if @protocols.any? %>
-    <div class="list-card-group">
-      <% @protocols.each do |protocol| %>
-        <%= link_to protocol_path(protocol), class: "list-card" do %>
-          <div class="list-card-avatar" style="background-color: var(--color-bg-blue);">
-            <%= protocol.name[0].upcase %>
-          </div>
-          <div class="list-card-info">
-            <span class="list-card-title"><%= protocol.name %></span>
-          </div>
+    <table class="serf-table">
+      <thead>
+        <tr>
+          <th><%= t("activerecord.attributes.protocol.name") %></th>
+          <th><%= t("activerecord.attributes.protocol.description") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @protocols.each do |protocol| %>
+          <tr>
+            <td><%= protocol.name %></td>
+            <td><%= protocol.description %></td>
+          </tr>
         <% end %>
-      <% end %>
-    </div>
+      </tbody>
+    </table>
   <% else %>
     <p class="empty-state text-center"><%= t(".empty") %></p>
   <% end %>
