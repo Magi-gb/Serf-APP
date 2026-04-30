@@ -1,6 +1,6 @@
 class PlatsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_kitchen_manager_or_above!, except: %i[index show]
+  before_action :require_kitchen_manager_or_above!, except: %i[ index show ]
   before_action :set_plat, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -55,7 +55,7 @@ class PlatsController < ApplicationController
   end
 
   def require_kitchen_manager_or_admin!
-    unless current_user.role.in?([1, 2])
+    unless current_user.role.in?([ 1, 2 ])
       redirect_to root_url, alert: "No autoritzat"
     end
   end
