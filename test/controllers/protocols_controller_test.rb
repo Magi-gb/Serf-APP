@@ -12,6 +12,11 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
+  test "should redirect show when not logged in" do
+    get protocol_url(@protocol)
+    assert_redirected_to new_user_session_url
+  end
+
   test "waiter should get index" do
     sign_in @waiter
     get protocols_url
@@ -25,6 +30,17 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     get protocol_url(@protocol)
     assert_response :success
     assert_select ".serf-page-title", text: @protocol.name
+  end
+
+  test "waiter should see empty state when there are no protocols" do
+    Protocol.delete_all
+    sign_in @waiter
+
+    get protocols_url
+
+    assert_response :success
+    assert_select ".empty-state", text: I18n.t("protocols.index.empty")
+    assert_select ".list-card", count: 0
   end
 
   test "waiter should NOT get edit" do
