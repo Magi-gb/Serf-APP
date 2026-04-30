@@ -9,9 +9,8 @@ Rails.application.routes.draw do
   resources :ingredients, constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
-  resources :protocols, only: %i[index show], constraints: { id: /\d+/ }
-  resources :protocols, only: %i[edit update], constraints: { id: /\d+/ }
-  # Protocol creation and deletion routes belong to their own tasks.
+  resources :protocols, only: %i[index show new create edit update], constraints: { id: /\d+/ }
+  # Protocol deletion routes belong to their own tasks.
 
   root "home#index"
 end

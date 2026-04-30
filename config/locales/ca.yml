@@ -134,10 +134,14 @@ ca:
       submit: Guardar
     index:
       empty: Encara no hi ha protocols guardats.
+      new_protocol: "+ Nou Protocol"
       search_placeholder: Cerca un protocol
       title: Protocols
     messages:
+      created_success: Protocol creat correctament.
       updated_success: Protocol actualitzat correctament.
+    new:
+      title: Crear Nou Protocol
     show:
       back: Tornar
       edit: Editar

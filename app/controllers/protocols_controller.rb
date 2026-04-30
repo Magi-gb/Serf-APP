@@ -1,5 +1,5 @@
 class ProtocolsController < ApplicationController
-  before_action :require_admin!, only: %i[edit update]
+  before_action :require_admin!, only: %i[new create edit update]
   before_action :set_protocol, only: %i[show edit update]
 
   # GET /protocols
@@ -10,6 +10,22 @@ class ProtocolsController < ApplicationController
 
   # GET /protocols/1
   def show
+  end
+
+  # GET /protocols/new
+  def new
+    @protocol = Protocol.new
+  end
+
+  # POST /protocols
+  def create
+    @protocol = Protocol.new(protocol_params)
+
+    if @protocol.save
+      redirect_to protocols_path, notice: I18n.t("protocols.messages.created_success"), status: :see_other
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   # GET /protocols/1/edit
@@ -25,7 +41,7 @@ class ProtocolsController < ApplicationController
     end
   end
 
-  # Protocol creation and deletion actions belong to their own tasks.
+  # Protocol deletion actions belong to their own tasks.
 
   private
 

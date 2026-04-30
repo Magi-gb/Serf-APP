@@ -134,10 +134,14 @@ en:
       submit: Save
     index:
       empty: No protocols saved yet.
-      search_placeholder: TODO
+      new_protocol: "+ New Protocol"
+      search_placeholder: Search a protocol
       title: Protocols
     messages:
+      created_success: Protocol created successfully.
       updated_success: Protocol updated successfully.
+    new:
+      title: Create New Protocol
     show:
       back: Back
       edit: Edit

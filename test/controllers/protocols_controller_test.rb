@@ -88,4 +88,60 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :unprocessable_entity
   end
+
+  test "waiter should NOT get new" do
+    sign_in @waiter
+    get new_protocol_url
+    assert_redirected_to root_url
+  end
+
+  test "waiter should NOT create protocol" do
+    sign_in @waiter
+    assert_no_changes -> { Protocol.count } do
+      post protocols_url, params: { protocol: { name: "New Protocol", description: "Test" } }
+    end
+    assert_redirected_to root_url
+  end
+
+  test "admin should get new" do
+    sign_in @admin
+    get new_protocol_url
+    assert_response :success
+    assert_select ".serf-page-title", text: I18n.t("protocols.new.title")
+  end
+
+  test "admin should create protocol with valid params" do
+    sign_in @admin
+    assert_changes -> { Protocol.count }, from: 2, to: 3 do
+      post protocols_url, params: { protocol: { name: "New Protocol", description: "Test Description" } }
+    end
+    assert_redirected_to protocols_url
+    assert_equal I18n.t("protocols.messages.created_success"), flash[:notice]
+  end
+
+  test "admin should NOT create protocol with blank name" do
+    sign_in @admin
+    assert_no_changes -> { Protocol.count } do
+      post protocols_url, params: { protocol: { name: "", description: "Test" } }
+    end
+    assert_response :unprocessable_entity
+    assert_select ".alert-error"
+  end
+
+  test "admin should NOT create protocol with duplicate name" do
+    sign_in @admin
+    assert_no_changes -> { Protocol.count } do
+      post protocols_url, params: { protocol: { name: @protocol.name, description: "Test" } }
+    end
+    assert_response :unprocessable_entity
+    assert_select ".alert-error"
+  end
+
+  test "admin can create protocol with optional description" do
+    sign_in @admin
+    assert_changes -> { Protocol.count }, from: 2, to: 3 do
+      post protocols_url, params: { protocol: { name: "Protocol Without Description" } }
+    end
+    assert_redirected_to protocols_url
+  end
 end
