@@ -1,7 +1,7 @@
 paella_milk:
-  plat: Paella
+  plat: paella
   ingredient: milk
 
 olivas_bread:
-  plat: Olivas
+  plat: olivas
   ingredient: bread
