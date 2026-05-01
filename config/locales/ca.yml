@@ -152,6 +152,35 @@ ca:
       submit: Entra
       title: Inicia la sessió
       username_placeholder: ID d'usuari
+  protocols:
+    create:
+      success: Protocol creat correctament.
+    destroy:
+      success: Protocol eliminat correctament.
+    edit:
+      title: Editar Protocol
+    form:
+      cancel: Cancel·lar
+      submit: Guardar canvis
+    index:
+      create: "+ Nou protocol"
+      empty: Encara no hi ha protocols guardats.
+      title: Protocols
+    messages:
+      created_success: Protocol creat correctament.
+      destroyed_success: Protocol eliminat correctament.
+      updated_success: Protocol actualitzat correctament.
+    new:
+      title: Crear Nou Protocol
+    show:
+      back: Tornar
+      confirm_delete: Estàs segur que vols eliminar aquest protocol?
+      delete: Eliminar Protocol
+      edit: Editar
+      no_description: Sense descripció addicional.
+      title: Detalls del Protocol
+    update:
+      success: Protocol actualitzat correctament.
   sidebar:
     add_ingredient: Afegir ingredient
     alternatives: Alternatives freqüents
