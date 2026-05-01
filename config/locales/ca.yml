@@ -94,10 +94,15 @@ ca:
     new:
       title: Nou ingredient
     show:
+      add_alternative_label: Ingredient alternatiu
+      add_alternative_prompt: Selecciona un ingredient
+      add_alternative_submit: Afegir alternativa
+      add_alternative_title: Afegir alternativa
       back: Tornar
       confirm_delete: Segur que vols eliminar aquest ingredient?
       delete: Eliminar
       edit: Editar dades
+      no_available_alternatives: No hi ha ingredients disponibles com a alternativa.
       no_restrictions: Cap restricció alimentària associada
       restrictions: Restriccions alimentàries
     update:

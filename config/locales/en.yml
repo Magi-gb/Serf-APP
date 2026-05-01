@@ -94,10 +94,15 @@ en:
     new:
       title: New ingredient
     show:
+      add_alternative_label: Alternative ingredient
+      add_alternative_prompt: Select an ingredient
+      add_alternative_submit: Add alternative
+      add_alternative_title: Add alternative
       back: Back
       confirm_delete: Are you sure you want to delete this ingredient?
       delete: Delete
       edit: Edit details
+      no_available_alternatives: There are no ingredients available as an alternative.
       no_restrictions: No dietary restrictions associated
       restrictions: Dietary restrictions
     update:

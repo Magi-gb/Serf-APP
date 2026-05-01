@@ -62,6 +62,26 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, ingredient.name
   end
 
+  test "kitchen_manager sees add alternative form on show" do
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "form[action=?]", ingredient_alternatives_path(ingredient)
+    assert_select "select[name=?]", "ingredient_alternative[alternative_id]"
+    assert_includes response.body, alternative.name
+  end
+
+  test "waiter does not see add alternative form on show" do
+    sign_in @waiter
+
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "form[action=?]", ingredient_alternatives_path(ingredient), count: 0
+  end
+
   test "edit renders form" do
     ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
     get edit_ingredient_url(ingredient)

@@ -25,6 +25,30 @@
     <% end %>
   </div>
 
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <div class="desc-box">
+      <h3><%= t("ingredients.show.add_alternative_title") %></h3>
+
+      <% if @alternative_ingredients&.any? %>
+        <%= form_with url: ingredient_alternatives_path(@ingredient), scope: :ingredient_alternative do |f| %>
+          <div class="form-group">
+            <%= f.label :alternative_id, t("ingredients.show.add_alternative_label") %>
+            <%= f.select :alternative_id,
+                         options_from_collection_for_select(@alternative_ingredients, :id, :name),
+                         { prompt: t("ingredients.show.add_alternative_prompt") },
+                         class: "form-control" %>
+          </div>
+
+          <div class="form-actions">
+            <%= f.submit t("ingredients.show.add_alternative_submit"), class: "btn-primary" %>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="empty-state"><%= t("ingredients.show.no_available_alternatives") %></p>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="detail-actions">
     <% if current_user.admin? || current_user.kitchen_manager? %>
       <%= link_to t("ingredients.show.edit"), edit_ingredient_path(@ingredient), class: "btn-primary" %>
