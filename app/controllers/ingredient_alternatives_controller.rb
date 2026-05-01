@@ -1,5 +1,6 @@
 class IngredientAlternativesController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_kitchen_manager_or_above!
   before_action :set_ingredient
 
   def create
