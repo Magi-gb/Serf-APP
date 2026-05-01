@@ -23,4 +23,10 @@ class ProtocolsAccessTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select "a", text: "Protocols", count: 0
   end
+
+  test "waiter cannot access protocol show" do
+    sign_in @waiter
+    get protocol_path(@protocol)
+    assert_redirected_to root_url
+  end
 end

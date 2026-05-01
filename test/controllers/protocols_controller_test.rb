@@ -24,8 +24,14 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
   end
 
-  test "waiter should get show" do
+  test "waiter should NOT get show" do
     sign_in @waiter
+    get protocol_url(@protocol)
+    assert_redirected_to root_url
+  end
+
+  test "kitchen_manager should get show" do
+    sign_in @kitchen_manager
     get protocol_url(@protocol)
     assert_response :success
   end

@@ -14,7 +14,7 @@
       <tbody>
         <% @protocols.each do |protocol| %>
           <tr>
-            <td><%= protocol.name %></td>
+            <td><%= link_to protocol.name, protocol_path(protocol) %></td>
             <td><%= protocol.description %></td>
           </tr>
         <% end %>
