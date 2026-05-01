@@ -5,6 +5,12 @@ en:
       user:
         password: Password
         password_confirmation: Confirm password
+    errors:
+      models:
+        ingredient_alternative:
+          attributes:
+            alternative:
+              cannot_add_restrictions: cannot add new restrictions compared to the original ingredient
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.

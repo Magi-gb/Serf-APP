@@ -5,6 +5,12 @@ ca:
       user:
         password: Contrasenya
         password_confirmation: Confirmar contrasenya
+    errors:
+      models:
+        ingredient_alternative:
+          attributes:
+            alternative:
+              cannot_add_restrictions: no pot afegir noves restriccions respecte l'ingredient original
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
