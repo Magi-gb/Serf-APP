@@ -139,12 +139,15 @@ ca:
       title: Protocols
     messages:
       created_success: Protocol creat correctament.
+      destroyed_success: Protocol eliminat correctament.
       updated_success: Protocol actualitzat correctament.
     new:
       title: Crear Nou Protocol
     show:
       back: Tornar
       edit: Editar
+      confirm_delete: Segur que vols eliminar aquest protocol?
+      delete: Eliminar
       no_description: Sense descripció addicional.
   restrictions:
     edit:

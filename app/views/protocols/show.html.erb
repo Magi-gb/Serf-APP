@@ -22,8 +22,9 @@
 
     <div class="detail-actions">
       <%= link_to t(".back"), protocols_path, class: "btn-secondary" %>
-      <% if current_user.admin? %>
+            <% if current_user.admin? %>
         <%= link_to t(".edit"), edit_protocol_path(@protocol), class: "btn-primary" %>
+        <%= button_to t(".delete"), @protocol, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t(".confirm_delete") } } %>
       <% end %>
     </div>
   </div>

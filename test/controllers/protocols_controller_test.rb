@@ -144,4 +144,21 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to protocols_url
   end
+
+  test "waiter should NOT destroy protocol" do
+    sign_in @waiter
+    assert_no_changes -> { Protocol.count } do
+      delete protocol_url(@protocol)
+    end
+    assert_redirected_to root_url
+  end
+
+  test "admin should destroy protocol" do
+    sign_in @admin
+    assert_changes -> { Protocol.count }, -1 do
+      delete protocol_url(@protocol)
+    end
+    assert_redirected_to protocols_url
+    assert_equal I18n.t("protocols.messages.destroyed_success"), flash[:notice]
+  end
 end

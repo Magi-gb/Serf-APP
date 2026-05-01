@@ -1,6 +1,6 @@
 class ProtocolsController < ApplicationController
-  before_action :require_admin!, only: %i[new create edit update]
-  before_action :set_protocol, only: %i[show edit update]
+  before_action :require_admin!, only: %i[new create edit update destroy]
+  before_action :set_protocol, only: %i[show edit update destroy]
 
   # GET /protocols
   def index
@@ -41,7 +41,10 @@ class ProtocolsController < ApplicationController
     end
   end
 
-  # Protocol deletion actions belong to their own tasks.
+  def destroy
+    @protocol.destroy
+    redirect_to protocols_path, notice: I18n.t("protocols.messages.destroyed_success"), status: :see_other
+  end
 
   private
 
