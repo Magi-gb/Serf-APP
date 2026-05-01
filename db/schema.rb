@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_01_065010) do
+  create_table "ingredient_alternatives", force: :cascade do |t|
+    t.integer "ingredient_id", null: false
+    t.integer "alternative_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alternative_id"], name: "index_ingredient_alternatives_on_alternative_id"
+    t.index ["ingredient_id", "alternative_id"], name: "idx_on_ingredient_id_alternative_id_d7c7e5c594", unique: true
+    t.index ["ingredient_id"], name: "index_ingredient_alternatives_on_ingredient_id"
+    t.check_constraint "ingredient_id != alternative_id", name: "ingredient_alternative_not_self"
+  end
+
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -27,6 +38,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_ingredients_on_name", unique: true
+  end
+
+  create_table "protocols", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_protocols_on_name", unique: true
   end
 
   create_table "restrictions", force: :cascade do |t|
@@ -51,6 +70,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
     t.check_constraint "role IN (0, 1, 2)", name: "chk_users_role"
   end
 
+  add_foreign_key "ingredient_alternatives", "ingredients"
+  add_foreign_key "ingredient_alternatives", "ingredients", column: "alternative_id"
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
 end

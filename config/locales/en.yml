@@ -58,6 +58,11 @@ en:
       waiter_description: Here you will see the options available for waiters.
       waiter_features: Waiter Features
       welcome: Welcome, %{username}!
+  ingredient_alternatives:
+    create:
+      success: Alternative added successfully.
+    destroy:
+      success: Alternative removed successfully.
   ingredients:
     create:
       success: Ingredient created successfully.

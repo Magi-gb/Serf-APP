@@ -58,6 +58,11 @@ ca:
       waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
       waiter_features: Funcionalitats del Cambrer
       welcome: Benvingut, %{username}!
+  ingredient_alternatives:
+    create:
+      success: Alternativa afegida correctament.
+    destroy:
+      success: Alternativa eliminada correctament.
   ingredients:
     create:
       success: Ingredient creat correctament.

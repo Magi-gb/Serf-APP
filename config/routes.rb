@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   resources :users, constraints: { id: /\d+/ }
-  resources :ingredients, constraints: { id: /\d+/ }
+  resources :ingredients, constraints: { id: /\d+/ } do
+    resources :alternatives, only: %i[create destroy], controller: "ingredient_alternatives"
+  end
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
 
