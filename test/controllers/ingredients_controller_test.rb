@@ -73,6 +73,20 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, alternative.name
   end
 
+  test "add alternative dropdown excludes candidates that add restrictions" do
+    ingredient = ingredients(:bread)
+    allowed = ingredients(:milk)
+
+    kosher = restrictions(:kosher)
+    disallowed = Ingredient.create!(name: "Pork #{Time.current.to_i}")
+    IngredientRestriction.create!(ingredient: disallowed, restriction: kosher)
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_includes response.body, allowed.name
+    assert_not_includes response.body, disallowed.name
+  end
+
   test "waiter does not see add alternative form on show" do
     sign_in @waiter
 

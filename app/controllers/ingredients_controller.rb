@@ -10,7 +10,12 @@ class IngredientsController < ApplicationController
     return unless current_user.admin? || current_user.kitchen_manager?
 
     excluded_ids = [ @ingredient.id ] + @ingredient.alternative_ids
-    @alternative_ingredients = Ingredient.where.not(id: excluded_ids).order(:name)
+    candidates = Ingredient.includes(:restrictions).where.not(id: excluded_ids).order(:name)
+
+    ingredient_restriction_ids = @ingredient.restriction_ids
+    @alternative_ingredients = candidates.select do |candidate|
+      (candidate.restriction_ids - ingredient_restriction_ids).empty?
+    end
   end
 
   def new
