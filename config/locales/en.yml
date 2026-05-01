@@ -98,12 +98,16 @@ en:
       add_alternative_prompt: Select an ingredient
       add_alternative_submit: Add alternative
       add_alternative_title: Add alternative
+      alternatives_title: Alternatives
       back: Back
       confirm_delete: Are you sure you want to delete this ingredient?
+      confirm_remove_alternative: Are you sure you want to remove this alternative?
       delete: Delete
       edit: Edit details
+      no_alternatives: There are no alternatives associated yet.
       no_available_alternatives: There are no ingredients available as an alternative.
       no_restrictions: No dietary restrictions associated
+      remove_alternative: Remove
       restrictions: Dietary restrictions
     update:
       success: Ingredient updated successfully.

@@ -98,12 +98,16 @@ ca:
       add_alternative_prompt: Selecciona un ingredient
       add_alternative_submit: Afegir alternativa
       add_alternative_title: Afegir alternativa
+      alternatives_title: Alternatives
       back: Tornar
       confirm_delete: Segur que vols eliminar aquest ingredient?
+      confirm_remove_alternative: Segur que vols treure aquesta alternativa?
       delete: Eliminar
       edit: Editar dades
+      no_alternatives: Encara no hi ha alternatives associades.
       no_available_alternatives: No hi ha ingredients disponibles com a alternativa.
       no_restrictions: Cap restricció alimentària associada
+      remove_alternative: Treure
       restrictions: Restriccions alimentàries
     update:
       success: Ingredient actualitzat correctament.

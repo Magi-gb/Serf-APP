@@ -82,6 +82,18 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?]", ingredient_alternatives_path(ingredient), count: 0
   end
 
+  test "show displays alternatives for all roles" do
+    sign_in @waiter
+
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    IngredientAlternative.create!(ingredient: ingredient, alternative: alternative)
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "a", text: alternative.name
+  end
+
   test "edit renders form" do
     ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
     get edit_ingredient_url(ingredient)
