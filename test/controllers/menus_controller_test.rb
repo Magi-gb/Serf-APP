@@ -86,5 +86,94 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_path
   end
-end
 
+  test "edit renders form with menu data" do
+    get edit_menu_url(@menu)
+
+    assert_response :success
+    assert_includes response.body, @menu.name
+    assert_includes response.body, I18n.t("menus.form.name")
+  end
+
+  test "edit requires authentication" do
+    sign_out @kitchen_manager
+
+    get edit_menu_url(@menu)
+
+    assert_redirected_to new_user_session_url
+  end
+
+  test "waiter cannot edit menus" do
+    sign_in @waiter
+
+    get edit_menu_url(@menu)
+
+    assert_redirected_to root_path
+    assert_equal I18n.t("authorization.not_authorized"), flash[:alert]
+  end
+
+  test "waiter cannot update menus" do
+    sign_in @waiter
+
+    assert_no_changes -> { @menu.reload.name } do
+      patch menu_url(@menu), params: {
+        menu: {
+          name: "Menú Premium"
+        }
+      }
+    end
+
+    assert_redirected_to root_path
+  end
+
+  test "update changes menu name" do
+    patch menu_url(@menu), params: {
+      menu: {
+        name: "Menú Premium"
+      }
+    }
+
+    assert_redirected_to menus_url
+    assert_equal I18n.t("menus.messages.updated_success"), flash[:notice]
+    assert_equal "Menú Premium", @menu.reload.name
+  end
+
+  test "update with invalid params re-renders form" do
+    patch menu_url(@menu), params: {
+      menu: {
+        name: ""
+      }
+    }
+
+    assert_response :unprocessable_entity
+    assert_equal "Menú setmanal", @menu.reload.name
+  end
+
+  test "update requires authentication" do
+    sign_out @kitchen_manager
+
+    patch menu_url(@menu), params: {
+      menu: {
+        name: "Menú Premium"
+      }
+    }
+
+    assert_redirected_to new_user_session_url
+  end
+
+  test "admin can edit and update menus" do
+    sign_in @admin
+
+    get edit_menu_url(@menu)
+    assert_response :success
+
+    patch menu_url(@menu), params: {
+      menu: {
+        name: "Menú Admin"
+      }
+    }
+
+    assert_redirected_to menus_url
+    assert_equal "Menú Admin", @menu.reload.name
+  end
+end

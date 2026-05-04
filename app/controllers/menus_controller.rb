@@ -1,6 +1,6 @@
 class MenusController < ApplicationController
   before_action :require_kitchen_manager_or_above!
-  before_action :set_menu, only: [:destroy, :edit, :update]
+  before_action :set_menu, only: [ :destroy, :edit, :update ]
 
   def index
     @menus = Menu.order(name: :asc)
