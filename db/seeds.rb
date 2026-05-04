@@ -13,6 +13,10 @@ User.find_or_create_by!(username: "cambrer") do |u|
   u.role = :waiter
 end
 
+Menu.find_or_create_by!(name: "Menú setmanal")
+Menu.find_or_create_by!(name: "Menú degustació")
+Menu.find_or_create_by!(name: "Menú infantil")
+
 # 14 Allergens according to EU Regulation
 eu_allergens = [
   { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats.", bg_color: "#E67E22" },

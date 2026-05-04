@@ -1,0 +1,23 @@
+<%= form_with(model: menu, class: "form-container") do |form| %>
+  <% if menu.errors.any? %>
+    <div class="alert-error">
+      <h3><%= t("errors.form_header", count: menu.errors.count) %></h3>
+      <ul>
+        <% menu.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, t("menus.form.name") %>
+    <%= form.text_field :name, class: "form-control" %>
+    <%= render "shared/field_error", object: menu, attribute: :name %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit t("menus.form.submit_create"), class: "btn-primary" %>
+    <%= link_to t("menus.form.cancel"), menus_path, class: "btn-secondary" %>
+  </div>
+<% end %>

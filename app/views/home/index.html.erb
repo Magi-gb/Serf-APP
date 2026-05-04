@@ -6,6 +6,15 @@
 
   <% if current_user.kitchen_manager? || current_user.admin? %>
     <div class="desc-box">
+      <h3><%= t("home.index.menus_management") %></h3>
+      <p class="desc-text"><%= t("home.index.menus_description") %></p>
+      <div class="detail-actions mt-3">
+        <%= link_to t("home.index.add_menu"), new_menu_path, class: "btn-primary" %>
+        <%= link_to t("home.index.manage_menus"), menus_path, class: "btn-secondary" %>
+      </div>
+    </div>
+
+    <div class="desc-box">
       <h3><%= t("home.index.ingredients_management") %></h3>
       <p class="desc-text"><%= t("home.index.ingredients_description") %></p>
       <div class="detail-actions mt-3">
