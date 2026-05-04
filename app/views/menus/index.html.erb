@@ -20,6 +20,7 @@
           </div>
 
           <div class="detail-actions">
+            <%= link_to t("menus.index.edit"), edit_menu_path(menu), class: "btn-primary" %>
             <%= button_to t("menus.index.delete"), menu_path(menu), method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("menus.index.confirm_delete") } } %>
           </div>
         </div>
