@@ -43,13 +43,17 @@ ca:
   home:
     index:
       add_ingredient: Afegir ingredient
+      add_menu: Afegir menú
       add_restriction: Afegir restricció
       add_user: Afegir usuari
       ingredients_description: Crea i gestiona els ingredients del restaurant amb les seves restriccions alimentàries.
       ingredients_management: Gestió d'Ingredients
       manage_ingredients: Gestionar ingredients
+      manage_menus: Gestionar menús
       manage_restrictions: Gestionar restriccions
       manage_users: Gestionar usuaris
+      menus_description: Crea i administra els menús que ofereix el restaurant.
+      menus_management: Gestió de Menús
       restrictions_description: Gestiona les restriccions alimentàries i religioses del sistema.
       restrictions_management: Gestió de Restriccions
       title: Serf
@@ -100,6 +104,37 @@ ca:
   layouts:
     login:
       title: Serf — Inicia la sessió
+  menus:
+    create:
+      success: Menú creat correctament.
+    destroy:
+      success: Menú eliminat correctament.
+    edit:
+      title: Editar menú
+    form:
+      cancel: Cancel·lar
+      name: Nom del menú
+      submit_create: Crear menú
+      submit_update: Desar canvis
+    index:
+      confirm_delete: Segur que vols eliminar aquest menú?
+      delete: Eliminar
+      edit: Editar
+      new_menu: "+ Nou menú"
+      no_menus: Encara no hi ha menús guardats.
+      title: Menús
+    messages:
+      created_success: Menú creat correctament.
+      destroyed_success: Menú eliminat correctament.
+      updated_success: Menú actualitzat correctament.
+    new:
+      title: Nou menú
+    show:
+      back: Tornar
+      confirm_delete: Segur que vols eliminar aquest menú?
+      delete: Eliminar menú
+      edit: Editar dades
+      title: Detalls del menú
   profile:
     edit:
       current_password: Contrasenya actual
@@ -154,6 +189,7 @@ ca:
       username_placeholder: ID d'usuari
   sidebar:
     add_ingredient: Afegir ingredient
+    add_menu: Afegir menú
     alternatives: Alternatives freqüents
     dashboard: Inici
     emergencies: Emergències
@@ -161,6 +197,7 @@ ca:
     ingredients: Ingredients
     logout: Tancar sessió
     menu: Menú
+    menus: Menús
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder
@@ -177,6 +214,7 @@ ca:
     edit:
       title: Editar usuari
     form:
+      cancel: Cancel·lar
       password: Contrasenya
       password_confirmation: Confirmar contrasenya
       password_hint_edit: "(deixa en blanc per no canviar)"

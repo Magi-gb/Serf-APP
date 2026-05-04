@@ -43,13 +43,17 @@ en:
   home:
     index:
       add_ingredient: Add ingredient
+      add_menu: Add menu
       add_restriction: Add restriction
       add_user: Add user
       ingredients_description: Create and manage restaurant ingredients with their dietary restrictions.
       ingredients_management: Ingredients Management
       manage_ingredients: Manage ingredients
+      manage_menus: Manage menus
       manage_restrictions: Manage restrictions
       manage_users: Manage users
+      menus_description: Create and manage the menus offered by the restaurant.
+      menus_management: Menus Management
       restrictions_description: Manage dietary and religious restrictions in the system.
       restrictions_management: Restrictions Management
       title: Serf
@@ -100,6 +104,37 @@ en:
   layouts:
     login:
       title: Serf — Sign in
+  menus:
+    create:
+      success: Menu created successfully.
+    destroy:
+      success: Menu deleted successfully.
+    edit:
+      title: Edit menu
+    form:
+      cancel: Cancel
+      name: Menu name
+      submit_create: Create menu
+      submit_update: Save changes
+    index:
+      confirm_delete: Are you sure you want to delete this menu?
+      delete: Delete
+      edit: Edit
+      new_menu: "+ New menu"
+      no_menus: No menus saved yet.
+      title: Menus
+    messages:
+      created_success: Menu created successfully.
+      destroyed_success: Menu deleted successfully.
+      updated_success: Menu updated successfully.
+    new:
+      title: New menu
+    show:
+      back: Back
+      confirm_delete: Are you sure you want to delete this menu?
+      delete: Delete menu
+      edit: Edit details
+      title: Menu details
   profile:
     edit:
       current_password: Current password
@@ -154,6 +189,7 @@ en:
       username_placeholder: User ID
   sidebar:
     add_ingredient: Add ingredient
+    add_menu: Add menu
     alternatives: Common alternatives
     dashboard: Home
     emergencies: Emergencies
@@ -161,6 +197,7 @@ en:
     ingredients: Ingredients
     logout: Sign out
     menu: Menu
+    menus: Menus
     new_restriction: "+ New restriction"
     personal: Staff
     placeholder: Placeholder
@@ -177,6 +214,7 @@ en:
     edit:
       title: Edit user
     form:
+      cancel: Cancel
       password: Password
       password_confirmation: Confirm password
       password_hint_edit: "(leave blank to keep current)"
