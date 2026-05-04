@@ -1,6 +1,6 @@
 class MenusController < ApplicationController
   before_action :require_kitchen_manager_or_above!
-  before_action :set_menu, only: :destroy
+  before_action :set_menu, only: [:destroy, :edit, :update]
 
   def index
     @menus = Menu.order(name: :asc)
@@ -17,6 +17,19 @@ class MenusController < ApplicationController
       redirect_to menus_path, notice: t("menus.messages.created_success")
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @menu = Menu.find(params[:id])
+  end
+
+  def update
+    @menu = Menu.find(params[:id])
+    if @menu.update(menu_params)
+      redirect_to menus_path, notice: t("menus.messages.updated_success")
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
