@@ -55,6 +55,6 @@ class ProtocolsController < ApplicationController
   end
 
   def protocol_params
-    params.require(:protocol).permit(:name, :description, :bg_color, :icon_svg)
+    params.require(:protocol).permit(:name, :description)
   end
 end
