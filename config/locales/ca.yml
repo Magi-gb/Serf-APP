@@ -8,6 +8,10 @@ ca:
       user:
         password: Contrasenya
         password_confirmation: Confirmar contrasenya
+    models:
+      protocol:
+        one: Protocol
+        other: Protocols
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
@@ -40,6 +44,10 @@ ca:
       too_short:
         one: és massa curt (mínim 1 caràcter)
         other: és massa curt (mínim %{count} caràcters)
+    template:
+      header:
+        one: '1 error ha impedit guardar:'
+        other: "%{count} errors han impedit guardar:"
   flash:
     alert: alert
     notice: notice
@@ -119,19 +127,33 @@ ca:
       invalid_current_password: La contrasenya actual no és correcta.
       success: Contrasenya actualitzada correctament.
   protocols:
-    edit:
-      title: Editar Protocol
     form:
       cancel: Cancel·lar
-      submit: Guardar canvis
+      submit: Guardar
     index:
+      create: "+ Nou protocol"
       empty: Encara no hi ha protocols guardats.
+      new_protocol: "+ Nou protocol"
+      search_placeholder: Cerca un protocol
       title: Protocols
+    messages:
+      created_success: Protocol creat correctament.
+      destroyed_success: Protocol eliminat correctament.
+      updated_success: Protocol actualitzat correctament.
+    new:
+      title: Crear Nou Protocol
+    edit:
+      title: Editar Protocol
     show:
       back: Tornar
       edit: Editar
+      confirm_delete: Segur que vols eliminar aquest protocol?
+      delete: Eliminar
       no_description: Sense descripció addicional.
-      title: Detalls del Protocol
+    create:
+      success: Protocol creat correctament.
+    destroy:
+      success: Protocol eliminat correctament.
     update:
       success: Protocol actualitzat correctament.
   restrictions:

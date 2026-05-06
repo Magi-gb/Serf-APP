@@ -88,13 +88,14 @@ end
 # --- Protocols ---
 
 protocols_data = [
-  { name: "Protocol de Contaminació Creuada", description: "Mesures estrictes per evitar la contaminació creuada amb al·lèrgens a la cuina." },
-  { name: "Protocol de Neteja", description: "Passos a seguir per la neteja d'estris abans de preparar plats per celíacs." },
-  { name: "Protocol d'Emergència Mèdica", description: "Procediment d'actuació ràpida en cas d'un xoc anafilàctic." }
+  { name: "Protocol de Contaminació Creuada", description: "Mesures estrictes per evitar la contaminació creuada amb al·lèrgens a la cuina.", bg_color: "#E74C3C" },
+  { name: "Protocol de Neteja", description: "Passos a seguir per la neteja d'estris abans de preparar plats per celíacs.", bg_color: "#3498DB" },
+  { name: "Protocol d'Emergència Mèdica", description: "Procediment d'actuació ràpida en cas d'un xoc anafilàctic.", bg_color: "#E67E22" }
 ]
 
 protocols_data.each do |data|
   Protocol.find_or_create_by!(name: data[:name]) do |p|
     p.description = data[:description]
+    p.bg_color = data[:bg_color]
   end
 end

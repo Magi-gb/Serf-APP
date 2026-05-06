@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_29_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_29_150254) do
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_29_120000) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "bg_color"
+    t.text "icon_svg"
     t.index ["name"], name: "index_protocols_on_name", unique: true
   end
 

@@ -2,9 +2,16 @@
 en:
   activerecord:
     attributes:
+      protocol:
+        description: Description
+        name: Name
       user:
         password: Password
         password_confirmation: Confirm password
+    models:
+      protocol:
+        one: Protocol
+        other: Protocols
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.
@@ -37,6 +44,10 @@ en:
       too_short:
         one: is too short (minimum is 1 character)
         other: is too short (minimum is %{count} characters)
+    template:
+      header:
+        one: '1 error prevented saving:'
+        other: "%{count} errors prevented saving:"
   flash:
     alert: alert
     notice: notice
@@ -115,6 +126,26 @@ en:
     update:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
+  protocols:
+    edit:
+      title: Edit Protocol
+    form:
+      cancel: Cancel
+      submit: Save
+    index:
+      empty: No protocols saved yet.
+      new_protocol: "+ New Protocol"
+      search_placeholder: Search a protocol
+      title: Protocols
+    messages:
+      created_success: Protocol created successfully.
+      updated_success: Protocol updated successfully.
+    new:
+      title: Create New Protocol
+    show:
+      back: Back
+      edit: Edit
+      no_description: No additional description.
   restrictions:
     edit:
       title: Edit Restriction

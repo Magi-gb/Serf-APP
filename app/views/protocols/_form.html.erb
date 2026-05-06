@@ -2,10 +2,10 @@
   <%= form_with(model: protocol) do |form| %>
     <% if protocol.errors.any? %>
       <div class="alert-error">
-        <h2><%= t("errors.template.header", model: Protocol.model_name.human, count: protocol.errors.count) %></h2>
+        <h3><%= t("errors.form_header", count: protocol.errors.count) %></h3>
         <ul>
-          <% protocol.errors.each do |error| %>
-            <li><%= error.full_message %></li>
+          <% protocol.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
           <% end %>
         </ul>
       </div>
