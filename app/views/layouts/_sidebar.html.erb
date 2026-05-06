@@ -15,7 +15,7 @@
     <%= link_to t("sidebar.restrictions"), restrictions_path %>
   </li>
 
-  <% if current_user.kitchen_manager? || current_user.admin? %>
+  <% if current_user.kitchen_manager? || current_user.admin? || current_user.waiter? %>
     <li class="<%= "sidenav-active" if controller_name == "protocols" %>">
       <%= link_to t("sidebar.protocols"), protocols_path %>
     </li>
