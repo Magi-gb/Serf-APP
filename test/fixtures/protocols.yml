@@ -1,0 +1,7 @@
+allergy:
+  name: Allergy
+  description: "Protocol for allergy handling"
+
+standard:
+  name: Standard
+  description: "Default protocol"
