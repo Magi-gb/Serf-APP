@@ -1,0 +1,16 @@
+<%= form_with(model: @protocol, local: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control" %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit t('.save'), class: "btn-primary" %>
+    <%= link_to t('.cancel'), protocols_path, class: "btn-secondary" %>
+  </div>
+<% end %>
