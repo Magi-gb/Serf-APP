@@ -25,6 +25,58 @@
     <% end %>
   </div>
 
+  <div class="desc-box">
+    <h3><%= t("ingredients.show.alternatives_title") %></h3>
+
+    <% if @ingredient.alternatives.any? %>
+      <div class="list-card-group">
+        <% @ingredient.alternatives.order(:name).each do |alternative| %>
+          <div class="list-card">
+            <div class="list-card-info">
+              <%= link_to alternative.name, ingredient_path(alternative), class: "list-card-title" %>
+            </div>
+
+            <% if current_user.admin? || current_user.kitchen_manager? %>
+              <div class="list-card-actions">
+                <%= button_to t("ingredients.show.remove_alternative"),
+                              ingredient_alternative_path(@ingredient, alternative),
+                              method: :delete,
+                              class: "btn-danger",
+                              form: { data: { turbo_confirm: t("ingredients.show.confirm_remove_alternative") } } %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="empty-state"><%= t("ingredients.show.no_alternatives") %></p>
+    <% end %>
+  </div>
+
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <div class="desc-box">
+      <h3><%= t("ingredients.show.add_alternative_title") %></h3>
+
+      <% if @alternative_ingredients&.any? %>
+        <%= form_with url: ingredient_alternatives_path(@ingredient), scope: :ingredient_alternative do |f| %>
+          <div class="form-group">
+            <%= f.label :alternative_id, t("ingredients.show.add_alternative_label") %>
+            <%= f.select :alternative_id,
+                         options_from_collection_for_select(@alternative_ingredients, :id, :name),
+                         { prompt: t("ingredients.show.add_alternative_prompt") },
+                         class: "form-control" %>
+          </div>
+
+          <div class="form-actions">
+            <%= f.submit t("ingredients.show.add_alternative_submit"), class: "btn-primary" %>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="empty-state"><%= t("ingredients.show.no_available_alternatives") %></p>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="detail-actions">
     <% if current_user.admin? || current_user.kitchen_manager? %>
       <%= link_to t("ingredients.show.edit"), edit_ingredient_path(@ingredient), class: "btn-primary" %>
