@@ -3,12 +3,8 @@
 <div class="page-card">
   <div class="detail-section">
     <div class="detail-header">
-      <div class="detail-avatar" style="background-color: <%= @protocol.bg_color.presence || 'var(--color-bg-blue)' %>;">
-        <% if @protocol.icon_svg.present? %>
-          <%= safe_svg(@protocol.icon_svg) %>
-        <% else %>
-          <%= @protocol.name[0..1].upcase %>
-        <% end %>
+      <div class="detail-avatar" style="background-color: var(--color-bg-blue);">
+        <%= @protocol.name[0].upcase %>
       </div>
       <h2 class="serf-page-title"><%= @protocol.name %></h2>
     </div>
@@ -16,15 +12,15 @@
     <div class="desc-box" style="width: 100%; max-width: 600px;">
       <div class="field-group">
         <span class="field-label"><%= Protocol.human_attribute_name(:description) %></span>
-        <p class="desc-text"><%= @protocol.description.presence || t(".no_description") %></p>
+        <%= simple_format(@protocol.description.presence || t(".no_description"), { }, { class: "desc-text" }) %>
       </div>
     </div>
 
     <div class="detail-actions">
       <%= link_to t(".back"), protocols_path, class: "btn-secondary" %>
-            <% if current_user.admin? %>
+      <% if current_user.admin? %>
         <%= link_to t(".edit"), edit_protocol_path(@protocol), class: "btn-primary" %>
-        <%= button_to t(".delete"), @protocol, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t(".confirm_delete") } } %>
+        <%= link_to t(".delete"), protocol_path(@protocol), method: :delete, data: { confirm: t(".confirm_delete") }, class: "btn-danger" %>
       <% end %>
     </div>
   </div>

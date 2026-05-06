@@ -127,15 +127,18 @@ ca:
       invalid_current_password: La contrasenya actual no és correcta.
       success: Contrasenya actualitzada correctament.
   protocols:
+    create:
+      success: Protocol creat correctament.
+    destroy:
+      success: Protocol eliminat correctament.
     edit:
       title: Editar Protocol
     form:
       cancel: Cancel·lar
-      submit: Guardar
+      submit: Guardar canvis
     index:
+      create: "+ Nou protocol"
       empty: Encara no hi ha protocols guardats.
-      new_protocol: "+ Nou Protocol"
-      search_placeholder: Cerca un protocol
       title: Protocols
     messages:
       created_success: Protocol creat correctament.
@@ -145,10 +148,13 @@ ca:
       title: Crear Nou Protocol
     show:
       back: Tornar
+      confirm_delete: Estàs segur que vols eliminar aquest protocol?
+      delete: Eliminar Protocol
       edit: Editar
-      confirm_delete: Segur que vols eliminar aquest protocol?
-      delete: Eliminar
       no_description: Sense descripció addicional.
+      title: Detalls del Protocol
+    update:
+      success: Protocol actualitzat correctament.
   restrictions:
     edit:
       title: Editar Restricció

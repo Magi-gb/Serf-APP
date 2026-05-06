@@ -11,6 +11,5 @@ Rails.application.routes.draw do
   resources :restrictions
   resources :protocols, constraints: { id: /\d+/ }
 
-
   root "home#index"
 end
