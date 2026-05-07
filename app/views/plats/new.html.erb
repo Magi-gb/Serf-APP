@@ -1,6 +1,7 @@
-<h1>Nou Plat</h1>
+<div class="page-card">
+  <div class="detail-header">
+    <h1><%= t("plats.new.title") %></h1>
+  </div>
 
-<%= render "form", plat: @plat %>
-
-<%= link_to "Tornar", plats_path %>
-
+  <%= render "form", plat: @plat %>
+</div>

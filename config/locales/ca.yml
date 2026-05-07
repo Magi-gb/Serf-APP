@@ -100,6 +100,42 @@ ca:
   layouts:
     login:
       title: Serf — Inicia la sessió
+  plats:
+    edit:
+      title: Editar plat
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      ingredients: Ingredients
+      name: Nom del plat
+      submit: Guardar plat
+      tipus_plat: Tipus de plat
+    index:
+      actions: Accions
+      description: Descripció
+      edit: Editar
+      empty: Encara no hi ha plats guardats.
+      name: Nom del plat
+      show: Veure
+      tipus: Tipus
+      title: Plats
+    messages:
+      created_success: Plat creat correctament.
+      destroyed_success: Plat eliminat correctament.
+      updated_success: Plat actualitzat correctament.
+    new:
+      title: Nou plat
+    show:
+      back: Tornar
+      description: Descripció
+      edit: Editar
+      ingredients: Ingredients
+      tipus: Tipus
+    types:
+      entrant: Entrant
+      postre: Postre
+      primer: Primer plat
+      segon: Segon plat
   profile:
     edit:
       current_password: Contrasenya actual
@@ -161,6 +197,7 @@ ca:
     ingredients: Ingredients
     logout: Tancar sessió
     menu: Menú
+    new_plat: "+ Nou plat"
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder
