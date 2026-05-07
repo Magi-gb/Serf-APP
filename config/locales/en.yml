@@ -197,6 +197,7 @@ en:
     ingredients: Ingredients
     logout: Sign out
     menu: Menu
+    new_plat: "+ New dish"
     new_restriction: "+ New restriction"
     personal: Staff
     placeholder: Placeholder
@@ -204,8 +205,6 @@ en:
     protocols: Protocols
     remove_ingredient: Delete ingredients
     restrictions: Restrictions
-    new_plat: "+ New dish"
-
   users:
     create:
       success: User created successfully.

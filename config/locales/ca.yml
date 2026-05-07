@@ -197,6 +197,7 @@ ca:
     ingredients: Ingredients
     logout: Tancar sessió
     menu: Menú
+    new_plat: "+ Nou plat"
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder
@@ -204,8 +205,6 @@ ca:
     protocols: Protocols
     remove_ingredient: Eliminar ingredients
     restrictions: Restriccions
-    new_plat: "+ Nou plat"
-
   users:
     create:
       success: Usuari creat correctament.
