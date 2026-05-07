@@ -204,6 +204,8 @@ ca:
     protocols: Protocols
     remove_ingredient: Eliminar ingredients
     restrictions: Restriccions
+    new_plat: "+ Nou plat"
+
   users:
     create:
       success: Usuari creat correctament.
