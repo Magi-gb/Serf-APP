@@ -204,3 +204,39 @@ en:
       title: User details
     update:
       success: User updated successfully.
+  plats:
+    index:
+      title: Dishes
+      name: Dish name
+      description: Description
+      tipus: Type
+      actions: Actions
+      show: View
+      edit: Edit
+      empty: No dishes have been saved yet.
+    new:
+      title: New dish
+    edit:
+      title: Edit dish
+    form:
+      name: Dish name
+      description: Description
+      tipus_plat: Dish type
+      ingredients: Ingredients
+      submit: Save dish
+      cancel: Cancel
+    show:
+      description: Description
+      tipus: Type
+      ingredients: Ingredients
+      back: Back
+      edit: Edit
+    messages:
+      created_success: Dish created successfully.
+      updated_success: Dish updated successfully.
+      destroyed_success: Dish deleted successfully.
+    types:
+      entrant: Starter
+      primer: First course
+      segon: Second course
+      postre: Dessert

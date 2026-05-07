@@ -204,3 +204,39 @@ ca:
       title: Detalls de l'usuari
     update:
       success: Usuari actualitzat correctament.
+  plats:
+    index:
+      title: Plats
+      name: Nom del plat
+      description: Descripció
+      tipus: Tipus
+      actions: Accions
+      show: Veure
+      edit: Editar
+      empty: Encara no hi ha plats guardats.
+    new:
+      title: Nou plat
+    edit:
+      title: Editar plat
+    form:
+      name: Nom del plat
+      description: Descripció
+      tipus_plat: Tipus de plat
+      ingredients: Ingredients
+      submit: Guardar plat
+      cancel: Cancel·lar
+    show:
+      description: Descripció
+      tipus: Tipus
+      ingredients: Ingredients
+      back: Tornar
+      edit: Editar
+    messages:
+      created_success: Plat creat correctament.
+      updated_success: Plat actualitzat correctament.
+      destroyed_success: Plat eliminat correctament.
+    types:
+      entrant: Entrant
+      primer: Primer plat
+      segon: Segon plat
+      postre: Postre
