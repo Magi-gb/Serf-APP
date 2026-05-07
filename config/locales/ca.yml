@@ -140,6 +140,7 @@ ca:
       create: "+ Nou protocol"
       empty: Encara no hi ha protocols guardats.
       title: Protocols
+      search_placeholder: Cerca un protocol
     messages:
       created_success: Protocol creat correctament.
       destroyed_success: Protocol eliminat correctament.

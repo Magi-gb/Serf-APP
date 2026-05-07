@@ -6,8 +6,7 @@ class ProtocolsController < ApplicationController
 
   # GET /protocols
   def index
-    @protocols = Protocol.all
-    @protocols = @protocols.where("name LIKE ?", "%#{params[:query]}%") if params[:query].present?
+    @protocols = Protocol.search(params[:search])
   end
 
   # GET /protocols/1
