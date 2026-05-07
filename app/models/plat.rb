@@ -10,5 +10,4 @@ class Plat < ApplicationRecord
   segon: 2,
   postre: 3
 }
-
 end
