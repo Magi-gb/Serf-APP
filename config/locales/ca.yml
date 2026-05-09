@@ -113,8 +113,11 @@ ca:
       title: Editar menú
     form:
       cancel: Cancel·lar
+      confirm_remove_plat: Segur que vols eliminar aquest plat del menú?
+      current_plats: Plats actuals del menú
       name: Nom del menú
       plats: Plats
+      remove_plat: Eliminar
       submit_create: Crear menú
       submit_update: Desar canvis
     index:
@@ -123,12 +126,13 @@ ca:
       edit: Editar
       new_menu: "+ Nou menú"
       no_menus: Encara no hi ha menús guardats.
+      search_placeholder: Cerca un menú
       show: Veure
       title: Menús
-      search_placeholder: Cerca un menú
     messages:
       created_success: Menú creat correctament.
       destroyed_success: Menú eliminat correctament.
+      plat_removed: Plat eliminat del menú correctament.
       updated_success: Menú actualitzat correctament.
     new:
       title: Nou menú
@@ -169,6 +173,8 @@ ca:
       title: Nou plat
     show:
       back: Tornar
+      confirm_delete: Segur que vols eliminar aquest plat?
+      delete: Eliminar plat
       description: Descripció
       edit: Editar
       ingredients: Ingredients

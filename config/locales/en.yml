@@ -123,6 +123,7 @@ en:
       edit: Edit
       new_menu: "+ New menu"
       no_menus: No menus saved yet.
+      search_placeholder: Search menu
       show: View
       title: Menus
     messages:
@@ -168,6 +169,8 @@ en:
       title: New dish
     show:
       back: Back
+      confirm_delete: Are you sure you want to delete this dish?
+      delete: Delete dish
       description: Description
       edit: Edit
       ingredients: Ingredients

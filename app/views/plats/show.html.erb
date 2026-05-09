@@ -29,6 +29,7 @@
 
     <% if current_user.admin? || current_user.kitchen_manager? %>
       <%= link_to t("plats.show.edit"), edit_plat_path(@plat), class: "btn-primary" %>
+      <%= button_to t("plats.show.delete"), plat_path(@plat), method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("plats.show.confirm_delete") } } %>
     <% end %>
   </div>
 </div>

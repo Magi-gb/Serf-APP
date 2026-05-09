@@ -1,6 +1,8 @@
+<% content_for :title, t(".title") %>
+
 <div class="page-card">
-  <div class="detail-header">
-    <h1><%= t("plats.edit.title") %></h1>
+  <div class="page-header">
+    <h1 class="serf-page-title"><%= t(".title") %></h1>
   </div>
 
   <%= render "form", plat: @plat %>
