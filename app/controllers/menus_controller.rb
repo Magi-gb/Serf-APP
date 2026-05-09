@@ -1,9 +1,13 @@
 class MenusController < ApplicationController
   before_action :require_kitchen_manager_or_above!
-  before_action :set_menu, only: [ :destroy, :edit, :update ]
+  before_action :set_menu, only: [ :destroy, :edit, :update, :show ]
 
   def index
     @menus = Menu.order(name: :asc)
+  end
+
+  def show
+    @menu
   end
 
   def new
@@ -21,11 +25,9 @@ class MenusController < ApplicationController
   end
 
   def edit
-    @menu = Menu.find(params[:id])
   end
 
   def update
-    @menu = Menu.find(params[:id])
     if @menu.update(menu_params)
       redirect_to menus_path, notice: t("menus.messages.updated_success")
     else
