@@ -109,6 +109,40 @@ ca:
       success: Menú creat correctament.
     destroy:
       success: Menú eliminat correctament.
+<<<<<<< Updated upstream
+=======
+    edit:
+      title: Editar menú
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      name: Nom del menú
+      plats: Plats
+      submit_create: Crear menú
+      submit_update: Desar canvis
+    index:
+      confirm_delete: Segur que vols eliminar aquest menú?
+      delete: Eliminar
+      edit: Editar
+      new_menu: "+ Nou menú"
+      no_menus: Encara no hi ha menús guardats.
+      title: Menús
+    messages:
+      created_success: Menú creat correctament.
+      destroyed_success: Menú eliminat correctament.
+      updated_success: Menú actualitzat correctament.
+    new:
+      title: Nou menú
+    show:
+      back: Tornar
+      confirm_delete: Segur que vols eliminar aquest menú?
+      delete: Eliminar menú
+      edit: Editar dades
+      no_plats: Sense plats assignats
+      plats: Plats del menú
+      title: Detalls del menú
+  plats:
+>>>>>>> Stashed changes
     edit:
       title: Editar menú
     form:
@@ -198,6 +232,10 @@ ca:
     logout: Tancar sessió
     menu: Menú
     menus: Menús
+<<<<<<< Updated upstream
+=======
+    new_plat: "+ Nou plat"
+>>>>>>> Stashed changes
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder

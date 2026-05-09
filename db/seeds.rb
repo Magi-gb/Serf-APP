@@ -88,3 +88,20 @@ ingredients_data.each do |data|
     IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
   end
 end
+
+# --- Sample Plats (by type) ---
+plats_data = [
+  { name: "Amanida de temporada", description: "Amanida fresca amb tomàquet i oli d'oliva.", tipusPlat: :entrant },
+  { name: "Canelons de carn", description: "Canelons farcits de carn i beixamel.", tipusPlat: :primer },
+  { name: "Filet de vedella a la planxa", description: "Filet de vedella amb guarnició.", tipusPlat: :segon },
+  { name: "Crema catalana", description: "Postre tradicional amb crema cremada.", tipusPlat: :postre }
+]
+
+plats_data.each do |p|
+  Plat.find_or_create_by!(name: p[:name]) do |plat|
+    plat.description = p[:description]
+    plat.tipusPlat = p[:tipusPlat]
+  end
+end
+
+

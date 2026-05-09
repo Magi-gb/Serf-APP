@@ -10,6 +10,11 @@ Rails.application.routes.draw do
   resources :menus, only: %i[index new create destroy], constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
+<<<<<<< Updated upstream
+=======
+  resources :plats
+  resources :menus, constraints: { id: /\d+/ }
+>>>>>>> Stashed changes
 
   root "home#index"
 end

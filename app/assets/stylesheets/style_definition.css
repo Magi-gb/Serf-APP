@@ -1069,3 +1069,47 @@ input:focus {
 }
 
 
+
+/* Menu plats selection cards */
+.plat-card {
+  cursor: pointer;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  background-color: var(--color-bg);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease;
+}
+
+.plat-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.plat-card-selected {
+  border-color: var(--color-accent-blue);
+  box-shadow: 0 6px 18px rgba(94,120,230,0.12);
+  background-color: #ffffff;
+}
+
+/* Hide native checkbox but keep it accessible */
+.visually-hidden-checkbox {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* When checkbox is checked, style the following .plat-card */
+.checkbox-item { display: block; }
+.checkbox-item input[type="checkbox"]:checked + .plat-card {
+  border-color: var(--color-accent-blue);
+  box-shadow: 0 6px 18px rgba(94,120,230,0.12);
+  background-color: #ffffff;
+}
+
+
