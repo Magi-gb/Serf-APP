@@ -34,7 +34,7 @@
   </div>
 
   <div class="form-actions">
-    <%= form.submit t("plats.form.submit"), class: "btn-primary" %>
+    <%= form.submit t(plat.persisted? ? "plats.form.submit_update" : "plats.form.submit_create"), class: "btn-primary" %>
     <%= link_to t("plats.form.cancel"), plats_path, class: "btn-secondary" %>
   </div>
 <% end %>

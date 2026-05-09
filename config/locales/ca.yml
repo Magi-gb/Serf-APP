@@ -144,15 +144,25 @@ ca:
       title: Editar plat
     form:
       cancel: Cancel·lar
+      description: Descripció
+      ingredients: Ingredients
       name: Nom del plat
+      submit: Guardar plat
       submit_create: Crear plat
       submit_update: Desar canvis
+      tipus_plat: Tipus de plat
     index:
+      actions: Accions
       confirm_delete: Segur que vols eliminar aquest plat?
       delete: Eliminar
+      description: Descripció
       edit: Editar
+      empty: Encara no hi ha plats guardats.
+      name: Nom del plat
       new_plat: "+ Nou plat"
       no_plats: Encara no hi ha plats guardats.
+      show: Veure
+      tipus: Tipus
       title: Plats
     messages:
       created_success: Plat creat correctament.
@@ -164,7 +174,10 @@ ca:
       back: Tornar
       confirm_delete: Segur que vols eliminar aquest plat?
       delete: Eliminar plat
+      description: Descripció
       edit: Editar dades
+      ingredients: Ingredients
+      tipus: Tipus
       title: Detalls del plat
     types:
       entrant: Entrant

@@ -6,6 +6,7 @@ class Plat < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
+  validates :tipusPlat, presence: true
   enum tipusPlat: {
   entrant: 0,
   primer: 1,

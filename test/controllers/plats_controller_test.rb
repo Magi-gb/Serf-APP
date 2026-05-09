@@ -73,4 +73,85 @@ class PlatsControllerTest < ActionDispatch::IntegrationTest
     get edit_plat_url(@plat)
     assert_response :success
   end
+
+  test "create stores a plat" do
+    assert_difference "Plat.count", 1 do
+      post plats_url, params: {
+        plat: {
+          name: "Fideuà",
+          description: "Fideos con caldo",
+          tipusPlat: :primer
+        }
+      }
+    end
+
+    assert_redirected_to plat_url(Plat.last)
+    assert_equal I18n.t("plats.messages.created_success"), flash[:notice]
+  end
+
+  test "create with invalid params re-renders form" do
+    assert_no_difference "Plat.count" do
+      post plats_url, params: {
+        plat: {
+          name: "",
+          description: ""
+        }
+      }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "update modifies a plat" do
+    patch plat_url(@plat), params: {
+      plat: {
+        name: "Paella Updated",
+        description: "Arroz con cosas updated",
+        tipusPlat: :segon
+      }
+    }
+
+    assert_redirected_to plat_url(@plat)
+    assert_equal I18n.t("plats.messages.updated_success"), flash[:notice]
+    @plat.reload
+    assert_equal "Paella Updated", @plat.name
+  end
+
+  test "update with invalid params re-renders form" do
+    patch plat_url(@plat), params: {
+      plat: {
+        name: "",
+        description: ""
+      }
+    }
+
+    assert_response :unprocessable_entity
+  end
+
+  test "destroy removes a plat" do
+    plat = plats(:paella)
+
+    assert_difference "Plat.count", -1 do
+      delete plat_url(plat)
+    end
+
+    assert_redirected_to plats_url
+    assert_equal I18n.t("plats.messages.destroyed_success"), flash[:notice]
+  end
+
+  test "waiter cannot create plat" do
+    sign_in @waiter
+
+    assert_no_difference "Plat.count" do
+      post plats_url, params: {
+        plat: {
+          name: "Test",
+          description: "Test",
+          tipusPlat: :primer
+        }
+      }
+    end
+
+    assert_redirected_to root_url
+  end
 end

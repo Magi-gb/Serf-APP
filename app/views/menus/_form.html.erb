@@ -22,7 +22,7 @@
   </div>
 
   <div class="form-actions">
-    <%= form.submit t("menus.form.submit_create"), class: "btn-primary" %>
+    <%= form.submit t(menu.persisted? ? "menus.form.submit_update" : "menus.form.submit_create"), class: "btn-primary" %>
     <%= link_to t("menus.form.cancel"), menus_path, class: "btn-secondary" %>
   </div>
 <% end %>

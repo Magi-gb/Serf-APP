@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { id: /\d+/ }
   resources :ingredients, constraints: { id: /\d+/ }
-  resources :menus, only: %i[index new create destroy show], constraints: { id: /\d+/ }
+  resources :menus, only: %i[index new create destroy show edit update], constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
   resources :plats
