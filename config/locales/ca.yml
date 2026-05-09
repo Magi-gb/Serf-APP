@@ -109,8 +109,6 @@ ca:
       success: Menú creat correctament.
     destroy:
       success: Menú eliminat correctament.
-<<<<<<< Updated upstream
-=======
     edit:
       title: Editar menú
     form:
@@ -142,33 +140,37 @@ ca:
       plats: Plats del menú
       title: Detalls del menú
   plats:
->>>>>>> Stashed changes
     edit:
-      title: Editar menú
+      title: Editar plat
     form:
       cancel: Cancel·lar
-      name: Nom del menú
-      submit_create: Crear menú
+      name: Nom del plat
+      submit_create: Crear plat
       submit_update: Desar canvis
     index:
-      confirm_delete: Segur que vols eliminar aquest menú?
+      confirm_delete: Segur que vols eliminar aquest plat?
       delete: Eliminar
       edit: Editar
-      new_menu: "+ Nou menú"
-      no_menus: Encara no hi ha menús guardats.
-      title: Menús
+      new_plat: "+ Nou plat"
+      no_plats: Encara no hi ha plats guardats.
+      title: Plats
     messages:
-      created_success: Menú creat correctament.
-      destroyed_success: Menú eliminat correctament.
-      updated_success: Menú actualitzat correctament.
+      created_success: Plat creat correctament.
+      destroyed_success: Plat eliminat correctament.
+      updated_success: Plat actualitzat correctament.
     new:
-      title: Nou menú
+      title: Nou plat
     show:
       back: Tornar
-      confirm_delete: Segur que vols eliminar aquest menú?
-      delete: Eliminar menú
+      confirm_delete: Segur que vols eliminar aquest plat?
+      delete: Eliminar plat
       edit: Editar dades
-      title: Detalls del menú
+      title: Detalls del plat
+    types:
+      entrant: Entrant
+      postre: Postre
+      primer: Primer plat
+      segon: Segon plat
   profile:
     edit:
       current_password: Contrasenya actual
@@ -217,7 +219,7 @@ ca:
       religious: Religiosa
   sessions:
     new:
-      password_placeholder: Contrassenya
+      password_placeholder: Contrasenya
       submit: Entra
       title: Inicia la sessió
       username_placeholder: ID d'usuari
@@ -232,10 +234,7 @@ ca:
     logout: Tancar sessió
     menu: Menú
     menus: Menús
-<<<<<<< Updated upstream
-=======
     new_plat: "+ Nou plat"
->>>>>>> Stashed changes
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder

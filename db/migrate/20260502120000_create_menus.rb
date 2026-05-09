@@ -13,4 +13,3 @@ class CreateMenus < ActiveRecord::Migration[7.2]
     add_index :menus, :code, unique: true
   end
 end
-

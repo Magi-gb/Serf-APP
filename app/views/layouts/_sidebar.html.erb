@@ -8,19 +8,11 @@
   <li class="<%= "sidenav-active" if controller_name == "ingredients" %>">
     <%= link_to t("sidebar.ingredients"), ingredients_path %>
   </li>
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   <% if current_user.admin? || current_user.kitchen_manager? %>
     <li class="<%= "sidenav-active" if controller_name == "menus" %>">
       <%= link_to t("sidebar.menus"), menus_path %>
     </li>
   <% end %>
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   <li class="<%= "sidenav-active" if controller_name == "restrictions" %>">
     <%= link_to t("sidebar.restrictions"), restrictions_path %>
   </li>

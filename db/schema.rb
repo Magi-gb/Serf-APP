@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< Updated upstream
-ActiveRecord::Schema[7.2].define(version: 2026_05_02_122822) do
-=======
 ActiveRecord::Schema[7.2].define(version: 2026_05_07_130000) do
->>>>>>> Stashed changes
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -33,10 +29,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_07_130000) do
     t.index ["name"], name: "index_ingredients_on_name", unique: true
   end
 
-<<<<<<< Updated upstream
-  create_table "menus", force: :cascade do |t|
-    t.string "name", null: false
-=======
   create_table "menu_plats", force: :cascade do |t|
     t.integer "menu_id", null: false
     t.integer "plat_id", null: false
@@ -66,9 +58,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_07_130000) do
   create_table "plats", force: :cascade do |t|
     t.string "name"
     t.text "description"
->>>>>>> Stashed changes
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tipusPlat", default: 0, null: false
   end
 
   create_table "restrictions", force: :cascade do |t|
@@ -95,11 +87,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_07_130000) do
 
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
-<<<<<<< Updated upstream
-=======
   add_foreign_key "menu_plats", "menus"
   add_foreign_key "menu_plats", "plats"
   add_foreign_key "plat_ingredients", "ingredients"
   add_foreign_key "plat_ingredients", "plats"
->>>>>>> Stashed changes
 end

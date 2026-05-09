@@ -1,0 +1,41 @@
+<div class="plats-selection-grid">
+  <% plats.each do |plat| %>
+    <label class="checkbox-item">
+      <%= form.check_box :menu_plat_ids, { multiple: true, class: "visually-hidden-checkbox" }, plat.id, "" %>
+      <div class="plat-card">
+        <div class="plat-card-header">
+          <h4 class="plat-card-name"><%= plat.name %></h4>
+        </div>
+        <p class="plat-card-description"><%= truncate(plat.description, length: 80) %></p>
+      </div>
+    </label>
+  <% end %>
+</div>
+
+<style>
+  .plats-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .checkbox-item {
+    position: relative;
+    display: block;
+  }
+
+  .plat-card-name {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .plat-card-description {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+</style>

@@ -6,4 +6,3 @@ class AddDescriptionToMenus < ActiveRecord::Migration[7.2]
     change_column_default :menus, :description, from: "", to: nil
   end
 end
-

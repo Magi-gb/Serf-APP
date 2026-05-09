@@ -103,5 +103,3 @@ plats_data.each do |p|
     plat.tipusPlat = p[:tipusPlat]
   end
 end
-
-
