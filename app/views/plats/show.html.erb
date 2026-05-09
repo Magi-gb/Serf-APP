@@ -1,0 +1,34 @@
+<div class="page-card">
+  <div class="detail-header">
+    <h1><%= @plat.name %></h1>
+  </div>
+
+  <p>
+    <strong><%= t("plats.show.description") %>:</strong>
+    <%= @plat.description %>
+  </p>
+
+  <p>
+    <strong><%= t("plats.show.tipus") %>:</strong>
+    <%= t("plats.types.#{@plat.tipusPlat}") %>
+  </p>
+
+  <h3><%= t("plats.show.ingredients") %></h3>
+  <% if @plat.ingredients.any? %>
+    <ul>
+      <% @plat.ingredients.each do |ingredient| %>
+        <li><%= ingredient.name %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="empty-state"><%= t("ingredients.show.no_restrictions") %></p>
+  <% end %>
+
+  <div class="form-actions">
+    <%= link_to t("plats.show.back"), plats_path, class: "btn-secondary" %>
+
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("plats.show.edit"), edit_plat_path(@plat), class: "btn-primary" %>
+    <% end %>
+  </div>
+</div>
