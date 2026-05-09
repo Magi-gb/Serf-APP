@@ -125,6 +125,7 @@ ca:
       no_menus: Encara no hi ha menús guardats.
       show: Veure
       title: Menús
+      search_placeholder: Cerca un menú
     messages:
       created_success: Menú creat correctament.
       destroyed_success: Menú eliminat correctament.
@@ -137,7 +138,7 @@ ca:
       back: Tornar
       confirm_delete: Segur que vols eliminar aquest menú?
       delete: Eliminar menú
-      edit: Editar dades
+      edit: Editar
       no_plats: Aquest menú no té plats associats
       plats: Plats del menú
       title: Detalls del menú
