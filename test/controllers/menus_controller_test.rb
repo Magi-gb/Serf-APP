@@ -176,4 +176,37 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to menus_url
     assert_equal "Menú Admin", @menu.reload.name
   end
+
+  test "show displays menu plats" do
+  menu = menus(:weekly_menu)
+  get menu_url(menu)
+  assert_response :success
+  # Verify plats are displayed (assuming you have paella in weekly_menu)
+  assert_select "a", { text: "Paella" }
+  end
+
+  test "can create menu with plats" do
+    post menus_url, params: {
+      menu: {
+        name: "New menu with plats",
+        plat_ids: [ plats(:paella).id, plats(:olivas).id ]
+      }
+    }
+
+    menu = Menu.last
+    assert_equal 2, menu.plats.count
+  end
+
+  test "can update menu plats" do
+    menu = menus(:weekly_menu)
+    patch menu_url(menu), params: {
+      menu: {
+        name: menu.name,
+        plat_ids: [ plats(:olivas).id ]  # Remove paella, keep olivas
+      }
+    }
+
+    assert_equal 1, menu.reload.plats.count
+    assert menu.plats.include?(plats(:olivas))
+  end
 end

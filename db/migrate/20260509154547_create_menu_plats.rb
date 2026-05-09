@@ -6,5 +6,6 @@ class CreateMenuPlats < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
+    add_index :menu_plats, [ :menu_id, :plat_id ], unique: true
   end
 end

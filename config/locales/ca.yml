@@ -114,15 +114,16 @@ ca:
     form:
       cancel: Cancel·lar
       name: Nom del menú
+      plats: Plats
       submit_create: Crear menú
       submit_update: Desar canvis
     index:
       confirm_delete: Segur que vols eliminar aquest menú?
       delete: Eliminar
       edit: Editar
-      show: Veure
       new_menu: "+ Nou menú"
       no_menus: Encara no hi ha menús guardats.
+      show: Veure
       title: Menús
     messages:
       created_success: Menú creat correctament.
@@ -131,10 +132,14 @@ ca:
     new:
       title: Nou menú
     show:
+      attributes:
+        name: Nom
       back: Tornar
       confirm_delete: Segur que vols eliminar aquest menú?
       delete: Eliminar menú
       edit: Editar dades
+      no_plats: Aquest menú no té plats associats
+      plats: Plats del menú
       title: Detalls del menú
   plats:
     edit:
@@ -239,6 +244,7 @@ ca:
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder
+    plats: Plats
     profile: El meu perfil
     protocols: Protocols
     remove_ingredient: Eliminar ingredients

@@ -1,6 +1,9 @@
 class Menu < ApplicationRecord
   DISH_TYPES = %w[starter main dessert].freeze
 
+  has_many :menu_plats, dependent: :destroy
+  has_many :plats, through: :menu_plats
+
   before_validation :normalize_attributes
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
