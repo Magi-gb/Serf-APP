@@ -120,6 +120,7 @@ ca:
       confirm_delete: Segur que vols eliminar aquest menú?
       delete: Eliminar
       edit: Editar
+      show: Veure
       new_menu: "+ Nou menú"
       no_menus: Encara no hi ha menús guardats.
       title: Menús

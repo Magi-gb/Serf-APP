@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_07_071211) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_09_154547) do
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -27,6 +27,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_07_071211) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_ingredients_on_name", unique: true
+  end
+
+  create_table "menu_plats", force: :cascade do |t|
+    t.integer "menu_id", null: false
+    t.integer "plat_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["menu_id"], name: "index_menu_plats_on_menu_id"
+    t.index ["plat_id"], name: "index_menu_plats_on_plat_id"
   end
 
   create_table "menus", force: :cascade do |t|
@@ -76,6 +85,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_07_071211) do
 
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
+  add_foreign_key "menu_plats", "menus"
+  add_foreign_key "menu_plats", "plats"
   add_foreign_key "plat_ingredients", "ingredients"
   add_foreign_key "plat_ingredients", "plats"
 end

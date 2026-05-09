@@ -1,0 +1,10 @@
+<h1><%= t("menus.show.title") %></h1>
+
+<p>
+  <strong><%= t("menus.show.attributes.name") %>:</strong>
+  <%= @menu.name %>
+</p>
+
+<%= link_to t("menus.actions.back"), menus_path, class: "button" %>
+<%= link_to t("menus.actions.edit"), edit_menu_path(@menu), class: "button" %>
+<%= button_to t("menus.actions.delete"), menu_path(@menu), method: :delete, data: { confirm: t("menus.confirm.delete") }, class: "button danger" %>
