@@ -135,6 +135,42 @@ en:
       delete: Delete menu
       edit: Edit details
       title: Menu details
+  plats:
+    edit:
+      title: Edit dish
+    form:
+      cancel: Cancel
+      description: Description
+      ingredients: Ingredients
+      name: Dish name
+      submit: Save dish
+      tipus_plat: Dish type
+    index:
+      actions: Actions
+      description: Description
+      edit: Edit
+      empty: No dishes have been saved yet.
+      name: Dish name
+      show: View
+      tipus: Type
+      title: Dishes
+    messages:
+      created_success: Dish created successfully.
+      destroyed_success: Dish deleted successfully.
+      updated_success: Dish updated successfully.
+    new:
+      title: New dish
+    show:
+      back: Back
+      description: Description
+      edit: Edit
+      ingredients: Ingredients
+      tipus: Type
+    types:
+      entrant: Starter
+      postre: Dessert
+      primer: First course
+      segon: Second course
   profile:
     edit:
       current_password: Current password
@@ -198,6 +234,7 @@ en:
     logout: Sign out
     menu: Menu
     menus: Menus
+    new_plat: "+ New dish"
     new_restriction: "+ New restriction"
     personal: Staff
     placeholder: Placeholder

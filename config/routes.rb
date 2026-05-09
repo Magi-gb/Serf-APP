@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :menus, only: %i[index new create edit update destroy], constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
+  resources :plats
 
   root "home#index"
 end

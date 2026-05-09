@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_02_122822) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_07_071211) do
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -33,6 +33,23 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_02_122822) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "plat_ingredients", force: :cascade do |t|
+    t.integer "plat_id", null: false
+    t.integer "ingredient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ingredient_id"], name: "index_plat_ingredients_on_ingredient_id"
+    t.index ["plat_id"], name: "index_plat_ingredients_on_plat_id"
+  end
+
+  create_table "plats", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "tipusPlat", default: 0, null: false
   end
 
   create_table "restrictions", force: :cascade do |t|
@@ -59,4 +76,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_02_122822) do
 
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
+  add_foreign_key "plat_ingredients", "ingredients"
+  add_foreign_key "plat_ingredients", "plats"
 end
