@@ -17,12 +17,19 @@
   </div>
 
   <div class="form-group">
-    <%= form.label :plat_ids, t("menus.form.plats") %>
-    <%= render "plats_selector", form: form, plats: Plat.order(:name) %>
+  <%= form.label :plat_ids, t("menus.form.plats") %>
+  <div class="checkbox-group">
+    <% Plat.all.each do |plat| %>
+      <div class="checkbox-item">
+        <%= form.check_box :plat_ids, { multiple: true, include_hidden: false }, plat.id, nil %>
+        <%= form.label "menu_plat_ids_#{plat.id}", plat.name %>
+        <span class="badge badge-plat-type"><%= t("plats.types.#{plat.tipusPlat}") %></span>
+      </div>
+    <% end %>
   </div>
 
   <div class="form-actions">
-    <%= form.submit t(menu.persisted? ? "menus.form.submit_update" : "menus.form.submit_create"), class: "btn-primary" %>
+    <%= form.submit menu.new_record? ? t("menus.form.submit_create") : t("menus.form.submit_update"), class: "btn-primary" %>
     <%= link_to t("menus.form.cancel"), menus_path, class: "btn-secondary" %>
   </div>
 <% end %>

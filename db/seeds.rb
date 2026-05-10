@@ -13,9 +13,17 @@ User.find_or_create_by!(username: "cambrer") do |u|
   u.role = :waiter
 end
 
-Menu.find_or_create_by!(name: "Menú setmanal")
-Menu.find_or_create_by!(name: "Menú degustació")
-Menu.find_or_create_by!(name: "Menú infantil")
+Menu.find_or_create_by!(name: "Menú setmanal") do |m|
+  menu.plats.find_or_create_by!(name: "Paella") { |p| p.description = "Arroz con cosas" }
+end
+Menu.find_or_create_by!(name: "Menú degustació") do |m|
+  menu.plats.find_or_create_by!(name: "Paella") { |p| p.description = "Arroz con cosas" }
+  menu.plats.find_or_create_by!(name: "Olivas") { |p| p.description = "Pica-pica" }
+end
+Menu.find_or_create_by!(name: "Menú infantil") do |m|
+  menu.plats.find_or_create_by!(name: "Macarrons") { |p| p.description = "Pasta amb tomàquet" }
+  menu.plats.find_or_create_by!(name: "Gelat") { |p| p.description = "Postre" }
+end
 
 # 14 Allergens according to EU Regulation
 eu_allergens = [

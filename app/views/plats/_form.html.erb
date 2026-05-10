@@ -30,7 +30,14 @@
 
   <div class="form-group">
     <%= form.label :ingredient_ids, t("plats.form.ingredients") %>
-    <%= form.collection_select :ingredient_ids, Ingredient.all, :id, :name, {}, multiple: true, class: "form-control" %>
+    <div class="checkbox-group">
+      <% Ingredient.all.each do |ingredient| %>
+        <div class="checkbox-item">
+          <%= form.check_box :ingredient_ids, { multiple: true, include_hidden: false }, ingredient.id, nil %>
+          <%= form.label "plat_ingredient_ids_#{ingredient.id}", ingredient.name %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <div class="form-actions">

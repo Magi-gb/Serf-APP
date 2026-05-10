@@ -113,30 +113,37 @@ en:
       title: Edit menu
     form:
       cancel: Cancel
-      description: Description
       name: Menu name
       plats: Dishes
       submit_create: Create menu
       submit_update: Save changes
     index:
       confirm_delete: Are you sure you want to delete this menu?
+      confirm_remove_plat: Are you sure you want to remove this dish from the menu?
+      current_plats: Current menu dishes
       delete: Delete
       edit: Edit
       new_menu: "+ New menu"
-      no_menus: No menus saved yet.
+      no_menus: No menus found.
+      remove_plat: Remove
+      search_placeholder: Search menu
+      show: View
       title: Menus
     messages:
       created_success: Menu created successfully.
       destroyed_success: Menu deleted successfully.
+      plat_removed: Dish removed from menu successfully.
       updated_success: Menu updated successfully.
     new:
       title: New menu
     show:
+      attributes:
+        name: Name
       back: Back
       confirm_delete: Are you sure you want to delete this menu?
       delete: Delete menu
       edit: Edit details
-      no_plats: No dishes assigned
+      no_plats: This menu has no associated dishes
       plats: Menu dishes
       title: Menu details
   plats:
@@ -177,6 +184,7 @@ en:
       description: Description
       edit: Edit details
       ingredients: Ingredients
+      no_ingredients: This dish has no associated ingredients
       tipus: Type
       title: Dish details
     types:
@@ -251,6 +259,7 @@ en:
     new_restriction: "+ New restriction"
     personal: Staff
     placeholder: Placeholder
+    plats: Dishes
     profile: My profile
     protocols: Protocols
     remove_ingredient: Delete ingredients

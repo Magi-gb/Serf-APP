@@ -78,15 +78,34 @@ class PlatsControllerTest < ActionDispatch::IntegrationTest
     assert_difference "Plat.count", 1 do
       post plats_url, params: {
         plat: {
-          name: "Fideuà",
-          description: "Fideos con caldo",
-          tipusPlat: :primer
+          name: "Escalivada",
+          description: "Verdures rostides",
+          tipusPlat: "entrant"
         }
       }
     end
 
     assert_redirected_to plat_url(Plat.last)
     assert_equal I18n.t("plats.messages.created_success"), flash[:notice]
+  end
+
+  test "create with ingredients stores plat with associations" do
+    ingredient = ingredients(:milk)
+
+    assert_difference "Plat.count", 1 do
+      post plats_url, params: {
+        plat: {
+          name: "Salad",
+          description: "Fresh salad",
+          tipusPlat: "entrant",
+          ingredient_ids: [ ingredient.id ]
+        }
+      }
+    end
+
+    plat = Plat.last
+    assert_equal 1, plat.ingredients.count
+    assert_includes plat.ingredients, ingredient
   end
 
   test "create with invalid params re-renders form" do
@@ -102,34 +121,74 @@ class PlatsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "update modifies a plat" do
+  test "update changes plat name" do
     patch plat_url(@plat), params: {
       plat: {
-        name: "Paella Updated",
-        description: "Arroz con cosas updated",
-        tipusPlat: :segon
+        name: "Paella Valenciana"
       }
     }
 
     assert_redirected_to plat_url(@plat)
     assert_equal I18n.t("plats.messages.updated_success"), flash[:notice]
-    @plat.reload
-    assert_equal "Paella Updated", @plat.name
+    assert_equal "Paella Valenciana", @plat.reload.name
+  end
+
+  test "update changes plat tipus" do
+    patch plat_url(@plat), params: {
+      plat: {
+        name: @plat.name,
+        tipusPlat: "segon"
+      }
+    }
+
+    assert_redirected_to plat_url(@plat)
+    assert_equal "segon", @plat.reload.tipusPlat
+  end
+
+  test "update changes plat description" do
+    new_description = "Arroz con verduras y mariscos"
+
+    patch plat_url(@plat), params: {
+      plat: {
+        name: @plat.name,
+        description: new_description
+      }
+    }
+
+    assert_redirected_to plat_url(@plat)
+    assert_equal new_description, @plat.reload.description
+  end
+
+  test "update changes plat ingredients" do
+    ingredient = ingredients(:milk)
+
+    assert_no_difference "PlatIngredient.count" do
+      patch plat_url(@plat), params: {
+        plat: {
+          name: @plat.name,
+          ingredient_ids: [ ingredient.id ]
+        }
+      }
+    end
+
+    assert_includes @plat.reload.ingredients, ingredient
   end
 
   test "update with invalid params re-renders form" do
+    original_name = @plat.name
+
     patch plat_url(@plat), params: {
       plat: {
-        name: "",
-        description: ""
+        name: ""
       }
     }
 
     assert_response :unprocessable_entity
+    assert_equal original_name, @plat.reload.name
   end
 
   test "destroy removes a plat" do
-    plat = plats(:paella)
+    plat = plats(:olivas)
 
     assert_difference "Plat.count", -1 do
       delete plat_url(plat)
@@ -139,19 +198,62 @@ class PlatsControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t("plats.messages.destroyed_success"), flash[:notice]
   end
 
-  test "waiter cannot create plat" do
+  test "waiter cannot create plats" do
     sign_in @waiter
 
     assert_no_difference "Plat.count" do
       post plats_url, params: {
         plat: {
-          name: "Test",
-          description: "Test",
-          tipusPlat: :primer
+          name: "Test Plat",
+          description: "Test"
         }
       }
     end
 
     assert_redirected_to root_url
+  end
+
+  test "waiter cannot update plats" do
+    sign_in @waiter
+
+    assert_no_changes -> { @plat.reload.name } do
+      patch plat_url(@plat), params: {
+        plat: {
+          name: "Updated Name"
+        }
+      }
+    end
+
+    assert_redirected_to root_url
+  end
+
+  test "waiter cannot destroy plats" do
+    sign_in @waiter
+
+    assert_no_difference "Plat.count" do
+      delete plat_url(@plat)
+    end
+
+    assert_redirected_to root_url
+  end
+
+  test "update requires authentication" do
+    sign_out @kitchen_manager
+
+    patch plat_url(@plat), params: {
+      plat: {
+        name: "Updated"
+      }
+    }
+
+    assert_redirected_to new_user_session_url
+  end
+
+  test "destroy requires authentication" do
+    sign_out @kitchen_manager
+
+    delete plat_url(@plat)
+
+    assert_redirected_to new_user_session_url
   end
 end

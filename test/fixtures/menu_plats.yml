@@ -1,0 +1,11 @@
+weekly_paella:
+  menu: weekly_menu
+  plat: paella
+
+weekly_olivas:
+  menu: weekly_menu
+  plat: olivas
+
+tasting_paella:
+  menu: tasting_menu
+  plat: paella

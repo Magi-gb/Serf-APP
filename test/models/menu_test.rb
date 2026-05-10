@@ -26,4 +26,25 @@ class MenuTest < ActiveSupport::TestCase
   test "defines future dish types scaffold for parallel integration" do
     assert_equal %w[starter main dessert], Menu::DISH_TYPES
   end
+
+  test "has many plats through menu_plats" do
+    menu = menus(:weekly_menu)
+    assert_respond_to menu, :plats
+    assert menu.plats.include?(plats(:paella))
+  end
+
+  test "destroys menu_plats when menu is destroyed" do
+    menu = menus(:weekly_menu)
+    menu_plats_count = menu.menu_plats.count
+    plat_count_before = MenuPlat.count
+    menu.destroy
+    assert_equal plat_count_before - menu_plats_count, MenuPlat.count
+  end
+
+  test "can add plats to menu" do
+    menu = Menu.create!(name: "Test menu")
+    plat = plats(:paella)
+    menu.plats << plat
+    assert menu.plats.include?(plat)
+  end
 end
