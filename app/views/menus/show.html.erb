@@ -12,6 +12,7 @@
       <div class="badge-list">
         <% @menu.plats.each do |plat| %>
           <%= link_to plat.name, plat_path(plat), class: "badge" %>
+          <span class="badge-small"><%= t("plats.types.#{plat.tipusPlat}") %></span>
         <% end %>
       </div>
     <% else %>

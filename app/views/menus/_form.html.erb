@@ -18,7 +18,14 @@
 
   <div class="form-group">
   <%= form.label :plat_ids, t("menus.form.plats") %>
-  <%= form.collection_select :plat_ids, Plat.all, :id, :name, {}, multiple: true, class: "form-control" %>
+  <div class="checkbox-group">
+    <% Plat.all.each do |plat| %>
+      <div class="checkbox-item">
+        <%= form.check_box :plat_ids, { multiple: true, include_hidden: false }, plat.id, nil %>
+        <%= form.label "menu_plat_ids_#{plat.id}", plat.name %>
+        <span class="badge badge-plat-type"><%= t("plats.types.#{plat.tipusPlat}") %></span>
+      </div>
+    <% end %>
   </div>
 
   <div class="form-actions">
