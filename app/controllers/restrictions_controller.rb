@@ -1,5 +1,5 @@
 class RestrictionsController < ApplicationController
-  before_action :require_kitchen_manager_or_above!, except: %i[index show]
+  before_action :require_kitchen_manager_or_above!, except: %i[ index show ]
   before_action :set_restriction, only: %i[ show edit update destroy ]
 
   # GET /restrictions

@@ -1068,4 +1068,40 @@ input:focus {
   border-radius: 8px;
 }
 
+/* Checkboxes */
 
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.checkbox-item input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.checkbox-item label {
+  cursor: pointer;
+  margin: 0;
+  font-weight: 500;
+  flex: 1;
+}
+
+.badge-plat-type {
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  border-radius: 3px;
+}

@@ -1,0 +1,41 @@
+<% content_for :title, @plat.name %>
+
+<div class="page-card">
+  <div class="detail-section">
+    <div class="detail-header">
+      <h2 class="serf-page-title"><%= @plat.name %></h2>
+    </div>
+
+    <div class="desc-box" style="width: 100%; max-width: 600px;">
+      <h3><%= t("plats.show.description") %></h3>
+      <p class="desc-text"><%= @plat.description %></p>
+    </div>
+
+    <div class="desc-box" style="width: 100%; max-width: 600px;">
+      <h3><%= t("plats.show.tipus") %></h3>
+      <p class="desc-text"><%= t("plats.types.#{@plat.tipusPlat}") %></p>
+    </div>
+
+    <div class="desc-box" style="width: 100%; max-width: 600px;">
+      <h3><%= t("plats.show.ingredients") %></h3>
+      <% if @plat.ingredients.any? %>
+        <div class="badge-list">
+          <% @plat.ingredients.each do |ingredient| %>
+            <%= link_to ingredient.name, ingredient_path(ingredient), class: "badge-big" %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="empty-state"><%= t("plats.show.no_ingredients") %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="detail-actions">
+    <%= link_to t("plats.show.back"), plats_path, class: "btn-secondary" %>
+
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("plats.show.edit"), edit_plat_path(@plat), class: "btn-primary" %>
+      <%= button_to t("plats.show.delete"), plat_path(@plat), method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("plats.show.confirm_delete") } } %>
+    <% end %>
+  </div>
+</div>
