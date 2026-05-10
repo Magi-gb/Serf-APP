@@ -12,6 +12,7 @@ class MenusController < ApplicationController
 
   def new
     @menu = Menu.new
+    load_available_plats
   end
 
   def create
@@ -20,17 +21,20 @@ class MenusController < ApplicationController
     if @menu.save
       redirect_to menus_path, notice: t("menus.messages.created_success")
     else
+      load_available_plats
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
+    load_available_plats
   end
 
   def update
     if @menu.update(menu_params)
       redirect_to menus_path, notice: t("menus.messages.updated_success")
     else
+      load_available_plats
       render :edit, status: :unprocessable_entity
     end
   end
@@ -48,5 +52,9 @@ class MenusController < ApplicationController
 
   def menu_params
     params.require(:menu).permit(:name, plat_ids: [])
+  end
+
+  def load_available_plats
+    @plats_by_type = Plat.all.group_by(&:tipusPlat)
   end
 end

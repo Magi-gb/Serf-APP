@@ -111,6 +111,9 @@ ca:
       success: Menú eliminat correctament.
     edit:
       title: Editar menú
+    errors:
+      duplicate_plat_type: El menú no pot tenir més d'un plat de tipus %{type}
+      missing_plat_type: El menú ha de tenir un plat de tipus %{type}
     form:
       cancel: Cancel·lar
       name: Nom del menú

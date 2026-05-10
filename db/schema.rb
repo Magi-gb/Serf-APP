@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_09_154547) do
     t.integer "plat_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["menu_id", "plat_id"], name: "index_menu_plats_on_menu_id_and_plat_id", unique: true
     t.index ["menu_id"], name: "index_menu_plats_on_menu_id"
     t.index ["plat_id"], name: "index_menu_plats_on_plat_id"
   end
