@@ -1,5 +1,5 @@
 class MenusController < ApplicationController
-  before_action :require_kitchen_manager_or_above!
+  before_action :require_kitchen_manager_or_above!, except: [ :index, :show ]
   before_action :set_menu, only: [ :destroy, :edit, :update, :show ]
 
   def index

@@ -17,13 +17,13 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "waiter cannot access menus" do
+  test "waiter can access menus index" do
     sign_in @waiter
 
     get menus_url
 
-    assert_redirected_to root_path
-    assert_equal I18n.t("authorization.not_authorized"), flash[:alert]
+    assert_response :success
+    assert_includes response.body, @menu.name
   end
 
   test "admin can access index" do
@@ -183,6 +183,15 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
   assert_response :success
   # Verify plats are displayed (assuming you have paella in weekly_menu)
   assert_select "a", { text: "Paella" }
+  end
+
+  test "waiter can access show" do
+    sign_in @waiter
+
+    get menu_url(@menu)
+
+    assert_response :success
+    assert_includes response.body, @menu.name
   end
 
   test "can create menu with plats" do
