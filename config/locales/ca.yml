@@ -178,6 +178,7 @@ ca:
       description: Descripció
       edit: Editar
       ingredients: Ingredients
+      no_ingredients: Aquest plat no té ingredients associats
       tipus: Tipus
     types:
       entrant: Entrant

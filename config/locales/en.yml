@@ -178,6 +178,7 @@ en:
       description: Description
       edit: Edit
       ingredients: Ingredients
+      no_ingredients: This dish has no associated ingredients
       tipus: Type
     types:
       entrant: Starter

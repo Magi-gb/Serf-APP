@@ -1,30 +1,36 @@
+<% content_for :title, @plat.name %>
+
 <div class="page-card">
-  <div class="detail-header">
-    <h1><%= @plat.name %></h1>
+  <div class="detail-section">
+    <div class="detail-header">
+      <h2 class="serf-page-title"><%= @plat.name %></h2>
+    </div>
+
+    <div class="desc-box" style="width: 100%; max-width: 600px;">
+      <h3><%= t("plats.show.description") %></h3>
+      <p class="desc-text"><%= @plat.description %></p>
+    </div>
+
+    <div class="desc-box" style="width: 100%; max-width: 600px;">
+      <h3><%= t("plats.show.tipus") %></h3>
+      <p class="desc-text"><%= t("plats.types.#{@plat.tipusPlat}") %></p>
+    </div>
+
+    <div class="desc-box" style="width: 100%; max-width: 600px;">
+      <h3><%= t("plats.show.ingredients") %></h3>
+      <% if @plat.ingredients.any? %>
+        <div class="badge-list">
+          <% @plat.ingredients.each do |ingredient| %>
+            <%= link_to ingredient.name, ingredient_path(ingredient), class: "badge-big" %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="empty-state"><%= t("plats.show.no_ingredients") %></p>
+      <% end %>
+    </div>
   </div>
 
-  <p>
-    <strong><%= t("plats.show.description") %>:</strong>
-    <%= @plat.description %>
-  </p>
-
-  <p>
-    <strong><%= t("plats.show.tipus") %>:</strong>
-    <%= t("plats.types.#{@plat.tipusPlat}") %>
-  </p>
-
-  <h3><%= t("plats.show.ingredients") %></h3>
-  <% if @plat.ingredients.any? %>
-    <ul>
-      <% @plat.ingredients.each do |ingredient| %>
-        <li><%= ingredient.name %></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p class="empty-state"><%= t("ingredients.show.no_restrictions") %></p>
-  <% end %>
-
-  <div class="form-actions">
+  <div class="detail-actions">
     <%= link_to t("plats.show.back"), plats_path, class: "btn-secondary" %>
 
     <% if current_user.admin? || current_user.kitchen_manager? %>

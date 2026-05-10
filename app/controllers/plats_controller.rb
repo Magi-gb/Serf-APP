@@ -23,7 +23,7 @@ class PlatsController < ApplicationController
     @plat = Plat.new(plat_params)
 
     if @plat.save
-      redirect_to @plat, notice: "Plat creat correctament."
+      redirect_to @plat, notice: t("plats.messages.created_success")
     else
       @ingredients = Ingredient.all
       render :new, status: :unprocessable_entity
@@ -32,7 +32,7 @@ class PlatsController < ApplicationController
 
   def update
     if @plat.update(plat_params)
-      redirect_to @plat, notice: "Plat actualitzat correctament."
+      redirect_to @plat, notice: t("plats.messages.updated_success")
     else
       @ingredients = Ingredient.all
       render :edit, status: :unprocessable_entity
@@ -41,7 +41,7 @@ class PlatsController < ApplicationController
 
   def destroy
     @plat.destroy
-    redirect_to plats_url, notice: "Plat eliminat correctament."
+    redirect_to plats_url, notice: t("plats.messages.destroyed_success")
   end
 
   private
@@ -51,12 +51,6 @@ class PlatsController < ApplicationController
   end
 
   def plat_params
-    params.require(:plat).permit(:name, :description, ingredient_ids: [])
-  end
-
-  def require_kitchen_manager_or_admin!
-    unless current_user.role.in?([ 1, 2 ])
-      redirect_to root_url, alert: "No autoritzat"
-    end
+    params.require(:plat).permit(:name, :description, :tipusPlat, ingredient_ids: [])
   end
 end
