@@ -155,6 +155,8 @@ ca:
       ingredients: Ingredients
       name: Nom del plat
       submit: Guardar plat
+      submit_create: Crear plat
+      submit_update: Desar canvis
       tipus_plat: Tipus de plat
     index:
       actions: Accions
@@ -162,6 +164,9 @@ ca:
       edit: Editar
       empty: Encara no hi ha plats guardats.
       name: Nom del plat
+      new_plat: "+ Nou plat"
+      no_plats: No s'han trobat plats.
+      search_placeholder: Cerca un plat
       show: Veure
       tipus: Tipus
       title: Plats

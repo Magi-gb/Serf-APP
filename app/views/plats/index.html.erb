@@ -1,44 +1,27 @@
 <% content_for :title, t("plats.index.title") %>
 
 <div class="page-card">
-  <div class="index-toolbar">
+  <div class="page-header">
     <h1 class="serf-page-title"><%= t("plats.index.title") %></h1>
-
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("sidebar.new_plat"), new_plat_path, class: "btn-pill btn-pill-primary" %>
-    <% end %>
   </div>
 
-  <% if @plats.any? %>
-    <table class="serf-table">
-      <thead>
-        <tr>
-          <th><%= t("plats.index.name") %></th>
-          <th><%= t("plats.index.description") %></th>
-          <th><%= t("plats.index.tipus") %></th>
-          <th><%= t("plats.index.actions") %></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @plats.each do |plat| %>
-          <tr>
-            <td><%= plat.name %></td>
-            <td><%= plat.description %></td>
-            <td><%= t("plats.types.#{plat.tipusPlat}") %></td>
-
-            <td>
-              <%= link_to t("plats.index.show"), plat_path(plat), class: "btn-secondary btn-small" %>
-
-              <% if current_user.admin? || current_user.kitchen_manager? %>
-                <%= link_to t("plats.index.edit"), edit_plat_path(plat), class: "btn-primary btn-small" %>
-              <% end %>
-            </td>
-          </tr>
+  <div class="index-toolbar">
+    <%= render "shared/search_bar", url: plats_path, placeholder: t("plats.index.search_placeholder") %>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to t("plats.index.new_plat"), new_plat_path, class: "btn-pill btn-pill-primary" %>
+    <% end %>
+  </div>
+  
+  <div class="list-card-group">
+    <% if @plats.any? %>
+      <% @plats.each do |plat| %>
+        <%= link_to plat_path(plat), class: "list-card" do %>
+          <div class="list-card-info">
+            <span class="list-card-title"><%= plat.name %></span>
+          </div>
         <% end %>
-      </tbody>
-    </table>
+      <% end %>
   <% else %>
-    <p class="empty-state text-center"><%= t("plats.index.empty") %></p>
+    <p class="empty-state text-center"><%= t("plats.index.no_plats") %></p>
   <% end %>
 </div>
