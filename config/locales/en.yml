@@ -119,16 +119,20 @@ en:
       submit_update: Save changes
     index:
       confirm_delete: Are you sure you want to delete this menu?
+      confirm_remove_plat: Are you sure you want to remove this dish from the menu?
+      current_plats: Current menu dishes
       delete: Delete
       edit: Edit
       new_menu: "+ New menu"
-      no_menus: No menus saved yet.
+      no_menus: No menus found.
+      remove_plat: Remove
       search_placeholder: Search menu
       show: View
       title: Menus
     messages:
       created_success: Menu created successfully.
       destroyed_success: Menu deleted successfully.
+      plat_removed: Dish removed from menu successfully.
       updated_success: Menu updated successfully.
     new:
       title: New menu

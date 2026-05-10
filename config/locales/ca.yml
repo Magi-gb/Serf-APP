@@ -113,19 +113,19 @@ ca:
       title: Editar menú
     form:
       cancel: Cancel·lar
-      confirm_remove_plat: Segur que vols eliminar aquest plat del menú?
-      current_plats: Plats actuals del menú
       name: Nom del menú
       plats: Plats
-      remove_plat: Eliminar
       submit_create: Crear menú
       submit_update: Desar canvis
     index:
       confirm_delete: Segur que vols eliminar aquest menú?
+      confirm_remove_plat: Segur que vols eliminar aquest plat del menú?
+      current_plats: Plats actuals del menú
       delete: Eliminar
       edit: Editar
       new_menu: "+ Nou menú"
-      no_menus: Encara no hi ha menús guardats.
+      no_menus: No s'han trobat menús.
+      remove_plat: Eliminar
       search_placeholder: Cerca un menú
       show: Veure
       title: Menús

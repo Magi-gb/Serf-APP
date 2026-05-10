@@ -3,7 +3,7 @@ class MenusController < ApplicationController
   before_action :set_menu, only: [ :destroy, :edit, :update, :show ]
 
   def index
-    @menus = Menu.order(name: :asc)
+    @menus = Menu.search(params[:search]).order(name: :asc)
   end
 
   def show

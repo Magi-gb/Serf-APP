@@ -7,6 +7,7 @@ class Menu < ApplicationRecord
   before_validation :normalize_attributes
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+  scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
 
   private
 
