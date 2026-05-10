@@ -19,10 +19,10 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "waiter should NOT get index" do
+  test "waiter should get index" do
     sign_in @waiter
     get protocols_url
-    assert_redirected_to root_url
+    assert_response :success
   end
 
   test "waiter should get show" do

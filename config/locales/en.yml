@@ -139,8 +139,8 @@ en:
     index:
       create: "+ New protocol"
       empty: No protocols saved yet.
-      title: Protocols
       search_placeholder: Search a protocol
+      title: Protocols
     messages:
       created_success: Protocol created successfully.
       destroyed_success: Protocol deleted successfully.
