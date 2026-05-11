@@ -92,4 +92,55 @@ class IngredientAlternativesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to ingredient_path(@ingredient)
   end
+
+  test "update_collection adds and removes alternatives in one call" do
+    sign_in @kitchen_manager
+    second = Ingredient.create!(name: "Soy #{Time.current.to_i}")
+    IngredientAlternative.create!(ingredient: @ingredient, alternative: @alternative)
+
+    patch alternatives_ingredient_path(@ingredient), params: {
+      alternative_ids: [ second.id.to_s ]
+    }
+
+    assert_redirected_to ingredient_path(@ingredient)
+    @ingredient.reload
+    assert_equal [ second.id ], @ingredient.alternative_ids
+  end
+
+  test "update_collection accepts an empty list and clears all alternatives" do
+    sign_in @kitchen_manager
+    IngredientAlternative.create!(ingredient: @ingredient, alternative: @alternative)
+
+    patch alternatives_ingredient_path(@ingredient), params: { alternative_ids: [] }
+
+    assert_redirected_to ingredient_path(@ingredient)
+    assert_empty @ingredient.reload.alternative_ids
+  end
+
+  test "update_collection rolls back if any addition fails validation" do
+    sign_in @kitchen_manager
+    kosher = restrictions(:kosher)
+    pork = Ingredient.create!(name: "Pork #{Time.current.to_i}")
+    IngredientRestriction.create!(ingredient: pork, restriction: kosher)
+
+    assert_no_difference("IngredientAlternative.count") do
+      patch alternatives_ingredient_path(@ingredient), params: {
+        alternative_ids: [ @alternative.id.to_s, pork.id.to_s ]
+      }
+    end
+
+    assert_redirected_to ingredient_path(@ingredient)
+    assert_empty @ingredient.reload.alternative_ids
+  end
+
+  test "waiter cannot update_collection" do
+    sign_in @waiter
+
+    patch alternatives_ingredient_path(@ingredient), params: {
+      alternative_ids: [ @alternative.id.to_s ]
+    }
+
+    assert_redirected_to root_url
+    assert_empty @ingredient.reload.alternative_ids
+  end
 end

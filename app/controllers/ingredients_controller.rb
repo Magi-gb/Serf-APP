@@ -14,15 +14,17 @@ class IngredientsController < ApplicationController
   def show
     return unless current_user.admin? || current_user.kitchen_manager?
 
-    excluded_ids = [ @ingredient.id ] + @ingredient.alternative_ids
-    candidates = Ingredient.includes(:restrictions).where.not(id: excluded_ids).order(:name)
+    candidates = Ingredient.includes(:restrictions).where.not(id: @ingredient.id).order(:name)
 
     ingredient_restriction_ids = @ingredient.restriction_ids
-    # Use the eager-loaded `restrictions` association rather than
-    # `candidate.restriction_ids`, which would issue an extra SQL query
-    # per candidate (N+1).
+    current_alternative_ids = @ingredient.alternative_ids
+    # Picker candidates: every non-self ingredient that either is already
+    # an alternative (so it can be unticked) or satisfies the no-new-
+    # restrictions rule. Uses the eager-loaded `restrictions` association
+    # to avoid N+1.
     @alternative_ingredients = candidates.select do |candidate|
-      (candidate.restrictions.map(&:id) - ingredient_restriction_ids).empty?
+      current_alternative_ids.include?(candidate.id) ||
+        (candidate.restrictions.map(&:id) - ingredient_restriction_ids).empty?
     end
   end
 

@@ -127,6 +127,8 @@ ca:
       success: Alternativa afegida correctament.
     destroy:
       success: Alternativa eliminada correctament.
+    update_collection:
+      success: Alternatives desades correctament.
   ingredients:
     create:
       success: Ingredient creat correctament.
@@ -151,14 +153,9 @@ ca:
     new:
       title: Nou ingredient
     show:
-      add_alternative_label: Ingredient alternatiu
-      add_alternative_prompt: Selecciona un ingredient
-      add_alternative_submit: Afegir alternativa
-      add_alternative_title: Afegir alternativa
       allergen_badge: Al·lergen
       alternatives_title: Alternatives
       confirm_delete: Segur que vols eliminar aquest ingredient?
-      confirm_remove_alternative: Segur que vols treure aquesta alternativa?
       delete: Eliminar
       delete_warning:
         one: Si elimines aquest ingredient, 1 plat que el conté quedarà marcat per revisió manual.
@@ -172,8 +169,8 @@ ca:
       no_available_alternatives: No hi ha ingredients disponibles com a alternativa.
       no_restrictions: Cap restricció alimentària associada
       not_used_in_dishes: Aquest ingredient no s'utilitza en cap plat
-      remove_alternative: Treure
       restrictions: Restriccions associades
+      save_alternatives: Desa les alternatives
       used_in_dishes: Plats que el contenen
     update:
       success: Ingredient actualitzat correctament.

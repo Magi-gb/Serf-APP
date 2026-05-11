@@ -62,18 +62,17 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, ingredient.name
   end
 
-  test "kitchen_manager sees add alternative form on show" do
+  test "kitchen_manager sees alternatives picker on show" do
     ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
     alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
 
     get ingredient_url(ingredient)
     assert_response :success
-    assert_select "form[action=?]", ingredient_alternatives_path(ingredient)
-    assert_select "select[name=?]", "ingredient_alternative[alternative_id]"
-    assert_includes response.body, alternative.name
+    assert_select "form[action=?][method=?]", alternatives_ingredient_path(ingredient), "post"
+    assert_select "input[type='checkbox'][name='alternative_ids[]'][value=?]", alternative.id.to_s
   end
 
-  test "add alternative dropdown excludes candidates that add restrictions" do
+  test "alternatives picker excludes candidates that add restrictions" do
     ingredient = ingredients(:bread)
     allowed = ingredients(:milk)
 
@@ -83,17 +82,18 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
 
     get ingredient_url(ingredient)
     assert_response :success
-    assert_includes response.body, allowed.name
-    assert_not_includes response.body, disallowed.name
+    assert_select "input[type='checkbox'][name='alternative_ids[]'][value=?]", allowed.id.to_s
+    assert_select "input[type='checkbox'][name='alternative_ids[]'][value=?]", disallowed.id.to_s, count: 0
   end
 
-  test "waiter does not see add alternative form on show" do
+  test "waiter does not see alternatives picker on show" do
     sign_in @waiter
 
     ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
     get ingredient_url(ingredient)
     assert_response :success
-    assert_select "form[action=?]", ingredient_alternatives_path(ingredient), count: 0
+    assert_select "form[action=?]", alternatives_ingredient_path(ingredient), count: 0
+    assert_select "input[name='alternative_ids[]']", count: 0
   end
 
   test "show displays alternatives for all roles" do

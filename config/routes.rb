@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { id: /\d+/ }
   resources :ingredients, constraints: { id: /\d+/ } do
+    member do
+      patch :alternatives, to: "ingredient_alternatives#update_collection"
+    end
     resources :alternatives, only: %i[create destroy], controller: "ingredient_alternatives"
   end
   resources :menus, constraints: { id: /\d+/ }

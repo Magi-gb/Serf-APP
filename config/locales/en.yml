@@ -127,6 +127,8 @@ en:
       success: Alternative added successfully.
     destroy:
       success: Alternative removed successfully.
+    update_collection:
+      success: Alternatives saved successfully.
   ingredients:
     create:
       success: Ingredient created successfully.
@@ -151,14 +153,9 @@ en:
     new:
       title: New ingredient
     show:
-      add_alternative_label: Alternative ingredient
-      add_alternative_prompt: Select an ingredient
-      add_alternative_submit: Add alternative
-      add_alternative_title: Add alternative
       allergen_badge: Allergen
       alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this ingredient?
-      confirm_remove_alternative: Are you sure you want to remove this alternative?
       delete: Delete
       delete_warning:
         one: If you delete this ingredient, 1 dish that contains it will be flagged for manual review.
@@ -172,8 +169,8 @@ en:
       no_available_alternatives: There are no ingredients available as an alternative.
       no_restrictions: No dietary restrictions associated
       not_used_in_dishes: This ingredient is not used in any dish
-      remove_alternative: Remove
       restrictions: Associated restrictions
+      save_alternatives: Save alternatives
       used_in_dishes: Dishes containing it
     update:
       success: Ingredient updated successfully.
