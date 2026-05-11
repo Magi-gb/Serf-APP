@@ -1,51 +1,47 @@
-<%= form_with(model: ingredient, class: "form-container") do |form| %>
-  <% if ingredient.errors.any? %>
-    <div class="alert-error">
-      <h3><%= t("errors.form_header", count: ingredient.errors.count) %></h3>
-      <ul>
-        <% ingredient.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: ingredient) do |form| %>
+  <%= render "shared/form_errors", object: ingredient %>
 
-  <div class="form-group">
-    <%= form.label :name, t("ingredients.form.name") %>
-    <%= form.text_field :name, class: "form-control" %>
+  <div class="field">
+    <%= form.label :name, t("ingredients.form.name"), class: "label" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :description, t("ingredients.form.description") %>
-    <%= form.text_area :description, class: "form-control", rows: 4 %>
+  <div class="field">
+    <%= form.label :description, t("ingredients.form.description"), class: "label" %>
+    <%= form.text_area :description, class: "textarea", rows: 4 %>
   </div>
 
-  <fieldset class="form-fieldset">
-    <legend><%= t("ingredients.form.restrictions") %></legend>
+  <fieldset class="field">
+    <legend class="label"><%= t("ingredients.form.restrictions") %></legend>
 
-    <h4><%= t("ingredients.form.intolerance_allergies") %></h4>
-    <div class="checkbox-grid">
-      <% restrictions.select { |r| r.intolerance_allergy? }.each do |restriction| %>
-        <label class="checkbox-item">
+    <div class="muted strong mt-2"><%= t("ingredients.form.intolerance_allergies") %></div>
+    <div class="checkbox-cards mt-2">
+      <% restrictions.select(&:intolerance_allergy?).each do |restriction| %>
+        <label class="checkbox-card">
           <%= form.check_box :restriction_ids, { multiple: true }, restriction.id, nil %>
-          <%= restriction.name %>
+          <span><%= restriction.name %></span>
+          <span class="tag tag-allergen"><%= t("restrictions.types.#{restriction.restriction_type}") %></span>
         </label>
       <% end %>
     </div>
 
-    <h4><%= t("ingredients.form.religious_restrictions") %></h4>
-    <div class="checkbox-grid">
-      <% restrictions.select { |r| r.religious? }.each do |restriction| %>
-        <label class="checkbox-item">
+    <div class="muted strong mt-3"><%= t("ingredients.form.religious_restrictions") %></div>
+    <div class="checkbox-cards mt-2">
+      <% restrictions.select(&:religious?).each do |restriction| %>
+        <label class="checkbox-card">
           <%= form.check_box :restriction_ids, { multiple: true }, restriction.id, nil %>
-          <%= restriction.name %>
+          <span><%= restriction.name %></span>
+          <span class="tag tag-religious"><%= t("restrictions.types.#{restriction.restriction_type}") %></span>
         </label>
       <% end %>
     </div>
+    <%# DESIGN-GAP: design has a 4th group "Preferències" — Restriction enum only has
+        intolerance_allergy + religious. Need to add a `preference` value (and EFSA flag). %>
   </fieldset>
 
-  <div class="form-actions">
-    <%= form.submit ingredient.persisted? ? t("ingredients.form.submit_update") : t("ingredients.form.submit_create"), class: "btn-primary" %>
-    <%= link_to t("restrictions.form.cancel"), ingredients_path, class: "btn-secondary" %>
+  <div class="row mt-4">
+    <%= form.submit ingredient.persisted? ? t("ingredients.form.submit_update") : t("ingredients.form.submit_create"),
+                    class: "btn btn-primary" %>
+    <%= link_to t("restrictions.form.cancel"), ingredients_path, class: "btn btn-secondary" %>
   </div>
 <% end %>

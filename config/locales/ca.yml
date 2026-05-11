@@ -97,18 +97,33 @@ ca:
     notice: notice
   home:
     index:
+      add_dish: Afegir plat
       add_ingredient: Afegir ingredient
       add_menu: Afegir menú
+      add_protocol: Afegir protocol
       add_restriction: Afegir restricció
       add_user: Afegir usuari
+      dashboard_title: Tauler de control
       ingredients_description: Crea i gestiona els ingredients del restaurant amb les seves restriccions alimentàries.
       ingredients_management: Gestió d'Ingredients
+      kpis:
+        dishes: Plats actius
+        dishes_trend_placeholder: Total al catàleg
+        menus: Menús publicats
+        menus_trend_placeholder: Total al catàleg
+        restrictions: Restriccions
+        restrictions_trend: Catàleg complet
+        users: Personal
+        users_trend_placeholder: Total registrat
       manage_ingredients: Gestionar ingredients
       manage_menus: Gestionar menús
       manage_restrictions: Gestionar restriccions
       manage_users: Gestionar usuaris
       menus_description: Crea i administra els menús que ofereix el restaurant.
       menus_management: Gestió de Menús
+      no_activity_yet: Encara no hi ha activitat registrada.
+      quick_access: Accés ràpid
+      recent_activity: Activitat recent
       restrictions_description: Gestiona les restriccions alimentàries i religioses del sistema.
       restrictions_management: Gestió de Restriccions
       title: Serf
@@ -159,6 +174,9 @@ ca:
   layouts:
     login:
       title: Serf — Inicia la sessió
+  login_page:
+    headline_html: Cuina sense errors,<br>menús per a tothom.
+    subhead: Gestió de plats, ingredients i restriccions per al grup de restaurants Cal Blay.
   menus:
     create:
       success: Menú creat correctament.
@@ -282,8 +300,10 @@ ca:
       religious: Religiosa
   sessions:
     new:
+      authorized_only_note: L'accés és per a personal autoritzat. Contacta amb un administrador per crear un compte nou.
       password_placeholder: Contrassenya
       submit: Entra
+      subtitle: Identifica't amb el teu usuari de Cal Blay.
       title: Inicia la sessió
       username_placeholder: ID d'usuari
   sidebar:
@@ -336,6 +356,7 @@ ca:
       kitchen_manager: Responsable de cuina
       waiter: Cambrer
     show:
+      back: Tornar
       confirm_delete: Segur que vols eliminar aquest usuari?
       delete: Eliminar
       edit: Editar dades

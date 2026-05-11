@@ -1,10 +1,15 @@
-<% content_for :title, t(".title") %>
+<% content_for :title, t("protocols.new.title") %>
 
-<div class="page-card">
-  <div class="page-header">
-    <h1 class="serf-page-title"><%= t(".title") %></h1>
+<%= render "shared/topbar", title: t("protocols.new.title") do %>
+  <%= link_to protocols_path, class: "btn btn-ghost btn-sm" do %>
+    <%= serf_icon(:chevron_left) %><%= t("protocols.show.back") %>
+  <% end %>
+<% end %>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", protocol: @protocol %>
+    </div>
   </div>
-
-  <%= render "form", protocol: @protocol %>
 </div>
-

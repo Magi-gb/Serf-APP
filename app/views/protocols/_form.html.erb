@@ -1,29 +1,18 @@
-<div class="form-container">
-  <%= form_with(model: protocol) do |form| %>
-    <% if protocol.errors.any? %>
-      <div class="alert-error">
-        <h3><%= t("errors.form_header", count: protocol.errors.count) %></h3>
-        <ul>
-          <% protocol.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+<%= form_with(model: protocol) do |form| %>
+  <%= render "shared/form_errors", object: protocol %>
 
-    <div class="form-group">
-      <%= form.label :name %>
-      <%= form.text_field :name, class: "form-control" %>
-    </div>
+  <div class="field">
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
 
-    <div class="form-group">
-      <%= form.label :description %>
-      <%= form.text_area :description, class: "form-control", rows: 5 %>
-    </div>
+  <div class="field">
+    <%= form.label :description, class: "label" %>
+    <%= form.text_area :description, class: "textarea", rows: 5 %>
+  </div>
 
-    <div class="form-actions">
-      <%= form.submit t(".submit"), class: "btn-primary" %>
-      <%= link_to t(".cancel"), protocol.new_record? ? protocols_path : protocol_path(protocol), class: "btn-secondary" %>
-    </div>
-  <% end %>
-</div>
+  <div class="row mt-4">
+    <%= form.submit t(".submit"), class: "btn btn-primary" %>
+    <%= link_to t(".cancel"), protocol.new_record? ? protocols_path : protocol_path(protocol), class: "btn btn-secondary" %>
+  </div>
+<% end %>

@@ -1,35 +1,44 @@
-<div class="page-card">
-  <div class="detail-header">
-    <h1><%= @ingredient.name %></h1>
-  </div>
+<% content_for :title, @ingredient.name %>
 
+<%= render "shared/topbar", title: @ingredient.name do %>
+  <%= link_to ingredients_path, class: "btn btn-ghost btn-sm" do %>
+    <%= serf_icon(:chevron_left) %><%= t("ingredients.show.back") %>
+  <% end %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to edit_ingredient_path(@ingredient), class: "btn btn-secondary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("ingredients.show.edit") %>
+    <% end %>
+    <%= button_to ingredient_path(@ingredient), method: :delete,
+                  class: "btn btn-danger btn-sm",
+                  form: { data: { turbo_confirm: t("ingredients.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("ingredients.show.delete") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content col">
   <% if @ingredient.description.present? %>
-    <div class="desc-box">
-      <h3><%= t("ingredients.form.description") %></h3>
-      <p class="desc-text"><%= @ingredient.description %></p>
+    <div class="card">
+      <div class="card-header"><h3 class="card-title"><%= t("ingredients.form.description") %></h3></div>
+      <div class="card-body"><%= @ingredient.description %></div>
     </div>
   <% end %>
 
-  <div class="desc-box">
-    <h3><%= t("ingredients.show.restrictions") %></h3>
-    <% if @ingredient.restrictions.any? %>
-      <div class="badge-list">
-        <% @ingredient.restrictions.each do |restriction| %>
-          <span class="badge badge-<%= restriction.restriction_type %>">
-            <%= restriction.name %>
-          </span>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="empty-state"><%= t("ingredients.show.no_restrictions") %></p>
-    <% end %>
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("ingredients.show.restrictions") %></h3></div>
+    <div class="card-body">
+      <% if @ingredient.restrictions.any? %>
+        <div class="row">
+          <% @ingredient.restrictions.each do |restriction| %>
+            <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="muted"><%= t("ingredients.show.no_restrictions") %></div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="detail-actions">
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("ingredients.show.edit"), edit_ingredient_path(@ingredient), class: "btn-primary" %>
-      <%= button_to t("ingredients.show.delete"), @ingredient, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("ingredients.show.confirm_delete") } } %>
-    <% end %>
-    <%= link_to t("ingredients.show.back"), ingredients_path, class: "btn-secondary" %>
-  </div>
+  <%# DESIGN-GAP: design proposes a sidebar with "Plats que el contenen" + "Última edició per X".
+      Edit-tracking is not implemented; could expose the dishes-list since the association exists. %>
 </div>

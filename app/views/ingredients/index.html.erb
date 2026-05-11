@@ -1,37 +1,41 @@
 <% content_for :title, t("ingredients.index.title") %>
 
-<div class="page-card">
-  <div class="page-header">
-    <h1 class="serf-page-title"><%= t("ingredients.index.title") %></h1>
-  </div>
-
-  <div class="index-toolbar">
-    <%= render "shared/search_bar", url: ingredients_path, placeholder: t("ingredients.index.search_placeholder") %>
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("ingredients.index.new_ingredient"), new_ingredient_path, class: "btn-pill btn-pill-primary" %>
+<%= render "shared/topbar", title: t("ingredients.index.title") do %>
+  <%= form_with url: ingredients_path, method: :get, local: true, class: "search" do |f| %>
+    <span class="search-icon"><%= serf_icon(:search) %></span>
+    <%= f.search_field :search, value: params[:search], placeholder: t("ingredients.index.search_placeholder"), class: "input" %>
+  <% end %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to new_ingredient_path, class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:plus) %><%= t("ingredients.index.new_ingredient") %>
     <% end %>
-  </div>
+  <% end %>
+<% end %>
 
-  <div class="list-card-group">
-    <% if @ingredients.any? %>
+<div class="content">
+  <% if @ingredients.any? %>
+    <div class="card">
       <% @ingredients.each do |ingredient| %>
-        <%= link_to ingredient_path(ingredient), class: "list-card" do %>
-          <div class="list-card-info">
-            <span class="list-card-title"><%= ingredient.name %></span>
-            <div class="badge-list">
-              <% if ingredient.restrictions.any? %>
+        <%= link_to ingredient_path(ingredient), class: "card-row is-link" do %>
+          <div class="grow">
+            <div class="strong"><%= ingredient.name %></div>
+            <% if ingredient.restrictions.any? %>
+              <div class="row mt-2">
                 <% ingredient.restrictions.each do |restriction| %>
-                  <span class="badge badge-<%= restriction.restriction_type %>"><%= restriction.name %></span>
+                  <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
                 <% end %>
-              <% else %>
-                <span class="list-card-subtitle"><%= t("ingredients.index.no_restrictions") %></span>
-              <% end %>
-            </div>
+              </div>
+            <% else %>
+              <div class="muted mt-2"><%= t("ingredients.index.no_restrictions") %></div>
+            <% end %>
           </div>
+          <%# DESIGN-GAP: design shows "in N dishes" + "last edited by X". %>
+          <%# We don't track who-last-edited (no PaperTrail / authored_at). %>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
         <% end %>
       <% end %>
-    <% else %>
-      <p class="empty-state"><%= t("ingredients.index.no_ingredients") %></p>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <div class="empty-state"><%= t("ingredients.index.no_ingredients") %></div>
+  <% end %>
 </div>

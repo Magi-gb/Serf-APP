@@ -1,35 +1,33 @@
-<%= form_with(model: menu, class: "form-container") do |form| %>
-  <% if menu.errors.any? %>
-    <div class="alert-error">
-      <h3><%= t("errors.form_header", count: menu.errors.count) %></h3>
-      <ul>
-        <% menu.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: menu) do |form| %>
+  <%= render "shared/form_errors", object: menu %>
 
-  <div class="form-group">
-    <%= form.label :name, t("menus.form.name") %>
-    <%= form.text_field :name, class: "form-control" %>
-    <%= render "shared/field_error", object: menu, attribute: :name %>
+  <div class="field">
+    <%= form.label :name, t("menus.form.name"), class: "label" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
 
-  <div class="form-group">
-  <%= form.label :dish_ids, t("menus.form.dishes") %>
-  <div class="checkbox-group">
-    <% @dishes.each do |dish| %>
-      <div class="checkbox-item">
-        <%= form.check_box :dish_ids, { multiple: true, include_hidden: false }, dish.id, nil %>
-        <%= form.label "menu_dish_ids_#{dish.id}", dish.name %>
-        <span class="badge badge-dish-type"><%= t("dishes.types.#{dish.dish_type}") %></span>
+  <%# DESIGN-GAP: design proposes a builder with sortable sections (Entrants/Primers/...),
+      drag handles, per-section dish lookup, inline price editing and cobertura validation.
+      We have a flat Menu→Dishes join with no sections, prices, validity dates or order.
+      Showing a simple per-type checkbox group. %>
+  <fieldset class="field">
+    <legend class="label"><%= t("menus.form.dishes") %></legend>
+    <% @dishes.group_by(&:dish_type).each do |type, dishes_in_type| %>
+      <div class="muted strong mt-2"><%= t("dishes.types.#{type}") %></div>
+      <div class="checkbox-cards mt-2">
+        <% dishes_in_type.each do |dish| %>
+          <label class="checkbox-card">
+            <%= form.check_box :dish_ids, { multiple: true, include_hidden: false }, dish.id, nil %>
+            <span><%= dish.name %></span>
+          </label>
+        <% end %>
       </div>
     <% end %>
-  </div>
+  </fieldset>
 
-  <div class="form-actions">
-    <%= form.submit menu.new_record? ? t("menus.form.submit_create") : t("menus.form.submit_update"), class: "btn-primary" %>
-    <%= link_to t("menus.form.cancel"), menus_path, class: "btn-secondary" %>
+  <div class="row mt-4">
+    <%= form.submit menu.new_record? ? t("menus.form.submit_create") : t("menus.form.submit_update"),
+                    class: "btn btn-primary" %>
+    <%= link_to t("menus.form.cancel"), menus_path, class: "btn btn-secondary" %>
   </div>
 <% end %>

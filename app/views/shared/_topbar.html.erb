@@ -1,0 +1,18 @@
+<%# Standard SerF topbar.
+    Locals:
+      title    — required, the H1
+      subtitle — optional, small grey text below the title
+    Block:
+      content passed inside `do ... end` is rendered into .topbar-actions
+%>
+<header class="topbar">
+  <div>
+    <h1 class="topbar-title"><%= title %></h1>
+    <% if local_assigns[:subtitle].present? %>
+      <div class="topbar-sub"><%= subtitle %></div>
+    <% end %>
+  </div>
+  <% if block_given? %>
+    <div class="topbar-actions"><%= yield %></div>
+  <% end %>
+</header>

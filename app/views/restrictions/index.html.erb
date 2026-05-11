@@ -1,29 +1,44 @@
 <% content_for :title, t("restrictions.index.title") %>
 
-<div class="page-card">
-  <div class="index-toolbar">
-    <h1 class="serf-page-title"><%= t("restrictions.index.title") %></h1>
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("sidebar.new_restriction"), new_restriction_path, class: "btn-pill btn-pill-primary" %>
+<%# DESIGN-GAP: design groups restrictions in 4 buckets (al·lèrgens / intoleràncies /
+    religioses / preferències) with an "EFSA Annex II" badge for the official bucket.
+    Our enum only has 2 values: intolerance_allergy + religious. "Preferences" don't
+    exist. EFSA flag doesn't exist. We render flat-grouped by the existing enum. %>
+<%= render "shared/topbar", title: t("restrictions.index.title") do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to new_restriction_path, class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:plus) %><%= t("sidebar.new_restriction") %>
     <% end %>
-  </div>
+  <% end %>
+<% end %>
 
+<div class="content col">
   <% if @restrictions.any? %>
-    <div class="restriction-grid">
-      <% @restrictions.each do |restriction| %>
-        <%= link_to restriction_path(restriction), class: "restriction-bubble" do %>
-          <div class="restriction-icon" style="--bg-color: <%= restriction.bg_color.presence || '#7bc143' %>">
-            <% if restriction.icon_svg.present? %>
-              <%= safe_svg(restriction.icon_svg) %>
-            <% else %>
-              <span><%= restriction.name[0..2].upcase %></span>
+    <% @restrictions.group_by(&:restriction_type).each do |type, group| %>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><%= t("restrictions.types.#{type}") %></h3>
+          <span class="muted"><%= group.size %></span>
+        </div>
+        <div class="card-body">
+          <div class="grid grid-4">
+            <% group.each do |restriction| %>
+              <%= link_to restriction_path(restriction), class: "restr" do %>
+                <span class="restr-bubble" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
+                  <% if restriction.icon_svg.present? %>
+                    <%= sanitize(restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
+                  <% else %>
+                    <%= restriction.name.first(4).upcase %>
+                  <% end %>
+                </span>
+                <span class="restr-name"><%= restriction.name %></span>
+              <% end %>
             <% end %>
           </div>
-          <span class="restriction-name"><%= restriction.name %></span>
-        <% end %>
-      <% end %>
-    </div>
+        </div>
+      </div>
+    <% end %>
   <% else %>
-    <p class="empty-state text-center"><%= t("restrictions.index.empty") %></p>
+    <div class="empty-state"><%= t("restrictions.index.empty") %></div>
   <% end %>
 </div>

@@ -1,28 +1,39 @@
-<% content_for :title, t(".title") %>
+<% content_for :title, t("menus.index.title") %>
 
-<div class="page-card">
-  <div class="page-header">
-    <h1 class="serf-page-title"><%= t(".title") %></h1>
-  </div>
-
-  <div class="index-toolbar">
-    <%= render "shared/search_bar", url: menus_path, placeholder: t(".search_placeholder") %>
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("menus.index.new_menu"), new_menu_path, class: "btn-pill btn-pill-primary" %>
+<%# DESIGN-GAP: design splits menus by type (Carta / Diari / Grup / Estacional)
+    and shows publication state (publicat / esborrany / arxivat), per-restaurant
+    assignment, validity dates and a "coverage" indicator. Our Menu model has only
+    `name` and a dishes association — none of the above. Showing a simple list. %>
+<%= render "shared/topbar", title: t("menus.index.title") do %>
+  <%= form_with url: menus_path, method: :get, local: true, class: "search" do |f| %>
+    <span class="search-icon"><%= serf_icon(:search) %></span>
+    <%= f.search_field :search, value: params[:search], placeholder: t("menus.index.search_placeholder"), class: "input" %>
+  <% end %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to new_menu_path, class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:plus) %><%= t("menus.index.new_menu") %>
     <% end %>
-  </div>
+  <% end %>
+<% end %>
 
-  <div class="list-card-group">
-    <% if @menus.any? %>
+<div class="content">
+  <% if @menus.any? %>
+    <div class="card">
       <% @menus.each do |menu| %>
-        <%= link_to menu_path(menu), class: "list-card" do %>
-          <div class="list-card-info">
-            <span class="list-card-title"><%= menu.name %></span>
+        <%= link_to menu_path(menu), class: "card-row is-link" do %>
+          <span class="avatar avatar-sm"
+                style="--avatar-bg: oklch(0.6 0.13 <%= (menu.name.sum % 360) %>);">
+            <%= serf_icon(:book) %>
+          </span>
+          <div class="grow">
+            <div class="strong"><%= menu.name %></div>
+            <div class="muted mt-2"><%= t("menus.show.dishes") %>: <%= menu.dishes.count %></div>
           </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
         <% end %>
       <% end %>
-    <% else %>
-      <p class="empty-state"><%= t("menus.index.no_menus") %></p>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <div class="empty-state"><%= t("menus.index.no_menus") %></div>
+  <% end %>
 </div>

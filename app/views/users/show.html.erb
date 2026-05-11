@@ -1,15 +1,48 @@
-<div class="page-card">
-  <div class="detail-section">
-    <div class="detail-avatar" style="--avatar-bg: <%= user_avatar_color(@user) %>;">
-      <%= @user.username[0].upcase %>
+<% content_for :title, @user.username %>
+
+<%= render "shared/topbar", title: @user.username, subtitle: t("users.roles.#{@user.role}") do %>
+  <%= link_to users_path, class: "btn btn-ghost btn-sm" do %>
+    <%= serf_icon(:chevron_left) %><%= t("users.show.back") %>
+  <% end %>
+  <%= link_to edit_user_path(@user), class: "btn btn-secondary btn-sm" do %>
+    <%= serf_icon(:edit) %><%= t("users.show.edit") %>
+  <% end %>
+  <%= button_to user_path(@user), method: :delete,
+                class: "btn btn-danger btn-sm",
+                form: { data: { turbo_confirm: t("users.show.confirm_delete") } } do %>
+    <%= serf_icon(:trash) %><%= t("users.show.delete") %>
+  <% end %>
+<% end %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-body row">
+      <span class="avatar avatar-lg" style="--avatar-bg: <%= user_avatar_color(@user) %>;">
+        <%= @user.username.first(2).upcase %>
+      </span>
+      <div class="grow">
+        <div class="strong"><%= @user.username %></div>
+        <div class="muted mt-2"><%= t("users.roles.#{@user.role}") %></div>
+      </div>
     </div>
+  </div>
 
-    <h1><%= @user.username %></h1>
-    <p class="list-card-subtitle"><%= t("users.roles.#{@user.role}") %></p>
-
-    <div class="detail-actions">
-      <%= link_to t("users.show.edit"), edit_user_path(@user), class: "btn-primary" %>
-      <%= link_to t("users.show.delete"), user_path(@user), data: { turbo_method: :delete, turbo_confirm: t("users.show.confirm_delete") }, class: "btn-danger" %>
+  <%# DESIGN-GAP: design shows email, restaurant, last login, notes and a "Permisos"
+      tag-pill with restrictive notes. The User model only has username + role.
+      Email, site, last_seen, notes don't exist. %>
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("users.show.title") %></h3></div>
+    <div class="card-body col">
+      <div class="detail-field">
+        <div class="detail-field-label"><%= t("users.form.username") %></div>
+        <div class="detail-field-value"><%= @user.username %></div>
+      </div>
+      <div class="detail-field">
+        <div class="detail-field-label"><%= t("users.form.role") %></div>
+        <div class="detail-field-value">
+          <span class="tag"><%= t("users.roles.#{@user.role}") %></span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

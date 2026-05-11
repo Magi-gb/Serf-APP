@@ -1,5 +1,15 @@
-<div class="form-container">
-  <h1 class="serf-page-title"><%= t("ingredients.new.title") %></h1>
+<% content_for :title, t("ingredients.new.title") %>
 
-  <%= render "form", ingredient: @ingredient, restrictions: @restrictions %>
+<%= render "shared/topbar", title: t("ingredients.new.title") do %>
+  <%= link_to ingredients_path, class: "btn btn-ghost btn-sm" do %>
+    <%= serf_icon(:chevron_left) %><%= t("ingredients.show.back") %>
+  <% end %>
+<% end %>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", ingredient: @ingredient, restrictions: @restrictions %>
+    </div>
+  </div>
 </div>

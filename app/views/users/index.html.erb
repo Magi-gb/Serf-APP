@@ -1,31 +1,35 @@
-<div class="page-card">
-  <div class="page-header">
-    <h1 class="serf-page-title"><%= t("users.index.title") %></h1>
-  </div>
+<% content_for :title, t("users.index.title") %>
 
-  <div class="index-toolbar">
-    <%= render "shared/search_bar", url: users_path, placeholder: t("users.index.search_placeholder") %>
-    <%= link_to new_user_path, class: "btn-pill btn-pill-primary" do %>
-      <%= image_tag "icons/user-plus-white.svg", size: "18x18" %>
-      <%= t("users.index.new_user") %>
-    <% end %>
-  </div>
+<%# DESIGN-GAP: design includes a sticky detail panel on the right with extended user
+    metadata (email, restaurant, permissions, last login, notes, "Created on"). User
+    model only has username + role. Email, site, last_seen, notes don't exist. %>
+<%= render "shared/topbar", title: t("users.index.title") do %>
+  <%= form_with url: users_path, method: :get, local: true, class: "search" do |f| %>
+    <span class="search-icon"><%= serf_icon(:search) %></span>
+    <%= f.search_field :search, value: params[:search], placeholder: t("users.index.search_placeholder"), class: "input" %>
+  <% end %>
+  <%= link_to new_user_path, class: "btn btn-primary btn-sm" do %>
+    <%= serf_icon(:plus) %><%= t("users.index.new_user") %>
+  <% end %>
+<% end %>
 
-  <div class="list-card-group">
-    <% if @users.any? %>
+<div class="content">
+  <% if @users.any? %>
+    <div class="card">
       <% @users.each do |user| %>
-        <%= link_to user_path(user), class: "list-card" do %>
-          <div class="list-card-avatar" style="--avatar-bg: <%= user_avatar_color(user) %>;">
-            <%= user.username[0].upcase %>
+        <%= link_to user_path(user), class: "card-row is-link" do %>
+          <span class="avatar avatar-sm" style="--avatar-bg: <%= user_avatar_color(user) %>;">
+            <%= user.username.first(2).upcase %>
+          </span>
+          <div class="grow">
+            <div class="strong"><%= user.username %></div>
+            <div class="muted mt-2"><%= t("users.roles.#{user.role}") %></div>
           </div>
-          <div class="list-card-info">
-            <span class="list-card-title"><%= user.username %></span>
-            <span class="list-card-subtitle"><%= t("users.roles.#{user.role}") %></span>
-          </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
         <% end %>
       <% end %>
-    <% else %>
-      <p class="empty-state"><%= t("users.index.no_users") %></p>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <div class="empty-state"><%= t("users.index.no_users") %></div>
+  <% end %>
 </div>

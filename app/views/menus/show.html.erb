@@ -1,30 +1,41 @@
 <% content_for :title, @menu.name %>
 
-<div class="page-card">
-  <div class="detail-section">
-    <div class="detail-header">
-        <h2 class="serf-page-title"><%= @menu.name %></h2>
-    </div>
-
-  <div class="desc-box desc-box-bounded">
-    <h3><%= t("menus.show.dishes") %></h3>
-    <% if @menu.dishes.any? %>
-      <div class="badge-list">
-        <% @menu.dishes.each do |dish| %>
-          <%= link_to dish.name, dish_path(dish), class: "badge-big" %>
-          <span class="badge"><%= t("dishes.types.#{dish.dish_type}") %></span>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="empty-state"><%= t("menus.show.no_dishes") %></p>
+<%= render "shared/topbar", title: @menu.name do %>
+  <%= link_to menus_path, class: "btn btn-ghost btn-sm" do %>
+    <%= serf_icon(:chevron_left) %><%= t("menus.show.back") %>
+  <% end %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to edit_menu_path(@menu), class: "btn btn-secondary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("menus.show.edit") %>
     <% end %>
-  </div>
+    <%= button_to menu_path(@menu), method: :delete,
+                  class: "btn btn-danger btn-sm",
+                  form: { data: { turbo_confirm: t("menus.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("menus.show.delete") %>
+    <% end %>
+  <% end %>
+<% end %>
 
-  <div class="detail-actions">
-    <%= link_to t("menus.show.back"), menus_path, class: "btn-secondary" %>
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("menus.show.edit"), edit_menu_path(@menu), class: "btn-primary" %>
-      <%= button_to t("menus.show.delete"), menu_path(@menu), method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("menus.show.confirm_delete") } } %>
+<div class="content col">
+  <%# DESIGN-GAP: design shows a KPI bar (plats / seccions / preu / vigència) + a
+      sidebar with cobertura per restricció comuna (sense gluten / lactosa / vegà…).
+      We have no price, no sections, no validity dates, and no SuggestionService.
+      Showing only the dishes grouped by dish_type. %>
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("menus.show.dishes") %></h3></div>
+    <% if @menu.dishes.any? %>
+      <% @menu.dishes.group_by(&:dish_type).each do |type, dishes_in_type| %>
+        <div class="card-body">
+          <div class="muted strong" style="margin-bottom: 8px;"><%= t("dishes.types.#{type}") %></div>
+          <div class="row">
+            <% dishes_in_type.each do |dish| %>
+              <%= link_to dish.name, dish_path(dish), class: "tag" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="card-body muted"><%= t("menus.show.no_dishes") %></div>
     <% end %>
   </div>
 </div>

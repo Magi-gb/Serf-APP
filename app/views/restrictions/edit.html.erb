@@ -1,10 +1,15 @@
-<div class="page-card">
-  <div class="detail-header">
-    <div class="restriction-icon restriction-icon-small" style="--bg-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
-      <span><%= @restriction.name[0..2].upcase %></span>
-    </div>
-    <h1><%= t("restrictions.edit.title") %></h1>
-  </div>
+<% content_for :title, t("restrictions.edit.title") %>
 
-  <%= render "form", restriction: @restriction %>
+<%= render "shared/topbar", title: t("restrictions.edit.title"), subtitle: @restriction.name do %>
+  <%= link_to restriction_path(@restriction), class: "btn btn-ghost btn-sm" do %>
+    <%= serf_icon(:chevron_left) %><%= t("restrictions.show.back") %>
+  <% end %>
+<% end %>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", restriction: @restriction %>
+    </div>
+  </div>
 </div>
