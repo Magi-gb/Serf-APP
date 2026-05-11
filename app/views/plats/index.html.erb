@@ -8,10 +8,10 @@
   <div class="index-toolbar">
     <%= render "shared/search_bar", url: plats_path, placeholder: t("plats.index.search_placeholder") %>
     <% if current_user.admin? || current_user.kitchen_manager? %>
-    <%= link_to t("plats.index.new_plat"), new_plat_path, class: "btn-pill btn-pill-primary" %>
+      <%= link_to t("plats.index.new_plat"), new_plat_path, class: "btn-pill btn-pill-primary" %>
     <% end %>
   </div>
-  
+
   <div class="list-card-group">
     <% if @plats.any? %>
       <% @plats.each do |plat| %>
@@ -21,7 +21,8 @@
           </div>
         <% end %>
       <% end %>
-  <% else %>
-    <p class="empty-state text-center"><%= t("plats.index.no_plats") %></p>
-  <% end %>
+    <% else %>
+      <p class="empty-state text-center"><%= t("plats.index.no_plats") %></p>
+    <% end %>
+  </div>
 </div>
