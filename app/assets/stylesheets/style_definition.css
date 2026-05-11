@@ -1118,3 +1118,7 @@ input:focus {
   width: 100%;
   max-width: 600px;
 }
+
+.detail-avatar-protocol {
+  --avatar-bg: var(--color-bg-blue);
+}
