@@ -31,6 +31,12 @@ class PlatTest < ActiveSupport::TestCase
     end
   end
 
+  test "strips whitespace from name before validation" do
+    plat = Plat.new(name: "  Paella  ", description: "Test", tipusPlat: :primer)
+    plat.valid?
+    assert_equal "Paella", plat.name
+  end
+
   test "has many menus through menu_plats" do
     plat = plats(:paella)
     assert_respond_to plat, :menus

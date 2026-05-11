@@ -4,9 +4,17 @@ class Plat < ApplicationRecord
   has_many :plat_ingredients, dependent: :destroy
   has_many :ingredients, through: :plat_ingredients
 
+  before_validation :normalize_attributes
+
   validates :name, presence: true
   validates :description, presence: true
   enum :tipusPlat, { entrant: 0, primer: 1, segon: 2, postre: 3 }
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
+
+  private
+
+  def normalize_attributes
+    self.name = name.to_s.strip
+  end
 end
