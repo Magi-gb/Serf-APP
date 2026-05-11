@@ -18,8 +18,11 @@ class IngredientsController < ApplicationController
     candidates = Ingredient.includes(:restrictions).where.not(id: excluded_ids).order(:name)
 
     ingredient_restriction_ids = @ingredient.restriction_ids
+    # Use the eager-loaded `restrictions` association rather than
+    # `candidate.restriction_ids`, which would issue an extra SQL query
+    # per candidate (N+1).
     @alternative_ingredients = candidates.select do |candidate|
-      (candidate.restriction_ids - ingredient_restriction_ids).empty?
+      (candidate.restrictions.map(&:id) - ingredient_restriction_ids).empty?
     end
   end
 

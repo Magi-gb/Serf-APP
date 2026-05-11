@@ -63,4 +63,33 @@ class IngredientAlternativesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_url
   end
+
+  test "create rejects an alternative that introduces new restrictions" do
+    sign_in @kitchen_manager
+    kosher = restrictions(:kosher)
+    pork = Ingredient.create!(name: "Pork #{Time.current.to_i}")
+    IngredientRestriction.create!(ingredient: pork, restriction: kosher)
+
+    assert_no_difference("IngredientAlternative.count") do
+      post ingredient_alternatives_path(@ingredient), params: {
+        ingredient_alternative: { alternative_id: pork.id }
+      }
+    end
+
+    assert_redirected_to ingredient_path(@ingredient)
+    follow_redirect!
+    assert_match(/no pot afegir noves restriccions/, response.body)
+  end
+
+  test "create rejects self-reference" do
+    sign_in @kitchen_manager
+
+    assert_no_difference("IngredientAlternative.count") do
+      post ingredient_alternatives_path(@ingredient), params: {
+        ingredient_alternative: { alternative_id: @ingredient.id }
+      }
+    end
+
+    assert_redirected_to ingredient_path(@ingredient)
+  end
 end

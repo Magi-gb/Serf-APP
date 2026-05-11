@@ -20,4 +20,32 @@ class IngredientAlternativeTest < ActiveSupport::TestCase
     assert_not ingredient_alternative.valid?
     assert ingredient_alternative.errors[:alternative].any?
   end
+
+  test "invalid when alternative is the same as ingredient" do
+    bread = ingredients(:bread)
+
+    ingredient_alternative = IngredientAlternative.new(ingredient: bread, alternative: bread)
+    assert_not ingredient_alternative.valid?
+    assert ingredient_alternative.errors[:alternative].any?
+  end
+
+  test "invalid when the same alternative is added twice" do
+    bread = ingredients(:bread)
+    milk = ingredients(:milk)
+    IngredientAlternative.create!(ingredient: bread, alternative: milk)
+
+    duplicate = IngredientAlternative.new(ingredient: bread, alternative: milk)
+    assert_not duplicate.valid?
+    assert duplicate.errors[:alternative_id].any?
+  end
+
+  test "destroying an ingredient also removes rows that reference it as alternative" do
+    bread = ingredients(:bread)
+    milk = ingredients(:milk)
+    IngredientAlternative.create!(ingredient: bread, alternative: milk)
+
+    assert_difference("IngredientAlternative.count", -1) do
+      milk.destroy
+    end
+  end
 end
