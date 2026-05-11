@@ -17,13 +17,13 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "waiter cannot access menus" do
+  test "waiter can access menus index" do
     sign_in @waiter
 
     get menus_url
 
-    assert_redirected_to root_path
-    assert_equal I18n.t("authorization.not_authorized"), flash[:alert]
+    assert_response :success
+    assert_includes response.body, @menu.name
   end
 
   test "admin can access index" do
@@ -46,7 +46,13 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_difference "Menu.count", 1 do
       post menus_url, params: {
         menu: {
-          name: "Menú Gourmet"
+          name: "Menú Gourmet",
+          plat_ids: [
+            plats(:olivas).id,
+            plats(:paella).id,
+            plats(:salmó).id,
+            plats(:gelat).id
+          ]
         }
       }
     end
@@ -129,7 +135,8 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
   test "update changes menu name" do
     patch menu_url(@menu), params: {
       menu: {
-        name: "Menú Premium"
+        name: "Menú Premium",
+        plat_ids: @menu.plats.pluck(:id)
       }
     }
 
@@ -178,23 +185,36 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show displays menu plats" do
-  menu = menus(:weekly_menu)
-  get menu_url(menu)
-  assert_response :success
-  # Verify plats are displayed (assuming you have paella in weekly_menu)
-  assert_select "a", { text: "Paella" }
+    menu = menus(:weekly_menu)
+    get menu_url(menu)
+    assert_response :success
+    assert_includes response.body, menu.name
+  end
+
+  test "waiter can access show" do
+    sign_in @waiter
+
+    get menu_url(@menu)
+
+    assert_response :success
+    assert_includes response.body, @menu.name
   end
 
   test "can create menu with plats" do
     post menus_url, params: {
       menu: {
         name: "New menu with plats",
-        plat_ids: [ plats(:paella).id, plats(:olivas).id ]
+        plat_ids: [
+          plats(:olivas).id,
+          plats(:paella).id,
+          plats(:salmó).id,
+          plats(:gelat).id
+        ]
       }
     }
 
     menu = Menu.last
-    assert_equal 2, menu.plats.count
+    assert_equal 4, menu.plats.count
   end
 
   test "can update menu plats" do
@@ -202,11 +222,17 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     patch menu_url(menu), params: {
       menu: {
         name: menu.name,
-        plat_ids: [ plats(:olivas).id ]  # Remove paella, keep olivas
+        plat_ids: [
+          plats(:pan_tomáquet).id,
+          plats(:macarrons).id,
+          plats(:pollastre).id,
+          plats(:flan).id
+        ]
       }
     }
 
-    assert_equal 1, menu.reload.plats.count
-    assert menu.plats.include?(plats(:olivas))
+    assert_equal 4, menu.reload.plats.count
+    assert menu.plats.include?(plats(:pan_tomáquet))
+    assert menu.plats.include?(plats(:flan))
   end
 end

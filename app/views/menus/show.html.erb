@@ -6,7 +6,7 @@
         <h2 class="serf-page-title"><%= @menu.name %></h2>
     </div>
 
-  <div class="desc-box" style="width: 100%; max-width: 600px;">
+  <div class="desc-box desc-box-bounded">
     <h3><%= t("menus.show.plats") %></h3>
     <% if @menu.plats.any? %>
       <div class="badge-list">

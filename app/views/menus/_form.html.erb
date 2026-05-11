@@ -19,7 +19,7 @@
   <div class="form-group">
   <%= form.label :plat_ids, t("menus.form.plats") %>
   <div class="checkbox-group">
-    <% Plat.all.each do |plat| %>
+    <% @plats.each do |plat| %>
       <div class="checkbox-item">
         <%= form.check_box :plat_ids, { multiple: true, include_hidden: false }, plat.id, nil %>
         <%= form.label "menu_plat_ids_#{plat.id}", plat.name %>

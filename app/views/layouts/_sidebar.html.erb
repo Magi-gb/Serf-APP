@@ -15,11 +15,10 @@
     <%= link_to t("sidebar.plats"), plats_path %>
   </li>
 
-  <% if current_user.admin? || current_user.kitchen_manager? %>
-    <li class="<%= "sidenav-active" if controller_name == "menus" %>">
-      <%= link_to t("sidebar.menus"), menus_path %>
-    </li>
-  <% end %>
+
+  <li class="<%= "sidenav-active" if controller_name == "menus" %>">
+    <%= link_to t("sidebar.menus"), menus_path %>
+  </li>
 
   <li class="<%= "sidenav-active" if controller_name == "restrictions" %>">
     <%= link_to t("sidebar.restrictions"), restrictions_path %>

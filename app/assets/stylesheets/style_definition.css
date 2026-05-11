@@ -1105,3 +1105,8 @@ input:focus {
   padding: 4px 8px;
   border-radius: 3px;
 }
+
+.desc-box-bounded {
+  width: 100%;
+  max-width: 600px;
+}

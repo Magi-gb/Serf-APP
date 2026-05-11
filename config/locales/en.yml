@@ -111,6 +111,9 @@ en:
       success: Menu deleted successfully.
     edit:
       title: Edit menu
+    errors:
+      duplicate_plat_type: Menu cannot have more than one dish of type %{type}
+      missing_plat_type: Menu must have a dish of type %{type}
     form:
       cancel: Cancel
       name: Menu name

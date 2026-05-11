@@ -1,11 +1,32 @@
-weekly_paella:
-  menu: weekly_menu
-  plat: paella
-
-weekly_olivas:
+weekly_entrant:
   menu: weekly_menu
   plat: olivas
 
-tasting_paella:
-  menu: tasting_menu
+weekly_primer:
+  menu: weekly_menu
   plat: paella
+
+weekly_segon:
+  menu: weekly_menu
+  plat: salmó
+
+weekly_postre:
+  menu: weekly_menu
+  plat: gelat
+
+tasting_entrant:
+  menu: tasting_menu
+  plat: pan_tomáquet
+
+tasting_primer:
+  menu: tasting_menu
+  plat: macarrons
+
+tasting_segon:
+  menu: tasting_menu
+  plat: pollastre
+
+tasting_postre:
+  menu: tasting_menu
+  plat: flan
+
