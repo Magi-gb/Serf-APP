@@ -47,11 +47,11 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
       post menus_url, params: {
         menu: {
           name: "Menú Gourmet",
-          plat_ids: [
-            plats(:olivas).id,
-            plats(:paella).id,
-            plats(:salmó).id,
-            plats(:gelat).id
+          dish_ids: [
+            dishes(:olivas).id,
+            dishes(:paella).id,
+            dishes(:salmó).id,
+            dishes(:gelat).id
           ]
         }
       }
@@ -136,7 +136,7 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     patch menu_url(@menu), params: {
       menu: {
         name: "Menú Premium",
-        plat_ids: @menu.plats.pluck(:id)
+        dish_ids: @menu.dishes.pluck(:id)
       }
     }
 
@@ -184,7 +184,7 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Menú Admin", @menu.reload.name
   end
 
-  test "show displays menu plats" do
+  test "show displays menu dishes" do
     menu = menus(:weekly_menu)
     get menu_url(menu)
     assert_response :success
@@ -200,39 +200,39 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, @menu.name
   end
 
-  test "can create menu with plats" do
+  test "can create menu with dishes" do
     post menus_url, params: {
       menu: {
-        name: "New menu with plats",
-        plat_ids: [
-          plats(:olivas).id,
-          plats(:paella).id,
-          plats(:salmó).id,
-          plats(:gelat).id
+        name: "New menu with dishes",
+        dish_ids: [
+          dishes(:olivas).id,
+          dishes(:paella).id,
+          dishes(:salmó).id,
+          dishes(:gelat).id
         ]
       }
     }
 
     menu = Menu.last
-    assert_equal 4, menu.plats.count
+    assert_equal 4, menu.dishes.count
   end
 
-  test "can update menu plats" do
+  test "can update menu dishes" do
     menu = menus(:weekly_menu)
     patch menu_url(menu), params: {
       menu: {
         name: menu.name,
-        plat_ids: [
-          plats(:pan_tomáquet).id,
-          plats(:macarrons).id,
-          plats(:pollastre).id,
-          plats(:flan).id
+        dish_ids: [
+          dishes(:pan_tomáquet).id,
+          dishes(:macarrons).id,
+          dishes(:pollastre).id,
+          dishes(:flan).id
         ]
       }
     }
 
-    assert_equal 4, menu.reload.plats.count
-    assert menu.plats.include?(plats(:pan_tomáquet))
-    assert menu.plats.include?(plats(:flan))
+    assert_equal 4, menu.reload.dishes.count
+    assert menu.dishes.include?(dishes(:pan_tomáquet))
+    assert menu.dishes.include?(dishes(:flan))
   end
 end

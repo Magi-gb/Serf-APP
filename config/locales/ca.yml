@@ -27,6 +27,50 @@ ca:
       already_signed_out: Sessió tancada correctament.
       signed_in: Sessió iniciada correctament.
       signed_out: Sessió tancada correctament.
+  dishes:
+    edit:
+      title: Editar plat
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      dish_type: Tipus de plat
+      ingredients: Ingredients
+      name: Nom del plat
+      submit: Guardar plat
+      submit_create: Crear plat
+      submit_update: Desar canvis
+    index:
+      actions: Accions
+      description: Descripció
+      edit: Editar
+      empty: Encara no hi ha plats guardats.
+      name: Nom del plat
+      new_dish: "+ Nou plat"
+      no_dishes: No s'han trobat plats.
+      search_placeholder: Cerca un plat
+      show: Veure
+      tipus: Tipus
+      title: Plats
+    messages:
+      created_success: Plat creat correctament.
+      destroyed_success: Plat eliminat correctament.
+      updated_success: Plat actualitzat correctament.
+    new:
+      title: Nou plat
+    show:
+      back: Tornar
+      confirm_delete: Segur que vols eliminar aquest plat?
+      delete: Eliminar plat
+      description: Descripció
+      dish_type: Tipus
+      edit: Editar
+      ingredients: Ingredients
+      no_ingredients: Aquest plat no té ingredients associats
+    types:
+      entrant: Entrant
+      postre: Postre
+      primer: Primer plat
+      segon: Segon plat
   errors:
     form_header:
       one: '1 error ha impedit guardar:'
@@ -123,30 +167,30 @@ ca:
     edit:
       title: Editar menú
     errors:
-      duplicate_plat_type: El menú no pot tenir més d'un plat de tipus %{type}
-      missing_plat_type: El menú ha de tenir un plat de tipus %{type}
+      duplicate_dish_type: El menú no pot tenir més d'un plat de tipus %{type}
+      missing_dish_type: El menú ha de tenir un plat de tipus %{type}
     form:
       cancel: Cancel·lar
+      dishes: Plats
       name: Nom del menú
-      plats: Plats
       submit_create: Crear menú
       submit_update: Desar canvis
     index:
       confirm_delete: Segur que vols eliminar aquest menú?
-      confirm_remove_plat: Segur que vols eliminar aquest plat del menú?
-      current_plats: Plats actuals del menú
+      confirm_remove_dish: Segur que vols eliminar aquest plat del menú?
+      current_dishes: Plats actuals del menú
       delete: Eliminar
       edit: Editar
       new_menu: "+ Nou menú"
       no_menus: No s'han trobat menús.
-      remove_plat: Eliminar
+      remove_dish: Eliminar
       search_placeholder: Cerca un menú
       show: Veure
       title: Menús
     messages:
       created_success: Menú creat correctament.
       destroyed_success: Menú eliminat correctament.
-      plat_removed: Plat eliminat del menú correctament.
+      dish_removed: Plat eliminat del menú correctament.
       updated_success: Menú actualitzat correctament.
     new:
       title: Nou menú
@@ -156,54 +200,10 @@ ca:
       back: Tornar
       confirm_delete: Segur que vols eliminar aquest menú?
       delete: Eliminar menú
+      dishes: Plats del menú
       edit: Editar
-      no_plats: Aquest menú no té plats associats
-      plats: Plats del menú
+      no_dishes: Aquest menú no té plats associats
       title: Detalls del menú
-  plats:
-    edit:
-      title: Editar plat
-    form:
-      cancel: Cancel·lar
-      description: Descripció
-      ingredients: Ingredients
-      name: Nom del plat
-      submit: Guardar plat
-      submit_create: Crear plat
-      submit_update: Desar canvis
-      tipus_plat: Tipus de plat
-    index:
-      actions: Accions
-      description: Descripció
-      edit: Editar
-      empty: Encara no hi ha plats guardats.
-      name: Nom del plat
-      new_plat: "+ Nou plat"
-      no_plats: No s'han trobat plats.
-      search_placeholder: Cerca un plat
-      show: Veure
-      tipus: Tipus
-      title: Plats
-    messages:
-      created_success: Plat creat correctament.
-      destroyed_success: Plat eliminat correctament.
-      updated_success: Plat actualitzat correctament.
-    new:
-      title: Nou plat
-    show:
-      back: Tornar
-      confirm_delete: Segur que vols eliminar aquest plat?
-      delete: Eliminar plat
-      description: Descripció
-      edit: Editar
-      ingredients: Ingredients
-      no_ingredients: Aquest plat no té ingredients associats
-      tipus: Tipus
-    types:
-      entrant: Entrant
-      postre: Postre
-      primer: Primer plat
-      segon: Segon plat
   profile:
     edit:
       current_password: Contrasenya actual
@@ -291,17 +291,17 @@ ca:
     add_menu: Afegir menú
     alternatives: Alternatives freqüents
     dashboard: Inici
+    dishes: Plats
     emergencies: Emergències
     glossary: Glossari
     ingredients: Ingredients
     logout: Tancar sessió
     menu: Menú
     menus: Menús
-    new_plat: "+ Nou plat"
+    new_dish: "+ Nou plat"
     new_restriction: "+ Nova restricció"
     personal: Personal
     placeholder: Placeholder
-    plats: Plats
     profile: El meu perfil
     protocols: Protocols
     remove_ingredient: Eliminar ingredients

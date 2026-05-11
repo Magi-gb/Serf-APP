@@ -1,0 +1,28 @@
+<% content_for :title, t("dishes.index.title") %>
+
+<div class="page-card">
+  <div class="page-header">
+    <h1 class="serf-page-title"><%= t("dishes.index.title") %></h1>
+  </div>
+
+  <div class="index-toolbar">
+    <%= render "shared/search_bar", url: dishes_path, placeholder: t("dishes.index.search_placeholder") %>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("dishes.index.new_dish"), new_dish_path, class: "btn-pill btn-pill-primary" %>
+    <% end %>
+  </div>
+
+  <div class="list-card-group">
+    <% if @dishes.any? %>
+      <% @dishes.each do |dish| %>
+        <%= link_to dish_path(dish), class: "list-card" do %>
+          <div class="list-card-info">
+            <span class="list-card-title"><%= dish.name %></span>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p class="empty-state text-center"><%= t("dishes.index.no_dishes") %></p>
+    <% end %>
+  </div>
+</div>

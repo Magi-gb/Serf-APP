@@ -1,32 +1,32 @@
 weekly_entrant:
   menu: weekly_menu
-  plat: olivas
+  dish: olivas
 
 weekly_primer:
   menu: weekly_menu
-  plat: paella
+  dish: paella
 
 weekly_segon:
   menu: weekly_menu
-  plat: salmó
+  dish: salmó
 
 weekly_postre:
   menu: weekly_menu
-  plat: gelat
+  dish: gelat
 
 tasting_entrant:
   menu: tasting_menu
-  plat: pan_tomáquet
+  dish: pan_tomáquet
 
 tasting_primer:
   menu: tasting_menu
-  plat: macarrons
+  dish: macarrons
 
 tasting_segon:
   menu: tasting_menu
-  plat: pollastre
+  dish: pollastre
 
 tasting_postre:
   menu: tasting_menu
-  plat: flan
+  dish: flan
 

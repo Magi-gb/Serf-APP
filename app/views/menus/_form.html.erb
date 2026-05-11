@@ -17,13 +17,13 @@
   </div>
 
   <div class="form-group">
-  <%= form.label :plat_ids, t("menus.form.plats") %>
+  <%= form.label :dish_ids, t("menus.form.dishes") %>
   <div class="checkbox-group">
-    <% @plats.each do |plat| %>
+    <% @dishes.each do |dish| %>
       <div class="checkbox-item">
-        <%= form.check_box :plat_ids, { multiple: true, include_hidden: false }, plat.id, nil %>
-        <%= form.label "menu_plat_ids_#{plat.id}", plat.name %>
-        <span class="badge badge-plat-type"><%= t("plats.types.#{plat.tipusPlat}") %></span>
+        <%= form.check_box :dish_ids, { multiple: true, include_hidden: false }, dish.id, nil %>
+        <%= form.label "menu_dish_ids_#{dish.id}", dish.name %>
+        <span class="badge badge-dish-type"><%= t("dishes.types.#{dish.dish_type}") %></span>
       </div>
     <% end %>
   </div>

@@ -1,0 +1,41 @@
+<% content_for :title, @dish.name %>
+
+<div class="page-card">
+  <div class="detail-section">
+    <div class="detail-header">
+      <h2 class="serf-page-title"><%= @dish.name %></h2>
+    </div>
+
+    <div class="desc-box desc-box-bounded">
+      <h3><%= t("dishes.show.description") %></h3>
+      <p class="desc-text"><%= @dish.description %></p>
+    </div>
+
+    <div class="desc-box desc-box-bounded">
+      <h3><%= t("dishes.show.dish_type") %></h3>
+      <p class="desc-text"><%= t("dishes.types.#{@dish.dish_type}") %></p>
+    </div>
+
+    <div class="desc-box desc-box-bounded">
+      <h3><%= t("dishes.show.ingredients") %></h3>
+      <% if @dish.ingredients.any? %>
+        <div class="badge-list">
+          <% @dish.ingredients.each do |ingredient| %>
+            <%= link_to ingredient.name, ingredient_path(ingredient), class: "badge-big" %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="empty-state"><%= t("dishes.show.no_ingredients") %></p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="detail-actions">
+    <%= link_to t("dishes.show.back"), dishes_path, class: "btn-secondary" %>
+
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("dishes.show.edit"), edit_dish_path(@dish), class: "btn-primary" %>
+      <%= button_to t("dishes.show.delete"), dish_path(@dish), method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("dishes.show.confirm_delete") } } %>
+    <% end %>
+  </div>
+</div>

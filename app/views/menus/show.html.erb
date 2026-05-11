@@ -7,16 +7,16 @@
     </div>
 
   <div class="desc-box desc-box-bounded">
-    <h3><%= t("menus.show.plats") %></h3>
-    <% if @menu.plats.any? %>
+    <h3><%= t("menus.show.dishes") %></h3>
+    <% if @menu.dishes.any? %>
       <div class="badge-list">
-        <% @menu.plats.each do |plat| %>
-          <%= link_to plat.name, plat_path(plat), class: "badge-big" %>
-          <span class="badge"><%= t("plats.types.#{plat.tipusPlat}") %></span>
+        <% @menu.dishes.each do |dish| %>
+          <%= link_to dish.name, dish_path(dish), class: "badge-big" %>
+          <span class="badge"><%= t("dishes.types.#{dish.dish_type}") %></span>
         <% end %>
       </div>
     <% else %>
-      <p class="empty-state"><%= t("menus.show.no_plats") %></p>
+      <p class="empty-state"><%= t("menus.show.no_dishes") %></p>
     <% end %>
   </div>
 

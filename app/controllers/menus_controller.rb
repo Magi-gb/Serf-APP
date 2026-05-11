@@ -11,7 +11,7 @@ class MenusController < ApplicationController
 
   def new
     @menu = Menu.new
-    load_available_plats
+    load_available_dishes
   end
 
   def create
@@ -20,20 +20,20 @@ class MenusController < ApplicationController
     if @menu.save
       redirect_to menus_path, notice: t("menus.messages.created_success")
     else
-      load_available_plats
+      load_available_dishes
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    load_available_plats
+    load_available_dishes
   end
 
   def update
     if @menu.update(menu_params)
       redirect_to menus_path, notice: t("menus.messages.updated_success")
     else
-      load_available_plats
+      load_available_dishes
       render :edit, status: :unprocessable_entity
     end
   end
@@ -50,10 +50,10 @@ class MenusController < ApplicationController
   end
 
   def menu_params
-    params.require(:menu).permit(:name, plat_ids: [])
+    params.require(:menu).permit(:name, dish_ids: [])
   end
 
-  def load_available_plats
-    @plats = Plat.order(:tipusPlat, :name)
+  def load_available_dishes
+    @dishes = Dish.order(:dish_type, :name)
   end
 end
