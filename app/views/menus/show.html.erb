@@ -1,41 +1,145 @@
 <% content_for :title, @menu.name %>
 
-<%= render "shared/topbar", title: @menu.name do %>
-  <%= link_to menus_path, class: "btn btn-ghost btn-sm" do %>
-    <%= serf_icon(:chevron_left) %><%= t("menus.show.back") %>
-  <% end %>
+<%= render "shared/topbar", title: @menu.name,
+    subtitle: breadcrumb([t("menus.index.title"), menus_path], [@menu.name, nil]) do %>
   <% if current_user.admin? || current_user.kitchen_manager? %>
-    <%= link_to edit_menu_path(@menu), class: "btn btn-secondary btn-sm" do %>
-      <%= serf_icon(:edit) %><%= t("menus.show.edit") %>
-    <% end %>
     <%= button_to menu_path(@menu), method: :delete,
-                  class: "btn btn-danger btn-sm",
+                  class: "btn btn-secondary btn-sm",
                   form: { data: { turbo_confirm: t("menus.show.confirm_delete") } } do %>
       <%= serf_icon(:trash) %><%= t("menus.show.delete") %>
+    <% end %>
+    <%= link_to edit_menu_path(@menu), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("menus.show.edit") %>
     <% end %>
   <% end %>
 <% end %>
 
-<div class="content col">
-  <%# DESIGN-GAP: design shows a KPI bar (plats / seccions / preu / vigència) + a
-      sidebar with cobertura per restricció comuna (sense gluten / lactosa / vegà…).
-      We have no price, no sections, no validity dates, and no SuggestionService.
-      Showing only the dishes grouped by dish_type. %>
-  <div class="card">
-    <div class="card-header"><h3 class="card-title"><%= t("menus.show.dishes") %></h3></div>
+<% dishes_by_type = @menu.dishes.includes(ingredients: :restrictions).group_by(&:dish_type) %>
+<% total_dishes = @menu.dishes.size %>
+
+<div class="content show-grid">
+  <div class="col">
+    <%# Hero with textured background based on a stable hue derived from the menu name. %>
+    <% hue = (@menu.name.sum % 360) %>
+    <div class="card menu-hero">
+      <div class="menu-hero-bg" style="--menu-hue: <%= hue %>;">
+        <h2 class="menu-hero-title"><%= @menu.name %></h2>
+        <%# DESIGN-GAP: design shows description, type tag and state badge.
+            Menu currently has only `name` + dishes association — none of the
+            description / type / status fields exist yet. %>
+      </div>
+      <div class="menu-kpis">
+        <div class="menu-kpi">
+          <div class="menu-kpi-label"><%= t("menus.show.kpi_dishes") %></div>
+          <div class="menu-kpi-value"><%= total_dishes %></div>
+        </div>
+        <div class="menu-kpi">
+          <div class="menu-kpi-label"><%= t("menus.show.kpi_sections") %></div>
+          <div class="menu-kpi-value"><%= dishes_by_type.keys.size %></div>
+        </div>
+        <%# DESIGN-GAP: Menu has no `price`. %>
+        <div class="menu-kpi">
+          <div class="menu-kpi-label"><%= t("menus.show.kpi_price") %></div>
+          <div class="menu-kpi-value muted">—</div>
+        </div>
+        <%# DESIGN-GAP: Menu has no `starts_on`/`ends_on` (validity). %>
+        <div class="menu-kpi">
+          <div class="menu-kpi-label"><%= t("menus.show.kpi_validity") %></div>
+          <div class="menu-kpi-value muted">—</div>
+        </div>
+      </div>
+    </div>
+
+    <%# DESIGN-GAP: the design groups dishes in user-defined sections with
+        per-section order. Our domain model groups by `dish_type` enum, which
+        gives a stable section layout but without ordering or extra sections. %>
     <% if @menu.dishes.any? %>
-      <% @menu.dishes.group_by(&:dish_type).each do |type, dishes_in_type| %>
-        <div class="card-body">
-          <div class="muted strong" style="margin-bottom: 8px;"><%= t("dishes.types.#{type}") %></div>
-          <div class="row">
-            <% dishes_in_type.each do |dish| %>
-              <%= link_to dish.name, dish_path(dish), class: "tag" %>
-            <% end %>
+      <% Dish.dish_types.keys.each do |type| %>
+        <% group = dishes_by_type[type] %>
+        <% next unless group&.any? %>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <%= t("dishes.types.#{type}") %>
+              <span class="muted"> · <%= group.size %></span>
+            </h3>
           </div>
+          <% group.each do |dish| %>
+            <%= link_to dish_path(dish), class: "menu-dish-row" do %>
+              <div class="menu-dish-thumb"><%= dish.name.first(2).upcase %></div>
+              <div class="grow">
+                <div class="strong"><%= dish.name %></div>
+                <% restrictions = dish.ingredients.flat_map(&:restrictions).uniq %>
+                <% if restrictions.any? %>
+                  <div class="row mt-1">
+                    <% restrictions.each do |r| %>
+                      <span class="tag tag-<%= restriction_tag_kind(r) %>"><span class="tag-dot"></span><%= r.name %></span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <%# DESIGN-GAP: per-dish price is missing on Dish. %>
+              <span class="menu-dish-price muted">—</span>
+            <% end %>
+          <% end %>
         </div>
       <% end %>
     <% else %>
-      <div class="card-body muted"><%= t("menus.show.no_dishes") %></div>
+      <div class="card"><div class="card-body muted"><%= t("menus.show.no_dishes") %></div></div>
     <% end %>
   </div>
+
+  <%# Right rail %>
+  <aside class="show-side">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><%= t("menus.show.coverage_title") %></h3>
+      </div>
+      <div class="card-body col">
+        <%# Best-effort: a dish is "compatible" with X if none of its
+            ingredients carry X. Without `DishIngredient#essential` we cannot
+            tell "substitutable" from "blocking". %>
+        <% @coverage.each do |slot| %>
+          <% pct = slot[:total].zero? ? 0 : ((slot[:compatible].to_f / slot[:total]) * 100).round %>
+          <div class="coverage-row">
+            <div class="coverage-head">
+              <span><%= t("menus.coverage.#{slot[:key]}") %></span>
+              <span class="strong"><%= slot[:compatible] %> / <%= slot[:total] %></span>
+            </div>
+            <div class="coverage-bar">
+              <div class="coverage-bar-fill coverage-bar-fill-<%= slot[:tag_kind] %>" style="width: <%= pct %>%;"></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="card-foot muted"><%= t("menus.show.coverage_hint") %></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3 class="card-title"><%= t("menus.show.details") %></h3></div>
+      <div class="card-body col">
+        <div class="detail-field">
+          <div class="detail-field-label">ID</div>
+          <div class="detail-field-value">#<%= @menu.id.to_s.rjust(4, "0") %></div>
+        </div>
+        <%# DESIGN-GAP: restaurant, validity dates, last editor, version
+            history are all part of the design but not in our data model. %>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("menus.show.detail_restaurant") %></div>
+          <div class="detail-field-value muted">—</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("menus.show.detail_validity") %></div>
+          <div class="detail-field-value muted">—</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("menus.show.detail_last_edited") %></div>
+          <div class="detail-field-value muted"><%= @menu.updated_at.strftime("%Y-%m-%d") %></div>
+        </div>
+      </div>
+    </div>
+
+    <%# DESIGN-GAP: design shows a draft warning. Menu has no `status` enum
+        (draft / published / archived). Kept here as a structural placeholder. %>
+  </aside>
 </div>

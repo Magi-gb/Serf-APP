@@ -21,12 +21,40 @@
   <%# DESIGN-GAP: design lets the form mark each ingredient as "imprescindible / substituïble".
       That maps to a future `essential` boolean on DishIngredient (already in the planned model
       per CLAUDE.md). Until added, the form only attaches ingredients without that classification. %>
-  <fieldset class="field">
+  <fieldset class="field picker"
+            data-controller="picker"
+            data-picker-singular-value="<%= t("pickers.selected_one") %>"
+            data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
     <legend class="label"><%= t("dishes.form.ingredients") %></legend>
+
+    <div class="picker-toolbar">
+      <div class="picker-search search">
+        <span class="search-icon"><%= serf_icon(:search) %></span>
+        <input type="search"
+               class="input"
+               placeholder="<%= t("pickers.search_placeholder") %>"
+               data-picker-target="search"
+               data-action="input->picker#refresh keydown->picker#preventSubmit">
+      </div>
+      <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+      <button type="button"
+              class="chip"
+              aria-pressed="false"
+              data-picker-target="onlySelected"
+              data-action="click->picker#toggleOnlySelected">
+        <%= t("pickers.only_selected") %>
+      </button>
+    </div>
+
     <div class="checkbox-cards">
       <% @ingredients.each do |ingredient| %>
-        <label class="checkbox-card">
-          <%= form.check_box :ingredient_ids, { multiple: true, include_hidden: false }, ingredient.id, nil %>
+        <% search_text = ([ ingredient.name ] + ingredient.restrictions.map(&:name)).join(" ") %>
+        <label class="checkbox-card"
+               data-picker-target="item"
+               data-search-text="<%= search_text %>">
+          <%= form.check_box :ingredient_ids,
+                              { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
+                              ingredient.id, nil %>
           <span><%= ingredient.name %></span>
           <% if ingredient.restrictions.any? %>
             <span class="row">
@@ -38,6 +66,8 @@
         </label>
       <% end %>
     </div>
+
+    <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
   </fieldset>
 
   <div class="row mt-4">

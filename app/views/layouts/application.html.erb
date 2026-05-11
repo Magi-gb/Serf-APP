@@ -23,6 +23,10 @@
   <body class="serf-design" data-theme="light">
     <div class="app-shell">
       <%= render "layouts/sidebar" %>
+      <div class="sidebar-scrim"
+           data-controller="sidebar"
+           data-action="click->sidebar#close"
+           aria-hidden="true"></div>
 
       <div class="main">
         <% if notice.present? %>

@@ -1,4 +1,5 @@
 <% content_for :title, t("restrictions.index.title") %>
+<% view = params[:view].presence || "grid" %>
 
 <%# DESIGN-GAP: design groups restrictions in 4 buckets (al·lèrgens / intoleràncies /
     religioses / preferències) with an "EFSA Annex II" badge for the official bucket.
@@ -12,30 +13,58 @@
   <% end %>
 <% end %>
 
-<div class="content col">
+<div class="content">
+  <div class="toolbar">
+    <div></div>
+    <%= view_toggle(view, request, default_view: "grid") %>
+  </div>
+
   <% if @restrictions.any? %>
-    <% @restrictions.group_by(&:restriction_type).each do |type, group| %>
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title"><%= t("restrictions.types.#{type}") %></h3>
-          <span class="muted"><%= group.size %></span>
-        </div>
-        <div class="card-body">
-          <div class="grid grid-4">
-            <% group.each do |restriction| %>
-              <%= link_to restriction_path(restriction), class: "restr" do %>
-                <span class="restr-bubble" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
-                  <% if restriction.icon_svg.present? %>
-                    <%= sanitize(restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
-                  <% else %>
-                    <%= restriction.name.first(4).upcase %>
+    <% if view == "grid" %>
+      <div class="col">
+        <% @restrictions.group_by(&:restriction_type).each do |type, group| %>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><%= t("restrictions.types.#{type}") %></h3>
+              <span class="muted"><%= group.size %></span>
+            </div>
+            <div class="card-body">
+              <div class="grid grid-4">
+                <% group.each do |restriction| %>
+                  <%= link_to restriction_path(restriction), class: "restr" do %>
+                    <span class="restr-bubble" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
+                      <% if restriction.icon_svg.present? %>
+                        <%= sanitize(restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
+                      <% else %>
+                        <%= restriction.name.first(4).upcase %>
+                      <% end %>
+                    </span>
+                    <span class="restr-name"><%= restriction.name %></span>
                   <% end %>
-                </span>
-                <span class="restr-name"><%= restriction.name %></span>
-              <% end %>
-            <% end %>
+                <% end %>
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="card">
+        <% @restrictions.each do |restriction| %>
+          <%= link_to restriction_path(restriction), class: "card-row is-link" do %>
+            <span class="restr-bubble restr-bubble-sm" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
+              <% if restriction.icon_svg.present? %>
+                <%= sanitize(restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
+              <% else %>
+                <%= restriction.name.first(3).upcase %>
+              <% end %>
+            </span>
+            <div class="grow">
+              <div class="strong"><%= restriction.name %></div>
+              <div class="muted mt-1"><%= t("restrictions.types.#{restriction.restriction_type}") %></div>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
       </div>
     <% end %>
   <% else %>

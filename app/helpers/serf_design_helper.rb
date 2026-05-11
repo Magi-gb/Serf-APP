@@ -70,7 +70,10 @@ module SerfDesignHelper
     phone: [
       "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
     ],
-    trend: [ "M22 7l-9.5 9.5-5-5L1 18", "M16 7h6v6" ]
+    trend: [ "M22 7l-9.5 9.5-5-5L1 18", "M16 7h6v6" ],
+    grid: [ "M3 3h7v7H3z", "M14 3h7v7h-7z", "M14 14h7v7h-7z", "M3 14h7v7H3z" ],
+    list: [ "M3 6h18", "M3 12h18", "M3 18h18" ],
+    menu: [ "M3 6h18", "M3 12h18", "M3 18h18" ]
   }.freeze
 
   # Render a Lucide-style outline SVG icon.
@@ -113,6 +116,36 @@ module SerfDesignHelper
     end
   end
 
+  # Renders a breadcrumb suitable for use as a topbar subtitle.
+  # Each crumb is a [label, path_or_nil] pair. A nil path means current page.
+  def breadcrumb(*crumbs)
+    crumbs = crumbs.compact
+    return safe_join([]) if crumbs.empty?
+    last_idx = crumbs.length - 1
+    sep = content_tag(:span, "/", class: "breadcrumb-sep")
+    parts = crumbs.each_with_index.map do |(label, path), idx|
+      if idx == last_idx || path.nil?
+        content_tag(:span, label, class: "breadcrumb-current")
+      else
+        link_to(label, path, class: "breadcrumb-link")
+      end
+    end
+    content_tag(:nav, safe_join(parts, sep), class: "breadcrumb", "aria-label": t("breadcrumb.label"))
+  end
+
+  # Renders the grid/list view-toggle group as <a> links that preserve current params.
+  def view_toggle(current_view, request, default_view: "grid")
+    current = current_view.presence || default_view
+    safe_join(%w[grid list].map do |kind|
+      link_to(grid_or_list_link_params(request, kind, default_view),
+              class: "view-toggle-btn #{'is-active' if current == kind}",
+              title: t("views.#{kind}"),
+              "aria-label": t("views.#{kind}")) do
+        serf_icon(kind.to_sym)
+      end
+    end).then { |body| content_tag(:div, body, class: "view-toggle", role: "group") }
+  end
+
   # Wraps a topbar in standard markup. Used in views via:
   #   <%= render "shared/topbar", title: t(...), subtitle: ..., actions: nil %>
   # but exposing it as a helper avoids the partial when only a string title is needed.
@@ -127,5 +160,56 @@ module SerfDesignHelper
       actions = capture(&block) if block_given?
       safe_join([ title_html, actions ].compact)
     end
+  end
+
+  # Tags and attributes allowed when sanitizing user-supplied SVG markup
+  # (used for restriction icons).
+  ICON_SVG_TAGS = %w[svg path circle rect g text].freeze
+  ICON_SVG_ATTRS = %w[viewBox xmlns width height fill stroke stroke-width
+                      stroke-linecap stroke-linejoin d cx cy r x y
+                      font-size font-family text-anchor dominant-baseline].freeze
+
+  # Render a sanitized SVG block. Safe to call on user-supplied markup
+  # because the tag/attribute allowlist is strictly bounded.
+  def restriction_icon_svg(svg_string)
+    return "".html_safe if svg_string.blank?
+    sanitize(svg_string, tags: ICON_SVG_TAGS, attributes: ICON_SVG_ATTRS)
+  end
+
+  # Build a link that toggles a value inside one of two array params
+  # (mutually exclusive). Used by the ingredients filter chips: the same
+  # restriction can be either in :include_restrictions or :exclude_restrictions.
+  def toggle_param_link(label, mode:, target:, include_param:, exclude_param:, request:, css: nil)
+    target = target.to_s
+    include_ids = Array(request.query_parameters[include_param]).map(&:to_s)
+    exclude_ids = Array(request.query_parameters[exclude_param]).map(&:to_s)
+
+    case mode
+    when :include
+      active = include_ids.include?(target)
+      new_include = active ? include_ids - [ target ] : include_ids + [ target ]
+      new_exclude = exclude_ids - [ target ]
+    when :exclude
+      active = exclude_ids.include?(target)
+      new_exclude = active ? exclude_ids - [ target ] : exclude_ids + [ target ]
+      new_include = include_ids - [ target ]
+    end
+
+    new_params = request.query_parameters.except(include_param, exclude_param)
+    new_params[include_param] = new_include if new_include.any?
+    new_params[exclude_param] = new_exclude if new_exclude.any?
+    path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
+
+    link_to(label, path, class: [ "chip", css ].compact, "data-mode": mode, "aria-pressed": active)
+  end
+
+  private
+
+  # Build the params hash for a view-toggle link: drops the view param when it
+  # matches the default, otherwise sets it. Always preserves other params.
+  def grid_or_list_link_params(request, kind, default_view)
+    base = request.query_parameters.merge("view" => kind)
+    base.delete("view") if kind == default_view
+    base.empty? ? request.path : "#{request.path}?#{base.to_query}"
   end
 end

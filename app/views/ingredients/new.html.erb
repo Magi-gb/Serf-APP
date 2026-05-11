@@ -1,10 +1,7 @@
 <% content_for :title, t("ingredients.new.title") %>
 
-<%= render "shared/topbar", title: t("ingredients.new.title") do %>
-  <%= link_to ingredients_path, class: "btn btn-ghost btn-sm" do %>
-    <%= serf_icon(:chevron_left) %><%= t("ingredients.show.back") %>
-  <% end %>
-<% end %>
+<%= render "shared/topbar", title: t("ingredients.new.title"),
+    subtitle: breadcrumb([t("ingredients.index.title"), ingredients_path], [t("ingredients.new.title"), nil]) %>
 
 <div class="content">
   <div class="card">

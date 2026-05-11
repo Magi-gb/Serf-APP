@@ -5,6 +5,16 @@ class Ingredient < ApplicationRecord
   has_many :dishes, through: :dish_ingredients
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
+  scope :with_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    joins(:ingredient_restrictions).where(ingredient_restrictions: { restriction_id: ids }).distinct
+  }
+  scope :without_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    where.not(id: joins(:ingredient_restrictions).where(ingredient_restrictions: { restriction_id: ids }).select(:ingredient_id))
+  }
 
   validates :name, presence: true, uniqueness: true
 end

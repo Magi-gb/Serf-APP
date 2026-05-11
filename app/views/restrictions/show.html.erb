@@ -1,17 +1,15 @@
 <% content_for :title, @restriction.name %>
 
-<%= render "shared/topbar", title: @restriction.name, subtitle: t("restrictions.types.#{@restriction.restriction_type}") do %>
-  <%= link_to restrictions_path, class: "btn btn-ghost btn-sm" do %>
-    <%= serf_icon(:chevron_left) %><%= t("restrictions.show.back") %>
-  <% end %>
+<%= render "shared/topbar", title: @restriction.name,
+    subtitle: breadcrumb([t("restrictions.index.title"), restrictions_path], [@restriction.name, nil]) do %>
   <% if current_user.admin? || current_user.kitchen_manager? %>
-    <%= link_to edit_restriction_path(@restriction), class: "btn btn-secondary btn-sm" do %>
-      <%= serf_icon(:edit) %><%= t("restrictions.show.edit") %>
-    <% end %>
     <%= button_to restriction_path(@restriction), method: :delete,
-                  class: "btn btn-danger btn-sm",
+                  class: "btn btn-secondary btn-sm",
                   form: { data: { turbo_confirm: t("restrictions.show.confirm_delete") } } do %>
       <%= serf_icon(:trash) %><%= t("restrictions.show.delete") %>
+    <% end %>
+    <%= link_to edit_restriction_path(@restriction), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("restrictions.show.edit") %>
     <% end %>
   <% end %>
 <% end %>
@@ -21,7 +19,7 @@
     <div class="card-body row">
       <span class="restr-bubble" style="--restr-bg: <%= @restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
         <% if @restriction.icon_svg.present? %>
-          <%= sanitize(@restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
+          <%= restriction_icon_svg(@restriction.icon_svg) %>
         <% else %>
           <%= @restriction.name.first(4).upcase %>
         <% end %>

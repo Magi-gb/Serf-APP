@@ -1,4 +1,5 @@
 <% content_for :title, t("users.index.title") %>
+<% view = params[:view].presence || "list" %>
 
 <%# DESIGN-GAP: design includes a sticky detail panel on the right with extended user
     metadata (email, restaurant, permissions, last login, notes, "Created on"). User
@@ -14,21 +15,44 @@
 <% end %>
 
 <div class="content">
+  <div class="toolbar">
+    <div></div>
+    <%= view_toggle(view, request, default_view: "list") %>
+  </div>
+
   <% if @users.any? %>
-    <div class="card">
-      <% @users.each do |user| %>
-        <%= link_to user_path(user), class: "card-row is-link" do %>
-          <span class="avatar avatar-sm" style="--avatar-bg: <%= user_avatar_color(user) %>;">
-            <%= user.username.first(2).upcase %>
-          </span>
-          <div class="grow">
-            <div class="strong"><%= user.username %></div>
-            <div class="muted mt-2"><%= t("users.roles.#{user.role}") %></div>
-          </div>
-          <span class="muted"><%= serf_icon(:chevron) %></span>
+    <% if view == "grid" %>
+      <div class="grid grid-3">
+        <% @users.each do |user| %>
+          <%= link_to user_path(user), class: "card ingredient-grid-card" do %>
+            <div class="row">
+              <span class="avatar avatar-sm" style="--avatar-bg: <%= user_avatar_color(user) %>;">
+                <%= user.username.first(2).upcase %>
+              </span>
+              <div class="grow">
+                <div class="strong"><%= user.username %></div>
+                <div class="muted mt-1"><%= t("users.roles.#{user.role}") %></div>
+              </div>
+            </div>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% else %>
+      <div class="card">
+        <% @users.each do |user| %>
+          <%= link_to user_path(user), class: "card-row is-link" do %>
+            <span class="avatar avatar-sm" style="--avatar-bg: <%= user_avatar_color(user) %>;">
+              <%= user.username.first(2).upcase %>
+            </span>
+            <div class="grow">
+              <div class="strong"><%= user.username %></div>
+              <div class="muted mt-2"><%= t("users.roles.#{user.role}") %></div>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   <% else %>
     <div class="empty-state"><%= t("users.index.no_users") %></div>
   <% end %>

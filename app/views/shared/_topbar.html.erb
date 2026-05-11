@@ -6,7 +6,14 @@
       content passed inside `do ... end` is rendered into .topbar-actions
 %>
 <header class="topbar">
-  <div>
+  <button class="topbar-burger"
+          type="button"
+          data-controller="sidebar"
+          data-action="click->sidebar#toggle"
+          aria-label="<%= t("sidebar.toggle") %>">
+    <%= serf_icon(:menu) %>
+  </button>
+  <div class="topbar-heading">
     <h1 class="topbar-title"><%= title %></h1>
     <% if local_assigns[:subtitle].present? %>
       <div class="topbar-sub"><%= subtitle %></div>

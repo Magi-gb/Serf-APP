@@ -1,16 +1,25 @@
 <%# SerF refined sidebar. Active state via aria-current="page". %>
 <aside class="sidebar">
-  <%= link_to root_path, class: "sidebar-brand", aria: { label: "Serf" } do %>
-    <span class="sidebar-brand-mark">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 18h20" />
-        <path d="M4 18a8 8 0 0 1 16 0" />
-        <path d="M12 6v4" />
-        <circle cx="12" cy="5" r="1.2" fill="currentColor" />
-      </svg>
-    </span>
-    <span class="sidebar-brand-name">SerF</span>
-  <% end %>
+  <div class="sidebar-head">
+    <%= link_to root_path, class: "sidebar-brand", aria: { label: "Serf" } do %>
+      <span class="sidebar-brand-mark">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 18h20" />
+          <path d="M4 18a8 8 0 0 1 16 0" />
+          <path d="M12 6v4" />
+          <circle cx="12" cy="5" r="1.2" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="sidebar-brand-name">SerF</span>
+    <% end %>
+    <button type="button"
+            class="sidebar-close"
+            data-controller="sidebar"
+            data-action="click->sidebar#close"
+            aria-label="<%= t("sidebar.close") %>">
+      <%= serf_icon(:x) %>
+    </button>
+  </div>
 
   <nav class="sidebar-nav">
     <%= link_to root_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "home") } do %>

@@ -153,13 +153,13 @@ search:
 # - 'errors.messages.{accepted,blank,invalid,too_short,too_long}'
 # - '{devise,simple_form}.*'
 
-## Consider these keys used:
-# ignore_unused:
-# - 'activerecord.attributes.*'
-# - '{devise,kaminari,will_paginate}.*'
-# - 'simple_form.{yes,no}'
-# - 'simple_form.{placeholders,hints,labels}.*'
-# - 'simple_form.{error_notification,required}.:'
+## Consider these keys used (Rails / Devise / framework keys plus
+## back-button labels still referenced by older tests).
+ignore_unused:
+  - "activerecord.**"
+  - "devise.**"
+  - "errors.**"
+  - "flash.**"
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

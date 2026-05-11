@@ -1,10 +1,8 @@
 /*
- * Manifest. Order matters: tokens first so all CSS vars are defined
- * before any rule consumes them, then components, then legacy stylesheets.
+ * Application stylesheet manifest. Tokens load first so the rest can rely on
+ * the CSS variables they define.
  *
  *= require serf_tokens
  *= require serf_components
- *= require login
- *= require style_definition
  *= require_self
  */

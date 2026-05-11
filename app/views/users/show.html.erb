@@ -1,16 +1,14 @@
 <% content_for :title, @user.username %>
 
-<%= render "shared/topbar", title: @user.username, subtitle: t("users.roles.#{@user.role}") do %>
-  <%= link_to users_path, class: "btn btn-ghost btn-sm" do %>
-    <%= serf_icon(:chevron_left) %><%= t("users.show.back") %>
-  <% end %>
-  <%= link_to edit_user_path(@user), class: "btn btn-secondary btn-sm" do %>
-    <%= serf_icon(:edit) %><%= t("users.show.edit") %>
-  <% end %>
+<%= render "shared/topbar", title: @user.username,
+    subtitle: breadcrumb([t("users.index.title"), users_path], [@user.username, nil]) do %>
   <%= button_to user_path(@user), method: :delete,
-                class: "btn btn-danger btn-sm",
+                class: "btn btn-secondary btn-sm",
                 form: { data: { turbo_confirm: t("users.show.confirm_delete") } } do %>
     <%= serf_icon(:trash) %><%= t("users.show.delete") %>
+  <% end %>
+  <%= link_to edit_user_path(@user), class: "btn btn-primary btn-sm" do %>
+    <%= serf_icon(:edit) %><%= t("users.show.edit") %>
   <% end %>
 <% end %>
 

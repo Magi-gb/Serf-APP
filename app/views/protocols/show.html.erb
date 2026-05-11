@@ -1,17 +1,15 @@
 <% content_for :title, @protocol.name %>
 
-<%= render "shared/topbar", title: @protocol.name do %>
-  <%= link_to protocols_path, class: "btn btn-ghost btn-sm" do %>
-    <%= serf_icon(:chevron_left) %><%= t("protocols.show.back") %>
-  <% end %>
+<%= render "shared/topbar", title: @protocol.name,
+    subtitle: breadcrumb([t("protocols.index.title"), protocols_path], [@protocol.name, nil]) do %>
   <% if current_user.admin? %>
-    <%= link_to edit_protocol_path(@protocol), class: "btn btn-secondary btn-sm" do %>
-      <%= serf_icon(:edit) %><%= t("protocols.show.edit") %>
-    <% end %>
     <%= button_to protocol_path(@protocol), method: :delete,
-                  class: "btn btn-danger btn-sm",
+                  class: "btn btn-secondary btn-sm",
                   form: { data: { turbo_confirm: t("protocols.show.confirm_delete") } } do %>
       <%= serf_icon(:trash) %><%= t("protocols.show.delete") %>
+    <% end %>
+    <%= link_to edit_protocol_path(@protocol), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("protocols.show.edit") %>
     <% end %>
   <% end %>
 <% end %>

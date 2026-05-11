@@ -15,6 +15,8 @@ en:
   app_name: Serf
   authorization:
     not_authorized: You are not authorized to access this page.
+  breadcrumb:
+    label: Navigation
   devise:
     failure:
       already_authenticated: You are already signed in.
@@ -36,20 +38,12 @@ en:
       dish_type: Dish type
       ingredients: Ingredients
       name: Dish name
-      submit: Save dish
       submit_create: Create dish
       submit_update: Save changes
     index:
-      actions: Actions
-      description: Description
-      edit: Edit
-      empty: No dishes have been saved yet.
-      name: Dish name
-      new_dish: "+ New dish"
+      new_dish: New dish
       no_dishes: No dishes found.
       search_placeholder: Search dish
-      show: View
-      tipus: Type
       title: Dishes
     messages:
       created_success: Dish created successfully.
@@ -58,11 +52,9 @@ en:
     new:
       title: New dish
     show:
-      back: Back
       confirm_delete: Are you sure you want to delete this dish?
       delete: Delete dish
       description: Description
-      dish_type: Type
       edit: Edit
       ingredients: Ingredients
       no_ingredients: This dish has no associated ingredients
@@ -92,6 +84,10 @@ en:
       header:
         one: '1 error prevented saving:'
         other: "%{count} errors prevented saving:"
+  filters:
+    clear: Clear filters
+    exclude: Exclude
+    include: Include
   flash:
     alert: alert
     notice: notice
@@ -104,8 +100,6 @@ en:
       add_restriction: Add restriction
       add_user: Add user
       dashboard_title: Dashboard
-      ingredients_description: Create and manage restaurant ingredients with their dietary restrictions.
-      ingredients_management: Ingredients Management
       kpis:
         dishes: Active dishes
         dishes_trend_placeholder: Total in catalogue
@@ -115,33 +109,16 @@ en:
         restrictions_trend: Complete catalogue
         users: Staff
         users_trend_placeholder: Total registered
-      manage_ingredients: Manage ingredients
-      manage_menus: Manage menus
-      manage_restrictions: Manage restrictions
-      manage_users: Manage users
-      menus_description: Create and manage the menus offered by the restaurant.
-      menus_management: Menus Management
       no_activity_yet: No activity recorded yet.
       quick_access: Quick access
       recent_activity: Recent activity
-      restrictions_description: Manage dietary and religious restrictions in the system.
-      restrictions_management: Restrictions Management
       title: Serf
-      user_management: User Management
-      users_description: Manage system users.
       waiter_description: Here you will see the options available for waiters.
       waiter_features: Waiter Features
       welcome: Welcome, %{username}!
   ingredients:
     create:
       success: Ingredient created successfully.
-    delete:
-      action: Action
-      back: Back to ingredients
-      confirm_delete: Are you sure you want to delete this ingredient?
-      delete: Delete
-      no_ingredients: There are no ingredients to delete.
-      title: Delete ingredients
     destroy:
       success: Ingredient deleted successfully.
     edit:
@@ -155,7 +132,7 @@ en:
       submit_create: Create ingredient
       submit_update: Save changes
     index:
-      new_ingredient: "+ New ingredient"
+      new_ingredient: New ingredient
       no_ingredients: No ingredients found.
       no_restrictions: No restriction
       search_placeholder: Search an ingredient
@@ -163,12 +140,21 @@ en:
     new:
       title: New ingredient
     show:
-      back: Back
+      allergen_badge: Allergen
       confirm_delete: Are you sure you want to delete this ingredient?
       delete: Delete
+      delete_warning:
+        one: If you delete this ingredient, 1 dish that contains it will be flagged for manual review.
+        other: If you delete this ingredient, the %{count} dishes that contain it will be flagged for manual review.
+      details: Details
+      did_you_know: Did you know?
       edit: Edit details
+      linked_dishes: Linked dishes
+      linked_restrictions: Linked restrictions
       no_restrictions: No dietary restrictions associated
-      restrictions: Dietary restrictions
+      not_used_in_dishes: This ingredient is not used in any dish
+      restrictions: Associated restrictions
+      used_in_dishes: Dishes containing it
     update:
       success: Ingredient updated successfully.
   layouts:
@@ -178,14 +164,14 @@ en:
     headline_html: Mistake-free kitchen,<br>menus for everyone.
     subhead: Dishes, ingredients and restrictions management for the Cal Blay restaurant group.
   menus:
-    create:
-      success: Menu created successfully.
-    destroy:
-      success: Menu deleted successfully.
+    coverage:
+      gluten: Gluten-free
+      lactose: Lactose-free
+      vegan: Vegan
+      vegetarian: Vegetarian
     edit:
       title: Edit menu
     errors:
-      duplicate_dish_type: Menu cannot have more than one dish of type %{type}
       missing_dish_type: Menu must have a dish of type %{type}
     form:
       cancel: Cancel
@@ -194,34 +180,38 @@ en:
       submit_create: Create menu
       submit_update: Save changes
     index:
-      confirm_delete: Are you sure you want to delete this menu?
-      confirm_remove_dish: Are you sure you want to remove this dish from the menu?
-      current_dishes: Current menu dishes
-      delete: Delete
-      edit: Edit
-      new_menu: "+ New menu"
+      new_menu: New menu
       no_menus: No menus found.
-      remove_dish: Remove
       search_placeholder: Search menu
-      show: View
       title: Menus
     messages:
       created_success: Menu created successfully.
       destroyed_success: Menu deleted successfully.
-      dish_removed: Dish removed from menu successfully.
       updated_success: Menu updated successfully.
     new:
       title: New menu
     show:
-      attributes:
-        name: Name
-      back: Back
       confirm_delete: Are you sure you want to delete this menu?
+      coverage_hint: Approximation — a dish counts as compatible if none of its ingredients carry the restriction. Without a `essential` flag on DishIngredient we cannot tell adaptable from blocking.
+      coverage_title: Restriction coverage
       delete: Delete menu
+      detail_last_edited: Last edited
+      detail_restaurant: Restaurant
+      detail_validity: Validity
+      details: Details
       dishes: Menu dishes
       edit: Edit details
+      kpi_dishes: Dishes
+      kpi_price: Price
+      kpi_sections: Sections
+      kpi_validity: Validity
       no_dishes: This menu has no associated dishes
-      title: Menu details
+  pickers:
+    none: No results for this search.
+    only_selected: Only selected
+    search_placeholder: Search…
+    selected_one: 1 selected
+    selected_other: "%{count} selected"
   profile:
     edit:
       current_password: Current password
@@ -238,17 +228,13 @@ en:
       invalid_current_password: Current password is incorrect.
       success: Password updated successfully.
   protocols:
-    create:
-      success: Protocol created successfully.
-    destroy:
-      success: Protocol deleted successfully.
     edit:
       title: Edit Protocol
     form:
       cancel: Cancel
       submit: Save
     index:
-      create: "+ New protocol"
+      create: New protocol
       empty: No protocols saved yet.
       search_placeholder: Search a protocol
       title: Protocols
@@ -259,14 +245,10 @@ en:
     new:
       title: Create New Protocol
     show:
-      back: Back
       confirm_delete: Are you sure you want to delete this protocol?
       delete: Delete Protocol
       edit: Edit
       no_description: No additional description.
-      title: Protocol details
-    update:
-      success: Protocol updated successfully.
   restrictions:
     edit:
       title: Edit Restriction
@@ -288,44 +270,33 @@ en:
     new:
       title: Create New Restriction
     show:
-      back: Back
       confirm_delete: Are you sure you want to delete this restriction?
       delete: Delete Restriction
       description_title: Restriction description
       edit: Edit
       no_description: No additional description.
-      restriction_type: Type
     types:
       intolerance_allergy: Intolerance/Allergy
       religious: Religious
   sessions:
     new:
       authorized_only_note: Access is for authorised staff only. Contact an administrator to request an account.
-      password_placeholder: Password
       submit: Enter
       subtitle: Sign in with your Cal Blay account.
       title: Sign in
-      username_placeholder: User ID
   sidebar:
-    add_ingredient: Add ingredient
-    add_menu: Add menu
-    alternatives: Common alternatives
+    close: Close menu
     dashboard: Home
     dishes: Dishes
     emergencies: Emergencies
-    glossary: Glossary
     ingredients: Ingredients
     logout: Sign out
-    menu: Menu
     menus: Menus
-    new_dish: "+ New dish"
-    new_restriction: "+ New restriction"
+    new_restriction: New restriction
     personal: Staff
-    placeholder: Placeholder
-    profile: My profile
     protocols: Protocols
-    remove_ingredient: Delete ingredients
     restrictions: Restrictions
+    toggle: Open sidebar menu
   users:
     create:
       success: User created successfully.
@@ -346,7 +317,6 @@ en:
     index:
       new_user: New user
       no_users: No users found.
-      search_alt: Search
       search_placeholder: Search a user
       title: Staff
     new:
@@ -356,10 +326,12 @@ en:
       kitchen_manager: Kitchen manager
       waiter: Waiter
     show:
-      back: Back
       confirm_delete: Are you sure you want to delete this user?
       delete: Delete
       edit: Edit details
       title: User details
     update:
       success: User updated successfully.
+  views:
+    grid: Grid view
+    list: List view
