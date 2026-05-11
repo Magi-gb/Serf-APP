@@ -101,6 +101,59 @@
         <% end %>
       </div>
     </div>
+
+    <%# Alternatives (substitutable ingredients) %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= t("ingredients.show.alternatives_title") %>
+          <span class="muted"> · <%= @ingredient.alternatives.size %></span>
+        </h3>
+      </div>
+      <div class="card-body col">
+        <% if @ingredient.alternatives.any? %>
+          <% @ingredient.alternatives.order(:name).each do |alternative| %>
+            <div class="row alternative-row">
+              <%= link_to ingredient_path(alternative), class: "grow alternative-link" do %>
+                <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
+                  <%= serf_icon(:leaf) %>
+                </span>
+                <span class="strong"><%= alternative.name %></span>
+              <% end %>
+              <% if current_user.admin? || current_user.kitchen_manager? %>
+                <%= button_to ingredient_alternative_path(@ingredient, alternative),
+                              method: :delete,
+                              class: "btn btn-secondary btn-sm",
+                              form: { data: { turbo_confirm: t("ingredients.show.confirm_remove_alternative") } } do %>
+                  <%= serf_icon(:trash) %><%= t("ingredients.show.remove_alternative") %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="muted text-center"><%= t("ingredients.show.no_alternatives") %></div>
+        <% end %>
+
+        <% if (current_user.admin? || current_user.kitchen_manager?) && @alternative_ingredients&.any? %>
+          <div class="divider"></div>
+          <div class="strong"><%= t("ingredients.show.add_alternative_title") %></div>
+          <%= form_with url: ingredient_alternatives_path(@ingredient), scope: :ingredient_alternative, class: "row" do |f| %>
+            <div class="grow">
+              <%= f.label :alternative_id, t("ingredients.show.add_alternative_label"), class: "label" %>
+              <%= f.select :alternative_id,
+                           options_from_collection_for_select(@alternative_ingredients, :id, :name),
+                           { prompt: t("ingredients.show.add_alternative_prompt") },
+                           class: "select" %>
+            </div>
+            <%= f.submit t("ingredients.show.add_alternative_submit"), class: "btn btn-primary" %>
+          <% end %>
+        <% elsif current_user.admin? || current_user.kitchen_manager? %>
+          <% unless @ingredient.alternatives.any? %>
+            <div class="muted text-center"><%= t("ingredients.show.no_available_alternatives") %></div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
   <%# Sidebar %>

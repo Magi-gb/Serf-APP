@@ -62,6 +62,52 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, ingredient.name
   end
 
+  test "kitchen_manager sees add alternative form on show" do
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "form[action=?]", ingredient_alternatives_path(ingredient)
+    assert_select "select[name=?]", "ingredient_alternative[alternative_id]"
+    assert_includes response.body, alternative.name
+  end
+
+  test "add alternative dropdown excludes candidates that add restrictions" do
+    ingredient = ingredients(:bread)
+    allowed = ingredients(:milk)
+
+    kosher = restrictions(:kosher)
+    disallowed = Ingredient.create!(name: "Pork #{Time.current.to_i}")
+    IngredientRestriction.create!(ingredient: disallowed, restriction: kosher)
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_includes response.body, allowed.name
+    assert_not_includes response.body, disallowed.name
+  end
+
+  test "waiter does not see add alternative form on show" do
+    sign_in @waiter
+
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "form[action=?]", ingredient_alternatives_path(ingredient), count: 0
+  end
+
+  test "show displays alternatives for all roles" do
+    sign_in @waiter
+
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    IngredientAlternative.create!(ingredient: ingredient, alternative: alternative)
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "a", text: alternative.name
+  end
+
   test "edit renders form" do
     ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
     get edit_ingredient_url(ingredient)

@@ -8,6 +8,12 @@ en:
       user:
         password: Password
         password_confirmation: Confirm password
+    errors:
+      models:
+        ingredient_alternative:
+          attributes:
+            alternative:
+              cannot_add_restrictions: cannot add new restrictions compared to the original ingredient
     models:
       protocol:
         one: Protocol
@@ -116,6 +122,11 @@ en:
       waiter_description: Here you will see the options available for waiters.
       waiter_features: Waiter Features
       welcome: Welcome, %{username}!
+  ingredient_alternatives:
+    create:
+      success: Alternative added successfully.
+    destroy:
+      success: Alternative removed successfully.
   ingredients:
     create:
       success: Ingredient created successfully.
@@ -140,8 +151,14 @@ en:
     new:
       title: New ingredient
     show:
+      add_alternative_label: Alternative ingredient
+      add_alternative_prompt: Select an ingredient
+      add_alternative_submit: Add alternative
+      add_alternative_title: Add alternative
       allergen_badge: Allergen
+      alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this ingredient?
+      confirm_remove_alternative: Are you sure you want to remove this alternative?
       delete: Delete
       delete_warning:
         one: If you delete this ingredient, 1 dish that contains it will be flagged for manual review.
@@ -151,8 +168,11 @@ en:
       edit: Edit details
       linked_dishes: Linked dishes
       linked_restrictions: Linked restrictions
+      no_alternatives: There are no alternatives associated yet.
+      no_available_alternatives: There are no ingredients available as an alternative.
       no_restrictions: No dietary restrictions associated
       not_used_in_dishes: This ingredient is not used in any dish
+      remove_alternative: Remove
       restrictions: Associated restrictions
       used_in_dishes: Dishes containing it
     update:
