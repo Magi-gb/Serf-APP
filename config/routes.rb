@@ -7,8 +7,10 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { id: /\d+/ }
   resources :ingredients, constraints: { id: /\d+/ }
+  resources :menus, constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
+  resources :plats
   resources :protocols, constraints: { id: /\d+/ }
 
   root "home#index"

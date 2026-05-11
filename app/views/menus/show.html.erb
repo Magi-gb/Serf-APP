@@ -1,0 +1,30 @@
+<% content_for :title, @menu.name %>
+
+<div class="page-card">
+  <div class="detail-section">
+    <div class="detail-header">
+        <h2 class="serf-page-title"><%= @menu.name %></h2>
+    </div>
+
+  <div class="desc-box desc-box-bounded">
+    <h3><%= t("menus.show.plats") %></h3>
+    <% if @menu.plats.any? %>
+      <div class="badge-list">
+        <% @menu.plats.each do |plat| %>
+          <%= link_to plat.name, plat_path(plat), class: "badge-big" %>
+          <span class="badge"><%= t("plats.types.#{plat.tipusPlat}") %></span>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="empty-state"><%= t("menus.show.no_plats") %></p>
+    <% end %>
+  </div>
+
+  <div class="detail-actions">
+    <%= link_to t("menus.show.back"), menus_path, class: "btn-secondary" %>
+    <% if current_user.admin? || current_user.kitchen_manager? %>
+      <%= link_to t("menus.show.edit"), edit_menu_path(@menu), class: "btn-primary" %>
+      <%= button_to t("menus.show.delete"), menu_path(@menu), method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("menus.show.confirm_delete") } } %>
+    <% end %>
+  </div>
+</div>

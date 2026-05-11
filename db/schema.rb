@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_29_150254) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_11_120100) do
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -29,6 +29,40 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_29_150254) do
     t.index ["name"], name: "index_ingredients_on_name", unique: true
   end
 
+  create_table "menu_plats", force: :cascade do |t|
+    t.integer "menu_id", null: false
+    t.integer "plat_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["menu_id", "plat_id"], name: "index_menu_plats_on_menu_id_and_plat_id", unique: true
+    t.index ["menu_id"], name: "index_menu_plats_on_menu_id"
+    t.index ["plat_id"], name: "index_menu_plats_on_plat_id"
+  end
+
+  create_table "menus", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plat_ingredients", force: :cascade do |t|
+    t.integer "plat_id", null: false
+    t.integer "ingredient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ingredient_id"], name: "index_plat_ingredients_on_ingredient_id"
+    t.index ["plat_id", "ingredient_id"], name: "index_plat_ingredients_on_plat_id_and_ingredient_id", unique: true
+    t.index ["plat_id"], name: "index_plat_ingredients_on_plat_id"
+  end
+
+  create_table "plats", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "tipusPlat", default: 0, null: false
+  end
+
   create_table "protocols", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -40,13 +74,14 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_29_150254) do
   end
 
   create_table "restrictions", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.integer "restriction_type", null: false
     t.text "description"
     t.string "bg_color"
+    t.text "icon_svg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "icon_svg"
-    t.integer "restriction_type"
+    t.index ["name"], name: "index_restrictions_on_name", unique: true
     t.check_constraint "restriction_type IN (0, 1)", name: "chk_restrictions_restriction_type"
   end
 
@@ -62,4 +97,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_29_150254) do
 
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
+  add_foreign_key "menu_plats", "menus"
+  add_foreign_key "menu_plats", "plats"
+  add_foreign_key "plat_ingredients", "ingredients"
+  add_foreign_key "plat_ingredients", "plats"
 end
