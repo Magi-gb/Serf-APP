@@ -7,6 +7,7 @@ class MenusController < ApplicationController
   end
 
   def show
+    @coverage = MenuCoverage.new(@menu).call
   end
 
   def new

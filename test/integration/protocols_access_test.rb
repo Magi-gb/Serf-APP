@@ -10,7 +10,7 @@ class ProtocolsAccessTest < ActionDispatch::IntegrationTest
     sign_in @kitchen_manager
     get protocols_path
     assert_response :success
-    assert_select ".list-card-group"
+    assert_select ".card"
     assert_select "a", text: "+ Nou protocol", count: 0
     assert_select "a", text: "Editar", count: 0
     assert_select "a", text: "Eliminar", count: 0

@@ -1,53 +1,94 @@
-<div class="page-card">
-  <div class="page-header">
-    <h1 class="serf-page-title">Tauler de Control</h1>
-    <p><%= t("home.index.welcome", username: current_user.username) %></p>
+<% content_for :title, t("home.index.title") %>
+
+<%= render "shared/topbar", title: t("home.index.dashboard_title"), subtitle: t("home.index.welcome", username: current_user.username) %>
+
+<div class="content col">
+  <%# === KPI row === %>
+  <div class="grid <%= current_user.admin? ? "grid-4" : "grid-3" %>">
+    <div class="stat">
+      <div class="stat-label"><%= t("home.index.kpis.dishes") %></div>
+      <div class="stat-value"><%= @dish_count %></div>
+      <%# DESIGN-GAP: design shows "+6 aquest mes" — we don't track creation dates per period yet. %>
+      <div class="stat-trend muted"><%= t("home.index.kpis.dishes_trend_placeholder") %></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label"><%= t("home.index.kpis.menus") %></div>
+      <div class="stat-value"><%= @menu_count %></div>
+      <%# DESIGN-GAP: design shows "3 esborranys" — Menu has no draft/published state. %>
+      <div class="stat-trend muted"><%= t("home.index.kpis.menus_trend_placeholder") %></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label"><%= t("home.index.kpis.restrictions") %></div>
+      <div class="stat-value"><%= @restriction_count %></div>
+      <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
+    </div>
+    <% if current_user.admin? %>
+      <div class="stat">
+        <div class="stat-label"><%= t("home.index.kpis.users") %></div>
+        <div class="stat-value"><%= @user_count %></div>
+        <%# DESIGN-GAP: "2 nous aquest mes" needs created_at-based scope on User. %>
+        <div class="stat-trend muted"><%= t("home.index.kpis.users_trend_placeholder") %></div>
+      </div>
+    <% end %>
   </div>
 
+  <%# === Quick access cards by role === %>
   <% if current_user.kitchen_manager? || current_user.admin? %>
-    <div class="desc-box">
-      <h3><%= t("home.index.menus_management") %></h3>
-      <p class="desc-text"><%= t("home.index.menus_description") %></p>
-      <div class="detail-actions mt-3">
-        <%= link_to t("home.index.add_menu"), new_menu_path, class: "btn-primary" %>
-        <%= link_to t("home.index.manage_menus"), menus_path, class: "btn-secondary" %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><%= t("home.index.quick_access") %></h3>
       </div>
-    </div>
-
-    <div class="desc-box">
-      <h3><%= t("home.index.ingredients_management") %></h3>
-      <p class="desc-text"><%= t("home.index.ingredients_description") %></p>
-      <div class="detail-actions mt-3">
-        <%= link_to t("home.index.add_ingredient"), new_ingredient_path, class: "btn-primary" %>
-        <%= link_to t("home.index.manage_ingredients"), ingredients_path, class: "btn-secondary" %>
-      </div>
-    </div>
-
-    <div class="desc-box">
-      <h3><%= t("home.index.restrictions_management") %></h3>
-      <p class="desc-text"><%= t("home.index.restrictions_description") %></p>
-      <div class="detail-actions mt-3">
-        <%= link_to t("home.index.add_restriction"), new_restriction_path, class: "btn-primary" %>
-        <%= link_to t("home.index.manage_restrictions"), restrictions_path, class: "btn-secondary" %>
-      </div>
-    </div>
-  <% end %>
-
-  <% if current_user.admin? %>
-    <div class="desc-box">
-      <h3><%= t("home.index.user_management") %></h3>
-      <p class="desc-text"><%= t("home.index.users_description") %></p>
-      <div class="detail-actions mt-3">
-        <%= link_to t("home.index.add_user"), new_user_path, class: "btn-primary" %>
-        <%= link_to t("home.index.manage_users"), users_path, class: "btn-secondary" %>
+      <div class="card-body">
+        <div class="grid grid-3">
+          <%= link_to new_menu_path, class: "btn btn-secondary" do %>
+            <%= serf_icon(:book) %><%= t("home.index.add_menu") %>
+          <% end %>
+          <%= link_to new_dish_path, class: "btn btn-secondary" do %>
+            <%= serf_icon(:forkknife) %><%= t("home.index.add_dish") %>
+          <% end %>
+          <%= link_to new_ingredient_path, class: "btn btn-secondary" do %>
+            <%= serf_icon(:leaf) %><%= t("home.index.add_ingredient") %>
+          <% end %>
+          <%= link_to new_restriction_path, class: "btn btn-secondary" do %>
+            <%= serf_icon(:shield) %><%= t("home.index.add_restriction") %>
+          <% end %>
+          <% if current_user.admin? %>
+            <%= link_to new_user_path, class: "btn btn-secondary" do %>
+              <%= serf_icon(:users) %><%= t("home.index.add_user") %>
+            <% end %>
+            <%= link_to new_protocol_path, class: "btn btn-secondary" do %>
+              <%= serf_icon(:alert) %><%= t("home.index.add_protocol") %>
+            <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   <% end %>
 
+  <%# === Recent activity placeholder ===
+       DESIGN-GAP: design renders 4 recent activity rows (who/what/target/when).
+       We have no audit log / activity feed model. Showing an empty-state until
+       implemented (would need an Activity model or papertrail integration). %>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><%= t("home.index.recent_activity") %></h3>
+    </div>
+    <div class="card-body empty-state">
+      <%= t("home.index.no_activity_yet") %>
+    </div>
+  </div>
+
+  <%# === Waiter-specific welcome === %>
   <% if current_user.waiter? %>
-    <div class="desc-box">
-      <h3><%= t("home.index.waiter_features") %></h3>
-      <p class="desc-text"><%= t("home.index.waiter_description") %></p>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><%= t("home.index.waiter_features") %></h3>
+      </div>
+      <div class="card-body muted">
+        <%# DESIGN-GAP: design proposes a PDA-first "Filtrar restriccions" screen.
+            We don't have the filtering engine yet (planned `SuggestionService`). %>
+        <%= t("home.index.waiter_description") %>
+      </div>
     </div>
   <% end %>
 </div>

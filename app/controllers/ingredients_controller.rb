@@ -3,7 +3,12 @@ class IngredientsController < ApplicationController
   before_action :require_kitchen_manager_or_above!, except: %i[index show]
 
   def index
-    @ingredients = Ingredient.search(params[:search]).order(:name)
+    @ingredients = Ingredient
+      .search(params[:search])
+      .with_restrictions(params[:include_restrictions])
+      .without_restrictions(params[:exclude_restrictions])
+      .order(:name)
+    @restrictions = Restriction.order(:name)
   end
 
   def show

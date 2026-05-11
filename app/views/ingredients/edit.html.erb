@@ -1,5 +1,14 @@
-<div class="page-card">
-  <h1 class="mb-4"><%= t("ingredients.edit.title") %></h1>
+<% content_for :title, t("ingredients.edit.title") %>
 
-  <%= render "form", ingredient: @ingredient, restrictions: @restrictions %>
+<%= render "shared/topbar", title: t("ingredients.edit.title"),
+    subtitle: breadcrumb([t("ingredients.index.title"), ingredients_path],
+                          [@ingredient.name, ingredient_path(@ingredient)],
+                          [t("ingredients.edit.title"), nil]) %>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", ingredient: @ingredient, restrictions: @restrictions %>
+    </div>
+  </div>
 </div>

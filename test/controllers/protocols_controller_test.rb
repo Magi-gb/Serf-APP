@@ -29,7 +29,7 @@ class ProtocolsControllerTest < ActionDispatch::IntegrationTest
     sign_in @waiter
     get protocol_url(@protocol)
     assert_response :success
-    assert_select ".serf-page-title", text: @protocol.name
+    assert_select ".topbar-title", text: @protocol.name
   end
 
   test "waiter should NOT get edit" do

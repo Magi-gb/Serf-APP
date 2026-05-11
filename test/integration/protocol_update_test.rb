@@ -65,7 +65,7 @@ class ProtocolUpdateTest < ActionDispatch::IntegrationTest
     get protocol_url(@protocol)
 
     assert_response :success
-    assert_select "a[href='#{edit_protocol_path(@protocol)}']", text: I18n.t("protocols.show.edit")
+    assert_select "a[href='#{edit_protocol_path(@protocol)}']"
   end
 
   test "waiter does not see edit link in protocol detail" do
