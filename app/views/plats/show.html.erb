@@ -6,17 +6,17 @@
       <h2 class="serf-page-title"><%= @plat.name %></h2>
     </div>
 
-    <div class="desc-box" style="width: 100%; max-width: 600px;">
+    <div class="desc-box desc-box-bounded">
       <h3><%= t("plats.show.description") %></h3>
       <p class="desc-text"><%= @plat.description %></p>
     </div>
 
-    <div class="desc-box" style="width: 100%; max-width: 600px;">
+    <div class="desc-box desc-box-bounded">
       <h3><%= t("plats.show.tipus") %></h3>
       <p class="desc-text"><%= t("plats.types.#{@plat.tipusPlat}") %></p>
     </div>
 
-    <div class="desc-box" style="width: 100%; max-width: 600px;">
+    <div class="desc-box desc-box-bounded">
       <h3><%= t("plats.show.ingredients") %></h3>
       <% if @plat.ingredients.any? %>
         <div class="badge-list">

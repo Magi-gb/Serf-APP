@@ -2,7 +2,7 @@ require "test_helper"
 
 class MenuTest < ActiveSupport::TestCase
   test "creates a menu with valid name and plats" do
-    plats_ids = [plats(:olivas).id, plats(:paella).id, plats(:salmó).id, plats(:gelat).id]
+    plats_ids = [ plats(:olivas).id, plats(:paella).id, plats(:salmó).id, plats(:gelat).id ]
     menu = Menu.new(name: "Menú del día", plat_ids: plats_ids)
 
     assert menu.valid?
@@ -16,7 +16,7 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "validates uniqueness of name" do
-    Menu.create!(name: "Menú especial", plat_ids: [plats(:olivas).id, plats(:paella).id, plats(:salmó).id, plats(:gelat).id])
+    Menu.create!(name: "Menú especial", plat_ids: [ plats(:olivas).id, plats(:paella).id, plats(:salmó).id, plats(:gelat).id ])
 
     duplicate = Menu.new(name: "Menú especial")
 
@@ -25,7 +25,7 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "requires one plat of each type" do
-    menu = Menu.new(name: "Menú incompleto", plat_ids: [plats(:olivas).id, plats(:paella).id])
+    menu = Menu.new(name: "Menú incompleto", plat_ids: [ plats(:olivas).id, plats(:paella).id ])
     assert_not menu.valid?
     assert menu.errors[:base].any?
   end
@@ -45,7 +45,7 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "can add plats to menu" do
-    menu = Menu.create!(name: "Test menu", plat_ids: [plats(:olivas).id, plats(:paella).id, plats(:salmó).id, plats(:gelat).id])
+    menu = Menu.create!(name: "Test menu", plat_ids: [ plats(:olivas).id, plats(:paella).id, plats(:salmó).id, plats(:gelat).id ])
     assert menu.plats.include?(plats(:paella))
   end
 end

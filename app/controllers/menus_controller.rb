@@ -7,7 +7,6 @@ class MenusController < ApplicationController
   end
 
   def show
-    @menu
   end
 
   def new
@@ -55,6 +54,6 @@ class MenusController < ApplicationController
   end
 
   def load_available_plats
-    @plats_by_type = Plat.all.group_by(&:tipusPlat)
+    @plats = Plat.order(:tipusPlat, :name)
   end
 end
