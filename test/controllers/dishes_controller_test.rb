@@ -256,4 +256,14 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to new_user_session_url
   end
+
+  test "index with dish_types filter shows dishes" do
+    get dishes_url, params: { dish_types: [ "entrant" ] }
+    assert_response :success
+  end
+
+  test "index without filter shows all dishes" do
+    get dishes_url
+    assert_response :success
+  end
 end
