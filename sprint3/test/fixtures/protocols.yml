@@ -1,7 +1,0 @@
-allergy:
-  name: "Protocol d'Al·lèrgies"
-  description: "Procediment a seguir per clients amb al·lèrgies severes."
-
-cross_contamination:
-  name: "Protocol de Contaminació Creuada"
-  description: "Instruccions per evitar la contaminació creuada a la cuina."
