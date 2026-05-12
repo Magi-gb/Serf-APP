@@ -1,0 +1,35 @@
+<% content_for :title, t("profile.show.title") %>
+
+<%= render "shared/topbar", title: t("profile.show.title") do %>
+  <%= link_to edit_profile_path, class: "btn btn-primary btn-sm" do %>
+    <%= serf_icon(:lock) %><%= t("profile.show.change_password") %>
+  <% end %>
+<% end %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-body row">
+      <span class="avatar avatar-lg" style="--avatar-bg: oklch(0.6 0.12 <%= (current_user.username.sum % 360) %>);">
+        <%= current_user.username.first(2).upcase %>
+      </span>
+      <div class="grow">
+        <div class="strong"><%= current_user.username %></div>
+        <div class="muted mt-2"><%= t("users.roles.#{current_user.role}") %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("profile.show.title") %></h3></div>
+    <div class="card-body col">
+      <div class="detail-field">
+        <div class="detail-field-label"><%= t("profile.show.username") %></div>
+        <div class="detail-field-value"><%= current_user.username %></div>
+      </div>
+      <div class="detail-field">
+        <div class="detail-field-label"><%= t("profile.show.role") %></div>
+        <div class="detail-field-value"><%= t("users.roles.#{current_user.role}") %></div>
+      </div>
+    </div>
+  </div>
+</div>

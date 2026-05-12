@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <title><%= t("layouts.login.title") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="serf-design" data-theme="light">
+    <div class="login-shell">
+      <%# Left brand panel %>
+      <section class="login-brand">
+        <div class="login-brand-top">
+          <span class="sidebar-brand-mark login-brand-mark">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 18h20" />
+              <path d="M4 18a8 8 0 0 1 16 0" />
+              <path d="M12 6v4" />
+              <circle cx="12" cy="5" r="1.2" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="login-brand-name">SerF</span>
+        </div>
+
+        <div class="login-brand-claim">
+          <h1 class="login-brand-headline"><%= t("login_page.headline_html").html_safe %></h1>
+          <p class="login-brand-subhead"><%= t("login_page.subhead") %></p>
+        </div>
+
+        <div class="login-brand-foot">
+          <span>v1.0 · Cal Blay</span>
+          <span class="login-brand-dot">·</span>
+          <span>EPSEVG · UPC</span>
+        </div>
+
+        <span class="login-brand-blob" aria-hidden="true"></span>
+      </section>
+
+      <%# Right form panel %>
+      <section class="login-form-panel">
+        <div class="login-form-card">
+          <% if alert.present? %>
+            <div class="notice notice-danger mt-2" role="alert">
+              <span class="notice-icon"><%= serf_icon(:alert) %></span>
+              <div><div class="notice-title"><%= alert %></div></div>
+            </div>
+          <% end %>
+
+          <%= yield %>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

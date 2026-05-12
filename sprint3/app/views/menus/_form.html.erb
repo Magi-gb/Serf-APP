@@ -1,0 +1,68 @@
+<%= form_with(model: menu) do |form| %>
+  <%= render "shared/form_errors", object: menu %>
+
+  <div class="field">
+    <%= form.label :name, t("menus.form.name"), class: "label" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+
+  <%# DESIGN-GAP: design proposes a builder with sortable sections (Entrants/Primers/...),
+      drag handles, per-section dish lookup, inline price editing and cobertura validation.
+      We have a flat Menu→Dishes join with no sections, prices, validity dates or order.
+      Picker groups by `dish_type` and supports search + selected counter. %>
+  <fieldset class="field picker"
+            data-controller="picker"
+            data-picker-singular-value="<%= t("pickers.selected_one") %>"
+            data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
+    <legend class="label"><%= t("menus.form.dishes") %></legend>
+
+    <div class="picker-toolbar">
+      <div class="picker-search search">
+        <span class="search-icon"><%= serf_icon(:search) %></span>
+        <input type="search"
+               class="input"
+               placeholder="<%= t("pickers.search_placeholder") %>"
+               data-picker-target="search"
+               data-action="input->picker#refresh keydown->picker#preventSubmit">
+      </div>
+      <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+      <button type="button"
+              class="chip"
+              aria-pressed="false"
+              data-picker-target="onlySelected"
+              data-action="click->picker#toggleOnlySelected">
+        <%= t("pickers.only_selected") %>
+      </button>
+    </div>
+
+    <% @dishes.group_by(&:dish_type).each do |type, dishes_in_type| %>
+      <div class="picker-group" data-picker-group>
+        <div class="picker-group-label">
+          <span class="tag-dot" style="background: var(--text-muted);"></span>
+          <%= t("dishes.types.#{type}") %>
+        </div>
+        <div class="checkbox-cards">
+          <% dishes_in_type.each do |dish| %>
+            <% search_text = [ dish.name, dish.description, t("dishes.types.#{type}") ].compact.join(" ") %>
+            <label class="checkbox-card"
+                   data-picker-target="item"
+                   data-search-text="<%= search_text %>">
+              <%= form.check_box :dish_ids,
+                                  { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
+                                  dish.id, nil %>
+              <span><%= dish.name %></span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
+  </fieldset>
+
+  <div class="row mt-4">
+    <%= form.submit menu.new_record? ? t("menus.form.submit_create") : t("menus.form.submit_update"),
+                    class: "btn btn-primary" %>
+    <%= link_to t("menus.form.cancel"), menus_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

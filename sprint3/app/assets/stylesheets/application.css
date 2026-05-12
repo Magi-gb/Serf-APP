@@ -1,0 +1,8 @@
+/*
+ * Application stylesheet manifest. Tokens load first so the rest can rely on
+ * the CSS variables they define.
+ *
+ *= require serf_tokens
+ *= require serf_components
+ *= require_self
+ */

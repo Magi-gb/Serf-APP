@@ -1,0 +1,105 @@
+<% content_for :title, t("ingredients.index.title") %>
+<% view = params[:view].presence || "list" %>
+
+<%= render "shared/topbar", title: t("ingredients.index.title") do %>
+  <%= form_with url: ingredients_path, method: :get, local: true, class: "search" do |f| %>
+    <span class="search-icon"><%= serf_icon(:search) %></span>
+    <%= f.search_field :search, value: params[:search], placeholder: t("ingredients.index.search_placeholder"), class: "input" %>
+  <% end %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to new_ingredient_path, class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:plus) %><%= t("ingredients.index.new_ingredient") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content">
+  <div class="toolbar">
+    <div class="toolbar-filters">
+      <span class="muted"><%= t("filters.include") %>:</span>
+      <% @restrictions.each do |restriction| %>
+        <%= toggle_param_link(restriction.name,
+              mode: :include,
+              target: restriction.id,
+              include_param: "include_restrictions",
+              exclude_param: "exclude_restrictions",
+              request: request,
+              css: "chip-include") %>
+      <% end %>
+      <span class="toolbar-sep"></span>
+      <span class="muted"><%= t("filters.exclude") %>:</span>
+      <% @restrictions.each do |restriction| %>
+        <%= toggle_param_link(restriction.name,
+              mode: :exclude,
+              target: restriction.id,
+              include_param: "include_restrictions",
+              exclude_param: "exclude_restrictions",
+              request: request,
+              css: "chip-exclude") %>
+      <% end %>
+      <% if params[:include_restrictions].present? || params[:exclude_restrictions].present? %>
+        <%= link_to t("filters.clear"),
+              ingredients_path(request.query_parameters.except(:include_restrictions, :exclude_restrictions)),
+              class: "chip-clear" %>
+      <% end %>
+    </div>
+    <%= view_toggle(view, request, default_view: "list") %>
+  </div>
+
+  <% if @ingredients.any? %>
+    <% if view == "grid" %>
+      <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
+        <% @ingredients.each do |ingredient| %>
+          <%= link_to ingredient_path(ingredient), class: "card ingredient-grid-card" do %>
+            <div class="row">
+              <span class="avatar avatar-sm" style="--avatar-bg: <%= ingredient.restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
+                <%= serf_icon(:leaf) %>
+              </span>
+              <div class="grow">
+                <div class="strong"><%= ingredient.name %></div>
+                <div class="muted mt-1"><%= ingredient.dishes.size %> <%= t("ingredients.show.linked_dishes").downcase %></div>
+              </div>
+            </div>
+            <% if ingredient.description.present? %>
+              <p class="muted mt-2 mb-0 truncate-2"><%= ingredient.description %></p>
+            <% end %>
+            <% if ingredient.restrictions.any? %>
+              <div class="row mt-2">
+                <% ingredient.restrictions.each do |restriction| %>
+                  <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="muted mt-2"><%= t("ingredients.index.no_restrictions") %></div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="card">
+        <% @ingredients.each do |ingredient| %>
+          <%= link_to ingredient_path(ingredient), class: "card-row is-link" do %>
+            <span class="avatar avatar-sm" style="--avatar-bg: <%= ingredient.restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
+              <%= serf_icon(:leaf) %>
+            </span>
+            <div class="grow">
+              <div class="strong"><%= ingredient.name %></div>
+              <% if ingredient.restrictions.any? %>
+                <div class="row mt-2">
+                  <% ingredient.restrictions.each do |restriction| %>
+                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="muted mt-2"><%= t("ingredients.index.no_restrictions") %></div>
+              <% end %>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="empty-state"><%= t("ingredients.index.no_ingredients") %></div>
+  <% end %>
+</div>

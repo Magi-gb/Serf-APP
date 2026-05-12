@@ -1,0 +1,18 @@
+<%= form_with(model: protocol) do |form| %>
+  <%= render "shared/form_errors", object: protocol %>
+
+  <div class="field">
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "label" %>
+    <%= form.text_area :description, class: "textarea", rows: 5 %>
+  </div>
+
+  <div class="row mt-4">
+    <%= form.submit t(".submit"), class: "btn btn-primary" %>
+    <%= link_to t(".cancel"), protocol.new_record? ? protocols_path : protocol_path(protocol), class: "btn btn-secondary" %>
+  </div>
+<% end %>

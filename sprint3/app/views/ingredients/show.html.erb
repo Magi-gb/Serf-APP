@@ -1,0 +1,226 @@
+<% content_for :title, @ingredient.name %>
+
+<%= render "shared/topbar", title: @ingredient.name,
+    subtitle: breadcrumb([t("ingredients.index.title"), ingredients_path], [@ingredient.name, nil]) do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= button_to ingredient_path(@ingredient), method: :delete,
+                  class: "btn btn-secondary btn-sm",
+                  form: { data: { turbo_confirm: t("ingredients.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("ingredients.show.delete") %>
+    <% end %>
+    <%= link_to edit_ingredient_path(@ingredient), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("ingredients.show.edit") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% has_allergen = @ingredient.restrictions.any?(&:intolerance_allergy?) %>
+
+<div class="content show-grid">
+  <div class="col">
+    <%# Hero %>
+    <div class="card">
+      <div class="card-body row">
+        <span class="avatar avatar-lg" style="--avatar-bg: <%= has_allergen ? 'var(--brand-red)' : 'var(--accent-green)' %>;">
+          <%= serf_icon(:leaf, size: 28) %>
+        </span>
+        <div class="grow">
+          <div class="row">
+            <div class="strong"><%= @ingredient.name %></div>
+            <% if has_allergen %>
+              <span class="tag tag-allergen">
+                <%= serf_icon(:alert) %>
+                <%= t("ingredients.show.allergen_badge") %>
+              </span>
+            <% end %>
+          </div>
+          <% if @ingredient.description.present? %>
+            <p class="muted mt-2 mb-0"><%= @ingredient.description %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%# Restrictions cards (linked) %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= t("ingredients.show.restrictions") %>
+          <span class="muted"> · <%= @ingredient.restrictions.size %></span>
+        </h3>
+      </div>
+      <div class="card-body">
+        <% if @ingredient.restrictions.any? %>
+          <div class="col">
+            <% @ingredient.restrictions.each do |restriction| %>
+              <%= link_to restriction_path(restriction), class: "restriction-card" do %>
+                <span class="restr-bubble restr-bubble-sm" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
+                  <% if restriction.icon_svg.present? %>
+                    <%= restriction_icon_svg(restriction.icon_svg) %>
+                  <% else %>
+                    <%= restriction.name.first(3).upcase %>
+                  <% end %>
+                </span>
+                <div class="grow">
+                  <div class="strong"><%= restriction.name %></div>
+                  <div class="muted mt-1"><%= t("restrictions.types.#{restriction.restriction_type}") %></div>
+                </div>
+                <span class="muted"><%= serf_icon(:chevron) %></span>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="muted text-center"><%= t("ingredients.show.no_restrictions") %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Dishes that contain this ingredient %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= t("ingredients.show.used_in_dishes") %>
+          <span class="muted"> · <%= @ingredient.dishes.size %></span>
+        </h3>
+      </div>
+      <div class="card-body">
+        <% if @ingredient.dishes.any? %>
+          <div class="grid grid-2">
+            <% @ingredient.dishes.each do |dish| %>
+              <%= link_to dish_path(dish), class: "dish-mini" do %>
+                <div class="dish-mini-thumb"><%= dish.name.first(2).upcase %></div>
+                <div class="grow">
+                  <div class="strong"><%= dish.name %></div>
+                  <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="muted text-center"><%= t("ingredients.show.not_used_in_dishes") %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Alternatives — searchable checkbox picker (managers) / read-only
+        list (waiters) %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= t("ingredients.show.alternatives_title") %>
+          <span class="muted"> · <%= @ingredient.alternatives.size %></span>
+        </h3>
+      </div>
+
+      <% if current_user.admin? || current_user.kitchen_manager? %>
+        <div class="card-body">
+          <% if @alternative_ingredients.any? %>
+            <% current_alt_ids = @ingredient.alternative_ids %>
+            <%= form_with url: alternatives_ingredient_path(@ingredient),
+                          method: :patch,
+                          html: { class: "picker",
+                                  data: { controller: "picker",
+                                          picker_singular_value: t("pickers.selected_one"),
+                                          picker_plural_value: t("pickers.selected_other", count: '%{count}') } } do |f| %>
+              <div class="picker-toolbar">
+                <div class="picker-search search">
+                  <span class="search-icon"><%= serf_icon(:search) %></span>
+                  <input type="search"
+                         class="input"
+                         placeholder="<%= t("pickers.search_placeholder") %>"
+                         data-picker-target="search"
+                         data-action="input->picker#refresh keydown->picker#preventSubmit">
+                </div>
+                <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+                <button type="button"
+                        class="chip"
+                        aria-pressed="false"
+                        data-picker-target="onlySelected"
+                        data-action="click->picker#toggleOnlySelected">
+                  <%= t("pickers.only_selected") %>
+                </button>
+              </div>
+
+              <div class="checkbox-cards">
+                <% @alternative_ingredients.each do |candidate| %>
+                  <% search_text = ([ candidate.name ] + candidate.restrictions.map(&:name)).join(" ") %>
+                  <label class="checkbox-card"
+                         data-picker-target="item"
+                         data-search-text="<%= search_text %>">
+                    <%= check_box_tag "alternative_ids[]", candidate.id,
+                                       current_alt_ids.include?(candidate.id),
+                                       id: "alternative_ids_#{candidate.id}",
+                                       data: { action: "change->picker#refresh" } %>
+                    <span><%= candidate.name %></span>
+                    <% if candidate.restrictions.any? %>
+                      <span class="row">
+                        <% candidate.restrictions.first(3).each do |r| %>
+                          <span class="tag tag-<%= restriction_tag_kind(r) %>"><%= r.name %></span>
+                        <% end %>
+                      </span>
+                    <% end %>
+                  </label>
+                <% end %>
+              </div>
+
+              <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
+
+              <div class="row mt-4">
+                <%= f.submit t("ingredients.show.save_alternatives"), class: "btn btn-primary" %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="muted text-center"><%= t("ingredients.show.no_available_alternatives") %></div>
+          <% end %>
+        </div>
+      <% else %>
+        <%# Waiter view: read-only list. %>
+        <div class="card-body col">
+          <% if @ingredient.alternatives.any? %>
+            <% @ingredient.alternatives.order(:name).each do |alternative| %>
+              <%= link_to ingredient_path(alternative), class: "restriction-card" do %>
+                <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
+                  <%= serf_icon(:leaf) %>
+                </span>
+                <div class="grow"><span class="strong"><%= alternative.name %></span></div>
+                <span class="muted"><%= serf_icon(:chevron) %></span>
+              <% end %>
+            <% end %>
+          <% else %>
+            <div class="muted text-center"><%= t("ingredients.show.no_alternatives") %></div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Sidebar %>
+  <aside class="show-side">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title"><%= t("ingredients.show.details") %></h3></div>
+      <div class="card-body col">
+        <div class="detail-field">
+          <div class="detail-field-label">ID</div>
+          <div class="detail-field-value">#<%= @ingredient.id.to_s.rjust(4, "0") %></div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("ingredients.show.linked_dishes") %></div>
+          <div class="detail-field-value"><%= @ingredient.dishes.size %></div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("ingredients.show.linked_restrictions") %></div>
+          <div class="detail-field-value"><%= @ingredient.restrictions.size %></div>
+        </div>
+      </div>
+    </div>
+
+    <% if @ingredient.dishes.any? %>
+      <div class="card">
+        <div class="card-body">
+          <div class="strong"><%= t("ingredients.show.did_you_know") %></div>
+          <p class="muted mt-2 mb-0"><%= t("ingredients.show.delete_warning", count: @ingredient.dishes.size) %></p>
+        </div>
+      </div>
+    <% end %>
+  </aside>
+</div>

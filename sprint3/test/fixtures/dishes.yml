@@ -1,0 +1,61 @@
+paella:
+  name: "Paella"
+  description: "Paella de marisco"
+  dish_type: primer
+
+olivas:
+  name: "Olivas variades"
+  description: "Olives de diverses varietats"
+  dish_type: entrant
+
+gelat:
+  name: "Gelat artesanal"
+  description: "Gelat de vainella"
+  dish_type: postre
+
+salmó:
+  name: "Salmó a la sal"
+  description: "Filet de salmó cuinat a la sal"
+  dish_type: segon
+
+macarrons:
+  name: "Macarrons a la carbonara"
+  description: "Pasta amb salsa carbonara"
+  dish_type: primer
+
+flan:
+  name: "Flà tradicional"
+  description: "Flà amb caramel"
+  dish_type: postre
+
+pan_tomáquet:
+  name: "Pa amb tomàquet"
+  description: "Pa torrat amb tomàquet i oli"
+  dish_type: entrant
+
+pollastre:
+  name: "Pollastre al forn"
+  description: "Pollastre rostit amb herbes"
+  dish_type: segon
+
+truita:
+  name: "Truita a la meunière"
+  description: "Truita amb salsa de mantega i llimona"
+  dish_type: segon
+
+arros:
+  name: "Arròs a banda"
+  description: "Arròs amb brou de peix"
+  dish_type: primer
+
+tiramisú:
+  name: "Tiramisú"
+  description: "Postre italià amb mascarpone"
+  dish_type: postre
+
+jamó:
+  name: "Jamó ibèric"
+  description: "Jamó ibèric de qualitat superior"
+  dish_type: entrant
+
+

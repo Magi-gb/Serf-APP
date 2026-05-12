@@ -1,0 +1,14 @@
+<% content_for :title, t("menus.edit.title") %>
+
+<%= render "shared/topbar", title: t("menus.edit.title"),
+    subtitle: breadcrumb([t("menus.index.title"), menus_path],
+                          [@menu.name, menu_path(@menu)],
+                          [t("menus.edit.title"), nil]) %>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", menu: @menu %>
+    </div>
+  </div>
+</div>

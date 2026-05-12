@@ -1,0 +1,12 @@
+<% content_for :title, t("ingredients.new.title") %>
+
+<%= render "shared/topbar", title: t("ingredients.new.title"),
+    subtitle: breadcrumb([t("ingredients.index.title"), ingredients_path], [t("ingredients.new.title"), nil]) %>
+
+<div class="content">
+  <div class="card">
+    <div class="card-body">
+      <%= render "form", ingredient: @ingredient, restrictions: @restrictions %>
+    </div>
+  </div>
+</div>

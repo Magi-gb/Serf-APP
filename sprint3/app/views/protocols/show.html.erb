@@ -1,0 +1,35 @@
+<% content_for :title, @protocol.name %>
+
+<%= render "shared/topbar", title: @protocol.name,
+    subtitle: breadcrumb([t("protocols.index.title"), protocols_path], [@protocol.name, nil]) do %>
+  <% if current_user.admin? %>
+    <%= button_to protocol_path(@protocol), method: :delete,
+                  class: "btn btn-secondary btn-sm",
+                  form: { data: { turbo_confirm: t("protocols.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("protocols.show.delete") %>
+    <% end %>
+    <%= link_to edit_protocol_path(@protocol), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("protocols.show.edit") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-body row">
+      <span class="avatar avatar-lg" style="--avatar-bg: <%= @protocol.bg_color.presence || 'var(--accent-blue)' %>;">
+        <%= serf_icon(:alert, size: 28) %>
+      </span>
+      <div class="grow">
+        <h2 class="strong"><%= @protocol.name %></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= Protocol.human_attribute_name(:description) %></h3></div>
+    <div class="card-body">
+      <%= simple_format(@protocol.description.presence || t("protocols.show.no_description"), {}, sanitize: false) %>
+    </div>
+  </div>
+</div>
