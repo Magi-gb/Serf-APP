@@ -26,9 +26,29 @@
               request: request,
               css: "chip-include") %>
       <% end %>
-      <% if params[:dish_types].present? %>
+      <% @restrictions.each do |restriction| %>
+        <%= toggle_param_link(restriction.name,
+              mode: :include,
+              target: restriction.id,
+              include_param: "include_restrictions",
+              exclude_param: "exclude_restrictions",
+              request: request,
+              css: "chip-include") %>
+      <% end %>
+      <span class="toolbar-sep"></span>
+      <span class="muted"><%= t("filters.exclude") %>:</span>
+      <% @restrictions.each do |restriction| %>
+        <%= toggle_param_link(restriction.name,
+              mode: :exclude,
+              target: restriction.id,
+              include_param: "include_restrictions",
+              exclude_param: "exclude_restrictions",
+              request: request,
+              css: "chip-exclude") %>
+      <% end %>
+      <% if params[:dish_types].present? || params[:include_restrictions].present? || params[:exclude_restrictions].present? %>
         <%= link_to t("filters.clear"),
-              dishes_path(request.query_parameters.except(:dish_types)),
+              dishes_path(request.query_parameters.except(:dish_types, :include_restrictions, :exclude_restrictions)),
               class: "chip-clear" %>
       <% end %>
     </div>

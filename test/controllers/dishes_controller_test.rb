@@ -266,4 +266,23 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     get dishes_url
     assert_response :success
   end
+
+  test "index with include_restrictions filter shows response" do
+    get dishes_url, params: { include_restrictions: [ "1" ] }
+    assert_response :success
+  end
+
+  test "index with exclude_restrictions filter shows response" do
+    get dishes_url, params: { exclude_restrictions: [ "1" ] }
+    assert_response :success
+  end
+
+  test "index with combined filters shows response" do
+    get dishes_url, params: {
+      dish_types: [ "entrant" ],
+      include_restrictions: [ "1" ],
+      exclude_restrictions: [ "2" ]
+    }
+    assert_response :success
+  end
 end

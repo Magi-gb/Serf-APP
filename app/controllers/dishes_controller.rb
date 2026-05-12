@@ -4,8 +4,12 @@ class DishesController < ApplicationController
   before_action :set_dish, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    @dishes = Dish.search(params[:search]).filter_by_types(params[:dish_types]).order(name: :asc)
+    @dishes = Dish.search(params[:search])
+              .filter_by_types(params[:dish_types])
+              .filter_by_restrictions(params[:include_restrictions], params[:exclude_restrictions])
+              .order(name: :asc)
     @dish_types = Dish.dish_types.keys
+    @restrictions = Restriction.all
   end
 
   def show
