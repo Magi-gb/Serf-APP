@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_11_130000) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_21_094000) do
   create_table "dish_ingredients", force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "ingredient_id", null: false
@@ -74,6 +74,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_11_130000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "preparations", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "time_minutes", null: false
+    t.integer "difficulty", default: 0, null: false
+    t.integer "dish_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_preparations_on_dish_id"
+    t.index ["name"], name: "index_preparations_on_name", unique: true
+    t.check_constraint "difficulty IN (0, 1, 2)", name: "chk_preparations_difficulty"
+    t.check_constraint "time_minutes > 0", name: "chk_preparations_time_minutes"
+  end
+
   create_table "protocols", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -85,14 +99,13 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_11_130000) do
   end
 
   create_table "restrictions", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "restriction_type", null: false
+    t.string "name"
     t.text "description"
     t.string "bg_color"
-    t.text "icon_svg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_restrictions_on_name", unique: true
+    t.text "icon_svg"
+    t.integer "restriction_type"
     t.check_constraint "restriction_type IN (0, 1)", name: "chk_restrictions_restriction_type"
   end
 
@@ -114,4 +127,5 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_11_130000) do
   add_foreign_key "ingredient_restrictions", "restrictions"
   add_foreign_key "menu_dishes", "dishes"
   add_foreign_key "menu_dishes", "menus"
+  add_foreign_key "preparations", "dishes"
 end

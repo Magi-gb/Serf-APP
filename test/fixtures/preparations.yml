@@ -1,0 +1,13 @@
+pasta_prep:
+  name: "Pasta Preparation"
+  description: "Boil water, add pasta, cook for 10 minutes."
+  time_minutes: 15
+  difficulty: 0
+  dish: paella
+
+rice_prep:
+  name: "Rice Preparation"
+  description: "Steam the rice."
+  time_minutes: 20
+  difficulty: 1
+  dish: paella

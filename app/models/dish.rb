@@ -3,6 +3,7 @@ class Dish < ApplicationRecord
   has_many :menus, through: :menu_dishes
   has_many :dish_ingredients, dependent: :destroy
   has_many :ingredients, through: :dish_ingredients
+  has_many :preparations, dependent: :destroy
 
   before_validation :normalize_attributes
 
