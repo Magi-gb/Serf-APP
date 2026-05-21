@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
   resources :dishes
+  resources :preparations
   resources :protocols, constraints: { id: /\d+/ }
 
   root "home#index"

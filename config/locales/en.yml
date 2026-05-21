@@ -2,6 +2,12 @@
 en:
   activerecord:
     attributes:
+      preparation:
+        description: Description
+        difficulty: Difficulty
+        dish_id: Associated dish
+        name: Name
+        time_minutes: Preparation time
       protocol:
         description: Description
         name: Name
@@ -15,6 +21,9 @@ en:
             alternative:
               cannot_add_restrictions: cannot add new restrictions compared to the original ingredient
     models:
+      preparation:
+        one: Preparation
+        other: Preparations
       protocol:
         one: Protocol
         other: Protocols
@@ -229,6 +238,44 @@ en:
     search_placeholder: Search…
     selected_one: 1 selected
     selected_other: "%{count} selected"
+  preparations:
+    difficulties:
+      easy: Easy
+      hard: Hard
+      medium: Medium
+    edit:
+      title: Edit preparation
+    form:
+      cancel: Cancel
+      description: Description
+      difficulty: Difficulty
+      dish: Associated dish
+      name: Preparation name
+      no_dish: No dish
+      submit_create: Create preparation
+      submit_update: Save changes
+      time_minutes: Preparation time (minutes)
+    index:
+      new_preparation: New preparation
+      no_preparations: No preparations found.
+      search_placeholder: Search a preparation
+      title: Preparations
+    messages:
+      created_success: Preparation created successfully.
+      destroyed_success: Preparation deleted successfully.
+      updated_success: Preparation updated successfully.
+    new:
+      title: New preparation
+    show:
+      confirm_delete: Are you sure you want to delete this preparation?
+      delete: Delete preparation
+      description: Description
+      difficulty: Difficulty
+      dish: Associated dish
+      edit: Edit
+      no_description: No additional description.
+      no_dish: No associated dish
+      time_minutes: Preparation time
   profile:
     edit:
       current_password: Current password
@@ -311,6 +358,7 @@ en:
     menus: Menus
     new_restriction: New restriction
     personal: Staff
+    preparations: Preparations
     protocols: Protocols
     restrictions: Restrictions
     toggle: Open sidebar menu

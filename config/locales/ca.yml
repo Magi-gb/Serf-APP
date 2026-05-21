@@ -2,6 +2,12 @@
 ca:
   activerecord:
     attributes:
+      preparation:
+        description: Descripció
+        difficulty: Dificultat
+        dish_id: Plat associat
+        name: Nom
+        time_minutes: Temps de preparació
       protocol:
         description: Descripció
         name: Nom
@@ -15,6 +21,9 @@ ca:
             alternative:
               cannot_add_restrictions: no pot afegir noves restriccions respecte l'ingredient original
     models:
+      preparation:
+        one: Preparació
+        other: Preparacions
       protocol:
         one: Protocol
         other: Protocols
@@ -229,6 +238,44 @@ ca:
     search_placeholder: Cerca…
     selected_one: 1 seleccionat
     selected_other: "%{count} seleccionats"
+  preparations:
+    difficulties:
+      easy: Fàcil
+      hard: Difícil
+      medium: Mitjana
+    edit:
+      title: Editar preparació
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      difficulty: Dificultat
+      dish: Plat associat
+      name: Nom de la preparació
+      no_dish: Cap plat
+      submit_create: Crear preparació
+      submit_update: Desar canvis
+      time_minutes: Temps de preparació (minuts)
+    index:
+      new_preparation: Nova preparació
+      no_preparations: No s'han trobat preparacions.
+      search_placeholder: Cerca una preparació
+      title: Preparacions
+    messages:
+      created_success: Preparació creada correctament.
+      destroyed_success: Preparació eliminada correctament.
+      updated_success: Preparació actualitzada correctament.
+    new:
+      title: Nova preparació
+    show:
+      confirm_delete: Segur que vols eliminar aquesta preparació?
+      delete: Eliminar preparació
+      description: Descripció
+      difficulty: Dificultat
+      dish: Plat associat
+      edit: Editar
+      no_description: Sense descripció addicional.
+      no_dish: Sense plat associat
+      time_minutes: Temps de preparació
   profile:
     edit:
       current_password: Contrasenya actual
@@ -311,6 +358,7 @@ ca:
     menus: Menús
     new_restriction: Nova restricció
     personal: Personal
+    preparations: Preparacions
     protocols: Protocols
     restrictions: Restriccions
     toggle: Obrir menú lateral

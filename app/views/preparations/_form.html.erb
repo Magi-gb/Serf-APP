@@ -1,0 +1,39 @@
+<%= form_with(model: preparation) do |form| %>
+  <%= render "shared/form_errors", object: preparation %>
+
+  <div class="field">
+    <%= form.label :name, t("preparations.form.name"), class: "label" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, t("preparations.form.description"), class: "label" %>
+    <%= form.text_area :description, class: "textarea", rows: 4 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time_minutes, t("preparations.form.time_minutes"), class: "label" %>
+    <%= form.number_field :time_minutes, class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :difficulty, t("preparations.form.difficulty"), class: "label" %>
+    <%= form.select :difficulty,
+                    Preparation.difficulties.keys.map { |k| [t("preparations.difficulties.#{k}"), k] },
+                    {}, class: "select" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dish_id, t("preparations.form.dish"), class: "label" %>
+    <%= form.select :dish_id,
+                    @dishes.map { |d| [d.name, d.id] },
+                    { include_blank: t("preparations.form.no_dish") },
+                    class: "select" %>
+  </div>
+
+  <div class="row mt-4">
+    <%= form.submit preparation.new_record? ? t("preparations.form.submit_create") : t("preparations.form.submit_update"),
+                    class: "btn btn-primary" %>
+    <%= link_to t("preparations.form.cancel"), preparations_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
