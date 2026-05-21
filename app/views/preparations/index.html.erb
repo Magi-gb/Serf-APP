@@ -1,0 +1,38 @@
+<% content_for :title, t("preparations.index.title") %>
+
+<%= render "shared/topbar", title: t("preparations.index.title") do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to new_preparation_path, class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:plus) %><%= t("preparations.index.new_preparation") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content">
+  <% if @preparations.any? %>
+    <div class="card">
+      <% @preparations.each do |preparation| %>
+        <%= link_to preparation_path(preparation), class: "card-row is-link" do %>
+          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-blue);">
+            <%= serf_icon(:alert) %>
+          </span>
+          <div class="grow">
+            <div class="strong"><%= preparation.name %></div>
+            <div class="muted mt-2">
+              <%= t("preparations.show.time_minutes") %>: <%= preparation.time_minutes %> min
+              &bull;
+              <%= t("preparations.show.difficulty") %>: <%= t("preparations.difficulties.#{preparation.difficulty}") %>
+              <% if preparation.dish.present? %>
+                &bull;
+                <%= t("preparations.show.dish") %>: <%= preparation.dish.name %>
+              <% end %>
+            </div>
+          </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state"><%= t("preparations.index.no_preparations") %></div>
+  <% end %>
+</div>
