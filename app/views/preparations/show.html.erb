@@ -20,7 +20,15 @@
         <p class="muted">
           <%= t("preparations.show.time_minutes") %>: <strong><%= @preparation.time_minutes %> min</strong>
           &bull;
-          <%= t("preparations.show.difficulty") %>: <strong><%= t("preparations.difficulties.#{@preparation.difficulty}") %></strong>
+          <%= t("preparations.show.difficulty") %>:
+          <%
+            difficulty_class = case @preparation.difficulty
+              when "easy" then "preference"
+              when "medium" then "intolerance"
+              when "hard" then "allergen"
+            end
+          %>
+          <span class="tag tag-<%= difficulty_class %>" style="display: inline-flex;"><%= t("preparations.difficulties.#{@preparation.difficulty}") %></span>
         </p>
       </div>
     </div>

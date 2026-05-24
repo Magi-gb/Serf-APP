@@ -1,10 +1,10 @@
 class PreparationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_kitchen_manager_or_above!
+  before_action :require_kitchen_manager_or_above!, except: %i[ index show ]
   before_action :set_preparation, only: [ :show ]
 
   def index
-    @preparations = Preparation.all.order(name: :asc)
+    @preparations = Preparation.search(params[:search]).order(name: :asc)
   end
 
   def show

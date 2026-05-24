@@ -105,8 +105,42 @@ class PreparationsCreationTest < ActionDispatch::IntegrationTest
 
   test "waiter does not see new preparation button in index" do
     sign_in @waiter
-    # waiter gets redirected to root when requesting preparations_path
     get preparations_path
-    assert_redirected_to root_path
+    assert_response :success
+    assert_select "a[href='#{new_preparation_path}']", count: 0
+  end
+
+  test "preparations index supports search query parameter" do
+    sign_in @kitchen_manager
+
+    # When no search parameter is given, we should see both fixtures
+    get preparations_path
+    assert_response :success
+    assert_select ".strong", text: "Pasta Preparation"
+    assert_select ".strong", text: "Rice Preparation"
+
+    # When search parameter "Pasta" is given, we should only see Pasta Preparation
+    get preparations_path, params: { search: "Pasta" }
+    assert_response :success
+    assert_select ".strong", text: "Pasta Preparation"
+    assert_select ".strong", text: "Rice Preparation", count: 0
+  end
+
+  test "preparations index supports grid view toggle" do
+    sign_in @kitchen_manager
+
+    # Default is list view (rendered inside a card element)
+    get preparations_path
+    assert_response :success
+    assert_select ".card"
+    assert_select ".grid.grid-3", count: 0
+
+    # With view parameter set to grid
+    get preparations_path, params: { view: "grid" }
+    assert_response :success
+    assert_select ".grid.grid-3"
+    assert_select ".dish-title", text: "Pasta Preparation"
+    # Tag for difficulty
+    assert_select ".tag-preference", text: I18n.t("preparations.difficulties.easy")
   end
 end

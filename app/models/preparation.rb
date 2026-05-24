@@ -9,6 +9,8 @@ class Preparation < ApplicationRecord
   validates :time_minutes, presence: true, numericality: { only_integer: true, greater_than: 0 }
   validates :difficulty, presence: true
 
+  scope :search, ->(query) { query.present? ? where("name LIKE ? OR description LIKE ?", "%#{query}%", "%#{query}%") : all }
+
   private
 
   def normalize_attributes

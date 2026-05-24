@@ -1,6 +1,11 @@
 <% content_for :title, t("preparations.index.title") %>
+<% view = params[:view].presence || "list" %>
 
 <%= render "shared/topbar", title: t("preparations.index.title") do %>
+  <%= form_with url: preparations_path, method: :get, local: true, class: "search" do |f| %>
+    <span class="search-icon"><%= serf_icon(:search) %></span>
+    <%= f.search_field :search, value: params[:search], placeholder: t("preparations.index.search_placeholder"), class: "input" %>
+  <% end %>
   <% if current_user.admin? || current_user.kitchen_manager? %>
     <%= link_to new_preparation_path, class: "btn btn-primary btn-sm" do %>
       <%= serf_icon(:plus) %><%= t("preparations.index.new_preparation") %>
@@ -9,29 +14,69 @@
 <% end %>
 
 <div class="content">
+  <div class="toolbar">
+    <div></div>
+    <%= view_toggle(view, request, default_view: "list") %>
+  </div>
+
   <% if @preparations.any? %>
-    <div class="card">
-      <% @preparations.each do |preparation| %>
-        <%= link_to preparation_path(preparation), class: "card-row is-link" do %>
-          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-blue);">
-            <%= serf_icon(:alert) %>
-          </span>
-          <div class="grow">
-            <div class="strong"><%= preparation.name %></div>
-            <div class="muted mt-2">
-              <%= t("preparations.show.time_minutes") %>: <%= preparation.time_minutes %> min
-              &bull;
-              <%= t("preparations.show.difficulty") %>: <%= t("preparations.difficulties.#{preparation.difficulty}") %>
-              <% if preparation.dish.present? %>
-                &bull;
-                <%= t("preparations.show.dish") %>: <%= preparation.dish.name %>
-              <% end %>
+    <% if view == "grid" %>
+      <div class="grid grid-3">
+        <% @preparations.each do |preparation| %>
+          <%= link_to preparation_path(preparation), class: "dish" do %>
+            <div class="dish-img">
+              <span><%= preparation.name.first(2).upcase %></span>
             </div>
-          </div>
-          <span class="muted"><%= serf_icon(:chevron) %></span>
+            <div class="dish-body">
+              <h3 class="dish-title"><%= preparation.name %></h3>
+              <p class="dish-desc"><%= preparation.description.presence ? truncate(preparation.description, length: 90) : t("preparations.show.no_description") %></p>
+              <div class="dish-meta">
+                <span class="tag"><%= preparation.time_minutes %> min</span>
+                <%
+                  difficulty_class = case preparation.difficulty
+                    when "easy" then "preference"
+                    when "medium" then "intolerance"
+                    when "hard" then "allergen"
+                  end
+                %>
+                <span class="tag tag-<%= difficulty_class %>"><%= t("preparations.difficulties.#{preparation.difficulty}") %></span>
+              </div>
+            </div>
+          <% end %>
         <% end %>
-      <% end %>
-    </div>
+      </div>
+    <% else %>
+      <div class="card">
+        <% @preparations.each do |preparation| %>
+          <%= link_to preparation_path(preparation), class: "card-row is-link" do %>
+            <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-blue);">
+              <%= serf_icon(:list) %>
+            </span>
+            <div class="grow">
+              <div class="strong"><%= preparation.name %></div>
+              <div class="muted mt-2">
+                <%= t("preparations.show.time_minutes") %>: <%= preparation.time_minutes %> min
+                &bull;
+                <%= t("preparations.show.difficulty") %>:
+                <%
+                  difficulty_class = case preparation.difficulty
+                    when "easy" then "preference"
+                    when "medium" then "intolerance"
+                    when "hard" then "allergen"
+                  end
+                %>
+                <span class="tag tag-<%= difficulty_class %>" style="display: inline-flex;"><%= t("preparations.difficulties.#{preparation.difficulty}") %></span>
+                <% if preparation.dish.present? %>
+                  &bull;
+                  <%= t("preparations.show.dish") %>: <%= preparation.dish.name %>
+                <% end %>
+              </div>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   <% else %>
     <div class="empty-state"><%= t("preparations.index.no_preparations") %></div>
   <% end %>

@@ -19,22 +19,36 @@ class PreparationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "waiter cannot access index" do
+  test "waiter can access index" do
     sign_in @waiter
     get preparations_url
-    assert_redirected_to root_url
+    assert_response :success
   end
 
-  test "waiter cannot access show" do
+  test "waiter can access show" do
     sign_in @waiter
     get preparation_url(@preparation)
-    assert_redirected_to root_url
+    assert_response :success
   end
 
   test "waiter cannot access new" do
     sign_in @waiter
     get new_preparation_url
     assert_redirected_to root_url
+  end
+
+  test "index search filters preparations by name" do
+    get preparations_url, params: { search: "Pasta" }
+    assert_response :success
+    assert_select ".strong", text: "Pasta Preparation"
+    assert_select ".strong", text: "Rice Preparation", count: 0
+  end
+
+  test "index search filters preparations by description" do
+    get preparations_url, params: { search: "steam" }
+    assert_response :success
+    assert_select ".strong", text: "Rice Preparation"
+    assert_select ".strong", text: "Pasta Preparation", count: 0
   end
 
   test "kitchen manager can access index" do
