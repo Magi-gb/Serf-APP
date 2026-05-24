@@ -131,4 +131,61 @@ class PreparationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to root_url
   end
+
+  test "kitchen manager can access edit" do
+    get edit_preparation_url(@preparation)
+    assert_response :success
+  end
+
+  test "waiter cannot access edit" do
+    sign_in @waiter
+    get edit_preparation_url(@preparation)
+    assert_redirected_to root_url
+  end
+
+  test "update stores changes" do
+    patch preparation_url(@preparation), params: {
+      preparation: {
+        name: "Updated Name",
+        description: "Updated description",
+        time_minutes: 30,
+        difficulty: "hard"
+      }
+    }
+
+    assert_redirected_to preparation_url(@preparation)
+    assert_equal I18n.t("preparations.messages.updated_success"), flash[:notice]
+    @preparation.reload
+    assert_equal "Updated Name", @preparation.name
+    assert_equal "Updated description", @preparation.description
+    assert_equal 30, @preparation.time_minutes
+    assert_equal "hard", @preparation.difficulty
+  end
+
+  test "update with invalid params re-renders edit form" do
+    patch preparation_url(@preparation), params: {
+      preparation: {
+        name: "",
+        time_minutes: -10
+      }
+    }
+
+    assert_response :unprocessable_entity
+    @preparation.reload
+    assert_not_equal "", @preparation.name
+  end
+
+  test "waiter cannot update preparations" do
+    sign_in @waiter
+
+    patch preparation_url(@preparation), params: {
+      preparation: {
+        name: "Waiter Attempted Update"
+      }
+    }
+
+    assert_redirected_to root_url
+    @preparation.reload
+    assert_not_equal "Waiter Attempted Update", @preparation.name
+  end
 end

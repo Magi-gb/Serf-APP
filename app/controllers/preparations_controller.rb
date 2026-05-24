@@ -1,7 +1,7 @@
 class PreparationsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_kitchen_manager_or_above!, except: %i[ index show ]
-  before_action :set_preparation, only: [ :show ]
+  before_action :set_preparation, only: [ :show, :edit, :update ]
 
   def index
     @preparations = Preparation.search(params[:search]).order(name: :asc)
@@ -26,6 +26,19 @@ class PreparationsController < ApplicationController
     else
       @dishes = Dish.all.order(name: :asc)
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @dishes = Dish.all.order(name: :asc)
+  end
+
+  def update
+    if @preparation.update(preparation_params)
+      redirect_to @preparation, notice: t("preparations.messages.updated_success"), status: :see_other
+    else
+      @dishes = Dish.all.order(name: :asc)
+      render :edit, status: :unprocessable_entity
     end
   end
 
