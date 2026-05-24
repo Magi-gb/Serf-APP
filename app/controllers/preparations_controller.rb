@@ -5,6 +5,9 @@ class PreparationsController < ApplicationController
 
   def index
     @preparations = Preparation.search(params[:search]).order(name: :asc)
+    if params[:difficulty].present?
+      @preparations = @preparations.where(difficulty: params[:difficulty])
+    end
   end
 
   def show

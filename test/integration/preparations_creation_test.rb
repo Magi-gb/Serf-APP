@@ -143,4 +143,23 @@ class PreparationsCreationTest < ActionDispatch::IntegrationTest
     # Tag for difficulty
     assert_select ".tag-preference", text: I18n.t("preparations.difficulties.easy")
   end
+
+  test "preparations index supports filtering by difficulty" do
+    sign_in @kitchen_manager
+
+    # Go to preparations index page and filter by "medium"
+    get preparations_path, params: { difficulty: "medium" }
+    assert_response :success
+
+    # We should see Rice Preparation (medium) but not Pasta Preparation (easy)
+    assert_select ".strong", text: "Rice Preparation"
+    assert_select ".strong", text: "Pasta Preparation", count: 0
+
+    # Ensure difficulty filter chip is selected/active (aria-pressed="true")
+    assert_select "a.chip[aria-pressed='true']", text: I18n.t("preparations.difficulties.medium")
+    assert_select "a.chip[aria-pressed='false']", text: I18n.t("preparations.difficulties.easy")
+
+    # Clear button should be visible
+    assert_select "a.chip-clear", text: I18n.t("filters.clear")
+  end
 end

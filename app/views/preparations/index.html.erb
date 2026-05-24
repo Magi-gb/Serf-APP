@@ -15,7 +15,17 @@
 
 <div class="content">
   <div class="toolbar">
-    <div></div>
+    <div class="toolbar-filters">
+      <span class="muted"><%= t("preparations.show.difficulty") %>:</span>
+      <% %w[easy medium hard].each do |difficulty| %>
+        <%= link_to t("preparations.difficulties.#{difficulty}"),
+                    preparations_path(request.query_parameters.merge(difficulty: params[:difficulty] == difficulty ? nil : difficulty)),
+                    class: "chip", "aria-pressed": (params[:difficulty] == difficulty) %>
+      <% end %>
+      <% if params[:difficulty].present? || params[:search].present? %>
+        <%= link_to t("filters.clear"), preparations_path(request.query_parameters.except(:difficulty, :search)), class: "chip-clear" %>
+      <% end %>
+    </div>
     <%= view_toggle(view, request, default_view: "list") %>
   </div>
 

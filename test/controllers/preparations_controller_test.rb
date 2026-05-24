@@ -51,6 +51,13 @@ class PreparationsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".strong", text: "Pasta Preparation", count: 0
   end
 
+  test "index filters preparations by difficulty" do
+    get preparations_url, params: { difficulty: "easy" }
+    assert_response :success
+    assert_select ".strong", text: "Pasta Preparation"
+    assert_select ".strong", text: "Rice Preparation", count: 0
+  end
+
   test "kitchen manager can access index" do
     get preparations_url
     assert_response :success
