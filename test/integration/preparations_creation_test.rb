@@ -8,6 +8,7 @@ class PreparationsCreationTest < ActionDispatch::IntegrationTest
     @kitchen_manager = users(:kitchen_manager)
     @waiter = users(:waiter)
     @dish = dishes(:paella)
+    @preparation = preparations(:pasta_prep)
   end
 
   test "guest cannot access new preparation page or post" do
@@ -161,5 +162,74 @@ class PreparationsCreationTest < ActionDispatch::IntegrationTest
 
     # Clear button should be visible
     assert_select "a.chip-clear", text: I18n.t("filters.clear")
+  end
+
+  test "kitchen manager can update preparation with valid params" do
+    sign_in @kitchen_manager
+
+    # Go to show page first to verify edit link exists
+    get preparation_path(@preparation)
+    assert_response :success
+    assert_select "a[href='#{edit_preparation_path(@preparation)}']"
+
+    # Go to edit page
+    get edit_preparation_path(@preparation)
+    assert_response :success
+    assert_select "form[action='#{preparation_path(@preparation)}']"
+
+    # Update preparation
+    patch preparation_path(@preparation), params: {
+      preparation: {
+        name: "Renamed Pasta Prep",
+        description: "Cook for 12 minutes now.",
+        time_minutes: 12,
+        difficulty: "easy"
+      }
+    }
+
+    assert_redirected_to preparation_path(@preparation)
+    follow_redirect!
+    assert_response :success
+
+    # Verify notice and changes are shown
+    assert_equal I18n.t("preparations.messages.updated_success"), flash[:notice]
+    assert_select ".notice-info .notice-title", text: /#{Regexp.escape(I18n.t("preparations.messages.updated_success"))}/
+    assert_match "Renamed Pasta Prep", response.body
+    assert_match "Cook for 12 minutes now.", response.body
+    assert_match "12 min", response.body
+  end
+
+  test "kitchen manager sees errors when updating with invalid params" do
+    sign_in @kitchen_manager
+
+    get edit_preparation_path(@preparation)
+    assert_response :success
+
+    # Submit invalid changes
+    patch preparation_path(@preparation), params: {
+      preparation: {
+        name: "",
+        time_minutes: -1
+      }
+    }
+
+    assert_response :unprocessable_entity
+    assert_select ".alert-error"
+    assert_select "form[action='#{preparation_path(@preparation)}']"
+  end
+
+  test "waiter does not see edit link on show page and cannot update" do
+    sign_in @waiter
+
+    get preparation_path(@preparation)
+    assert_response :success
+    assert_select "a[href='#{edit_preparation_path(@preparation)}']", count: 0
+
+    patch preparation_path(@preparation), params: {
+      preparation: {
+        name: "Waiter Rename"
+      }
+    }
+    assert_redirected_to root_path
   end
 end
