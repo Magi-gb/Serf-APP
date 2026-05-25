@@ -1,4 +1,5 @@
 class PreparationsController < ApplicationController
+  before_action :require_kitchen_manager_or_above!, only: %i[destroy]
   before_action :set_preparation, only: %i[show destroy]
 
   def index
