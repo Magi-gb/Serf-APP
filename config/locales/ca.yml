@@ -223,6 +223,12 @@ ca:
       kpi_sections: Seccions
       kpi_validity: Vigència
       no_dishes: Aquest menú no té plats associats
+  pickers:
+    none: Cap resultat per a aquesta cerca.
+    only_selected: Només seleccionats
+    search_placeholder: Cerca…
+    selected_one: 1 seleccionat
+    selected_other: "%{count} seleccionats"
   preparations:
     index:
       empty: Encara no hi ha preparacions guardades.
@@ -234,12 +240,6 @@ ca:
       delete: Eliminar Preparació
       description_title: Descripció de la preparació
       no_description: Sense descripció addicional.
-  pickers:
-    none: Cap resultat per a aquesta cerca.
-    only_selected: Només seleccionats
-    search_placeholder: Cerca…
-    selected_one: 1 seleccionat
-    selected_other: "%{count} seleccionats"
   profile:
     edit:
       current_password: Contrasenya actual
