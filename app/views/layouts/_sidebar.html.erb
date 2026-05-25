@@ -42,6 +42,10 @@
       <%= serf_icon(:shield) %><span><%= t("sidebar.restrictions") %></span>
     <% end %>
 
+    <%= link_to preparations_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "preparations") } do %>
+      <%= serf_icon(:forkknife) %><span><%= t("sidebar.preparations") %></span>
+    <% end %>
+
     <%= link_to protocols_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "protocols") } do %>
       <%= serf_icon(:alert) %><span><%= t("sidebar.protocols") %></span>
     <% end %>

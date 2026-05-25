@@ -223,6 +223,17 @@ ca:
       kpi_sections: Seccions
       kpi_validity: Vigència
       no_dishes: Aquest menú no té plats associats
+  preparations:
+    index:
+      empty: Encara no hi ha preparacions guardades.
+      title: Preparacions
+    messages:
+      destroyed_success: Preparació eliminada correctament.
+    show:
+      confirm_delete: Estàs segur que vols eliminar aquesta preparació?
+      delete: Eliminar Preparació
+      description_title: Descripció de la preparació
+      no_description: Sense descripció addicional.
   pickers:
     none: Cap resultat per a aquesta cerca.
     only_selected: Només seleccionats
@@ -311,6 +322,7 @@ ca:
     menus: Menús
     new_restriction: Nova restricció
     personal: Personal
+    preparations: Preparacions
     protocols: Protocols
     restrictions: Restriccions
     toggle: Obrir menú lateral
