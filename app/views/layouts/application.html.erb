@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || t("app_name") %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <%= yield :head %>
 
@@ -16,18 +20,30 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="layout-with-sidebar">
-    <%= render "layouts/sidebar" %>
+  <body class="serf-design" data-theme="light">
+    <div class="app-shell">
+      <%= render "layouts/sidebar" %>
+      <div class="sidebar-scrim"
+           data-controller="sidebar"
+           data-action="click->sidebar#close"
+           aria-hidden="true"></div>
 
-    <main class="page-content-with-sidebar">
-      <% if notice.present? %>
-        <div class="alert-success"><%= notice %></div>
-      <% end %>
-      <% if alert.present? %>
-        <div class="alert-error"><%= alert %></div>
-      <% end %>
+      <div class="main">
+        <% if notice.present? %>
+          <div class="notice notice-info layout-flash" role="status">
+            <span class="notice-icon"><%= serf_icon(:check) %></span>
+            <div><div class="notice-title"><%= notice %></div></div>
+          </div>
+        <% end %>
+        <% if alert.present? %>
+          <div class="notice notice-danger layout-flash" role="alert">
+            <span class="notice-icon"><%= serf_icon(:alert) %></span>
+            <div><div class="notice-title"><%= alert %></div></div>
+          </div>
+        <% end %>
 
-      <%= yield %>
-    </main>
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

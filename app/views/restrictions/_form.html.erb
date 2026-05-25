@@ -1,43 +1,41 @@
-<%= form_with(model: restriction, class: "form-container") do |form| %>
-  <% if restriction.errors.any? %>
-    <div class="alert-error">
-      <h3><%= t("errors.form_header", count: restriction.errors.count) %></h3>
-      <ul>
-        <% restriction.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: restriction) do |form| %>
+  <%= render "shared/form_errors", object: restriction %>
 
-  <div class="form-group">
-    <%= form.label :name, t("restrictions.form.name") %>
-    <%= form.text_field :name, class: "form-control" %>
+  <div class="field">
+    <%= form.label :name, t("restrictions.form.name"), class: "label" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :description, t("restrictions.form.description") %>
-    <%= form.text_area :description, class: "form-control", rows: 4 %>
+  <div class="field">
+    <%= form.label :description, t("restrictions.form.description"), class: "label" %>
+    <%= form.text_area :description, class: "textarea", rows: 4 %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :restriction_type, t("restrictions.form.restriction_type") %>
-    <%= form.select :restriction_type, Restriction.restriction_types.keys.map { |k| [t("restrictions.types.#{k}"), k] }, {}, class: "form-control" %>
+  <div class="field">
+    <%= form.label :restriction_type, t("restrictions.form.restriction_type"), class: "label" %>
+    <%= form.select :restriction_type,
+                    Restriction.restriction_types.keys.map { |k| [t("restrictions.types.#{k}"), k] },
+                    {}, class: "select" %>
+    <%# DESIGN-GAP: design splits into 4 kinds (al·lèrgens / intoleràncies / religioses /
+        preferències) as explanatory cards with implications. Only 2 enum values exist. %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :bg_color, t("restrictions.form.bg_color") %>
-    <%= form.color_field :bg_color, class: "color-input", value: restriction.bg_color || "#cccccc" %>
+  <div class="field">
+    <%= form.label :bg_color, t("restrictions.form.bg_color"), class: "label" %>
+    <%= form.color_field :bg_color, class: "input", value: restriction.bg_color || "#cccccc" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :icon_svg, t("restrictions.form.icon_svg") %>
-    <%= form.text_area :icon_svg, class: "form-control", id: "restriction_icon_svg", rows: 4 %>
+  <div class="field">
+    <%= form.label :icon_svg, t("restrictions.form.icon_svg"), class: "label" %>
+    <%= form.text_area :icon_svg, class: "textarea", id: "restriction_icon_svg", rows: 4 %>
   </div>
 
-  <div class="form-actions">
-    <%= form.submit t("restrictions.form.submit"), class: "btn-primary" %>
-    <%= link_to t("restrictions.form.cancel"), restrictions_path, class: "btn-secondary" %>
+  <%# DESIGN-GAP: design shows a "short code" (monospace, max 6 chars), severity chips,
+      and toggles for "Visible al cambrer" and "Reglamentari EFSA". None of those fields
+      exist on Restriction. %>
+
+  <div class="row mt-4">
+    <%= form.submit t("restrictions.form.submit"), class: "btn btn-primary" %>
+    <%= link_to t("restrictions.form.cancel"), restrictions_path, class: "btn btn-secondary" %>
   </div>
-  
-<% end %> 
+<% end %>

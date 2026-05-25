@@ -13,48 +13,178 @@ User.find_or_create_by!(username: "cambrer") do |u|
   u.role = :waiter
 end
 
+# --- Entrantes ---
+entrant_pa = Dish.find_or_create_by!(name: "Pa amb tomàquet") do |p|
+  p.description = "Pa torrat amb tomàquet i oli d'oliva verge"
+  p.dish_type = :entrant
+end
+
+entrant_olivas = Dish.find_or_create_by!(name: "Olivas variades") do |p|
+  p.description = "Olives de diverses varietats amb herbes aromàtiques"
+  p.dish_type = :entrant
+end
+
+entrant_jamó = Dish.find_or_create_by!(name: "Jamó ibèric") do |p|
+  p.description = "Talls de jamó ibèric de qualitat superior"
+  p.dish_type = :entrant
+end
+
+entrant_amanida = Dish.find_or_create_by!(name: "Amanida fresca") do |p|
+  p.description = "Amanida variada amb verdures de temporada"
+  p.dish_type = :entrant
+end
+
+# --- Primers (plats de pasta, arròs, etc.) ---
+primer_paella = Dish.find_or_create_by!(name: "Paella de marisco") do |p|
+  p.description = "Paella amb gamba, musclo i altres mariscos"
+  p.dish_type = :primer
+end
+
+primer_macarrons = Dish.find_or_create_by!(name: "Macarrons a la carbonara") do |p|
+  p.description = "Pasta amb salsa carbonara clàssica"
+  p.dish_type = :primer
+end
+
+primer_arros = Dish.find_or_create_by!(name: "Arròs a banda") do |p|
+  p.description = "Arròs cuinat amb brou de peix i verdures"
+  p.dish_type = :primer
+end
+
+primer_canelons = Dish.find_or_create_by!(name: "Canelons de carn") do |p|
+  p.description = "Canelons rellens de carn amb salsa de tomaquet"
+  p.dish_type = :primer
+end
+
+primer_espaguetis = Dish.find_or_create_by!(name: "Espaguetis a la bolomesa") do |p|
+  p.description = "Espaguetis amb salsa de carn picada"
+  p.dish_type = :primer
+end
+
+# --- Segons (peixos, carns, etc.) ---
+segon_salmó = Dish.find_or_create_by!(name: "Salmó a la sal") do |p|
+  p.description = "Filet de salmó cuinat a la sal amb herbes"
+  p.dish_type = :segon
+end
+
+segon_pollastre = Dish.find_or_create_by!(name: "Pollastre al forn") do |p|
+  p.description = "Pollastre rostit amb herbes aromàtiques i patates"
+  p.dish_type = :segon
+end
+
+segon_truita = Dish.find_or_create_by!(name: "Truita a la meunière") do |p|
+  p.description = "Truita fresca amb salsa de mantega i llimona"
+  p.dish_type = :segon
+end
+
+segon_vedella = Dish.find_or_create_by!(name: "Vedella amb salsa de setas") do |p|
+  p.description = "Carn de vedella cuinada amb setes i vi tinto"
+  p.dish_type = :segon
+end
+
+segon_estofat = Dish.find_or_create_by!(name: "Estofat de porc") do |p|
+  p.description = "Porc estofat amb verdures i jugo de cocció"
+  p.dish_type = :segon
+end
+
+segon_merluça = Dish.find_or_create_by!(name: "Merluça al vapor") do |p|
+  p.description = "Merluça fresca al vapor amb verduretes"
+  p.dish_type = :segon
+end
+
+# --- Postres ---
+postre_gelat = Dish.find_or_create_by!(name: "Gelat artesanal") do |p|
+  p.description = "Gelat casolà amb sabors variats: vainella, xocolata, pistacho"
+  p.dish_type = :postre
+end
+
+postre_flan = Dish.find_or_create_by!(name: "Flà tradicional") do |p|
+  p.description = "Flà clàssic amb caramel crematosquè"
+  p.dish_type = :postre
+end
+
+postre_tiramisú = Dish.find_or_create_by!(name: "Tiramisú") do |p|
+  p.description = "Postre italià amb mascarpone i cacao"
+  p.dish_type = :postre
+end
+
+postre_brownie = Dish.find_or_create_by!(name: "Brownie de xocolata") do |p|
+  p.description = "Brownie casolà amb xocolata fon al centre"
+  p.dish_type = :postre
+end
+
+postre_panna_cotta = Dish.find_or_create_by!(name: "Panna cotta") do |p|
+  p.description = "Panna cotta amb salsa de fruites del bosc"
+  p.dish_type = :postre
+end
+
+postre_tarta_formatge = Dish.find_or_create_by!(name: "Tarta de formatge") do |p|
+  p.description = "Tarta de formatge amb base de galetes"
+  p.dish_type = :postre
+end
+
+# --- Menus (creats amb els seus plats per complir la validació de tipus) ---
+
+Menu.find_or_create_by!(name: "Menú setmanal") do |m|
+  m.dishes = [ entrant_pa, primer_paella, segon_salmó, postre_gelat ]
+end
+
+Menu.find_or_create_by!(name: "Menú degustació") do |m|
+  m.dishes = [ entrant_olivas, primer_macarrons, segon_pollastre, postre_flan ]
+end
+
+Menu.find_or_create_by!(name: "Menú infantil") do |m|
+  m.dishes = [ entrant_pa, primer_macarrons, segon_pollastre, postre_gelat ]
+end
+
+# Emoji-wrapped SVG placeholder until proper vector icons are provided.
+def emoji_icon(emoji)
+  %(<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><text x="50" y="55" font-size="60" text-anchor="middle" dominant-baseline="central">#{emoji}</text></svg>)
+end
+
 # 14 Allergens according to EU Regulation
 eu_allergens = [
-  { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats.", bg_color: "#E67E22" },
-  { name: "Llet", desc: "Llet i els seus derivats (inclosa la lactosa).", bg_color: "#3498DB" },
-  { name: "Ous", desc: "Ous i productes a base d'ou.", bg_color: "#F1C40F" },
-  { name: "Peix", desc: "Peix i productes a base de peix.", bg_color: "#1ABC9C" },
-  { name: "Crustacis", desc: "Crustacis i productes a base de crustacis.", bg_color: "#E74C3C" },
-  { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs.", bg_color: "#2C3E50" },
-  { name: "Cacauets", desc: "Cacauets i productes a base de cacauets.", bg_color: "#8E44AD" },
-  { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats.", bg_color: "#D35400" },
-  { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam.", bg_color: "#95A5A6" },
-  { name: "Celerí", desc: "Api i productes derivats.", bg_color: "#27AE60" },
-  { name: "Mostassa", desc: "Mostassa i productes derivats.", bg_color: "#F39C12" },
-  { name: "Sulfits", desc: "Diòxid de sofre i sulfits (> 10 mg/kg o 10 mg/l SO2).", bg_color: "#7F8C8D" },
-  { name: "Altramús", desc: "Tramussos i productes a base de tramussos.", bg_color: "#F1C40F" },
-  { name: "Soja", desc: "Soja i productes a base de soja.", bg_color: "#2ECC71" }
+  { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats.", bg_color: "#E67E22", emoji: "🌾" },
+  { name: "Llet", desc: "Llet i els seus derivats (inclosa la lactosa).", bg_color: "#3498DB", emoji: "🥛" },
+  { name: "Ous", desc: "Ous i productes a base d'ou.", bg_color: "#F1C40F", emoji: "🥚" },
+  { name: "Peix", desc: "Peix i productes a base de peix.", bg_color: "#1ABC9C", emoji: "🐟" },
+  { name: "Crustacis", desc: "Crustacis i productes a base de crustacis.", bg_color: "#E74C3C", emoji: "🦐" },
+  { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs.", bg_color: "#2C3E50", emoji: "🦑" },
+  { name: "Cacauets", desc: "Cacauets i productes a base de cacauets.", bg_color: "#8E44AD", emoji: "🥜" },
+  { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats.", bg_color: "#D35400", emoji: "🌰" },
+  { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam.", bg_color: "#95A5A6", emoji: "🌱" },
+  { name: "Celerí", desc: "Api i productes derivats.", bg_color: "#27AE60", emoji: "🌿" },
+  { name: "Mostassa", desc: "Mostassa i productes derivats.", bg_color: "#F39C12", emoji: "🌶️" },
+  { name: "Sulfits", desc: "Diòxid de sofre i sulfits (> 10 mg/kg o 10 mg/l SO2).", bg_color: "#7F8C8D", emoji: "🍷" },
+  { name: "Altramús", desc: "Tramussos i productes a base de tramussos.", bg_color: "#F1C40F", emoji: "🫘" },
+  { name: "Soja", desc: "Soja i productes a base de soja.", bg_color: "#2ECC71", emoji: "🌱" }
 ]
 
 eu_allergens.each do |allergen|
-  Restriction.find_or_create_by!(name: allergen[:name]) do |r|
-    r.restriction_type = :intolerance_allergy
-    r.description = allergen[:desc]
-    r.bg_color = allergen[:bg_color]
-  end
+  r = Restriction.find_or_initialize_by(name: allergen[:name])
+  r.restriction_type = :intolerance_allergy
+  r.description = allergen[:desc]
+  r.bg_color = allergen[:bg_color]
+  r.icon_svg = emoji_icon(allergen[:emoji])
+  r.save!
 end
 
 # Religious Restrictions
 religious_restrictions = [
-  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085" },
-  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9" },
-  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22" },
-  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12" },
-  { name: "Vegà", desc: "Sense cap producte d'origen animal.", bg_color: "#27AE60" },
-  { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71" }
+  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌" },
+  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️" },
+  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️" },
+  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12", emoji: "☸️" },
+  { name: "Vegà", desc: "Sense cap producte d'origen animal.", bg_color: "#27AE60", emoji: "🌿" },
+  { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71", emoji: "🥗" }
 ]
 
 religious_restrictions.each do |restriction|
-  Restriction.find_or_create_by!(name: restriction[:name]) do |r|
-    r.restriction_type = :religious
-    r.description = restriction[:desc]
-    r.bg_color = restriction[:bg_color]
-  end
+  r = Restriction.find_or_initialize_by(name: restriction[:name])
+  r.restriction_type = :religious
+  r.description = restriction[:desc]
+  r.bg_color = restriction[:bg_color]
+  r.icon_svg = emoji_icon(restriction[:emoji])
+  r.save!
 end
 
 # --- Ingredients ---
@@ -82,5 +212,20 @@ ingredients_data.each do |data|
   data[:restrictions].each do |restriction_name|
     restriction = Restriction.find_by!(name: restriction_name)
     IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
+  end
+end
+
+# --- Protocols ---
+
+protocols_data = [
+  { name: "Protocol de Contaminació Creuada", description: "Mesures estrictes per evitar la contaminació creuada amb al·lèrgens a la cuina.", bg_color: "#E74C3C" },
+  { name: "Protocol de Neteja", description: "Passos a seguir per la neteja d'estris abans de preparar plats per celíacs.", bg_color: "#3498DB" },
+  { name: "Protocol d'Emergència Mèdica", description: "Procediment d'actuació ràpida en cas d'un xoc anafilàctic.", bg_color: "#E67E22" }
+]
+
+protocols_data.each do |data|
+  Protocol.find_or_create_by!(name: data[:name]) do |p|
+    p.description = data[:description]
+    p.bg_color = data[:bg_color]
   end
 end

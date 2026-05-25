@@ -3,10 +3,29 @@ class IngredientsController < ApplicationController
   before_action :require_kitchen_manager_or_above!, except: %i[index show]
 
   def index
-    @ingredients = Ingredient.search(params[:search]).order(:name)
+    @ingredients = Ingredient
+      .search(params[:search])
+      .with_restrictions(params[:include_restrictions])
+      .without_restrictions(params[:exclude_restrictions])
+      .order(:name)
+    @restrictions = Restriction.order(:name)
   end
 
   def show
+    return unless current_user.admin? || current_user.kitchen_manager?
+
+    candidates = Ingredient.includes(:restrictions).where.not(id: @ingredient.id).order(:name)
+
+    ingredient_restriction_ids = @ingredient.restriction_ids
+    current_alternative_ids = @ingredient.alternative_ids
+    # Picker candidates: every non-self ingredient that either is already
+    # an alternative (so it can be unticked) or satisfies the no-new-
+    # restrictions rule. Uses the eager-loaded `restrictions` association
+    # to avoid N+1.
+    @alternative_ingredients = candidates.select do |candidate|
+      current_alternative_ids.include?(candidate.id) ||
+        (candidate.restrictions.map(&:id) - ingredient_restriction_ids).empty?
+    end
   end
 
   def new

@@ -1,0 +1,57 @@
+<% content_for :title, @dish.name %>
+
+<%= render "shared/topbar", title: @dish.name,
+    subtitle: breadcrumb([t("dishes.index.title"), dishes_path], [@dish.name, nil]) do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= button_to dish_path(@dish), method: :delete,
+                  class: "btn btn-secondary btn-sm",
+                  form: { data: { turbo_confirm: t("dishes.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("dishes.show.delete") %>
+    <% end %>
+    <%= link_to edit_dish_path(@dish), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("dishes.show.edit") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("dishes.show.description") %></h3></div>
+    <div class="card-body">
+      <% if @dish.description.present? %>
+        <%= simple_format(@dish.description) %>
+      <% else %>
+        <span class="muted"><%= t("dishes.show.no_ingredients") %></span>
+      <% end %>
+    </div>
+  </div>
+
+  <%# DESIGN-GAP: design shows ingredients split into "imprescindibles" vs "substituïbles"
+      with a red/green sidebar. That requires a `essential` boolean on DishIngredient
+      (planned per CLAUDE.md domain model but not implemented yet). Showing a flat list. %>
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("dishes.show.ingredients") %></h3></div>
+    <% if @dish.ingredients.any? %>
+      <% @dish.ingredients.each do |ingredient| %>
+        <%= link_to ingredient_path(ingredient), class: "card-row is-link" do %>
+          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
+            <%= serf_icon(:leaf) %>
+          </span>
+          <div class="grow">
+            <div class="strong"><%= ingredient.name %></div>
+            <% if ingredient.restrictions.any? %>
+              <div class="row mt-2">
+                <% ingredient.restrictions.each do |restriction| %>
+                  <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="card-body muted"><%= t("dishes.show.no_ingredients") %></div>
+    <% end %>
+  </div>
+</div>

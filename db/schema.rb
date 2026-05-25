@@ -10,7 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_11_130000) do
+  create_table "dish_ingredients", force: :cascade do |t|
+    t.integer "dish_id", null: false
+    t.integer "ingredient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id", "ingredient_id"], name: "index_dish_ingredients_on_dish_id_and_ingredient_id", unique: true
+    t.index ["dish_id"], name: "index_dish_ingredients_on_dish_id"
+    t.index ["ingredient_id"], name: "index_dish_ingredients_on_ingredient_id"
+  end
+
+  create_table "dishes", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "dish_type", default: 0, null: false
+  end
+
+  create_table "ingredient_alternatives", force: :cascade do |t|
+    t.integer "ingredient_id", null: false
+    t.integer "alternative_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alternative_id"], name: "index_ingredient_alternatives_on_alternative_id"
+    t.index ["ingredient_id", "alternative_id"], name: "idx_on_ingredient_id_alternative_id_d7c7e5c594", unique: true
+    t.index ["ingredient_id"], name: "index_ingredient_alternatives_on_ingredient_id"
+    t.check_constraint "ingredient_id != alternative_id", name: "ingredient_alternative_not_self"
+  end
+
   create_table "ingredient_restrictions", force: :cascade do |t|
     t.integer "ingredient_id", null: false
     t.integer "restriction_id", null: false
@@ -27,6 +56,32 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_ingredients_on_name", unique: true
+  end
+
+  create_table "menu_dishes", force: :cascade do |t|
+    t.integer "menu_id", null: false
+    t.integer "dish_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_menu_dishes_on_dish_id"
+    t.index ["menu_id", "dish_id"], name: "index_menu_dishes_on_menu_id_and_dish_id", unique: true
+    t.index ["menu_id"], name: "index_menu_dishes_on_menu_id"
+  end
+
+  create_table "menus", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "protocols", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "bg_color"
+    t.text "icon_svg"
+    t.index ["name"], name: "index_protocols_on_name", unique: true
   end
 
   create_table "restrictions", force: :cascade do |t|
@@ -51,6 +106,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_13_222514) do
     t.check_constraint "role IN (0, 1, 2)", name: "chk_users_role"
   end
 
+  add_foreign_key "dish_ingredients", "dishes"
+  add_foreign_key "dish_ingredients", "ingredients"
+  add_foreign_key "ingredient_alternatives", "ingredients"
+  add_foreign_key "ingredient_alternatives", "ingredients", column: "alternative_id"
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
+  add_foreign_key "menu_dishes", "dishes"
+  add_foreign_key "menu_dishes", "menus"
 end

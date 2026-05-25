@@ -1,28 +1,45 @@
-<div class="page-card">
-  <div class="detail-header">
-    <div class="restriction-icon" style="--bg-color: <%= @restriction.bg_color.presence || '#7bc143' %>">
-      <% if @restriction.icon_svg.present? %>
-        <%= safe_svg(@restriction.icon_svg) %>
-      <% else %>
-        <span><%= @restriction.name[0..2].upcase %></span>
-      <% end %>
-    </div>
-    <h1><%= @restriction.name %></h1>
-    <span class="badge badge-<%= @restriction.restriction_type %>">
-      <%= t("restrictions.types.#{@restriction.restriction_type}") %>
-    </span>
-  </div>
+<% content_for :title, @restriction.name %>
 
-  <div class="desc-box">
-    <h3><%= t("restrictions.show.description_title") %></h3>
-    <p class="desc-text"><%= @restriction.description.presence || t("restrictions.show.no_description") %></p>
-  </div>
-
-  <div class="detail-actions">
-    <% if current_user.admin? || current_user.kitchen_manager? %>
-      <%= link_to t("restrictions.show.edit"), edit_restriction_path(@restriction), class: "btn-primary" %>
-      <%= button_to t("restrictions.show.delete"), @restriction, method: :delete, class: "btn-danger", form: { data: { turbo_confirm: t("restrictions.show.confirm_delete") } } %>
+<%= render "shared/topbar", title: @restriction.name,
+    subtitle: breadcrumb([t("restrictions.index.title"), restrictions_path], [@restriction.name, nil]) do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= button_to restriction_path(@restriction), method: :delete,
+                  class: "btn btn-secondary btn-sm",
+                  form: { data: { turbo_confirm: t("restrictions.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("restrictions.show.delete") %>
     <% end %>
-    <%= link_to t("restrictions.show.back"), restrictions_path, class: "btn-secondary" %>
+    <%= link_to edit_restriction_path(@restriction), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("restrictions.show.edit") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-body row">
+      <span class="restr-bubble" style="--restr-bg: <%= @restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
+        <% if @restriction.icon_svg.present? %>
+          <%= restriction_icon_svg(@restriction.icon_svg) %>
+        <% else %>
+          <%= @restriction.name.first(4).upcase %>
+        <% end %>
+      </span>
+      <div class="grow">
+        <div class="strong"><%= @restriction.name %></div>
+        <div class="tag tag-<%= restriction_tag_kind(@restriction) %> mt-2">
+          <%= t("restrictions.types.#{@restriction.restriction_type}") %>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("restrictions.show.description_title") %></h3></div>
+    <div class="card-body"><%= @restriction.description.presence || content_tag(:span, t("restrictions.show.no_description"), class: "muted") %></div>
+  </div>
+
+  <%# DESIGN-GAP: design also shows "plats afectats" (with sub/no-sub status) and
+      "ingredients que la contenen" panels. Ingredients ARE available via the
+      association; "plats afectats" would require traversing ingredients→dishes
+      and the `essential` flag for the no-sub status. Not implemented. %>
 </div>

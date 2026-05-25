@@ -2,12 +2,27 @@
 ca:
   activerecord:
     attributes:
+      protocol:
+        description: Descripció
+        name: Nom
       user:
         password: Contrasenya
         password_confirmation: Confirmar contrasenya
+    errors:
+      models:
+        ingredient_alternative:
+          attributes:
+            alternative:
+              cannot_add_restrictions: no pot afegir noves restriccions respecte l'ingredient original
+    models:
+      protocol:
+        one: Protocol
+        other: Protocols
   app_name: Serf
   authorization:
     not_authorized: No tens permís per accedir a aquesta pàgina.
+  breadcrumb:
+    label: Navegació
   devise:
     failure:
       already_authenticated: Ja has iniciat la sessió.
@@ -20,6 +35,40 @@ ca:
       already_signed_out: Sessió tancada correctament.
       signed_in: Sessió iniciada correctament.
       signed_out: Sessió tancada correctament.
+  dishes:
+    edit:
+      title: Editar plat
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      dish_type: Tipus de plat
+      ingredients: Ingredients
+      name: Nom del plat
+      submit_create: Crear plat
+      submit_update: Desar canvis
+    index:
+      new_dish: Nou plat
+      no_dishes: No s'han trobat plats.
+      search_placeholder: Cerca un plat
+      title: Plats
+    messages:
+      created_success: Plat creat correctament.
+      destroyed_success: Plat eliminat correctament.
+      updated_success: Plat actualitzat correctament.
+    new:
+      title: Nou plat
+    show:
+      confirm_delete: Segur que vols eliminar aquest plat?
+      delete: Eliminar plat
+      description: Descripció
+      edit: Editar
+      ingredients: Ingredients
+      no_ingredients: Aquest plat no té ingredients associats
+    types:
+      entrant: Entrant
+      postre: Postre
+      primer: Primer plat
+      segon: Segon plat
   errors:
     form_header:
       one: '1 error ha impedit guardar:'
@@ -37,37 +86,52 @@ ca:
       too_short:
         one: és massa curt (mínim 1 caràcter)
         other: és massa curt (mínim %{count} caràcters)
+    template:
+      header:
+        one: '1 error ha impedit guardar:'
+        other: "%{count} errors han impedit guardar:"
+  filters:
+    clear: Esborra filtres
+    exclude: Exclou
+    include: Inclou
   flash:
     alert: alert
     notice: notice
   home:
     index:
+      add_dish: Afegir plat
       add_ingredient: Afegir ingredient
+      add_menu: Afegir menú
+      add_protocol: Afegir protocol
       add_restriction: Afegir restricció
       add_user: Afegir usuari
-      ingredients_description: Crea i gestiona els ingredients del restaurant amb les seves restriccions alimentàries.
-      ingredients_management: Gestió d'Ingredients
-      manage_ingredients: Gestionar ingredients
-      manage_restrictions: Gestionar restriccions
-      manage_users: Gestionar usuaris
-      restrictions_description: Gestiona les restriccions alimentàries i religioses del sistema.
-      restrictions_management: Gestió de Restriccions
+      dashboard_title: Tauler de control
+      kpis:
+        dishes: Plats actius
+        dishes_trend_placeholder: Total al catàleg
+        menus: Menús publicats
+        menus_trend_placeholder: Total al catàleg
+        restrictions: Restriccions
+        restrictions_trend: Catàleg complet
+        users: Personal
+        users_trend_placeholder: Total registrat
+      no_activity_yet: Encara no hi ha activitat registrada.
+      quick_access: Accés ràpid
+      recent_activity: Activitat recent
       title: Serf
-      user_management: Gestió d'Usuaris
-      users_description: Administra els usuaris del sistema.
       waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
       waiter_features: Funcionalitats del Cambrer
       welcome: Benvingut, %{username}!
+  ingredient_alternatives:
+    create:
+      success: Alternativa afegida correctament.
+    destroy:
+      success: Alternativa eliminada correctament.
+    update_collection:
+      success: Alternatives desades correctament.
   ingredients:
     create:
       success: Ingredient creat correctament.
-    delete:
-      action: Acció
-      back: Tornar a ingredients
-      confirm_delete: Segur que vols eliminar aquest ingredient?
-      delete: Eliminar
-      no_ingredients: No hi ha ingredients per eliminar.
-      title: Eliminar ingredients
     destroy:
       success: Ingredient eliminat correctament.
     edit:
@@ -81,7 +145,7 @@ ca:
       submit_create: Crear ingredient
       submit_update: Desar canvis
     index:
-      new_ingredient: "+ Nou ingredient"
+      new_ingredient: Nou ingredient
       no_ingredients: No s'han trobat ingredients.
       no_restrictions: Cap restricció
       search_placeholder: Cerca un ingredient
@@ -89,17 +153,82 @@ ca:
     new:
       title: Nou ingredient
     show:
-      back: Tornar
+      allergen_badge: Al·lergen
+      alternatives_title: Alternatives
       confirm_delete: Segur que vols eliminar aquest ingredient?
       delete: Eliminar
+      delete_warning:
+        one: Si elimines aquest ingredient, 1 plat que el conté quedarà marcat per revisió manual.
+        other: Si elimines aquest ingredient, els %{count} plats que el contenen quedaran marcats per revisió manual.
+      details: Detalls
+      did_you_know: Saps que…?
       edit: Editar dades
+      linked_dishes: Plats vinculats
+      linked_restrictions: Restriccions vinculades
+      no_alternatives: Encara no hi ha alternatives associades.
+      no_available_alternatives: No hi ha ingredients disponibles com a alternativa.
       no_restrictions: Cap restricció alimentària associada
-      restrictions: Restriccions alimentàries
+      not_used_in_dishes: Aquest ingredient no s'utilitza en cap plat
+      restrictions: Restriccions associades
+      save_alternatives: Desa les alternatives
+      used_in_dishes: Plats que el contenen
     update:
       success: Ingredient actualitzat correctament.
   layouts:
     login:
       title: Serf — Inicia la sessió
+  login_page:
+    headline_html: Cuina sense errors,<br>menús per a tothom.
+    subhead: Gestió de plats, ingredients i restriccions per al grup de restaurants Cal Blay.
+  menus:
+    coverage:
+      gluten: Sense gluten
+      lactose: Sense lactosa
+      vegan: Vegà
+      vegetarian: Vegetarià
+    edit:
+      title: Editar menú
+    errors:
+      missing_dish_type: El menú ha de tenir un plat de tipus %{type}
+    form:
+      cancel: Cancel·lar
+      dishes: Plats
+      name: Nom del menú
+      submit_create: Crear menú
+      submit_update: Desar canvis
+    index:
+      new_menu: Nou menú
+      no_menus: No s'han trobat menús.
+      search_placeholder: Cerca un menú
+      title: Menús
+    messages:
+      created_success: Menú creat correctament.
+      destroyed_success: Menú eliminat correctament.
+      updated_success: Menú actualitzat correctament.
+    new:
+      title: Nou menú
+    show:
+      confirm_delete: Segur que vols eliminar aquest menú?
+      coverage_hint: 'Aproximació: un plat compta com a compatible si cap dels seus ingredients porta la restricció. Sense el camp ''essencial'' a DishIngredient no podem distingir adaptable de bloquejant.'
+      coverage_title: Cobertura de restriccions
+      delete: Eliminar menú
+      detail_last_edited: Última edició
+      detail_restaurant: Restaurant
+      detail_validity: Vigència
+      details: Detalls
+      dishes: Plats del menú
+      edit: Editar
+      kpi_dishes: Plats
+      kpi_price: Preu
+      kpi_sections: Seccions
+      kpi_validity: Vigència
+      no_dishes: Aquest menú no té plats associats
+  pickers:
+    none: Cap resultat per a aquesta cerca.
+    only_selected: Només seleccionats
+    search_placeholder: Cerca…
+    selected_one: 1 seleccionat
+    selected_other: "%{count} seleccionats"
   profile:
     edit:
       current_password: Contrasenya actual
@@ -115,6 +244,28 @@ ca:
     update:
       invalid_current_password: La contrasenya actual no és correcta.
       success: Contrasenya actualitzada correctament.
+  protocols:
+    edit:
+      title: Editar Protocol
+    form:
+      cancel: Cancel·lar
+      submit: Guardar canvis
+    index:
+      create: Nou protocol
+      empty: Encara no hi ha protocols guardats.
+      search_placeholder: Cerca un protocol
+      title: Protocols
+    messages:
+      created_success: Protocol creat correctament.
+      destroyed_success: Protocol eliminat correctament.
+      updated_success: Protocol actualitzat correctament.
+    new:
+      title: Crear Nou Protocol
+    show:
+      confirm_delete: Estàs segur que vols eliminar aquest protocol?
+      delete: Eliminar Protocol
+      edit: Editar
+      no_description: Sense descripció addicional.
   restrictions:
     edit:
       title: Editar Restricció
@@ -136,38 +287,33 @@ ca:
     new:
       title: Crear Nova Restricció
     show:
-      back: Tornar
       confirm_delete: Estàs segur que vols eliminar aquesta restricció?
       delete: Eliminar Restricció
       description_title: Descripció de la restricció
       edit: Editar
       no_description: Sense descripció addicional.
-      restriction_type: Tipus
     types:
       intolerance_allergy: Intolerància/Al·lèrgia
       religious: Religiosa
   sessions:
     new:
-      password_placeholder: Contrassenya
+      authorized_only_note: L'accés és per a personal autoritzat. Contacta amb un administrador per crear un compte nou.
       submit: Entra
+      subtitle: Identifica't amb el teu usuari de Cal Blay.
       title: Inicia la sessió
-      username_placeholder: ID d'usuari
   sidebar:
-    add_ingredient: Afegir ingredient
-    alternatives: Alternatives freqüents
+    close: Tanca el menú
     dashboard: Inici
+    dishes: Plats
     emergencies: Emergències
-    glossary: Glossari
     ingredients: Ingredients
     logout: Tancar sessió
-    menu: Menú
-    new_restriction: "+ Nova restricció"
+    menus: Menús
+    new_restriction: Nova restricció
     personal: Personal
-    placeholder: Placeholder
-    profile: El meu perfil
     protocols: Protocols
-    remove_ingredient: Eliminar ingredients
     restrictions: Restriccions
+    toggle: Obrir menú lateral
   users:
     create:
       success: Usuari creat correctament.
@@ -188,7 +334,6 @@ ca:
     index:
       new_user: Nou usuari
       no_users: No s'han trobat usuaris.
-      search_alt: Cercar
       search_placeholder: Cerca un usuari
       title: Personal
     new:
@@ -204,3 +349,6 @@ ca:
       title: Detalls de l'usuari
     update:
       success: Usuari actualitzat correctament.
+  views:
+    grid: Vista en quadrícula
+    list: Vista en llista

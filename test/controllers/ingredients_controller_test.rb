@@ -62,6 +62,52 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, ingredient.name
   end
 
+  test "kitchen_manager sees alternatives picker on show" do
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "form[action=?][method=?]", alternatives_ingredient_path(ingredient), "post"
+    assert_select "input[type='checkbox'][name='alternative_ids[]'][value=?]", alternative.id.to_s
+  end
+
+  test "alternatives picker excludes candidates that add restrictions" do
+    ingredient = ingredients(:bread)
+    allowed = ingredients(:milk)
+
+    kosher = restrictions(:kosher)
+    disallowed = Ingredient.create!(name: "Pork #{Time.current.to_i}")
+    IngredientRestriction.create!(ingredient: disallowed, restriction: kosher)
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "input[type='checkbox'][name='alternative_ids[]'][value=?]", allowed.id.to_s
+    assert_select "input[type='checkbox'][name='alternative_ids[]'][value=?]", disallowed.id.to_s, count: 0
+  end
+
+  test "waiter does not see alternatives picker on show" do
+    sign_in @waiter
+
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "form[action=?]", alternatives_ingredient_path(ingredient), count: 0
+    assert_select "input[name='alternative_ids[]']", count: 0
+  end
+
+  test "show displays alternatives for all roles" do
+    sign_in @waiter
+
+    ingredient = Ingredient.create!(name: "Bread #{Time.current.to_i}")
+    alternative = Ingredient.create!(name: "Milk #{Time.current.to_i}")
+    IngredientAlternative.create!(ingredient: ingredient, alternative: alternative)
+
+    get ingredient_url(ingredient)
+    assert_response :success
+    assert_select "a", text: alternative.name
+  end
+
   test "edit renders form" do
     ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
     get edit_ingredient_url(ingredient)

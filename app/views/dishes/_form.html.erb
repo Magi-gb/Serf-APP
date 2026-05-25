@@ -1,0 +1,78 @@
+<%= form_with(model: dish) do |form| %>
+  <%= render "shared/form_errors", object: dish %>
+
+  <div class="field">
+    <%= form.label :name, t("dishes.form.name"), class: "label" %>
+    <%= form.text_field :name, class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, t("dishes.form.description"), class: "label" %>
+    <%= form.text_area :description, class: "textarea", rows: 4 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :dish_type, t("dishes.form.dish_type"), class: "label" %>
+    <%= form.select :dish_type,
+                    Dish.dish_types.keys.map { |k| [t("dishes.types.#{k}"), k] },
+                    {}, class: "select" %>
+  </div>
+
+  <%# DESIGN-GAP: design lets the form mark each ingredient as "imprescindible / substituïble".
+      That maps to a future `essential` boolean on DishIngredient (already in the planned model
+      per CLAUDE.md). Until added, the form only attaches ingredients without that classification. %>
+  <fieldset class="field picker"
+            data-controller="picker"
+            data-picker-singular-value="<%= t("pickers.selected_one") %>"
+            data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
+    <legend class="label"><%= t("dishes.form.ingredients") %></legend>
+
+    <div class="picker-toolbar">
+      <div class="picker-search search">
+        <span class="search-icon"><%= serf_icon(:search) %></span>
+        <input type="search"
+               class="input"
+               placeholder="<%= t("pickers.search_placeholder") %>"
+               data-picker-target="search"
+               data-action="input->picker#refresh keydown->picker#preventSubmit">
+      </div>
+      <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+      <button type="button"
+              class="chip"
+              aria-pressed="false"
+              data-picker-target="onlySelected"
+              data-action="click->picker#toggleOnlySelected">
+        <%= t("pickers.only_selected") %>
+      </button>
+    </div>
+
+    <div class="checkbox-cards">
+      <% @ingredients.each do |ingredient| %>
+        <% search_text = ([ ingredient.name ] + ingredient.restrictions.map(&:name)).join(" ") %>
+        <label class="checkbox-card"
+               data-picker-target="item"
+               data-search-text="<%= search_text %>">
+          <%= form.check_box :ingredient_ids,
+                              { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
+                              ingredient.id, nil %>
+          <span><%= ingredient.name %></span>
+          <% if ingredient.restrictions.any? %>
+            <span class="row">
+              <% ingredient.restrictions.first(3).each do |restriction| %>
+                <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+              <% end %>
+            </span>
+          <% end %>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
+  </fieldset>
+
+  <div class="row mt-4">
+    <%= form.submit dish.new_record? ? t("dishes.form.submit_create") : t("dishes.form.submit_update"),
+                    class: "btn btn-primary" %>
+    <%= link_to t("dishes.form.cancel"), dishes_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

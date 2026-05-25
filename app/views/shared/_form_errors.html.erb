@@ -1,0 +1,11 @@
+<%# Standard error block. Locals: object %>
+<% if object.errors.any? %>
+  <div class="alert-error">
+    <h3><%= t("errors.form_header", count: object.errors.count) %></h3>
+    <ul>
+      <% object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
