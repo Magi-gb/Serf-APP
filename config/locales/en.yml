@@ -51,6 +51,7 @@ en:
       no_dishes: No dishes found.
       search_placeholder: Search dish
       title: Dishes
+      types_filter: Type
     messages:
       created_success: Dish created successfully.
       destroyed_success: Dish deleted successfully.

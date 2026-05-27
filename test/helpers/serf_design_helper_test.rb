@@ -91,4 +91,51 @@ class SerfDesignHelperTest < ActionView::TestCase
     assert_match(/class="chip"/, html)
     refute_match(/chip-include|chip-exclude/, html)
   end
+
+  # ---- select_param_link (binary toggle, single array param) ----
+
+  def call_select_helper(request, target: "entrant", param: "dish_types")
+    select_param_link("Entrant", target: target, param: param, request: request)
+  end
+
+  test "select_param_link: neutral target adds the value to the param" do
+    html = call_select_helper(build_request)
+
+    assert_nil data_state_of(html)
+    assert_equal "/ingredients?dish_types%5B%5D=entrant", href_of(html)
+  end
+
+  test "select_param_link: active target removes the value from the param" do
+    html = call_select_helper(build_request("dish_types%5B%5D=entrant"))
+
+    assert_equal "include", data_state_of(html)
+    # Only value -> empty param -> URL without query string
+    assert_equal "/ingredients", href_of(html)
+  end
+
+  test "select_param_link: removing one value preserves the others" do
+    html = call_select_helper(build_request("dish_types%5B%5D=entrant&dish_types%5B%5D=postre"))
+    url = href_of(html)
+
+    assert_includes url, "dish_types%5B%5D=postre"
+    refute_includes url, "dish_types%5B%5D=entrant"
+  end
+
+  test "select_param_link: preserves unrelated query params" do
+    html = call_select_helper(build_request("search=foo&view=grid"))
+    url = href_of(html)
+
+    assert_includes url, "search=foo"
+    assert_includes url, "view=grid"
+    assert_includes url, "dish_types%5B%5D=entrant"
+  end
+
+  test "select_param_link: renders chip-include class only when active" do
+    active = call_select_helper(build_request("dish_types%5B%5D=entrant"))
+    neutral = call_select_helper(build_request)
+
+    assert_match(/class="chip chip-include"/, active)
+    assert_match(/class="chip"/, neutral)
+    refute_match(/chip-include/, neutral)
+  end
 end

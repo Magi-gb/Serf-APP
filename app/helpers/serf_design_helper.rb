@@ -208,6 +208,29 @@ module SerfDesignHelper
     )
   end
 
+  # Build a link that toggles a value into / out of a single array
+  # query param. Binary semantics (selected / not selected) — no
+  # exclude state. Used by filter rows whose options are mutually
+  # non-exclusive but where excluding a value makes no sense
+  # (e.g. dish-type filter on the dishes index).
+  def select_param_link(label, target:, param:, request:)
+    target = target.to_s
+    current = Array(request.query_parameters[param]).map(&:to_s)
+    active = current.include?(target)
+    next_values = active ? current - [ target ] : current + [ target ]
+
+    new_params = request.query_parameters.except(param)
+    new_params[param] = next_values if next_values.any?
+    path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
+
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-include" if active) ].compact,
+      "data-state": (active ? "include" : nil)
+    )
+  end
+
   private
 
   # Build the params hash for a view-toggle link: drops the view param when it
