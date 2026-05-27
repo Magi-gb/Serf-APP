@@ -92,8 +92,11 @@ en:
         other: "%{count} errors prevented saving:"
   filters:
     clear: Clear filters
-    exclude: Exclude
-    include: Include
+    dietary_restrictions: Restrictions
+    next_action:
+      exclude: Click to include
+      include: Click to clear filter
+      neutral: Click to exclude
   flash:
     alert: alert
     notice: notice

@@ -254,12 +254,12 @@
   border-radius: var(--r-sm);
 }
 .serf-design .chip-clear:hover { color: var(--text-strong); background: var(--surface-hover); }
-.serf-design .chip[data-mode="include"][aria-pressed="true"] {
+.serf-design .chip[data-state="include"] {
   background: var(--accent-green);
   border-color: var(--accent-green);
   color: var(--surface-raised);
 }
-.serf-design .chip[data-mode="exclude"][aria-pressed="true"] {
+.serf-design .chip[data-state="exclude"] {
   background: var(--brand-red);
   border-color: var(--brand-red);
   color: var(--text-on-brand);

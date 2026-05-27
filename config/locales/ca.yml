@@ -92,8 +92,11 @@ ca:
         other: "%{count} errors han impedit guardar:"
   filters:
     clear: Esborra filtres
-    exclude: Exclou
-    include: Inclou
+    dietary_restrictions: Restriccions
+    next_action:
+      exclude: Clic per incloure
+      include: Clic per esborrar el filtre
+      neutral: Clic per excloure
   flash:
     alert: alert
     notice: notice
