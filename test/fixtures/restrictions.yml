@@ -9,3 +9,9 @@ kosher:
   restriction_type: 1
   description: Kosher requirements
   bg_color: "#5E78E6"
+
+lactose:
+  name: Lactose
+  restriction_type: 0
+  description: Contains lactose
+  bg_color: "#A8D5BA"

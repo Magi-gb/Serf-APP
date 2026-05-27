@@ -1,3 +1,7 @@
 bread_gluten:
   ingredient: bread
   restriction: gluten
+
+yogurt_lactose:
+  ingredient: yogurt
+  restriction: lactose

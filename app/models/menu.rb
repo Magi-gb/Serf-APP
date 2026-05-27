@@ -10,6 +10,22 @@ class Menu < ApplicationRecord
   validate :must_have_one_dish_of_each_type
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
+  scope :with_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    joins(dishes: { ingredients: :ingredient_restrictions })
+      .where(ingredient_restrictions: { restriction_id: ids })
+      .distinct
+  }
+  scope :without_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    where.not(
+      id: joins(dishes: { ingredients: :ingredient_restrictions })
+            .where(ingredient_restrictions: { restriction_id: ids })
+            .select(:id)
+    )
+  }
 
   private
 
