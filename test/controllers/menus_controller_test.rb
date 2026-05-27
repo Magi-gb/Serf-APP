@@ -184,6 +184,36 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Menú Admin", @menu.reload.name
   end
 
+  # --- exclusion filter ---
+
+  test "index without filter shows all menus" do
+    get menus_url
+    assert_response :success
+    assert_includes response.body, menus(:weekly_menu).name
+    assert_includes response.body, menus(:tasting_menu).name
+  end
+
+  test "index with exclusion filter hides menus containing the restriction" do
+    # weekly_menu has olivas → bread → gluten; tasting_menu does not
+    get menus_url, params: { exclude_restrictions: [ restrictions(:gluten).id ] }
+    assert_response :success
+    assert_not_includes response.body, menus(:weekly_menu).name
+    assert_includes response.body, menus(:tasting_menu).name
+  end
+
+  test "index with exclusion filter on unused restriction shows all menus" do
+    get menus_url, params: { exclude_restrictions: [ restrictions(:kosher).id ] }
+    assert_response :success
+    assert_includes response.body, menus(:weekly_menu).name
+    assert_includes response.body, menus(:tasting_menu).name
+  end
+
+  test "index loads restrictions for filter chips" do
+    get menus_url
+    assert_response :success
+    assert_includes response.body, restrictions(:gluten).name
+  end
+
   test "show displays menu dishes" do
     menu = menus(:weekly_menu)
     get menu_url(menu)
