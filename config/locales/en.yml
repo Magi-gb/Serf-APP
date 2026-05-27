@@ -229,6 +229,17 @@ en:
     search_placeholder: Search…
     selected_one: 1 selected
     selected_other: "%{count} selected"
+  preparations:
+    index:
+      empty: No preparations saved yet.
+      title: Preparations
+    messages:
+      destroyed_success: Preparation deleted successfully.
+    show:
+      confirm_delete: Are you sure you want to delete this preparation?
+      delete: Delete Preparation
+      description_title: Preparation description
+      no_description: No additional description.
   profile:
     edit:
       current_password: Current password
@@ -311,6 +322,7 @@ en:
     menus: Menus
     new_restriction: New restriction
     personal: Staff
+    preparations: Preparations
     protocols: Protocols
     restrictions: Restrictions
     toggle: Open sidebar menu

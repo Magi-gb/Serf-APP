@@ -1,0 +1,24 @@
+<% content_for :title, t("preparations.index.title") %>
+
+<%= render "shared/topbar", title: t("preparations.index.title") do %>
+<% end %>
+
+<div class="content">
+  <% if @preparations.any? %>
+    <div class="card">
+      <% @preparations.each do |preparation| %>
+        <%= link_to preparation_path(preparation), class: "card-row is-link" do %>
+          <div class="grow">
+            <div class="strong"><%= preparation.name %></div>
+            <% if preparation.description.present? %>
+              <div class="muted mt-1"><%= preparation.description %></div>
+            <% end %>
+          </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="empty-state"><%= t("preparations.index.empty") %></div>
+  <% end %>
+</div>

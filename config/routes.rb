@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :restrictions
   resources :dishes
   resources :protocols, constraints: { id: /\d+/ }
+  resources :preparations, constraints: { id: /\d+/ }, only: %i[index show destroy]
 
   root "home#index"
 end

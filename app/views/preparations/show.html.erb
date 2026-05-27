@@ -1,0 +1,19 @@
+<% content_for :title, @preparation.name %>
+
+<%= render "shared/topbar", title: @preparation.name,
+    subtitle: breadcrumb([t("preparations.index.title"), preparations_path], [@preparation.name, nil]) do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= button_to preparation_path(@preparation), method: :delete,
+                  class: "btn btn-secondary btn-sm",
+                  form: { data: { turbo_confirm: t("preparations.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("preparations.show.delete") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-header"><h3 class="card-title"><%= t("preparations.show.description_title") %></h3></div>
+    <div class="card-body"><%= @preparation.description.presence || content_tag(:span, t("preparations.show.no_description"), class: "muted") %></div>
+  </div>
+</div>
