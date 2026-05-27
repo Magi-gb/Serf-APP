@@ -259,10 +259,18 @@
   border-color: var(--accent-green);
   color: var(--surface-raised);
 }
+.serf-design .chip[data-state="include"]:hover {
+  background: color-mix(in oklch, var(--accent-green) 80%, white);
+  border-color: color-mix(in oklch, var(--accent-green) 80%, white);
+}
 .serf-design .chip[data-state="exclude"] {
   background: var(--brand-red);
   border-color: var(--brand-red);
   color: var(--text-on-brand);
+}
+.serf-design .chip[data-state="exclude"]:hover {
+  background: color-mix(in oklch, var(--brand-red) 80%, white);
+  border-color: color-mix(in oklch, var(--brand-red) 80%, white);
 }
 
 /* ===== Profile card limit ===== */
