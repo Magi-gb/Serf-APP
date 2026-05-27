@@ -16,7 +16,7 @@
     <%= form.select :restriction_type,
                     Restriction.restriction_types.keys.map { |k| [t("restrictions.types.#{k}"), k] },
                     {}, class: "select" %>
-    <%# DESIGN-GAP: design splits into 4 kinds (al·lèrgens / intoleràncies / religioses /
+    <%# DESIGN-GAP: design splits into 4 kinds (al·lèrgens / intoleràncies / dieta /
         preferències) as explanatory cards with implications. Only 2 enum values exist. %>
   </div>
 

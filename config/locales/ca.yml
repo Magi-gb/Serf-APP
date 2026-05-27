@@ -141,9 +141,9 @@ ca:
       title: Editar ingredient
     form:
       description: Descripció
+      diet_restrictions: Restriccions de dieta
       intolerance_allergies: Intoleràncies i al·lèrgies
       name: Nom de l'ingredient
-      religious_restrictions: Restriccions religioses
       restrictions: Restriccions alimentàries
       submit_create: Crear ingredient
       submit_update: Desar canvis
@@ -296,8 +296,8 @@ ca:
       edit: Editar
       no_description: Sense descripció addicional.
     types:
+      diet: Dieta
       intolerance_allergy: Intolerància/Al·lèrgia
-      religious: Religiosa
   sessions:
     new:
       authorized_only_note: L'accés és per a personal autoritzat. Contacta amb un administrador per crear un compte nou.

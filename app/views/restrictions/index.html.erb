@@ -2,8 +2,8 @@
 <% view = params[:view].presence || "grid" %>
 
 <%# DESIGN-GAP: design groups restrictions in 4 buckets (al·lèrgens / intoleràncies /
-    religioses / preferències) with an "EFSA Annex II" badge for the official bucket.
-    Our enum only has 2 values: intolerance_allergy + religious. "Preferences" don't
+    dieta / preferències) with an "EFSA Annex II" badge for the official bucket.
+    Our enum only has 2 values: intolerance_allergy + diet. "Preferences" don't
     exist. EFSA flag doesn't exist. We render flat-grouped by the existing enum. %>
 <%= render "shared/topbar", title: t("restrictions.index.title") do %>
   <% if current_user.admin? || current_user.kitchen_manager? %>

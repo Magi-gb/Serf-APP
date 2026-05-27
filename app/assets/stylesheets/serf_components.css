@@ -417,7 +417,7 @@
 .serf-design .coverage-bar-fill-allergen { background: var(--tag-allergen); }
 .serf-design .coverage-bar-fill-intolerance { background: var(--tag-intolerance); }
 .serf-design .coverage-bar-fill-preference { background: var(--tag-preference); }
-.serf-design .coverage-bar-fill-religious { background: var(--tag-religious); }
+.serf-design .coverage-bar-fill-diet { background: var(--tag-diet); }
 .serf-design .card-foot {
   padding: var(--d-3) var(--d-4);
   border-top: 1px solid var(--surface-divider);
@@ -623,7 +623,7 @@
   white-space: nowrap;
 }
 .serf-design .tag-allergen { background: var(--tag-allergen-soft); color: var(--tag-allergen); border-color: oklch(from var(--tag-allergen) l c h / 0.25); }
-.serf-design .tag-religious { background: var(--tag-religious-soft); color: var(--tag-religious); border-color: oklch(from var(--tag-religious) l c h / 0.25); }
+.serf-design .tag-diet { background: var(--tag-diet-soft); color: var(--tag-diet); border-color: oklch(from var(--tag-diet) l c h / 0.25); }
 .serf-design .tag-preference { background: var(--tag-preference-soft); color: var(--tag-preference); border-color: oklch(from var(--tag-preference) l c h / 0.25); }
 .serf-design .tag-intolerance { background: var(--tag-intolerance-soft); color: var(--tag-intolerance); border-color: oklch(from var(--tag-intolerance) l c h / 0.25); }
 

@@ -111,7 +111,7 @@ module SerfDesignHelper
   def restriction_tag_kind(restriction)
     case restriction.restriction_type
     when "intolerance_allergy" then "allergen"
-    when "religious" then "religious"
+    when "diet" then "diet"
     else "preference"
     end
   end
