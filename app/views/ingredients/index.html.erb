@@ -16,26 +16,13 @@
 <div class="content">
   <div class="toolbar">
     <div class="toolbar-filters">
-      <span class="muted"><%= t("filters.include") %>:</span>
+      <span class="muted"><%= t("filters.dietary_restrictions") %>:</span>
       <% @restrictions.each do |restriction| %>
-        <%= toggle_param_link(restriction.name,
-              mode: :include,
+        <%= cycle_param_link(restriction.name,
               target: restriction.id,
               include_param: "include_restrictions",
               exclude_param: "exclude_restrictions",
-              request: request,
-              css: "chip-include") %>
-      <% end %>
-      <span class="toolbar-sep"></span>
-      <span class="muted"><%= t("filters.exclude") %>:</span>
-      <% @restrictions.each do |restriction| %>
-        <%= toggle_param_link(restriction.name,
-              mode: :exclude,
-              target: restriction.id,
-              include_param: "include_restrictions",
-              exclude_param: "exclude_restrictions",
-              request: request,
-              css: "chip-exclude") %>
+              request: request) %>
       <% end %>
       <% if params[:include_restrictions].present? || params[:exclude_restrictions].present? %>
         <%= link_to t("filters.clear"),

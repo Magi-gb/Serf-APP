@@ -235,4 +235,40 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert menu.dishes.include?(dishes(:pan_tomáquet))
     assert menu.dishes.include?(dishes(:flan))
   end
+
+  # ---- restriction filter (index) ----
+
+  test "index filters by include_restrictions" do
+    get menus_url, params: { include_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_includes response.body, menus(:weekly_menu).name
+    assert_not_includes response.body, menus(:tasting_menu).name
+  end
+
+  test "index filters by exclude_restrictions" do
+    get menus_url, params: { exclude_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_includes response.body, menus(:tasting_menu).name
+    assert_not_includes response.body, menus(:weekly_menu).name
+  end
+
+  test "index reflects active filter state on the chip" do
+    restriction = restrictions(:gluten)
+    get menus_url, params: { include_restrictions: [ restriction.id ] }
+
+    assert_response :success
+    # The chip for the included restriction should render with data-state="include".
+    assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
+  end
+
+  test "index exposes all restrictions in the toolbar" do
+    get menus_url
+
+    assert_response :success
+    Restriction.find_each do |restriction|
+      assert_includes response.body, restriction.name
+    end
+  end
 end

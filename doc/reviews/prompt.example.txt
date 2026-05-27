@@ -1,0 +1,4 @@
+  ▎ One by one, checkout this 3 branches: CRUD-de-Menú CRUD-de-plats CRUD-de-protocols. For each branch you must: Checkout the branch, pull and merge develop on it; review all the changes of the feature branch based on our
+  ▎ standards (@README.md and @CLAUDE.md). We don't want inline literals, we don't want inline styles, dead or useless code or even entire files, code should be clean and legible, tests should be sufficient, YARD docs should be
+  ▎ used, rubocop should pass, tests should be sufficients and must pass, brakeman should pass, etc. Put the review into doc/reviews, commit, and then (if needed) fix the code in a new commit. Push, merge to develop, push and
+  ▎ move to the next branch. Solve all the conflicts that you find

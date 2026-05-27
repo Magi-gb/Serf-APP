@@ -5,3 +5,11 @@ paella_milk:
 olivas_bread:
   dish: olivas
   ingredient: bread
+
+pollastre_salt:
+  dish: pollastre
+  ingredient: salt
+
+gelat_yogurt:
+  dish: gelat
+  ingredient: yogurt

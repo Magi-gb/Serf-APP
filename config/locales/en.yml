@@ -92,8 +92,11 @@ en:
         other: "%{count} errors prevented saving:"
   filters:
     clear: Clear filters
-    exclude: Exclude
-    include: Include
+    dietary_restrictions: Restrictions
+    next_action:
+      exclude: Click to include
+      include: Click to clear filter
+      neutral: Click to exclude
   flash:
     alert: alert
     notice: notice
@@ -138,9 +141,9 @@ en:
       title: Edit ingredient
     form:
       description: Description
+      diet_restrictions: Diet restrictions
       intolerance_allergies: Intolerances and allergies
       name: Ingredient name
-      religious_restrictions: Religious restrictions
       restrictions: Dietary restrictions
       submit_create: Create ingredient
       submit_update: Save changes
@@ -293,8 +296,8 @@ en:
       edit: Edit
       no_description: No additional description.
     types:
+      diet: Diet
       intolerance_allergy: Intolerance/Allergy
-      religious: Religious
   sessions:
     new:
       authorized_only_note: Access is for authorised staff only. Contact an administrator to request an account.

@@ -111,7 +111,7 @@ module SerfDesignHelper
   def restriction_tag_kind(restriction)
     case restriction.restriction_type
     when "intolerance_allergy" then "allergen"
-    when "religious" then "religious"
+    when "diet" then "diet"
     else "preference"
     end
   end
@@ -176,31 +176,36 @@ module SerfDesignHelper
     sanitize(svg_string, tags: ICON_SVG_TAGS, attributes: ICON_SVG_ATTRS)
   end
 
-  # Build a link that toggles a value inside one of two array params
-  # (mutually exclusive). Used by the ingredients filter chips: the same
-  # restriction can be either in :include_restrictions or :exclude_restrictions.
-  def toggle_param_link(label, mode:, target:, include_param:, exclude_param:, request:, css: nil)
+  # Build a link that cycles a value through three states inside a pair
+  # of array params: neutral -> exclude -> include -> neutral. Used by
+  # the ingredients filter chips. The chip's visible state reflects the
+  # CURRENT list the target is in; the href points to the NEXT state.
+  def cycle_param_link(label, target:, include_param:, exclude_param:, request:)
     target = target.to_s
     include_ids = Array(request.query_parameters[include_param]).map(&:to_s)
     exclude_ids = Array(request.query_parameters[exclude_param]).map(&:to_s)
 
-    case mode
-    when :include
-      active = include_ids.include?(target)
-      new_include = active ? include_ids - [ target ] : include_ids + [ target ]
-      new_exclude = exclude_ids - [ target ]
-    when :exclude
-      active = exclude_ids.include?(target)
-      new_exclude = active ? exclude_ids - [ target ] : exclude_ids + [ target ]
-      new_include = include_ids - [ target ]
-    end
+    current_state, new_include, new_exclude =
+      if include_ids.include?(target)
+        [ "include", include_ids - [ target ], exclude_ids              ]
+      elsif exclude_ids.include?(target)
+        [ "exclude", include_ids + [ target ], exclude_ids - [ target ] ]
+      else
+        [ nil,       include_ids,              exclude_ids + [ target ] ]
+      end
 
     new_params = request.query_parameters.except(include_param, exclude_param)
     new_params[include_param] = new_include if new_include.any?
     new_params[exclude_param] = new_exclude if new_exclude.any?
     path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
 
-    link_to(label, path, class: [ "chip", css ].compact, "data-mode": mode, "aria-pressed": active)
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-#{current_state}" if current_state) ].compact,
+      "data-state": current_state,
+      title: t("filters.next_action.#{current_state || 'neutral'}")
+    )
   end
 
   private

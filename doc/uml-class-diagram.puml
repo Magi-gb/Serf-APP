@@ -1,0 +1,137 @@
+@startuml Serf - Diagrama de classes
+
+' Generat a partir de db/schema.rb (versió 2026_05_11_140000)
+' Convencions:
+'   {id}         -> clau primària (a la dreta del tipus)
+'   {clau-xxx}   -> restricció UNIQUE (a la dreta del tipus)
+'   [0..1]       -> atribut opcional (a la dreta del tipus).
+'                   Tot atribut sense aquesta marca s'assumeix obligatori.
+'   RIT          -> Restricció d'Integritat Textual
+
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor #FEFEFE
+skinparam classBorderColor #444444
+skinparam noteBackgroundColor #FFF8DC
+hide circle
+
+' ===========================================================================
+' ENTITATS
+' ===========================================================================
+
+class User {
+  id : integer {id}
+  username : string {clau-nomusuari}
+  encrypted_password : string
+  role : Role
+  created_at : datetime
+  updated_at : datetime
+}
+note right of User
+  RIT: contrasenya mínim 6 caràcters
+end note
+
+class Menu {
+  id : integer {id}
+  name : string {clau-nom}
+  created_at : datetime
+  updated_at : datetime
+}
+note right of Menu
+  RIT: la unicitat de name és insensible
+       a majúscules/minúscules
+  RIT: si el menú té plats, ha de contenir
+       almenys un plat de cada tipus
+       (entrant, primer, segon, postre)
+end note
+
+class Dish {
+  id : integer {id}
+  name : string
+  description : text
+  dish_type : DishType
+  created_at : datetime
+  updated_at : datetime
+}
+
+class Ingredient {
+  id : integer {id}
+  name : string {clau-nom}
+  description : text [0..1]
+  created_at : datetime
+  updated_at : datetime
+}
+
+class Restriction {
+  id : integer {id}
+  name : string {clau-nom}
+  restriction_type : RestrictionType
+  description : text [0..1]
+  bg_color : string [0..1]
+  icon_svg : text [0..1]
+  created_at : datetime
+  updated_at : datetime
+}
+
+class Protocol {
+  id : integer {id}
+  name : string {clau-nom}
+  description : text [0..1]
+  bg_color : string [0..1]
+  icon_svg : text [0..1]
+  created_at : datetime
+  updated_at : datetime
+}
+
+' ===========================================================================
+' ENUMERACIONS
+' ===========================================================================
+' A nivell de BD es desen com enters; aquí es modelen com a tipus
+' enumerats per fer explícits els valors permesos. La correspondència
+' enter ↔ símbol és la mateixa que defineixen els `enum` d'ActiveRecord.
+
+enum Role {
+  waiter = 0
+  kitchen_manager = 1
+  admin = 2
+}
+
+enum DishType {
+  entrant = 0
+  primer = 1
+  segon = 2
+  postre = 3
+}
+
+enum RestrictionType {
+  intolerance_allergy = 0
+  religious = 1
+}
+
+User ..> Role : << use >>
+Dish ..> DishType : << use >>
+Restriction ..> RestrictionType : << use >>
+
+' ===========================================================================
+' ASSOCIACIONS N..N (nom en català + cardinalitats)
+' ===========================================================================
+
+Menu "0..*" -- "0..*" Dish : Composició >
+
+Dish "0..*" -- "0..*" Ingredient : Elaboració >
+
+Ingredient "0..*" -- "0..*" Restriction : Incompatibilitat >
+
+' Associació autoreferencial: un ingredient pot ser substituït per
+' diversos ingredients alternatius, i alhora pot fer d'alternativa
+' per a molts altres.
+Ingredient "0..* origen" -- "0..* alternativa" Ingredient : Substitució >
+note bottom
+  RIT (Substitució):
+    · un ingredient no pot ser alternativa
+      de si mateix (origen ≠ alternativa)
+    · una alternativa no pot afegir cap
+      restricció que l'ingredient original
+      no tingui ja
+end note
+
+@enduml

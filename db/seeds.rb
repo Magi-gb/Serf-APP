@@ -168,8 +168,8 @@ eu_allergens.each do |allergen|
   r.save!
 end
 
-# Religious Restrictions
-religious_restrictions = [
+# Diet Restrictions
+diet_restrictions = [
   { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌" },
   { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️" },
   { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️" },
@@ -178,9 +178,9 @@ religious_restrictions = [
   { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71", emoji: "🥗" }
 ]
 
-religious_restrictions.each do |restriction|
+diet_restrictions.each do |restriction|
   r = Restriction.find_or_initialize_by(name: restriction[:name])
-  r.restriction_type = :religious
+  r.restriction_type = :diet
   r.description = restriction[:desc]
   r.bg_color = restriction[:bg_color]
   r.icon_svg = emoji_icon(restriction[:emoji])
