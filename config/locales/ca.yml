@@ -229,6 +229,17 @@ ca:
     search_placeholder: Cerca…
     selected_one: 1 seleccionat
     selected_other: "%{count} seleccionats"
+  preparations:
+    index:
+      empty: Encara no hi ha preparacions guardades.
+      title: Preparacions
+    messages:
+      destroyed_success: Preparació eliminada correctament.
+    show:
+      confirm_delete: Estàs segur que vols eliminar aquesta preparació?
+      delete: Eliminar Preparació
+      description_title: Descripció de la preparació
+      no_description: Sense descripció addicional.
   profile:
     edit:
       current_password: Contrasenya actual
@@ -311,6 +322,7 @@ ca:
     menus: Menús
     new_restriction: Nova restricció
     personal: Personal
+    preparations: Preparacions
     protocols: Protocols
     restrictions: Restriccions
     toggle: Obrir menú lateral
