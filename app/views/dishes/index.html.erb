@@ -15,7 +15,30 @@
 
 <div class="content">
   <div class="toolbar">
-    <div></div>
+    <div class="toolbar-filters">
+      <span class="muted"><%= t("dishes.index.types_filter") %>:</span>
+      <% @dish_types.each do |dish_type| %>
+        <%= select_param_link(t("dishes.types.#{dish_type}"),
+              target: dish_type,
+              param: "dish_types",
+              request: request) %>
+      <% end %>
+      <!-- OLD <span class="toolbar-sep"></span> -->
+      <div class="flex-break"></div>
+      <span class="muted"><%= t("filters.dietary_restrictions") %>:</span>
+      <% @restrictions.each do |restriction| %>
+        <%= cycle_param_link(restriction.name,
+              target: restriction.id,
+              include_param: "include_restrictions",
+              exclude_param: "exclude_restrictions",
+              request: request) %>
+      <% end %>
+      <% if params[:dish_types].present? || params[:include_restrictions].present? || params[:exclude_restrictions].present? %>
+        <%= link_to t("filters.clear"),
+              dishes_path(request.query_parameters.except(:dish_types, :include_restrictions, :exclude_restrictions)),
+              class: "chip-clear" %>
+      <% end %>
+    </div>
     <%= view_toggle(view, request, default_view: "grid") %>
   </div>
 

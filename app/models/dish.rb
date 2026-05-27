@@ -11,6 +11,27 @@ class Dish < ApplicationRecord
   enum :dish_type, { entrant: 0, primer: 1, segon: 2, postre: 3 }
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
+  scope :of_types, ->(types) {
+    types = Array(types).compact_blank
+    next all if types.empty?
+    where(dish_type: types)
+  }
+  scope :with_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    joins(ingredients: :ingredient_restrictions)
+      .where(ingredient_restrictions: { restriction_id: ids })
+      .distinct
+  }
+  scope :without_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    where.not(
+      id: joins(ingredients: :ingredient_restrictions)
+            .where(ingredient_restrictions: { restriction_id: ids })
+            .select(:id)
+    )
+  }
 
   private
 

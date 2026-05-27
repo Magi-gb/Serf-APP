@@ -64,4 +64,63 @@ class DishTest < ActiveSupport::TestCase
     dish.destroy
     assert_equal di_count_before - di_count, DishIngredient.count
   end
+
+  # ---- filter scopes ----
+
+  test "of_types narrows to the listed dish types" do
+    result = Dish.of_types([ "entrant" ])
+
+    assert(result.all? { |d| d.dish_type == "entrant" })
+    assert_includes result, dishes(:olivas)
+    assert_includes result, dishes(:pan_tomáquet)
+    assert_not_includes result, dishes(:paella)
+  end
+
+  test "of_types returns ::all when types are empty or nil" do
+    assert_equal Dish.all.to_a.sort_by(&:id), Dish.of_types([]).to_a.sort_by(&:id)
+    assert_equal Dish.all.to_a.sort_by(&:id), Dish.of_types(nil).to_a.sort_by(&:id)
+  end
+
+  test "with_restrictions returns dishes whose ingredients carry the restriction" do
+    result = Dish.with_restrictions([ restrictions(:gluten).id ])
+
+    assert_includes result, dishes(:olivas) # olivas -> bread (gluten)
+    assert_not_includes result, dishes(:paella)
+    assert_not_includes result, dishes(:gelat)
+  end
+
+  test "with_restrictions ORs across multiple ids and stays distinct" do
+    result = Dish.with_restrictions([ restrictions(:gluten).id, restrictions(:lactose).id ])
+
+    assert_includes result, dishes(:olivas)
+    assert_includes result, dishes(:gelat) # gelat -> yogurt (lactose)
+    assert_equal result.to_a.size, result.to_a.uniq.size
+  end
+
+  test "with_restrictions returns ::all when ids are empty or nil" do
+    assert_equal Dish.all.to_a.sort_by(&:id), Dish.with_restrictions([]).to_a.sort_by(&:id)
+    assert_equal Dish.all.to_a.sort_by(&:id), Dish.with_restrictions(nil).to_a.sort_by(&:id)
+  end
+
+  test "without_restrictions excludes dishes touching any listed restriction" do
+    result = Dish.without_restrictions([ restrictions(:gluten).id ])
+
+    assert_not_includes result, dishes(:olivas)
+    assert_includes result, dishes(:paella)
+    assert_includes result, dishes(:gelat)
+  end
+
+  test "without_restrictions keeps dishes whose ingredients carry no restriction at all" do
+    # pollastre -> salt (no restriction). Must survive any exclude filter.
+    result = Dish.without_restrictions([ restrictions(:gluten).id, restrictions(:lactose).id ])
+
+    assert_includes result, dishes(:pollastre)
+    assert_not_includes result, dishes(:olivas)
+    assert_not_includes result, dishes(:gelat)
+  end
+
+  test "without_restrictions returns ::all when ids are empty or nil" do
+    assert_equal Dish.all.to_a.sort_by(&:id), Dish.without_restrictions([]).to_a.sort_by(&:id)
+    assert_equal Dish.all.to_a.sort_by(&:id), Dish.without_restrictions(nil).to_a.sort_by(&:id)
+  end
 end

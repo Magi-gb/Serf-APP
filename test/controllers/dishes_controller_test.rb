@@ -256,4 +256,66 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to new_user_session_url
   end
+
+  test "index with dish_types filter narrows the rendered list" do
+    get dishes_url, params: { dish_types: [ "entrant" ] }
+
+    assert_response :success
+    assert_includes response.body, dishes(:olivas).name        # entrant -> shown
+    assert_not_includes response.body, dishes(:paella).name    # primer -> hidden
+  end
+
+  test "index without filter shows all dishes" do
+    get dishes_url
+
+    assert_response :success
+    assert_includes response.body, dishes(:olivas).name
+    assert_includes response.body, dishes(:paella).name
+  end
+
+  test "index with include_restrictions filter shows only matching dishes" do
+    get dishes_url, params: { include_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_includes response.body, dishes(:olivas).name        # olivas -> bread (gluten)
+    assert_not_includes response.body, dishes(:paella).name    # paella -> milk (no gluten)
+  end
+
+  test "index with exclude_restrictions filter hides matching dishes" do
+    get dishes_url, params: { exclude_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_not_includes response.body, dishes(:olivas).name
+    assert_includes response.body, dishes(:paella).name
+  end
+
+  test "index with combined filters applies all of them" do
+    get dishes_url, params: {
+      dish_types: [ "entrant" ],
+      include_restrictions: [ restrictions(:gluten).id ],
+      exclude_restrictions: [ restrictions(:lactose).id ]
+    }
+
+    assert_response :success
+    # olivas is entrant + has gluten + no lactose -> survives all three filters
+    assert_includes response.body, dishes(:olivas).name
+    # paella is not entrant -> filtered out by dish_types
+    assert_not_includes response.body, dishes(:paella).name
+  end
+
+  test "index reflects active restriction filter state on the chip" do
+    restriction = restrictions(:gluten)
+    get dishes_url, params: { include_restrictions: [ restriction.id ] }
+
+    assert_response :success
+    assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
+  end
+
+  test "index reflects active dish_type filter state on the chip" do
+    get dishes_url, params: { dish_types: [ "entrant" ] }
+
+    assert_response :success
+    label = I18n.t("dishes.types.entrant")
+    assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(label)}</a>}, response.body
+  end
 end

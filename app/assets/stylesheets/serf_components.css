@@ -235,6 +235,11 @@
   background: var(--surface-divider);
   margin: 0 var(--d-1);
 }
+/* Utility: forces a line break inside a flex-wrap container. */
+.serf-design .flex-break {
+  flex-basis: 100%;
+  height: 0;
+}
 
 /* ===== Filter chip variants ===== */
 .serf-design .chip-dot {

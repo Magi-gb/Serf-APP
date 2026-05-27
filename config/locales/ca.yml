@@ -51,6 +51,7 @@ ca:
       no_dishes: No s'han trobat plats.
       search_placeholder: Cerca un plat
       title: Plats
+      types_filter: Tipus
     messages:
       created_success: Plat creat correctament.
       destroyed_success: Plat eliminat correctament.
