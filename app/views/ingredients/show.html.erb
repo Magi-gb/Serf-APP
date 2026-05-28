@@ -92,6 +92,14 @@
                 <div class="grow">
                   <div class="strong"><%= dish.name %></div>
                   <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
+                  <% restrictions = dish.ingredients.flat_map(&:restrictions).uniq %>
+                  <% if restrictions.any? %>
+                    <div class="row wrap gap-1 mt-1">
+                      <% restrictions.each do |r| %>
+                        <span class="tag tag-<%= restriction_tag_kind(r) %>"><%= r.name %></span>
+                      <% end %>
+                    </div>
+                  <% end %>
                 </div>
               <% end %>
             <% end %>
