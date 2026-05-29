@@ -22,7 +22,9 @@
   <% if @restrictions.any? %>
     <% if view == "grid" %>
       <div class="col">
-        <% @restrictions.group_by(&:restriction_type).each do |type, group| %>
+        <% Restriction.restriction_types.keys.each do |type| %>
+          <% group = @restrictions.select { |r| r.restriction_type == type } %>
+          <% next if group.empty? %>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title"><%= t("restrictions.types.#{type}") %></h3>
