@@ -208,6 +208,7 @@ ca:
     new:
       title: Nou menú
     show:
+      alternatives_title: Alternatives
       confirm_delete: Segur que vols eliminar aquest menú?
       coverage_hint: 'Aproximació: un plat compta com a compatible si cap dels seus ingredients porta la restricció. Sense el camp ''essencial'' a DishIngredient no podem distingir adaptable de bloquejant.'
       coverage_title: Cobertura de restriccions
@@ -222,7 +223,9 @@ ca:
       kpi_price: Preu
       kpi_sections: Seccions
       kpi_validity: Vigència
+      no_alternatives: No hi ha alternatives disponibles
       no_dishes: Aquest menú no té plats associats
+      toggle_alternatives: Mostrar alternatives
   pickers:
     none: Cap resultat per a aquesta cerca.
     only_selected: Només seleccionats

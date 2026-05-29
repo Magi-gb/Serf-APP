@@ -208,6 +208,7 @@ en:
     new:
       title: New menu
     show:
+      alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this menu?
       coverage_hint: Approximation — a dish counts as compatible if none of its ingredients carry the restriction. Without a `essential` flag on DishIngredient we cannot tell adaptable from blocking.
       coverage_title: Restriction coverage
@@ -222,7 +223,9 @@ en:
       kpi_price: Price
       kpi_sections: Sections
       kpi_validity: Validity
+      no_alternatives: No alternatives available
       no_dishes: This menu has no associated dishes
+      toggle_alternatives: Show alternatives
   pickers:
     none: No results for this search.
     only_selected: Only selected

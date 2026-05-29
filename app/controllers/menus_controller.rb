@@ -1,6 +1,6 @@
 class MenusController < ApplicationController
-  before_action :require_kitchen_manager_or_above!, except: [ :index, :show ]
-  before_action :set_menu, only: [ :destroy, :edit, :update, :show ]
+  before_action :require_kitchen_manager_or_above!, except: [ :index, :show, :alternatives ]
+  before_action :set_menu, only: [ :destroy, :edit, :update, :show, :alternatives ]
 
   def index
     @menus = Menu.search(params[:search]).order(name: :asc)
@@ -42,6 +42,14 @@ class MenusController < ApplicationController
   def destroy
     @menu.destroy
     redirect_to menus_path, notice: t("menus.messages.destroyed_success"), status: :see_other
+  end
+
+  def alternatives
+    @dish = Dish.find(params[:dish_id])
+    excluded_restriction_ids = params[:excluded_restrictions].presence&.split(",")&.map(&:to_i) || []
+    restrictions_to_exclude = Restriction.where(id: excluded_restriction_ids)
+    @alternatives = @dish.similar(restrictions_to_exclude)
+    render partial: "menus/alternatives_list", locals: { alternatives: @alternatives }
   end
 
   private
