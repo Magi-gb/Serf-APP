@@ -297,8 +297,9 @@ ca:
       edit: Editar
       no_description: Sense descripció addicional.
     types:
-      diet: Dieta
-      intolerance_allergy: Intolerància/Al·lèrgia
+      intolerance_allergy: Intolerance/Allergy
+      religious: Religious
+      preference: Preference
   sessions:
     new:
       authorized_only_note: L'accés és per a personal autoritzat. Contacta amb un administrador per crear un compte nou.
