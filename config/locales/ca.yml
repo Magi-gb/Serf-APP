@@ -318,6 +318,7 @@ ca:
     personal: Personal
     protocols: Protocols
     restrictions: Restriccions
+    statistics: Estadístiques
     toggle: Obrir menú lateral
   statistics:
     index:
