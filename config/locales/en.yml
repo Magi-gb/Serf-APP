@@ -300,6 +300,11 @@ en:
       intolerance_allergy: Intolerance/Allergy
       preference: Preference
       religious: Religious
+  statistics:
+    index:
+      title: Statistics
+      dishes: Affected dishes
+      menus: Affected menus
   sessions:
     new:
       authorized_only_note: Access is for authorised staff only. Contact an administrator to request an account.
