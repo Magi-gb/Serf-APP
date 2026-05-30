@@ -300,11 +300,6 @@ ca:
       intolerance_allergy: Intolerance/Allergy
       preference: Preference
       religious: Religious
-  statistics:
-    index:
-      title: Estadístiques
-      dishes: Plats afectats
-      menus: Menús afectats
   sessions:
     new:
       authorized_only_note: L'accés és per a personal autoritzat. Contacta amb un administrador per crear un compte nou.
@@ -324,6 +319,11 @@ ca:
     protocols: Protocols
     restrictions: Restriccions
     toggle: Obrir menú lateral
+  statistics:
+    index:
+      dishes: Plats afectats
+      menus: Menús afectats
+      title: Estadístiques
   users:
     create:
       success: Usuari creat correctament.
