@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_11_140000) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_30_095600) do
   create_table "dish_ingredients", force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "ingredient_id", null: false
@@ -27,7 +27,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_11_140000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "dish_type", default: 0, null: false
-    t.check_constraint "dish_type IN (0, 1, 2, 3)", name: "chk_dishes_dish_type"
     t.check_constraint "dish_type IN (0, 1, 2, 3)", name: "chk_dishes_dish_type"
   end
 
@@ -96,7 +95,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_11_140000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_restrictions_on_name", unique: true
-    t.check_constraint "restriction_type IN (0, 1)", name: "chk_restrictions_restriction_type"
+    t.check_constraint "restriction_type IN (0, 1, 2)", name: "chk_restrictions_restriction_type"
   end
 
   create_table "users", force: :cascade do |t|
