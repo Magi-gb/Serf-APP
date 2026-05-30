@@ -149,7 +149,7 @@
   font-family: var(--font);
   display: inline;
 }
-.serf-design .topbar-sub { font-size: var(--fs-sm); color: var(--text-muted); margin-top: 2px; }
+.serf-design .topbar-sub { font-size: var(--fs-sm); color: var(--text-muted); margin-top: 2px; margin-left: 2px;}
 .serf-design .topbar-actions { display: flex; align-items: center; gap: var(--d-3); }
 .serf-design .topbar-heading { flex: 1; min-width: 0; }
 .serf-design .topbar-burger {
@@ -520,8 +520,11 @@
 .serf-design .checkbox-card[hidden],
 .serf-design .picker-group[hidden] { display: none; }
 .serf-design .picker-toolbar {
-  display: flex; align-items: center; gap: var(--d-3);
+  display: flex; 
+  align-items: center; 
+  gap: var(--d-3);
   flex-wrap: wrap;
+  margin-bottom: var(--d-4);
 }
 .serf-design .picker-search {
   position: relative;

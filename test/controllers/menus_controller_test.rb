@@ -298,6 +298,8 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_includes response.body, "alternative"
+    assert_includes response.body, "input type=\"radio\""
+    assert_includes response.body, "name=\"alternative_for_dish_#{dish.id}\""
   end
 
   test "alternatives filters by excluded restrictions" do

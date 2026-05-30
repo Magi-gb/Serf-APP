@@ -54,7 +54,7 @@ class MenusController < ApplicationController
     excluded_restriction_ids = params[:excluded_restrictions].presence&.split(",")&.map(&:to_i) || []
     restrictions_to_exclude = Restriction.where(id: excluded_restriction_ids)
     @alternatives = @dish.similar(restrictions_to_exclude)
-    render partial: "menus/alternatives_list", locals: { alternatives: @alternatives }
+    render partial: "menus/alternatives_list", locals: { alternatives: @alternatives, dish: @dish }
   end
 
   private

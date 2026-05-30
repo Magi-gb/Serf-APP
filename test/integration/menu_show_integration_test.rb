@@ -35,7 +35,7 @@ class MenuShowIntegrationTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "waiter can see alternatives expand button" do
+  test "waiter can see alternatives radio buttons" do
     sign_in @waiter
     dish = @menu.dishes.first
     restrictions = dish.ingredients.flat_map(&:restrictions).uniq
@@ -45,8 +45,9 @@ class MenuShowIntegrationTest < ActionDispatch::IntegrationTest
     get menu_path(@menu)
 
     assert_response :success
-    assert_includes response.body, "btn-expand"
-    assert_includes response.body, "menu-dish-card-controller"
+    assert_includes response.body, 'data-controller="menu-dish-card"'
+    assert_includes response.body, "data-menu-dish-card-menu-path-value"
+    assert_includes response.body, "dish-alternatives-container"
   end
 
   test "kitchen manager sees regular dish rows" do
