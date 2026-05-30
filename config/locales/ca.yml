@@ -225,7 +225,6 @@ ca:
       kpi_validity: Vigència
       no_alternatives: No hi ha alternatives disponibles
       no_dishes: Aquest menú no té plats associats
-      toggle_alternatives: Mostrar alternatives
   pickers:
     none: Cap resultat per a aquesta cerca.
     only_selected: Només seleccionats

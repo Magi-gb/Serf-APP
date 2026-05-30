@@ -225,7 +225,6 @@ en:
       kpi_validity: Validity
       no_alternatives: No alternatives available
       no_dishes: This menu has no associated dishes
-      toggle_alternatives: Show alternatives
   pickers:
     none: No results for this search.
     only_selected: Only selected

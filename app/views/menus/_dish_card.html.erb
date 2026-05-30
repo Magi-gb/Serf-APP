@@ -1,45 +1,37 @@
 <% restrictions = dish.ingredients.flat_map(&:restrictions).uniq %>
 <% if current_user.waiter? %>
-  <div class="menu-dish-row"
+  <div class="menu-dish-item"
        data-controller="menu-dish-card"
        data-menu-dish-card-dish-id-value="<%= dish.id %>"
-       data-menu-dish-card-menu-id-value="<%= menu.id %>"
        data-menu-dish-card-menu-path-value="<%= alternatives_menu_path(menu) %>">
-    <div class="menu-dish-thumb"><%= dish.name.first(2).upcase %></div>
-    <div class="grow">
-      <div class="strong"><%= dish.name %></div>
-      <% if restrictions.any? %>
-        <div class="row mt-1">
-          <% restrictions.each do |r| %>
-            <label class="tag tag-<%= restriction_tag_kind(r) %> restriction-toggle">
-              <input type="checkbox"
-                     class="restriction-checkbox"
-                     data-menu-dish-card-target="restrictionCheckbox"
-                     data-restriction-id="<%= r.id %>"
-                     data-action="menu-dish-card#toggleRestriction"
-                     checked />
-              <span class="tag-dot"></span><%= r.name %>
-            </label>
-          <% end %>
-        </div>
-      <% end %>
+    <div class="menu-dish-row">
+      <div class="menu-dish-thumb"><%= dish.name.first(2).upcase %></div>
+      <div class="grow">
+        <div class="strong"><%= dish.name %></div>
+        <% if restrictions.any? %>
+          <div class="row mt-1">
+            <% restrictions.each do |r| %>
+              <label class="tag tag-<%= restriction_tag_kind(r) %> restriction-toggle"
+                     data-action="click->menu-dish-card#toggleRestriction">
+                <input type="checkbox"
+                       class="restriction-checkbox"
+                       data-menu-dish-card-target="restrictionCheckbox"
+                       data-restriction-id="<%= r.id %>"
+                       checked />
+                <span class="tag-dot"></span><%= r.name %>
+              </label>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <span class="menu-dish-price muted">—</span>
     </div>
-    <span class="menu-dish-price muted">—</span>
 
     <% if restrictions.any? %>
-      <button type="button"
-              class="btn-expand"
-              data-menu-dish-card-target="toggleButton"
-              data-action="menu-dish-card#toggleExpand"
-              title="<%= t('menus.show.toggle_alternatives') %>">
-        <%= serf_icon(:chevron) %>
-      </button>
-
-      <div class="dish-alternatives-dropdown hidden" data-menu-dish-card-target="alternativesContainer">
-        <div class="alternatives-separator"></div>
+      <div class="dish-alternatives-container hidden" data-menu-dish-card-target="alternativesContainer">
         <div class="alternatives-section">
           <div class="alternatives-header"><%= t("menus.show.alternatives_title") %></div>
-          <div class="alternatives-list" data-menu-dish-card-target="alternativesList"></div>
+          <div class="alternatives-grid" data-menu-dish-card-target="alternativesList"></div>
         </div>
       </div>
     <% end %>

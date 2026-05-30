@@ -18,10 +18,10 @@ class Dish < ApplicationRecord
   #   with `restrictions_to_exclude`
   def similar(restrictions_to_exclude)
     dishes = Dish.where(dish_type: dish_type)
-    dishes = dishes.reject{|d| d == self || d.ingredients.any?{|i| (i.restrictions & restrictions_to_exclude).present?} }
-    dishes.map!{|d| [d, d.ingredients.count { |i| self.ingredients.include?(i) }] }
-    dishes.sort_by!{|_d, c| c}.reverse!
-    dishes.first(3).map!{|d, _c| d}
+    dishes = dishes.reject { |d| d == self || d.ingredients.any? { |i| (i.restrictions & restrictions_to_exclude).present? } }
+    dishes.map! { |d| [ d, d.ingredients.count { |i| self.ingredients.include?(i) } ] }
+    dishes.sort_by! { |_d, c| c }.reverse!
+    dishes.first(3).map! { |d, _c| d }
   end
 
   private
