@@ -49,6 +49,14 @@
               <div class="grow">
                 <div class="strong"><%= menu.name %></div>
                 <div class="muted mt-1"><%= t("menus.show.dishes") %>: <%= menu.dishes.count %></div>
+                <% restrictions = menu.dishes.flat_map { |d| d.ingredients.flat_map(&:restrictions) }.uniq %>
+                <% if restrictions.any? %>
+                  <div class="row wrap gap-1 mt-2">
+                    <% restrictions.each do |r| %>
+                      <span class="tag tag-<%= restriction_tag_kind(r) %>"><%= r.name %></span>
+                    <% end %>
+                  </div>
+                <% end %>
               </div>
             </div>
           <% end %>
@@ -64,6 +72,14 @@
             <div class="grow">
               <div class="strong"><%= menu.name %></div>
               <div class="muted mt-2"><%= t("menus.show.dishes") %>: <%= menu.dishes.count %></div>
+              <% restrictions = menu.dishes.flat_map { |d| d.ingredients.flat_map(&:restrictions) }.uniq %>
+              <% if restrictions.any? %>
+                <div class="row wrap gap-1 mt-2">
+                  <% restrictions.each do |r| %>
+                    <span class="tag tag-<%= restriction_tag_kind(r) %>"><%= r.name %></span>
+                  <% end %>
+                </div>
+              <% end %>
             </div>
             <span class="muted"><%= serf_icon(:chevron) %></span>
           <% end %>

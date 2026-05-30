@@ -27,6 +27,14 @@
         <%# DESIGN-GAP: design shows description, type tag and state badge.
             Menu currently has only `name` + dishes association — none of the
             description / type / status fields exist yet. %>
+        <% restrictions = @menu.dishes.flat_map { |d| d.ingredients.flat_map(&:restrictions) }.uniq %>
+        <% if restrictions.any? %>
+          <div class="row wrap gap-1 mt-3" style="justify-content: center;">
+            <% restrictions.each do |r| %>
+              <span class="tag tag-<%= restriction_tag_kind(r) %>"><%= r.name %></span>
+            <% end %>
+          </div>
+        <% end %>
       </div>
       <div class="menu-kpis">
         <div class="menu-kpi">
@@ -65,7 +73,7 @@
             </h3>
           </div>
           <% group.each do |dish| %>
-            <%= render "menus/dish_card", dish: dish, menu: @menu %>
+            <%= render "dish_card", dish: dish, menu: @menu %>
           <% end %>
         </div>
       <% end %>

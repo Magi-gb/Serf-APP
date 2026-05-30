@@ -8,19 +8,19 @@ class MenuShowIntegrationTest < ActionDispatch::IntegrationTest
     @menu = menus(:weekly_menu)
   end
 
-  test "waiter can see expandable dish cards" do
+  test "waiter can see menu dish rows" do
     sign_in @waiter
 
     get menu_path(@menu)
 
     assert_response :success
+    assert_includes response.body, 'class="menu-dish-row"'
     @menu.dishes.each do |dish|
-      assert_includes response.body, "menu-dish-card"
       assert_includes response.body, dish.name
     end
   end
 
-  test "waiter can see restriction toggles" do
+  test "waiter can see restriction tags" do
     sign_in @waiter
     dish = @menu.dishes.first
     restrictions = dish.ingredients.flat_map(&:restrictions).uniq
@@ -33,21 +33,7 @@ class MenuShowIntegrationTest < ActionDispatch::IntegrationTest
     restrictions.each do |r|
       assert_includes response.body, r.name
     end
-  end
-
-  test "waiter can see alternatives radio buttons" do
-    sign_in @waiter
-    dish = @menu.dishes.first
-    restrictions = dish.ingredients.flat_map(&:restrictions).uniq
-
-    skip "Dish has no restrictions" if restrictions.empty?
-
-    get menu_path(@menu)
-
-    assert_response :success
-    assert_includes response.body, 'data-controller="menu-dish-card"'
-    assert_includes response.body, "data-menu-dish-card-menu-path-value"
-    assert_includes response.body, "dish-alternatives-container"
+    assert_includes response.body, 'class="tag tag-'
   end
 
   test "kitchen manager sees regular dish rows" do
