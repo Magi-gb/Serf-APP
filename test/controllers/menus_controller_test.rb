@@ -271,4 +271,83 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
       assert_includes response.body, restriction.name
     end
   end
+
+  # ---- alternatives action ----
+  test "alternatives returns alternatives list for waiter" do
+    sign_in @waiter
+    menu = menus(:weekly_menu)
+    dish = menu.dishes.first
+
+    get alternatives_menu_url(menu), params: {
+      dish_id: dish.id,
+      excluded_restrictions: ""
+    }
+
+    assert_response :success
+  end
+
+  test "alternatives returns partial with alternatives" do
+    sign_in @waiter
+    menu = menus(:weekly_menu)
+    dish = menu.dishes.first
+
+    get alternatives_menu_url(menu), params: {
+      dish_id: dish.id,
+      excluded_restrictions: ""
+    }
+
+    assert_response :success
+    assert_includes response.body, "alternative"
+  end
+
+  test "alternatives filters by excluded restrictions" do
+    sign_in @waiter
+    menu = menus(:weekly_menu)
+    allergen_restriction = restrictions(:gluten)
+    dish = menu.dishes.detect { |d| d.ingredients.flat_map(&:restrictions).include?(allergen_restriction) }
+
+    skip "No dish with allergen restriction" unless dish
+
+    get alternatives_menu_url(menu), params: {
+      dish_id: dish.id,
+      excluded_restrictions: allergen_restriction.id.to_s
+    }
+
+    assert_response :success
+  end
+
+  test "alternatives returns empty list when no alternatives found" do
+    sign_in @waiter
+    menu = menus(:weekly_menu)
+    dish = menu.dishes.find_by(dish_type: :postre)
+
+    get alternatives_menu_url(menu), params: {
+      dish_id: dish.id,
+      excluded_restrictions: ""
+    }
+
+    assert_response :success
+  end
+
+  test "alternatives requires authentication" do
+    sign_out @kitchen_manager
+
+    get alternatives_menu_url(@menu), params: {
+      dish_id: @menu.dishes.first.id,
+      excluded_restrictions: ""
+    }
+
+    assert_redirected_to new_user_session_url
+  end
+
+  test "alternatives returns bad request with invalid dish" do
+    sign_in @waiter
+
+    get alternatives_menu_url(@menu), params: {
+      dish_id: 99999,
+      excluded_restrictions: ""
+    }
+
+    assert_response :not_found
+  end
 end
