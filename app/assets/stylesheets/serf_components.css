@@ -1004,7 +1004,7 @@
 
 /* ===== Detail/meta field ===== */
 .serf-design .detail-field { display: flex; flex-direction: column; gap: 4px; }
-.serf-design .detail-field-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+.serf-design .detail-field-label { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
 .serf-design .detail-field-value { font-size: var(--fs-md); color: var(--text-strong); }
 
 /* ===== Checkbox card group ===== */
