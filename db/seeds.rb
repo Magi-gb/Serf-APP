@@ -24,7 +24,7 @@ eu_allergens = [
   { name: "Peix", desc: "Peix i productes a base de peix.", bg_color: "#1ABC9C", emoji: "🐟" },
   { name: "Crustacis", desc: "Crustacis i productes a base de crustacis.", bg_color: "#E74C3C", emoji: "🦐" },
   { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs.", bg_color: "#2C3E50", emoji: "🦑" },
-  { name: "Cacauets", desc: "Cacauets i productes a base de cacauets.", bg_color: "#8E44AD", emoji: "🥜" },
+  { name: "Cacahuets", desc: "Cacauets i productes a base de cacauets.", bg_color: "#8E44AD", emoji: "🥜" },
   { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats.", bg_color: "#D35400", emoji: "🌰" },
   { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam.", bg_color: "#95A5A6", emoji: "🌱" },
   { name: "Celerí", desc: "Api i productes derivats.", bg_color: "#27AE60", emoji: "🌿" },
@@ -96,8 +96,12 @@ ingredients_data.each do |data|
   end
 
   data[:restrictions].each do |restriction_name|
-    restriction = Restriction.find_by!(name: restriction_name)
-    IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
+    begin
+      restriction = Restriction.find_by!(name: restriction_name)
+      IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
+    rescue => e
+      puts "Error creating ingredient restriction: #{e.message}, #{restriction_name} -> #{ingredient.name}"
+    end
   end
 end
 
@@ -247,7 +251,7 @@ postre_gelat = Dish.find_or_create_by!(name: "Gelat artesanal") do |p|
 end
 postre_gelat.ingredients = [
   Ingredient.find_by!(name: "Llet sencera"),
-  Ingredient.find_by!(name: "Vainella"),
+  Ingredient.find_by!(name: "Vainilla"),
   Ingredient.find_by!(name: "Xocolata negra")
 ]
 
