@@ -119,12 +119,8 @@ en:
         restrictions_trend: Complete catalogue
         users: Staff
         users_trend_placeholder: Total registered
-      no_activity_yet: No activity recorded yet.
       quick_access: Quick access
-      recent_activity: Recent activity
       title: Serf
-      waiter_description: Here you will see the options available for waiters.
-      waiter_features: Waiter Features
       welcome: Welcome, %{username}!
   ingredient_alternatives:
     create:

@@ -119,12 +119,8 @@ ca:
         restrictions_trend: Catàleg complet
         users: Personal
         users_trend_placeholder: Total registrat
-      no_activity_yet: Encara no hi ha activitat registrada.
       quick_access: Accés ràpid
-      recent_activity: Activitat recent
       title: Serf
-      waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
-      waiter_features: Funcionalitats del Cambrer
       welcome: Benvingut, %{username}!
   ingredient_alternatives:
     create:
