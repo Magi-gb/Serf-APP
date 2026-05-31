@@ -83,6 +83,7 @@ ca:
       submit_create: Crear elaboració
       submit_update: Desar canvis
     index:
+      ingredients_count: ingredients
       new_elaboration: Nova elaboració
       no_elaborations: No s'han trobat elaboracions.
       no_restrictions: Cap restricció
@@ -100,6 +101,8 @@ ca:
       edit: Editar dades
       ingredients: Ingredients
       no_ingredients: Aquesta elaboració no té ingredients associats
+      not_used_in_dishes: Aquesta elaboració no s'utilitza en cap plat
+      used_in_dishes: Plats que l'utilitzen
   errors:
     form_header:
       one: '1 error ha impedit guardar:'

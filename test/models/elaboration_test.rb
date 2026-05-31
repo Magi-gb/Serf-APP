@@ -71,4 +71,26 @@ class ElaborationTest < ActiveSupport::TestCase
   test "search scope returns all when query is blank" do
     assert_equal Elaboration.all.to_a.sort_by(&:id), Elaboration.search("").to_a.sort_by(&:id)
   end
+
+  test "with_restrictions returns elaborations whose ingredients carry the restriction" do
+    result = Elaboration.with_restrictions([ restrictions(:gluten).id ])
+
+    assert_includes result, elaborations(:bolognesa)    # bolognesa → bread (gluten)
+    assert_not_includes result, elaborations(:beixamel) # beixamel → milk (no restriction)
+  end
+
+  test "with_restrictions returns all when ids are empty" do
+    assert_equal Elaboration.all.to_a.sort_by(&:id), Elaboration.with_restrictions([]).to_a.sort_by(&:id)
+  end
+
+  test "without_restrictions excludes elaborations whose ingredients carry the restriction" do
+    result = Elaboration.without_restrictions([ restrictions(:gluten).id ])
+
+    assert_not_includes result, elaborations(:bolognesa)
+    assert_includes result, elaborations(:beixamel)
+  end
+
+  test "without_restrictions returns all when ids are empty" do
+    assert_equal Elaboration.all.to_a.sort_by(&:id), Elaboration.without_restrictions([]).to_a.sort_by(&:id)
+  end
 end

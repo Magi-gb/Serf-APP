@@ -83,6 +83,7 @@ en:
       submit_create: Create elaboration
       submit_update: Save changes
     index:
+      ingredients_count: ingredients
       new_elaboration: New elaboration
       no_elaborations: No elaborations found.
       no_restrictions: No restriction
@@ -100,6 +101,8 @@ en:
       edit: Edit details
       ingredients: Ingredients
       no_ingredients: This elaboration has no associated ingredients
+      not_used_in_dishes: This elaboration is not used in any dish
+      used_in_dishes: Dishes using it
   errors:
     form_header:
       one: '1 error prevented saving:'

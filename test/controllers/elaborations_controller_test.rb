@@ -195,4 +195,27 @@ class ElaborationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, elaborations(:bolognesa).name
     assert_not_includes response.body, elaborations(:beixamel).name
   end
+
+  test "show renders linked dishes" do
+    get elaboration_url(elaborations(:bolognesa))
+
+    assert_response :success
+    assert_includes response.body, dishes(:lasanya).name
+  end
+
+  test "index with include_restrictions shows only matching elaborations" do
+    get elaborations_url, params: { include_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_includes response.body, elaborations(:bolognesa).name   # bread → gluten
+    assert_not_includes response.body, elaborations(:beixamel).name
+  end
+
+  test "index with exclude_restrictions hides matching elaborations" do
+    get elaborations_url, params: { exclude_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_not_includes response.body, elaborations(:bolognesa).name
+    assert_includes response.body, elaborations(:beixamel).name
+  end
 end

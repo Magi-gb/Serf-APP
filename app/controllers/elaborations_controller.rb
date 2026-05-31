@@ -4,10 +4,16 @@ class ElaborationsController < ApplicationController
   before_action :set_elaboration, only: %i[show edit update destroy]
 
   def index
-    @elaborations = Elaboration.search(params[:search]).order(:name)
+    @elaborations = Elaboration
+      .search(params[:search])
+      .with_restrictions(params[:include_restrictions])
+      .without_restrictions(params[:exclude_restrictions])
+      .order(:name)
+    @restrictions = Restriction.order(:name)
   end
 
   def show
+    @dishes = @elaboration.dishes.includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions }).order(:name).to_a
   end
 
   def new

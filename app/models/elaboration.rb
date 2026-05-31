@@ -5,6 +5,22 @@ class Elaboration < ApplicationRecord
   has_many :dishes, through: :dish_elaborations
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
+  scope :with_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    joins(ingredients: :ingredient_restrictions)
+      .where(ingredient_restrictions: { restriction_id: ids })
+      .distinct
+  }
+  scope :without_restrictions, ->(ids) {
+    ids = Array(ids).compact_blank
+    next all if ids.empty?
+    where.not(
+      id: joins(ingredients: :ingredient_restrictions)
+            .where(ingredient_restrictions: { restriction_id: ids })
+            .select(:id)
+    )
+  }
 
   validates :name, presence: true, uniqueness: true
 

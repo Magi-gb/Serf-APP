@@ -61,4 +61,31 @@
       <div class="card-body muted"><%= t("elaborations.show.no_ingredients") %></div>
     <% end %>
   </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
+        <%= t("elaborations.show.used_in_dishes") %>
+        <span class="muted"> · <%= @dishes.size %></span>
+      </h3>
+    </div>
+    <% if @dishes.any? %>
+      <% @dishes.each do |dish| %>
+        <%= link_to dish_path(dish), class: "card-row is-link" do %>
+          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
+            <%= serf_icon(:forkknife) %>
+          </span>
+          <div class="grow">
+            <div class="strong"><%= dish.name %></div>
+            <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
+            <% all_restrictions = (dish.ingredients + dish.elaborations.flat_map(&:ingredients)).flat_map(&:restrictions).uniq %>
+            <%= render "shared/restriction_tags", restrictions: all_restrictions, wrapper_class: "wrap gap-1 mt-1" %>
+          </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="card-body muted"><%= t("elaborations.show.not_used_in_dishes") %></div>
+    <% end %>
+  </div>
 </div>
