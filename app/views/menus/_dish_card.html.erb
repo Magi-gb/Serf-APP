@@ -1,54 +1,38 @@
 <% restrictions = dish.ingredients.flat_map(&:restrictions).uniq %>
-<% if current_user.waiter? %>
-  <div class="menu-dish-item"
-       data-controller="menu-dish-card"
-       data-menu-dish-card-dish-id-value="<%= dish.id %>"
-       data-menu-dish-card-menu-path-value="<%= alternatives_menu_path(menu) %>">
-    <div class="menu-dish-row">
-      <div class="menu-dish-thumb"><%= dish.name.first(2).upcase %></div>
-      <div class="grow">
-        <div class="strong"><%= dish.name %></div>
-        <% if restrictions.any? %>
-          <div class="row mt-1">
-            <% restrictions.each do |r| %>
-              <label class="tag tag-<%= restriction_tag_kind(r) %> restriction-toggle"
-                     data-action="click->menu-dish-card#toggleRestriction">
-                <input type="checkbox"
-                       class="restriction-checkbox"
-                       data-menu-dish-card-target="restrictionCheckbox"
-                       data-restriction-id="<%= r.id %>"
-                       checked />
-                <span class="tag-dot"></span><%= r.name %>
-              </label>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-      <span class="menu-dish-price muted">—</span>
-    </div>
-
-    <% if restrictions.any? %>
-      <div class="dish-alternatives-container hidden" data-menu-dish-card-target="alternativesContainer">
-        <div class="alternatives-section">
-          <div class="alternatives-header"><%= t("menus.show.alternatives_title") %></div>
-          <div class="alternatives-grid" data-menu-dish-card-target="alternativesList"></div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-<% else %>
-  <%= link_to dish_path(dish), class: "menu-dish-row" do %>
+<div class="menu-dish-item"
+     data-controller="menu-dish-card"
+     data-menu-dish-card-dish-id-value="<%= dish.id %>"
+     data-menu-dish-card-menu-path-value="<%= alternatives_menu_path(menu) %>">
+  <div class="menu-dish-row">
+    <%= link_to "", dish_path(dish), class: "stretched-link", aria: { label: dish.name } %>
     <div class="menu-dish-thumb"><%= dish.name.first(2).upcase %></div>
     <div class="grow">
       <div class="strong"><%= dish.name %></div>
       <% if restrictions.any? %>
         <div class="row mt-1">
           <% restrictions.each do |r| %>
-            <span class="tag tag-<%= restriction_tag_kind(r) %>"><span class="tag-dot"></span><%= r.name %></span>
+            <label class="tag tag-<%= restriction_tag_kind(r) %> restriction-toggle"
+                   data-action="click->menu-dish-card#toggleRestriction">
+              <input type="checkbox"
+                     class="restriction-checkbox"
+                     data-menu-dish-card-target="restrictionCheckbox"
+                     data-restriction-id="<%= r.id %>"
+                     checked />
+              <span class="tag-dot"></span><%= r.name %>
+            </label>
           <% end %>
         </div>
       <% end %>
     </div>
     <span class="menu-dish-price muted">—</span>
+  </div>
+
+  <% if restrictions.any? %>
+    <div class="dish-alternatives-container hidden" data-menu-dish-card-target="alternativesContainer">
+      <div class="alternatives-section">
+        <div class="alternatives-header"><%= t("menus.show.alternatives_title") %></div>
+        <div class="alternatives-grid" data-menu-dish-card-target="alternativesList"></div>
+      </div>
+    </div>
   <% end %>
-<% end %>
+</div>

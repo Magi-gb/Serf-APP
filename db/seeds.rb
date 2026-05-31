@@ -96,12 +96,8 @@ ingredients_data.each do |data|
   end
 
   data[:restrictions].each do |restriction_name|
-    begin
-      restriction = Restriction.find_by!(name: restriction_name)
-      IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
-    rescue => e
-      puts "Error creating ingredient restriction: #{e.message}, #{restriction_name} -> #{ingredient.name}"
-    end
+    restriction = Restriction.find_by!(name: restriction_name)
+    IngredientRestriction.find_or_create_by!(ingredient: ingredient, restriction: restriction)
   end
 end
 

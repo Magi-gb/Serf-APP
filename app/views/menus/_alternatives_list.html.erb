@@ -6,14 +6,9 @@
       </div>
       <div class="alternative-card-body">
         <h4 class="alternative-card-title"><%= alternative.name %></h4>
-        <% restrictions = alternative.ingredients.flat_map(&:restrictions).uniq %>
-        <% if restrictions.any? %>
-          <div class="row mt-1">
-            <% restrictions.each do |r| %>
-              <span class="tag tag-<%= restriction_tag_kind(r) %>"><span class="tag-dot"></span><%= r.name %></span>
-            <% end %>
-          </div>
-        <% end %>
+        <%= render "shared/restriction_tags",
+                   restrictions: alternative.ingredients.flat_map(&:restrictions).uniq,
+                   wrapper_class: "mt-1", dot: true %>
       </div>
     </div>
   <% end %>

@@ -1,0 +1,12 @@
+<%# Renders a row of restriction tags. Shared across dish/menu/ingredient views.
+    Locals:
+      restrictions  - collection of Restriction (required); renders nothing when empty
+      wrapper_class - extra CSS classes for the row (optional)
+      dot           - show the leading colour dot on each tag (optional, default false) %>
+<% if restrictions.any? %>
+  <div class="<%= [ "row", local_assigns[:wrapper_class] ].compact_blank.join(" ") %>">
+    <% restrictions.each do |restriction| %>
+      <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><% if local_assigns[:dot] %><span class="tag-dot"></span><% end %><%= restriction.name %></span>
+    <% end %>
+  </div>
+<% end %>

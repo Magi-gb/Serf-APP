@@ -24,14 +24,9 @@
         <span class="muted"><%= t("dishes.show.no_ingredients") %></span>
       <% end %>
 
-      <% restrictions = @dish.ingredients.flat_map(&:restrictions).uniq %>
-      <% if restrictions.any? %>
-        <div class="row wrap gap-1 mt-3">
-          <% restrictions.each do |r| %>
-            <span class="tag tag-<%= restriction_tag_kind(r) %>"><%= r.name %></span>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render "shared/restriction_tags",
+                 restrictions: @dish.ingredients.flat_map(&:restrictions).uniq,
+                 wrapper_class: "wrap gap-1 mt-3" %>
     </div>
   </div>
 

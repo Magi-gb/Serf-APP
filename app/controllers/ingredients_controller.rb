@@ -12,6 +12,10 @@ class IngredientsController < ApplicationController
   end
 
   def show
+    # Eager-load so the "used in dishes" list can render each dish's
+    # restriction tags without an N+1 over ingredients/restrictions.
+    @dishes = @ingredient.dishes.includes(ingredients: :restrictions).order(:name).to_a
+
     return unless current_user.admin? || current_user.kitchen_manager?
 
     candidates = Ingredient.includes(:restrictions).where.not(id: @ingredient.id).order(:name)
