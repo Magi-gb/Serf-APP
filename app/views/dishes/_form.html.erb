@@ -25,6 +25,26 @@
   </div>
 
   <div class="field">
+    <%= form.label :image, t("dishes.form.image"), class: "label" %>
+    <div class="image-field">
+      <div class="image-preview">
+        <% if dish.image.attached? %>
+          <%= image_tag dish.image, alt: dish.name %>
+        <% else %>
+          <span><%= dish.name.to_s.first(2).upcase.presence || "?" %></span>
+        <% end %>
+      </div>
+      <%= form.label :image, class: "upload-btn" do %>
+        <%= serf_icon(:plus) %>
+        <span><%= dish.image.attached? ? t("dishes.form.change_image") : t("dishes.form.upload_image") %></span>
+        <%= form.file_field :image,
+                            accept: Dish::IMAGE_CONTENT_TYPES.join(","),
+                            class: "visually-hidden" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="field">
     <label class="label required"><%= t("dishes.form.ingredients") %></label>
     <div class="picker card"
          data-controller="picker"

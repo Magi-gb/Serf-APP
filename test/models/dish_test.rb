@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class DishTest < ActiveSupport::TestCase
   test "is valid with name, description, dish_type and at least one ingredient" do
@@ -70,6 +71,39 @@ class DishTest < ActiveSupport::TestCase
     di_count_before = DishIngredient.count
     dish.destroy
     assert_equal di_count_before - di_count, DishIngredient.count
+  end
+
+  # ---- image attachment ----
+
+  test "is valid with an attached image of an accepted content type" do
+    dish = Dish.new(name: "Test", description: "Test", dish_type: :entrant)
+    dish.ingredients << ingredients(:milk)
+    dish.image.attach(io: file_fixture("dish_sample.png").open, filename: "dish_sample.png", content_type: "image/png")
+    assert dish.valid?, dish.errors.full_messages.to_sentence
+  end
+
+  test "is invalid with an attached file that is not an accepted image type" do
+    dish = Dish.new(name: "Test", description: "Test", dish_type: :entrant)
+    dish.ingredients << ingredients(:milk)
+    dish.image.attach(io: file_fixture("not_an_image.txt").open, filename: "not_an_image.txt", content_type: "text/plain")
+    assert_not dish.valid?
+    assert dish.errors[:image].any?
+  end
+
+  test "is invalid when the attached image exceeds the maximum size" do
+    dish = Dish.new(name: "Test", description: "Test", dish_type: :entrant)
+    dish.ingredients << ingredients(:milk)
+    dish.image.attach(io: file_fixture("dish_sample.png").open, filename: "dish_sample.png", content_type: "image/png")
+    dish.image.blob.stub(:byte_size, Dish::MAX_IMAGE_SIZE + 1) do
+      assert_not dish.valid?
+      assert dish.errors[:image].any?
+    end
+  end
+
+  test "is valid without any attached image" do
+    dish = Dish.new(name: "Test", description: "Test", dish_type: :entrant)
+    dish.ingredients << ingredients(:milk)
+    assert dish.valid?
   end
 
   # ---- filter scopes ----

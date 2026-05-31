@@ -2,11 +2,20 @@
     Locals:
       restrictions  - collection of Restriction (required); renders nothing when empty
       wrapper_class - extra CSS classes for the row (optional)
-      dot           - show the leading colour dot on each tag (optional, default false) %>
+      dot           - show the leading colour dot on each tag (optional, default false)
+      link          - render each tag as a link to the restriction (optional, default false).
+                      Only use where the partial is NOT nested inside another link. %>
 <% if restrictions.any? %>
   <div class="<%= [ "row", local_assigns[:wrapper_class] ].compact_blank.join(" ") %>">
     <% restrictions_in_tag_order(restrictions).each do |restriction| %>
-      <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><% if local_assigns[:dot] %><span class="tag-dot"></span><% end %><%= restriction.name %></span>
+      <% tag_class = "tag tag-#{restriction_tag_kind(restriction)}" %>
+      <% if local_assigns[:link] %>
+        <%= link_to restriction_path(restriction), class: tag_class do %>
+          <% if local_assigns[:dot] %><span class="tag-dot"></span><% end %><%= restriction.name %>
+        <% end %>
+      <% else %>
+        <span class="<%= tag_class %>"><% if local_assigns[:dot] %><span class="tag-dot"></span><% end %><%= restriction.name %></span>
+      <% end %>
     <% end %>
   </div>
 <% end %>

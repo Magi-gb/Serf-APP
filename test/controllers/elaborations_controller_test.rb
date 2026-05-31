@@ -203,6 +203,13 @@ class ElaborationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, dishes(:lasanya).name
   end
 
+  test "show renders restriction overview linked to the restriction" do
+    get elaboration_url(elaborations(:bolognesa)) # bolognesa -> bread -> gluten
+
+    assert_response :success
+    assert_select "a.tag[href=?]", restriction_path(restrictions(:gluten))
+  end
+
   test "index with include_restrictions shows only matching elaborations" do
     get elaborations_url, params: { include_restrictions: [ restrictions(:gluten).id ] }
 

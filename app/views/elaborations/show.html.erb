@@ -27,6 +27,9 @@
         <% if @elaboration.description.present? %>
           <p class="muted mt-2 mb-0"><%= @elaboration.description %></p>
         <% end %>
+        <%= render "shared/restriction_tags",
+                   restrictions: @elaboration.restrictions,
+                   wrapper_class: "wrap gap-1 mt-2", link: true %>
       </div>
     </div>
   </div>
@@ -72,9 +75,7 @@
     <% if @dishes.any? %>
       <% @dishes.each do |dish| %>
         <%= link_to dish_path(dish), class: "card-row is-link" do %>
-          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
-            <%= serf_icon(:forkknife) %>
-          </span>
+          <div class="dish-mini-thumb"><%= dish_thumb(dish) %></div>
           <div class="grow">
             <div class="strong"><%= dish.name %></div>
             <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>

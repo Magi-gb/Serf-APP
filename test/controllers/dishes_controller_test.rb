@@ -399,6 +399,13 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     assert_match I18n.t("dishes.show.substituible_header"), response.body
   end
 
+  test "show links restriction overview tags to the restriction" do
+    get dish_url(dishes(:olivas)) # olivas -> bread -> gluten
+
+    assert_response :success
+    assert_select "a.tag[href=?]", restriction_path(restrictions(:gluten))
+  end
+
   test "index with safe_only param returns only dishes with no restrictions" do
     get dishes_url(safe_only: true)
 
@@ -414,5 +421,37 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_match I18n.t("filters.safe_only"), response.body
+  end
+
+  test "create attaches an uploaded image" do
+    image = fixture_file_upload("dish_sample.png", "image/png")
+
+    assert_difference "Dish.count", 1 do
+      post dishes_url, params: {
+        dish: {
+          name: "Plat amb foto",
+          description: "Desc",
+          dish_type: "entrant",
+          ingredient_ids: [ ingredients(:milk).id ],
+          image: image
+        }
+      }
+    end
+
+    assert Dish.last.image.attached?
+  end
+
+  test "update attaches an uploaded image" do
+    image = fixture_file_upload("dish_sample.png", "image/png")
+
+    patch dish_url(@dish), params: {
+      dish: {
+        name: @dish.name,
+        image: image
+      }
+    }
+
+    assert_redirected_to dish_url(@dish)
+    assert @dish.reload.image.attached?
   end
 end

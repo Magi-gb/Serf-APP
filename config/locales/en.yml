@@ -12,6 +12,9 @@ en:
       models:
         dish:
           attributes:
+            image:
+              invalid_content_type: must be a PNG, JPEG or WEBP image
+              too_large: is too large (maximum %{max} MB)
             ingredients:
               blank: must have at least one ingredient
     models:
@@ -40,15 +43,18 @@ en:
       title: Edit dish
     form:
       cancel: Cancel
+      change_image: Change photo
       description: Description
       dish_type: Dish type
       elaborations: Elaborations
       essential: Essential
+      image: Image
       ingredients: Ingredients
       name: Dish name
       submit_create: Create dish
       submit_update: Save changes
       substituible: Substitutable
+      upload_image: Upload a photo
     index:
       new_dish: New dish
       no_dishes: No dishes found.
@@ -194,7 +200,9 @@ en:
         other: If you delete this ingredient, the %{count} dishes that contain it will be flagged for manual review.
       details: Details
       did_you_know: Did you know?
+      dispensable: Dispensable
       edit: Edit details
+      indispensable: Indispensable
       linked_dishes: Linked dishes
       linked_restrictions: Linked restrictions
       no_restrictions: No dietary restrictions associated

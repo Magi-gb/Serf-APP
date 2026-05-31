@@ -10,7 +10,7 @@ class DishesController < ApplicationController
     else
       @dishes.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
     end
-    @dishes = @dishes.includes(ingredients: :restrictions).order(name: :asc)
+    @dishes = @dishes.with_attached_image.includes(ingredients: :restrictions).order(name: :asc)
     @dish_types = Dish.dish_types.keys
     @restrictions = Restriction.ordered
   end
@@ -72,7 +72,7 @@ class DishesController < ApplicationController
   end
 
   def dish_params
-    params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [], elaboration_ids: [])
+    params.require(:dish).permit(:name, :description, :dish_type, :image, ingredient_ids: [], elaboration_ids: [])
   end
 
   def extract_substituible_ingredient_ids

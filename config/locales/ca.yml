@@ -12,6 +12,9 @@ ca:
       models:
         dish:
           attributes:
+            image:
+              invalid_content_type: ha de ser una imatge PNG, JPEG o WEBP
+              too_large: és massa gran (màxim %{max} MB)
             ingredients:
               blank: ha de tenir almenys un ingredient
     models:
@@ -40,15 +43,18 @@ ca:
       title: Editar plat
     form:
       cancel: Cancel·lar
+      change_image: Canviar la foto
       description: Descripció
       dish_type: Tipus de plat
       elaborations: Elaboracions
       essential: Imprescindible
+      image: Imatge
       ingredients: Ingredients
       name: Nom del plat
       submit_create: Crear plat
       submit_update: Desar canvis
       substituible: Substituïble
+      upload_image: Pujar una foto
     index:
       new_dish: Nou plat
       no_dishes: No s'han trobat plats.
@@ -194,7 +200,9 @@ ca:
         other: Si elimines aquest ingredient, els %{count} plats que el contenen quedaran marcats per revisió manual.
       details: Detalls
       did_you_know: Saps que…?
+      dispensable: Dispensable
       edit: Editar dades
+      indispensable: Indispensable
       linked_dishes: Plats vinculats
       linked_restrictions: Restriccions vinculades
       no_restrictions: Cap restricció alimentària associada

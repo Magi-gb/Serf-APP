@@ -50,7 +50,7 @@
         <% @dishes.each do |dish| %>
           <%= link_to dish_path(dish), class: "dish" do %>
             <div class="dish-img">
-              <span><%= dish.name.first(2).upcase %></span>
+              <%= dish_thumb(dish) %>
               <%# DESIGN-GAP: design shows compatibility status badge (ok / warn / block).
                   That depends on a SuggestionService that filters by selected restrictions.
                   Not implemented yet — badge omitted. %>
@@ -73,7 +73,7 @@
       <div class="card">
         <% @dishes.each do |dish| %>
           <%= link_to dish_path(dish), class: "card-row is-link" do %>
-            <div class="dish-mini-thumb"><%= dish.name.first(2).upcase %></div>
+            <div class="dish-mini-thumb"><%= dish_thumb(dish) %></div>
             <div class="grow">
               <div class="strong"><%= dish.name %></div>
               <div class="muted mt-1"><%= truncate(dish.description, length: 90) %></div>

@@ -115,6 +115,18 @@ module SerfDesignHelper
     restrictions.sort_by { |r| [ Restriction.restriction_types[r.restriction_type], r.name ] }
   end
 
+  # Inner markup for a dish thumbnail: the attached photo (cropped to fill its
+  # square container via object-fit) or the dish's initials as a placeholder.
+  # The caller provides the wrapper element and its CSS class (.dish-img,
+  # .dish-mini-thumb, .menu-dish-thumb, .alternative-card-img).
+  def dish_thumb(dish)
+    if dish.image.attached?
+      image_tag(dish.image, alt: dish.name, class: "dish-img-photo", loading: "lazy")
+    else
+      content_tag(:span, dish.name.to_s.first(2).upcase, class: "dish-thumb-initials")
+    end
+  end
+
   # Map a Restriction.restriction_type enum value to a tag class.
   def restriction_tag_kind(restriction)
     case restriction.restriction_type

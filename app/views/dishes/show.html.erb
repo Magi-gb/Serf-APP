@@ -15,6 +15,13 @@
 <% end %>
 
 <div class="content col">
+  <div class="card dish-hero">
+    <div class="dish-hero-media">
+      <%= dish_thumb(@dish) %>
+      <span class="tag dish-hero-badge"><%= t("dishes.types.#{@dish.dish_type}") %></span>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-header"><h3 class="card-title"><%= t("dishes.show.description") %></h3></div>
     <div class="card-body">
@@ -26,7 +33,7 @@
 
       <%= render "shared/restriction_tags",
                  restrictions: (@dish.ingredients + @dish.elaborations.flat_map(&:ingredients)).flat_map(&:restrictions).uniq,
-                 wrapper_class: "wrap gap-1 mt-3" %>
+                 wrapper_class: "wrap gap-1 mt-3", link: true %>
     </div>
   </div>
 

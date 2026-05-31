@@ -17,6 +17,8 @@ class IngredientsController < ApplicationController
     # Eager-load so the "used in dishes" list can render each dish's
     # restriction tags without an N+1 over ingredients/restrictions.
     @dishes = @ingredient.dishes.includes(ingredients: :restrictions).order(:name).to_a
+    # Whether this ingredient is essential (indispensable) in each dish that uses it.
+    @dish_essential = DishIngredient.where(ingredient: @ingredient).pluck(:dish_id, :essential).to_h
   end
 
   def new
