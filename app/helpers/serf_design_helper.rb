@@ -108,6 +108,13 @@ module SerfDesignHelper
     end
   end
 
+  # Order restrictions for tag display: allergies/intolerances (red) first, then
+  # diets (purple); alphabetically by name within each type. Sorts by the enum's
+  # integer value (not the string) so "diet" does not sort before "intolerance_allergy".
+  def restrictions_in_tag_order(restrictions)
+    restrictions.sort_by { |r| [ Restriction.restriction_types[r.restriction_type], r.name ] }
+  end
+
   # Map a Restriction.restriction_type enum value to a tag class.
   def restriction_tag_kind(restriction)
     case restriction.restriction_type

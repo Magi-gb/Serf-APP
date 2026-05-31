@@ -5,7 +5,7 @@
       dot           - show the leading colour dot on each tag (optional, default false) %>
 <% if restrictions.any? %>
   <div class="<%= [ "row", local_assigns[:wrapper_class] ].compact_blank.join(" ") %>">
-    <% restrictions.each do |restriction| %>
+    <% restrictions_in_tag_order(restrictions).each do |restriction| %>
       <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><% if local_assigns[:dot] %><span class="tag-dot"></span><% end %><%= restriction.name %></span>
     <% end %>
   </div>

@@ -12,7 +12,7 @@ class DishesController < ApplicationController
     end
     @dishes = @dishes.includes(ingredients: :restrictions).order(name: :asc)
     @dish_types = Dish.dish_types.keys
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def show

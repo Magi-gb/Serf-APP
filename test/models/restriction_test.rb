@@ -121,4 +121,10 @@ class RestrictionTest < ActiveSupport::TestCase
       restriction.update_columns(ingredients_count: -1)
     end
   end
+
+  test "ordered scope sorts by restriction_type then name" do
+    # Fixtures: Gluten (allergy), Lactose (allergy), Kosher (diet).
+    # Allergies (type 0) come before diets (type 1); within a type, by name.
+    assert_equal %w[Gluten Lactose Kosher], Restriction.ordered.pluck(:name)
+  end
 end

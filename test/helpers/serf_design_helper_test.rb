@@ -231,4 +231,24 @@ class SerfDesignHelperTest < ActionView::TestCase
     assert_match(/class="chip"/, neutral)
     refute_match(/chip-include/, neutral)
   end
+
+  # ---- restrictions_in_tag_order (sorts tags: allergies/intolerances first, then diets) ----
+
+  test "restrictions_in_tag_order puts allergies/intolerances before diets" do
+    diet = restrictions(:kosher)         # diet (purple), type 1
+    allergy = restrictions(:gluten)      # intolerance_allergy (red), type 0
+
+    ordered = restrictions_in_tag_order([ diet, allergy ])
+
+    assert_equal [ allergy, diet ], ordered
+  end
+
+  test "restrictions_in_tag_order sorts by name within the same type" do
+    lactose = restrictions(:lactose)     # intolerance_allergy, name "Lactose"
+    gluten  = restrictions(:gluten)      # intolerance_allergy, name "Gluten"
+
+    ordered = restrictions_in_tag_order([ lactose, gluten ])
+
+    assert_equal [ gluten, lactose ], ordered
+  end
 end

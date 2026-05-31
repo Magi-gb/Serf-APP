@@ -9,6 +9,11 @@ class Restriction < ApplicationRecord
   validates :restriction_type, presence: true
   validates :severity, presence: true
 
+  # Default display order: allergies/intolerances (type 0) before diets (type 1),
+  # then alphabetically by name within each type. Not a default_scope on purpose —
+  # that would override the sortable restrictions catalog index.
+  scope :ordered, -> { order(:restriction_type, :name) }
+
   def recalculate_all_cached_counts!
     direct_dish_ids = Dish.joins(ingredients: :ingredient_restrictions)
                           .where(ingredient_restrictions: { restriction_id: id })

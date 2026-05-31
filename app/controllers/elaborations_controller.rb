@@ -11,7 +11,7 @@ class ElaborationsController < ApplicationController
       @elaborations.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
     end
     @elaborations = @elaborations.order(:name)
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def show

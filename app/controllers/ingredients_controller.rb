@@ -10,7 +10,7 @@ class IngredientsController < ApplicationController
       @ingredients.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
     end
     @ingredients = @ingredients.order(:name)
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def show
@@ -21,7 +21,7 @@ class IngredientsController < ApplicationController
 
   def new
     @ingredient = Ingredient.new
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def create
@@ -30,20 +30,20 @@ class IngredientsController < ApplicationController
     if @ingredient.save
       redirect_to ingredients_path, notice: t("ingredients.create.success")
     else
-      @restrictions = Restriction.order(:name)
+      @restrictions = Restriction.ordered
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def update
     if @ingredient.update(ingredient_params)
       redirect_to ingredients_path, notice: t("ingredients.update.success")
     else
-      @restrictions = Restriction.order(:name)
+      @restrictions = Restriction.ordered
       render :edit, status: :unprocessable_entity
     end
   end
