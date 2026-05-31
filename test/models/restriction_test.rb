@@ -14,7 +14,7 @@ class RestrictionTest < ActiveSupport::TestCase
 
   test "validates uniqueness of name" do
     Restriction.create!(name: "Gluten Unique Test #{Time.current.to_i}", restriction_type: :intolerance_allergy)
-    restriction = Restriction.new(name: "Gluten Unique Test #{Time.current.to_i}", restriction_type: :preference)
+    restriction = Restriction.new(name: "Gluten Unique Test #{Time.current.to_i}", restriction_type: :diet)
     assert_not restriction.valid?
     assert restriction.errors[:name].any?
   end

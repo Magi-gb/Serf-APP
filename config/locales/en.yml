@@ -145,7 +145,6 @@ en:
       diet_restrictions: Diet restrictions
       intolerance_allergies: Intolerances and allergies
       name: Ingredient name
-      preference_restrictions: Preferences
       restrictions: Dietary restrictions
       submit_create: Create ingredient
       submit_update: Save changes
@@ -302,7 +301,6 @@ en:
     types:
       diet: Diet
       intolerance_allergy: Intolerance/Allergy
-      preference: Preference
   sessions:
     new:
       authorized_only_note: Access is for authorised staff only. Contact an administrator to request an account.
@@ -330,7 +328,6 @@ en:
         restrictions_by_dishes: Restrictions by affected dishes
         restrictions_by_type: Affected dishes by category
         safe_vs_restricted: Safe vs restricted dishes
-        top_ingredients: Ingredients with most restrictions
       dishes: Affected dishes
       menus: Affected menus
       restricted_label: With restrictions

@@ -29,15 +29,8 @@ class StatisticsController < ApplicationController
       .distinct
       .count
 
-    @top_ingredients = Ingredient
-      .joins(:ingredient_restrictions)
-      .group(:name)
-      .count
-      .sort_by { |_, count| -count }
-      .first(10)
-
     raw_type_counts = Dish.group(:dish_type).count
-    @dish_type_counts = Dish.dish_types.transform_values { |v| raw_type_counts[v] || 0 }
+    @dish_type_counts = Dish.dish_types.keys.index_with { |type| raw_type_counts[type] || 0 }
 
     @restrictions_by_type = Restriction.restriction_types.keys.map do |type|
       restriction_ids = Restriction.where(restriction_type: type).ids

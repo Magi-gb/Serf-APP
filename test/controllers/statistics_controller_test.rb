@@ -65,15 +65,6 @@ class StatisticsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, restrictions(:gluten).name
   end
 
-  test "index renders top ingredients chart when ingredients with restrictions exist" do
-    get statistics_url
-
-    assert_response :success
-    assert_match I18n.t("statistics.index.charts.top_ingredients"), response.body
-    top_ingredient = Ingredient.joins(:ingredient_restrictions).group(:name).count.max_by(&:last)
-    assert_includes response.body, top_ingredient.first if top_ingredient
-  end
-
   test "index renders dish type labels in distribution chart" do
     get statistics_url
 
