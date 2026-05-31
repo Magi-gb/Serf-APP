@@ -342,7 +342,6 @@ en:
       affected_dishes: Affected dishes
       confirm_delete: Are you sure you want to delete this restriction?
       delete: Delete Restriction
-      dispensable: Dispensable
       edit: Edit
       metadata_code: Code
       metadata_last_edited: Last edited
@@ -352,7 +351,6 @@ en:
       metadata_type: Type
       no_dishes: No dish contains this restriction.
       no_ingredients: No ingredients associated with this restriction.
-      not_dispensable: Not dispensable
       related_ingredients: Ingredients containing it
     types:
       diet: Diet

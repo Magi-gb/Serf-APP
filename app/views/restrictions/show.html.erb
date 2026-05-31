@@ -50,24 +50,15 @@
           <span class="muted"> · <%= @dishes.size %></span>
         </h3>
       </div>
-      <% if @dishes.any? %>
-        <% @dishes.each do |dish| %>
-          <%= link_to dish_path(dish), class: "card-row" do %>
-            <div class="grow">
-              <div class="strong"><%= dish.name %></div>
-              <div class="muted fs-sm"><%= t("dishes.types.#{dish.dish_type}") %></div>
-            </div>
-            <% if @dish_dispensable[dish.id] %>
-              <span class="tag tag-preference"><span class="tag-dot"></span><%= t("restrictions.show.dispensable") %></span>
-            <% else %>
-              <span class="tag tag-allergen"><span class="tag-dot"></span><%= t("restrictions.show.not_dispensable") %></span>
-            <% end %>
-            <span class="muted"><%= serf_icon(:chevron) %></span>
-          <% end %>
+      <div class="card-body">
+        <% if @dishes.any? %>
+          <div class="grid grid-2">
+            <%= render partial: "shared/dish_mini", collection: @dishes, as: :dish %>
+          </div>
+        <% else %>
+          <div class="muted text-center"><%= t("restrictions.show.no_dishes") %></div>
         <% end %>
-      <% else %>
-        <div class="card-body muted text-center"><%= t("restrictions.show.no_dishes") %></div>
-      <% end %>
+      </div>
     </div>
 
     <%# Ingredients that carry this restriction %>

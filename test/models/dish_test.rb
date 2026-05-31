@@ -164,4 +164,19 @@ class DishTest < ActiveSupport::TestCase
     assert_equal Dish.all.to_a.sort_by(&:id), Dish.without_restrictions([]).to_a.sort_by(&:id)
     assert_equal Dish.all.to_a.sort_by(&:id), Dish.without_restrictions(nil).to_a.sort_by(&:id)
   end
+
+  # ---- all_restrictions ----
+
+  test "all_restrictions gathers restrictions from elaboration ingredients" do
+    # lasanya has no direct ingredients; its only restriction (gluten) comes
+    # from the bolognesa elaboration's bread ingredient.
+    assert_equal [ restrictions(:gluten) ], dishes(:lasanya).all_restrictions
+  end
+
+  test "all_restrictions merges direct and elaboration sources without duplicates" do
+    dish = dishes(:lasanya) # gluten via bolognesa elaboration -> bread
+    dish.ingredients << ingredients(:bread) # gluten again, now directly
+
+    assert_equal [ restrictions(:gluten) ], dish.all_restrictions
+  end
 end

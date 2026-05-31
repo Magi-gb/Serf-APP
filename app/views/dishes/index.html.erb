@@ -59,7 +59,7 @@
               <h3 class="dish-title"><%= dish.name %></h3>
               <p class="dish-desc"><%= truncate(dish.description, length: 90) %></p>
               <%= render "shared/restriction_tags",
-                         restrictions: dish.ingredients.flat_map(&:restrictions).uniq,
+                         restrictions: dish.all_restrictions,
                          wrapper_class: "wrap gap-1 mb-2" %>
               <div class="dish-meta">
                 <span class="tag"><%= t("dishes.types.#{dish.dish_type}") %></span>
@@ -78,7 +78,7 @@
               <div class="strong"><%= dish.name %></div>
               <div class="muted mt-1"><%= truncate(dish.description, length: 90) %></div>
               <%= render "shared/restriction_tags",
-                         restrictions: dish.ingredients.flat_map(&:restrictions).uniq,
+                         restrictions: dish.all_restrictions,
                          wrapper_class: "wrap gap-1 mt-2" %>
             </div>
             <span class="tag"><%= t("dishes.types.#{dish.dish_type}") %></span>

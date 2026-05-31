@@ -89,18 +89,7 @@
       <div class="card-body">
         <% if @dishes.any? %>
           <div class="grid grid-2">
-            <% @dishes.each do |dish| %>
-              <%= link_to dish_path(dish), class: "dish-mini" do %>
-                <div class="dish-mini-thumb"><%= dish_thumb(dish) %></div>
-                <div class="grow">
-                  <div class="strong"><%= dish.name %></div>
-                  <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
-                  <%= render "shared/restriction_tags",
-                             restrictions: dish.ingredients.flat_map(&:restrictions).uniq,
-                             wrapper_class: "wrap gap-1 mt-1" %>
-                </div>
-              <% end %>
-            <% end %>
+            <%= render partial: "shared/dish_mini", collection: @dishes, as: :dish %>
           </div>
         <% else %>
           <div class="muted text-center"><%= t("ingredients.show.not_used_in_dishes") %></div>

@@ -16,7 +16,9 @@ class IngredientsController < ApplicationController
   def show
     # Eager-load so the "used in dishes" list can render each dish's
     # restriction tags without an N+1 over ingredients/restrictions.
-    @dishes = @ingredient.dishes.includes(ingredients: :restrictions).order(:name).to_a
+    @dishes = @ingredient.dishes
+                         .includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions })
+                         .order(:name).to_a
   end
 
   def new

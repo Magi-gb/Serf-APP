@@ -342,7 +342,6 @@ ca:
       affected_dishes: Plats afectats
       confirm_delete: Estàs segur que vols eliminar aquesta restricció?
       delete: Eliminar Restricció
-      dispensable: Dispensable
       edit: Editar
       metadata_code: Codi
       metadata_last_edited: Última edició
@@ -352,7 +351,6 @@ ca:
       metadata_type: Tipus
       no_dishes: Cap plat conté aquesta restricció.
       no_ingredients: Cap ingredient associat a aquesta restricció.
-      not_dispensable: No dispensable
       related_ingredients: Ingredients que la contenen
     types:
       diet: Dieta

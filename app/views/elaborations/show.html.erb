@@ -72,21 +72,14 @@
         <span class="muted"> · <%= @dishes.size %></span>
       </h3>
     </div>
-    <% if @dishes.any? %>
-      <% @dishes.each do |dish| %>
-        <%= link_to dish_path(dish), class: "card-row is-link" do %>
-          <div class="dish-mini-thumb"><%= dish_thumb(dish) %></div>
-          <div class="grow">
-            <div class="strong"><%= dish.name %></div>
-            <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
-            <% all_restrictions = (dish.ingredients + dish.elaborations.flat_map(&:ingredients)).flat_map(&:restrictions).uniq %>
-            <%= render "shared/restriction_tags", restrictions: all_restrictions, wrapper_class: "wrap gap-1 mt-1" %>
-          </div>
-          <span class="muted"><%= serf_icon(:chevron) %></span>
-        <% end %>
+    <div class="card-body">
+      <% if @dishes.any? %>
+        <div class="grid grid-2">
+          <%= render partial: "shared/dish_mini", collection: @dishes, as: :dish %>
+        </div>
+      <% else %>
+        <div class="muted text-center"><%= t("elaborations.show.not_used_in_dishes") %></div>
       <% end %>
-    <% else %>
-      <div class="card-body muted"><%= t("elaborations.show.not_used_in_dishes") %></div>
-    <% end %>
+    </div>
   </div>
 </div>

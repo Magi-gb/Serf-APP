@@ -1,0 +1,12 @@
+<%# Renders a dish as a compact grid card. Local: dish (required).
+    Meant to sit inside a `.grid.grid-2` container. %>
+<%= link_to dish_path(dish), class: "dish-mini" do %>
+  <div class="dish-mini-thumb"><%= dish_thumb(dish) %></div>
+  <div class="grow">
+    <div class="strong"><%= dish.name %></div>
+    <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
+    <%= render "shared/restriction_tags",
+               restrictions: dish.all_restrictions,
+               wrapper_class: "wrap gap-1 mt-1" %>
+  </div>
+<% end %>

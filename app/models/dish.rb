@@ -54,6 +54,13 @@ class Dish < ApplicationRecord
       .where.not(id: joins(elaborations: { ingredients: :ingredient_restrictions }).select(:id))
   }
 
+  # Restrictions affecting this dish, gathered from its direct ingredients and
+  # from the ingredients of its elaborations, deduplicated.
+  def all_restrictions
+    (ingredients.flat_map(&:restrictions) +
+      elaborations.flat_map { |elaboration| elaboration.ingredients.flat_map(&:restrictions) }).uniq
+  end
+
   private
 
   def normalize_attributes

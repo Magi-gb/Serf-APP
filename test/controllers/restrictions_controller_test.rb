@@ -91,22 +91,16 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "aside.show-side"
   end
 
-  test "show renders not_dispensable tag for dish with essential ingredient" do
+  test "show renders affected dishes as dish cards" do
     get restriction_url(@restriction)
     assert_response :success
-    assert_select "span.tag-allergen", text: /No dispensable/
+    assert_select "a.dish-mini[href=?]", dish_path(dishes(:olivas))
   end
 
-  test "show renders dispensable tag for dish with non-essential ingredient" do
-    get restriction_url(restrictions(:lactose))
+  test "show renders the restriction tag on each affected dish card" do
+    get restriction_url(@restriction) # gluten -> olivas (bread)
     assert_response :success
-    assert_select "span.tag-preference", text: /Dispensable/
-  end
-
-  test "show renders affected dishes section" do
-    get restriction_url(@restriction)
-    assert_response :success
-    assert_select "a[href=?]", dish_path(dishes(:olivas))
+    assert_select "a.dish-mini span.tag-allergen", text: "Gluten"
   end
 
   test "should show restriction" do

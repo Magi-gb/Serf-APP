@@ -10,7 +10,9 @@ class DishesController < ApplicationController
     else
       @dishes.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
     end
-    @dishes = @dishes.with_attached_image.includes(ingredients: :restrictions).order(name: :asc)
+    @dishes = @dishes.with_attached_image
+                     .includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions })
+                     .order(name: :asc)
     @dish_types = Dish.dish_types.keys
     @restrictions = Restriction.ordered
   end

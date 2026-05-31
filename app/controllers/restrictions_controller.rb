@@ -21,16 +21,9 @@ class RestrictionsController < ApplicationController
     @ingredients = @restriction.ingredients.order(:name).to_a
     @dishes = Dish.joins(ingredients: :ingredient_restrictions)
                   .where(ingredient_restrictions: { restriction_id: @restriction.id })
-                  .includes(dish_ingredients: :ingredient)
+                  .includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions })
                   .distinct
                   .order(:name)
-    restriction_ingredient_ids = @restriction.ingredient_ids.to_set
-    @dish_dispensable = @dishes.each_with_object({}) do |dish, hash|
-      has_essential = dish.dish_ingredients.any? do |di|
-        restriction_ingredient_ids.include?(di.ingredient_id) && di.essential?
-      end
-      hash[dish.id] = !has_essential
-    end
   end
 
   # GET /restrictions/new
