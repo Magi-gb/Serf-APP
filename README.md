@@ -9,7 +9,7 @@ Aquest projecte es desenvolupa en el marc de l'assignatura **AMEP** (Ampliació 
 El client real és **Cal Blay**, una organització que gestiona diversos restaurants i necessita una eina per garantir la seguretat alimentària dels seus comensals. El problema que resolem: quan un grup arriba a un restaurant amb restriccions alimentàries diverses (al·lèrgies, intoleràncies, preferències religioses...), fer un menú compatible manualment és lent i propens a errors humans.
 
 Serf permet:
-- Gestionar el catàleg de **menús, plats i ingredients** amb les seves restriccions associades
+- Gestionar el catàleg de **menús, plats, elaboracions i ingredients** amb les seves restriccions associades
 - **Filtrar plats incompatibles** automàticament a partir de les restriccions del grup
 - **Proposar alternatives** quan un ingredient d'un plat és substituïble
 - Mostrar de forma clara totes les restriccions que pot incomplir un plat

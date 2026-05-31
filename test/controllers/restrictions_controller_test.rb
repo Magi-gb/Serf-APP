@@ -11,6 +11,60 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "index renders catalog table with legend columns" do
+    get restrictions_url
+    assert_select "div.rx-legend"
+    assert_select "a.rx-row"
+  end
+
+  test "index search filters by name" do
+    get restrictions_url, params: { q: "Gluten" }
+    assert_response :success
+    assert_select "a.rx-row", minimum: 1
+  end
+
+  test "index list view shows type filter chips" do
+    get restrictions_url, params: { view: "list" }
+    assert_response :success
+    assert_select "a.chip"
+  end
+
+  test "index grouped view shows section headers" do
+    get restrictions_url, params: { view: "grouped" }
+    assert_response :success
+    assert_select "div.rx-section-header"
+  end
+
+  test "index renders sortable column headers" do
+    get restrictions_url
+    assert_response :success
+    assert_select "a.rx-sort-link", minimum: 6
+  end
+
+  test "index sort by dishes_count desc shows active sort link" do
+    get restrictions_url, params: { sort: "dishes_count", dir: "desc", view: "list" }
+    assert_response :success
+    assert_select "a.rx-sort-link.is-active"
+  end
+
+  test "index rejects unknown sort column and still renders successfully" do
+    get restrictions_url, params: { sort: "malicious; DROP TABLE", view: "list" }
+    assert_response :success
+    assert_select "div.rx-legend"
+  end
+
+  test "show renders EFSA Annex II source for intolerance_allergy" do
+    get restriction_url(restrictions(:gluten))
+    assert_response :success
+    assert_select "div.detail-field-value", text: /EFSA Annex II/
+  end
+
+  test "show renders dash source for diet restriction" do
+    get restriction_url(restrictions(:kosher))
+    assert_response :success
+    assert_select "div.detail-field-value.muted", text: "---"
+  end
+
   test "should get new" do
     get new_restriction_url
     assert_response :success
@@ -18,15 +72,54 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create restriction" do
     assert_difference("Restriction.count") do
-      post restrictions_url, params: { restriction: { name: "Ou", description: "Conté ou", restriction_type: :intolerance_allergy } }
+      post restrictions_url, params: { restriction: { name: "Ou", description: "Conté ou", restriction_type: :intolerance_allergy, severity: :high } }
     end
 
     assert_redirected_to restriction_url(Restriction.last)
+    assert_equal "high", Restriction.last.severity
+  end
+
+  test "show renders severity tag" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "span.tag-severity-high"
+  end
+
+  test "show renders metadata section" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "aside.show-side"
+  end
+
+  test "show renders affected dishes as dish cards" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "a.dish-mini[href=?]", dish_path(dishes(:olivas))
+  end
+
+  test "show renders the restriction tag on each affected dish card" do
+    get restriction_url(@restriction) # gluten -> olivas (bread)
+    assert_response :success
+    assert_select "a.dish-mini span.tag-allergen", text: "Gluten"
   end
 
   test "should show restriction" do
     get restriction_url(@restriction)
     assert_response :success
+  end
+
+  test "show renders ingredients linked to the restriction" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "a[href=?]", ingredient_path(ingredients(:bread))
+  end
+
+  test "show renders no_ingredients message when restriction has no ingredients" do
+    restriction = restrictions(:lactose)
+    restriction.ingredient_restrictions.destroy_all
+    get restriction_url(restriction)
+    assert_response :success
+    assert_select "div.muted", text: I18n.t("restrictions.show.no_ingredients")
   end
 
   test "should get edit" do

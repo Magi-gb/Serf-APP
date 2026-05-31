@@ -1,0 +1,107 @@
+# Esquema de la BBDD
+
+> **NOTA:** Totes les claus primàries són un ID auto-incremental per defecte a Rails. Podríem haver definit les nostres claus primàries, però hem considerat més senzill seguir les convencions del framework de manera que no es requereixi configuració addicional.
+
+> **NOTA:** El nom de totes les taules, per convenció de Rails, és snake_case, no obstant per llegibilitat i per seguir les convencions de l'assignatura i per coherència amb informes anteriors, aquí les posarem en PascalCase.
+
+> **NOTA:** No fem servir enum a nivell de BBDD perquè SQLite3, que fem servir a la suite de tests i al entorn local, no ho accepta. **Per als camps de tipus enum (role, restriction_type, severity, dish_type) fem servir un enter amb un CHECK que en restringeix el domini.**
+
+> **NOTA (canvis):** En negreta es marquen tots els canvis respecte de la versió anterior d'aquest esquema. La taula `IngredientAlternatives` s'ha eliminat i, per tant, ja no apareix.
+
+---
+
+### Users(id, username, encrypted_password, role, created_at, updated_at)
+
+- `username`: UNIQUE NOT NULL
+- `encrypted_password`: NOT NULL
+- `role`: NOT NULL CHECK(role IN (0, 1, 2))
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL
+
+### Restrictions(id, name, restriction_type, **description**, **severity**, **ingredients_count**, **elaborations_count**, **dishes_count**, **menus_count**, created_at, updated_at)
+
+- `name`: UNIQUE NOT NULL
+- `restriction_type`: NOT NULL CHECK(restriction_type IN (0, 1))
+- **`severity`: NOT NULL DEFAULT 1 CHECK(severity IN (0, 1, 2))**
+- **`ingredients_count`: NOT NULL DEFAULT 0 CHECK(ingredients_count >= 0)**
+- **`elaborations_count`: NOT NULL DEFAULT 0 CHECK(elaborations_count >= 0)**
+- **`dishes_count`: NOT NULL DEFAULT 0 CHECK(dishes_count >= 0)**
+- **`menus_count`: NOT NULL DEFAULT 0 CHECK(menus_count >= 0)**
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL
+
+> **NOTA:** **`ingredients_count`, `elaborations_count`, `dishes_count` i `menus_count` són counter caches (recomptes precalculats) gestionats pel framework i per `Restriction#recalculate_all_cached_counts!`. No tenen validació a nivell d'ActiveRecord perquè totes dues vies d'escriptura ignoren les validacions; el CHECK de la BBDD és l'única capa que en garanteix la no-negativitat.**
+
+### **Ingredients**(id, name, description, created_at, updated_at)
+
+- `name`: UNIQUE NOT NULL
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL
+
+### IngredientRestrictions(id, ingredient_id, restriction_id, created_at, updated_at)
+
+- `ingredient_id`: NOT NULL REFERENCIA(**Ingredients**)
+- `restriction_id`: NOT NULL REFERENCIA(**Restrictions**)
+- `ingredient_id`+`restriction_id`: UNIQUE
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL
+
+### Dishes(id, name, description, dish_type, created_at, updated_at)
+
+- `name`: NOT NULL
+- `dish_type`: **NOT NULL DEFAULT 0** CHECK(dish_type IN (0, 1, 2, 3))
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL
+
+### **DishIngredients(id, dish_id, ingredient_id, essential, created_at, updated_at)**
+
+- **`dish_id`: NOT NULL REFERENCIA(Dishes)**
+- **`ingredient_id`: NOT NULL REFERENCIA(Ingredients)**
+- **`dish_id`+`ingredient_id`: UNIQUE**
+- **`essential`: NOT NULL DEFAULT true**
+- **`created_at`: NOT NULL**
+- **`updated_at`: NOT NULL**
+
+> **NOTA:** **`essential` distingeix els ingredients essencials (bloquejants) dels substituïbles dins d'un plat.**
+
+### **Elaborations(id, name, description, created_at, updated_at)**
+
+- **`name`: UNIQUE NOT NULL**
+- **`created_at`: NOT NULL**
+- **`updated_at`: NOT NULL**
+
+### **ElaborationIngredients(id, elaboration_id, ingredient_id, created_at, updated_at)**
+
+- **`elaboration_id`: NOT NULL REFERENCIA(Elaborations)**
+- **`ingredient_id`: NOT NULL REFERENCIA(Ingredients)**
+- **`elaboration_id`+`ingredient_id`: UNIQUE**
+- **`created_at`: NOT NULL**
+- **`updated_at`: NOT NULL**
+
+### **DishElaborations(id, dish_id, elaboration_id, created_at, updated_at)**
+
+- **`dish_id`: NOT NULL REFERENCIA(Dishes)**
+- **`elaboration_id`: NOT NULL REFERENCIA(Elaborations)**
+- **`dish_id`+`elaboration_id`: UNIQUE**
+- **`created_at`: NOT NULL**
+- **`updated_at`: NOT NULL**
+
+### Menus(id, name, created_at, updated_at)
+
+- `name`: UNIQUE NOT NULL
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL
+
+### **MenuDishes(id, menu_id, dish_id, created_at, updated_at)**
+
+- **`menu_id`: NOT NULL REFERENCIA(Menus)**
+- **`dish_id`: NOT NULL REFERENCIA(Dishes)**
+- **`menu_id`+`dish_id`: UNIQUE**
+- **`created_at`: NOT NULL**
+- **`updated_at`: NOT NULL**
+
+### Protocols(id, name, description, created_at, updated_at)
+
+- `name`: UNIQUE NOT NULL
+- `created_at`: NOT NULL
+- `updated_at`: NOT NULL

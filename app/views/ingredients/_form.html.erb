@@ -2,7 +2,7 @@
   <%= render "shared/form_errors", object: ingredient %>
 
   <div class="field">
-    <%= form.label :name, t("ingredients.form.name"), class: "label" %>
+    <%= form.label :name, t("ingredients.form.name"), class: "label required" %>
     <%= form.text_field :name, class: "input" %>
   </div>
 
@@ -39,7 +39,7 @@
     <%
       group_labels = {
         intolerance_allergy: [ t("ingredients.form.intolerance_allergies"), "allergen" ],
-        religious: [ t("ingredients.form.religious_restrictions"), "religious" ]
+        diet: [ t("ingredients.form.diet_restrictions"), "diet" ]
       }
     %>
     <% group_labels.each do |type, (label, tag_kind)| %>
@@ -69,8 +69,8 @@
 
     <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
 
-    <%# DESIGN-GAP: design has a 4th group "Preferències" — Restriction enum only has
-        intolerance_allergy + religious. Need to add a `preference` value (and EFSA flag). %>
+    <%# DESIGN-GAP: design groups restrictions into 4 buckets with an "EFSA Annex II" badge.
+        Current enum has intolerance_allergy + diet. EFSA flag not yet implemented. %>
   </fieldset>
 
   <div class="row mt-4">

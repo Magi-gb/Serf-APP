@@ -1,0 +1,45 @@
+<% content_for :title, t("statistics.index.title") %>
+
+<%= render "shared/topbar", title: t("statistics.index.title") %>
+
+<div class="content">
+
+  <%= render "statistics/kpi_strip" %>
+
+  <%= render "statistics/charts" %>
+
+  <%# Per-restriction detail cards %>
+  <h2 class="mt-4"><%= t("sidebar.restrictions") %></h2>
+  <div class="grid grid-3 mt-3">
+    <% @restrictions_stats.each do |stat| %>
+      <% restriction = stat[:restriction] %>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <code class="restr-code"><%= restriction_code(restriction) %></code>
+            <div class="grow">
+              <div class="strong"><%= restriction.name %></div>
+              <div class="tag tag-<%= restriction_tag_kind(restriction) %> mt-2">
+                <%= t("restrictions.types.#{restriction.restriction_type}") %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="row-spread">
+            <span><%= t("statistics.index.dishes") %></span>
+            <strong><%= stat[:dishes_count] %></strong>
+          </div>
+
+          <div class="row-spread mt-2">
+            <span><%= t("statistics.index.menus") %></span>
+            <strong><%= stat[:menus_count] %></strong>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

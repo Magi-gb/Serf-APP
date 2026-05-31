@@ -1,0 +1,85 @@
+<% content_for :title, @elaboration.name %>
+
+<%= render "shared/topbar", title: @elaboration.name,
+    subtitle: breadcrumb([t("elaborations.index.title"), elaborations_path], [@elaboration.name, nil]) do %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= button_to elaboration_path(@elaboration), method: :delete,
+                  class: "btn btn-secondary btn-sm",
+                  form: { data: { turbo_confirm: t("elaborations.show.confirm_delete") } } do %>
+      <%= serf_icon(:trash) %><%= t("elaborations.show.delete") %>
+    <% end %>
+    <%= link_to edit_elaboration_path(@elaboration), class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:edit) %><%= t("elaborations.show.edit") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% has_allergen = @elaboration.restrictions.any?(&:intolerance_allergy?) %>
+
+<div class="content col">
+  <div class="card">
+    <div class="card-body row">
+      <span class="avatar avatar-lg" style="--avatar-bg: <%= has_allergen ? 'var(--brand-red)' : 'var(--accent-green)' %>;">
+        <%= serf_icon(:leaf, size: 28) %>
+      </span>
+      <div class="grow">
+        <div class="strong"><%= @elaboration.name %></div>
+        <% if @elaboration.description.present? %>
+          <p class="muted mt-2 mb-0"><%= @elaboration.description %></p>
+        <% end %>
+        <%= render "shared/restriction_tags",
+                   restrictions: @elaboration.restrictions,
+                   wrapper_class: "wrap gap-1 mt-2", link: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
+        <%= t("elaborations.show.ingredients") %>
+        <span class="muted"> · <%= @elaboration.ingredients.size %></span>
+      </h3>
+    </div>
+    <% if @elaboration.ingredients.any? %>
+      <% @elaboration.ingredients.each do |ingredient| %>
+        <%= link_to ingredient_path(ingredient), class: "card-row is-link" do %>
+          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
+            <%= serf_icon(:leaf) %>
+          </span>
+          <div class="grow">
+            <div class="strong"><%= ingredient.name %></div>
+            <% if ingredient.restrictions.any? %>
+              <div class="row mt-2">
+                <% ingredient.restrictions.each do |restriction| %>
+                  <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <span class="muted"><%= serf_icon(:chevron) %></span>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="card-body muted"><%= t("elaborations.show.no_ingredients") %></div>
+    <% end %>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
+        <%= t("elaborations.show.used_in_dishes") %>
+        <span class="muted"> · <%= @dishes.size %></span>
+      </h3>
+    </div>
+    <div class="card-body">
+      <% if @dishes.any? %>
+        <div class="grid grid-2">
+          <%= render partial: "shared/dish_mini", collection: @dishes, as: :dish %>
+        </div>
+      <% else %>
+        <div class="muted text-center"><%= t("elaborations.show.not_used_in_dishes") %></div>
+      <% end %>
+    </div>
+  </div>
+</div>

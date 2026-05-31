@@ -2,7 +2,7 @@
   <%= render "shared/form_errors", object: restriction %>
 
   <div class="field">
-    <%= form.label :name, t("restrictions.form.name"), class: "label" %>
+    <%= form.label :name, t("restrictions.form.name"), class: "label required" %>
     <%= form.text_field :name, class: "input" %>
   </div>
 
@@ -12,27 +12,24 @@
   </div>
 
   <div class="field">
-    <%= form.label :restriction_type, t("restrictions.form.restriction_type"), class: "label" %>
+    <%= form.label :restriction_type, t("restrictions.form.restriction_type"), class: "label required" %>
     <%= form.select :restriction_type,
                     Restriction.restriction_types.keys.map { |k| [t("restrictions.types.#{k}"), k] },
                     {}, class: "select" %>
-    <%# DESIGN-GAP: design splits into 4 kinds (al·lèrgens / intoleràncies / religioses /
-        preferències) as explanatory cards with implications. Only 2 enum values exist. %>
   </div>
 
   <div class="field">
-    <%= form.label :bg_color, t("restrictions.form.bg_color"), class: "label" %>
-    <%= form.color_field :bg_color, class: "input", value: restriction.bg_color || "#cccccc" %>
+    <%= form.label :severity, t("restrictions.form.severity"), class: "label" %>
+    <div class="severity-chips">
+      <% [[:low, "accent-green"], [:medium, "state-warning"], [:high, "brand-red"]].each do |sev, color| %>
+        <label class="severity-chip severity-chip-<%= sev %>">
+          <%= form.radio_button :severity, sev %>
+          <span class="severity-chip-dot" style="background: var(--<%= color %>);"></span>
+          <span><%= t("restrictions.severity.#{sev}") %></span>
+        </label>
+      <% end %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= form.label :icon_svg, t("restrictions.form.icon_svg"), class: "label" %>
-    <%= form.text_area :icon_svg, class: "textarea", id: "restriction_icon_svg", rows: 4 %>
-  </div>
-
-  <%# DESIGN-GAP: design shows a "short code" (monospace, max 6 chars), severity chips,
-      and toggles for "Visible al cambrer" and "Reglamentari EFSA". None of those fields
-      exist on Restriction. %>
 
   <div class="row mt-4">
     <%= form.submit t("restrictions.form.submit"), class: "btn btn-primary" %>

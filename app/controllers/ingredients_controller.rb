@@ -3,34 +3,27 @@ class IngredientsController < ApplicationController
   before_action :require_kitchen_manager_or_above!, except: %i[index show]
 
   def index
-    @ingredients = Ingredient
-      .search(params[:search])
-      .with_restrictions(params[:include_restrictions])
-      .without_restrictions(params[:exclude_restrictions])
-      .order(:name)
-    @restrictions = Restriction.order(:name)
+    @ingredients = Ingredient.search(params[:search])
+    @ingredients = if params[:safe_only].present?
+      @ingredients.safe
+    else
+      @ingredients.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
+    end
+    @ingredients = @ingredients.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def show
-    return unless current_user.admin? || current_user.kitchen_manager?
-
-    candidates = Ingredient.includes(:restrictions).where.not(id: @ingredient.id).order(:name)
-
-    ingredient_restriction_ids = @ingredient.restriction_ids
-    current_alternative_ids = @ingredient.alternative_ids
-    # Picker candidates: every non-self ingredient that either is already
-    # an alternative (so it can be unticked) or satisfies the no-new-
-    # restrictions rule. Uses the eager-loaded `restrictions` association
-    # to avoid N+1.
-    @alternative_ingredients = candidates.select do |candidate|
-      current_alternative_ids.include?(candidate.id) ||
-        (candidate.restrictions.map(&:id) - ingredient_restriction_ids).empty?
-    end
+    # Eager-load so the "used in dishes" list can render each dish's
+    # restriction tags without an N+1 over ingredients/restrictions.
+    @dishes = @ingredient.dishes
+                         .includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions })
+                         .order(:name).to_a
   end
 
   def new
     @ingredient = Ingredient.new
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def create
@@ -39,20 +32,20 @@ class IngredientsController < ApplicationController
     if @ingredient.save
       redirect_to ingredients_path, notice: t("ingredients.create.success")
     else
-      @restrictions = Restriction.order(:name)
+      @restrictions = Restriction.ordered
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @restrictions = Restriction.order(:name)
+    @restrictions = Restriction.ordered
   end
 
   def update
     if @ingredient.update(ingredient_params)
       redirect_to ingredients_path, notice: t("ingredients.update.success")
     else
-      @restrictions = Restriction.order(:name)
+      @restrictions = Restriction.ordered
       render :edit, status: :unprocessable_entity
     end
   end

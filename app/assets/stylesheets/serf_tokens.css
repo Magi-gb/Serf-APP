@@ -57,8 +57,8 @@
   /* Restriction taxonomy */
   --tag-allergen: oklch(0.6 0.18 30);
   --tag-allergen-soft: oklch(0.96 0.04 30);
-  --tag-religious: oklch(0.55 0.13 280);
-  --tag-religious-soft: oklch(0.96 0.03 280);
+  --tag-diet: oklch(0.55 0.13 280);
+  --tag-diet-soft: oklch(0.96 0.03 280);
   --tag-preference: oklch(0.6 0.13 150);
   --tag-preference-soft: oklch(0.96 0.04 150);
   --tag-intolerance: oklch(0.65 0.14 70);

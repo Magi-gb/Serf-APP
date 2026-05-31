@@ -10,10 +10,17 @@ ca:
         password_confirmation: Confirmar contrasenya
     errors:
       models:
-        ingredient_alternative:
+        dish:
           attributes:
-            alternative:
-              cannot_add_restrictions: no pot afegir noves restriccions respecte l'ingredient original
+            image:
+              invalid_content_type: ha de ser una imatge PNG, JPEG o WEBP
+              too_large: és massa gran (màxim %{max} MB)
+            ingredients:
+              blank: ha de tenir almenys un ingredient
+        elaboration:
+          attributes:
+            ingredients:
+              blank: ha de tenir almenys un ingredient
     models:
       protocol:
         one: Protocol
@@ -40,17 +47,24 @@ ca:
       title: Editar plat
     form:
       cancel: Cancel·lar
+      change_image: Canviar la foto
       description: Descripció
       dish_type: Tipus de plat
+      elaborations: Elaboracions
+      essential: Imprescindible
+      image: Imatge
       ingredients: Ingredients
       name: Nom del plat
       submit_create: Crear plat
       submit_update: Desar canvis
+      substituible: Substituïble
+      upload_image: Pujar una foto
     index:
       new_dish: Nou plat
       no_dishes: No s'han trobat plats.
       search_placeholder: Cerca un plat
       title: Plats
+      types_filter: Tipus
     messages:
       created_success: Plat creat correctament.
       destroyed_success: Plat eliminat correctament.
@@ -62,13 +76,50 @@ ca:
       delete: Eliminar plat
       description: Descripció
       edit: Editar
+      elaborations: Elaboracions
+      essential_header: Imprescindibles
+      essential_subtitle: No es poden treure ni substituir
       ingredients: Ingredients
+      no_description: Sense descripció
       no_ingredients: Aquest plat no té ingredients associats
+      substituible_header: Substituïbles
+      substituible_subtitle: Es poden adaptar segons restriccions
     types:
       entrant: Entrant
       postre: Postre
       primer: Primer plat
       segon: Segon plat
+  elaborations:
+    edit:
+      title: Editar elaboració
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      ingredients: Ingredients
+      name: Nom de l'elaboració
+      submit_create: Crear elaboració
+      submit_update: Desar canvis
+    index:
+      ingredients_count: ingredients
+      new_elaboration: Nova elaboració
+      no_elaborations: No s'han trobat elaboracions.
+      no_restrictions: Cap restricció
+      search_placeholder: Cerca una elaboració
+      title: Elaboracions
+    messages:
+      created_success: Elaboració creada correctament.
+      destroyed_success: Elaboració eliminada correctament.
+      updated_success: Elaboració actualitzada correctament.
+    new:
+      title: Nova elaboració
+    show:
+      confirm_delete: Segur que vols eliminar aquesta elaboració?
+      delete: Eliminar
+      edit: Editar dades
+      ingredients: Ingredients
+      no_ingredients: Aquesta elaboració no té ingredients associats
+      not_used_in_dishes: Aquesta elaboració no s'utilitza en cap plat
+      used_in_dishes: Plats que l'utilitzen
   errors:
     form_header:
       one: '1 error ha impedit guardar:'
@@ -92,8 +143,13 @@ ca:
         other: "%{count} errors han impedit guardar:"
   filters:
     clear: Esborra filtres
-    exclude: Exclou
-    include: Inclou
+    dietary_restrictions: Restriccions
+    next_action:
+      exclude: Clic per incloure
+      exclude_clear: Clic per esborrar el filtre
+      include: Clic per esborrar el filtre
+      neutral: Clic per excloure
+    safe_only: Sense restriccions
   flash:
     alert: alert
     notice: notice
@@ -108,27 +164,14 @@ ca:
       dashboard_title: Tauler de control
       kpis:
         dishes: Plats actius
-        dishes_trend_placeholder: Total al catàleg
         menus: Menús publicats
-        menus_trend_placeholder: Total al catàleg
         restrictions: Restriccions
         restrictions_trend: Catàleg complet
-        users: Personal
-        users_trend_placeholder: Total registrat
-      no_activity_yet: Encara no hi ha activitat registrada.
+        safe_dishes: Plats segurs
+        safe_dishes_trend: Sense restriccions
       quick_access: Accés ràpid
-      recent_activity: Activitat recent
       title: Serf
-      waiter_description: Aquí veuràs les opcions disponibles per als cambrers.
-      waiter_features: Funcionalitats del Cambrer
       welcome: Benvingut, %{username}!
-  ingredient_alternatives:
-    create:
-      success: Alternativa afegida correctament.
-    destroy:
-      success: Alternativa eliminada correctament.
-    update_collection:
-      success: Alternatives desades correctament.
   ingredients:
     create:
       success: Ingredient creat correctament.
@@ -138,9 +181,9 @@ ca:
       title: Editar ingredient
     form:
       description: Descripció
+      diet_restrictions: Restriccions de dieta
       intolerance_allergies: Intoleràncies i al·lèrgies
       name: Nom de l'ingredient
-      religious_restrictions: Restriccions religioses
       restrictions: Restriccions alimentàries
       submit_create: Crear ingredient
       submit_update: Desar canvis
@@ -154,7 +197,6 @@ ca:
       title: Nou ingredient
     show:
       allergen_badge: Al·lergen
-      alternatives_title: Alternatives
       confirm_delete: Segur que vols eliminar aquest ingredient?
       delete: Eliminar
       delete_warning:
@@ -165,12 +207,9 @@ ca:
       edit: Editar dades
       linked_dishes: Plats vinculats
       linked_restrictions: Restriccions vinculades
-      no_alternatives: Encara no hi ha alternatives associades.
-      no_available_alternatives: No hi ha ingredients disponibles com a alternativa.
       no_restrictions: Cap restricció alimentària associada
       not_used_in_dishes: Aquest ingredient no s'utilitza en cap plat
       restrictions: Restriccions associades
-      save_alternatives: Desa les alternatives
       used_in_dishes: Plats que el contenen
     update:
       success: Ingredient actualitzat correctament.
@@ -181,15 +220,10 @@ ca:
     headline_html: Cuina sense errors,<br>menús per a tothom.
     subhead: Gestió de plats, ingredients i restriccions per al grup de restaurants Cal Blay.
   menus:
-    coverage:
-      gluten: Sense gluten
-      lactose: Sense lactosa
-      vegan: Vegà
-      vegetarian: Vegetarià
     edit:
       title: Editar menú
     errors:
-      missing_dish_type: El menú ha de tenir un plat de tipus %{type}
+      no_dishes: El menú ha de tenir, com a mínim, un plat
     form:
       cancel: Cancel·lar
       dishes: Plats
@@ -208,9 +242,11 @@ ca:
     new:
       title: Nou menú
     show:
+      alternatives_title: Alternatives
       confirm_delete: Segur que vols eliminar aquest menú?
-      coverage_hint: 'Aproximació: un plat compta com a compatible si cap dels seus ingredients porta la restricció. Sense el camp ''essencial'' a DishIngredient no podem distingir adaptable de bloquejant.'
-      coverage_title: Cobertura de restriccions
+      coverage_hint: Un plat es compta com a incompatible si conté qualsevol ingredient que porti la restricció, fins i tot si l'ingredient és substituïble.
+      coverage_none: Cap restricció incomplerta en aquest menú.
+      coverage_title: Incompliment de restriccions
       delete: Eliminar menú
       detail_last_edited: Última edició
       detail_restaurant: Restaurant
@@ -222,6 +258,7 @@ ca:
       kpi_price: Preu
       kpi_sections: Seccions
       kpi_validity: Vigència
+      no_alternatives: No hi ha alternatives disponibles
       no_dishes: Aquest menú no té plats associats
   pickers:
     none: Cap resultat per a aquesta cerca.
@@ -270,31 +307,58 @@ ca:
     edit:
       title: Editar Restricció
     form:
-      bg_color: Color de fons
       cancel: Cancel·lar
       description: Descripció detallada
-      icon_svg: Icona (codi SVG)
       name: Nom de la restricció
       restriction_type: Tipus de restricció
+      severity: Severitat
       submit: Guardar restricció
     index:
+      col_code: Codi
+      col_dishes: Plats
+      col_elaborations: Elaboracions
+      col_ingredients: Ingredients
+      col_menus: Menús
+      col_name: Restricció
+      col_severity: Severitat
+      efsa_badge: EFSA Annex II
       empty: Encara no hi ha restriccions guardades.
+      filter_all: Totes
+      search_placeholder: Cerca restriccions o codi…
+      showing: Mostrant %{shown} de %{total}
+      subtitle:
+        one: 1 restricció activa
+        other: "%{count} restriccions actives"
       title: Restriccions
+      view_grouped: Agrupat
+      view_list: Llista
     messages:
       created_success: Restricció creada correctament.
       destroyed_success: Restricció eliminada correctament.
       updated_success: Restricció actualitzada correctament.
     new:
       title: Crear Nova Restricció
+    severity:
+      high: Alta
+      low: Baixa
+      medium: Mitjana
     show:
+      affected_dishes: Plats afectats
       confirm_delete: Estàs segur que vols eliminar aquesta restricció?
       delete: Eliminar Restricció
-      description_title: Descripció de la restricció
       edit: Editar
-      no_description: Sense descripció addicional.
+      metadata_code: Codi
+      metadata_last_edited: Última edició
+      metadata_severity: Severitat
+      metadata_source: Font normativa
+      metadata_title: Metadades
+      metadata_type: Tipus
+      no_dishes: Cap plat conté aquesta restricció.
+      no_ingredients: Cap ingredient associat a aquesta restricció.
+      related_ingredients: Ingredients que la contenen
     types:
+      diet: Dieta
       intolerance_allergy: Intolerància/Al·lèrgia
-      religious: Religiosa
   sessions:
     new:
       authorized_only_note: L'accés és per a personal autoritzat. Contacta amb un administrador per crear un compte nou.
@@ -305,6 +369,7 @@ ca:
     close: Tanca el menú
     dashboard: Inici
     dishes: Plats
+    elaborations: Elaboracions
     emergencies: Emergències
     ingredients: Ingredients
     logout: Tancar sessió
@@ -313,7 +378,22 @@ ca:
     personal: Personal
     protocols: Protocols
     restrictions: Restriccions
+    statistics: Estadístiques
     toggle: Obrir menú lateral
+  statistics:
+    index:
+      charts:
+        dish_type_distribution: Distribució per tipus de plat
+        restrictions_by_dishes: Restriccions per plats afectats
+        restrictions_by_type: Plats afectats per categoria
+        safe_vs_restricted: Plats segurs vs restringits
+      dishes: Plats afectats
+      menus: Menús afectats
+      restricted_label: Amb restriccions
+      safe_dishes_count: "%{count} plats sense cap restricció"
+      safe_label: Segurs
+      title: Estadístiques
+      total_dishes_count: "%{count} plats en total"
   users:
     create:
       success: Usuari creat correctament.

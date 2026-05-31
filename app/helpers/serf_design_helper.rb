@@ -73,7 +73,8 @@ module SerfDesignHelper
     trend: [ "M22 7l-9.5 9.5-5-5L1 18", "M16 7h6v6" ],
     grid: [ "M3 3h7v7H3z", "M14 3h7v7h-7z", "M14 14h7v7h-7z", "M3 14h7v7H3z" ],
     list: [ "M3 6h18", "M3 12h18", "M3 18h18" ],
-    menu: [ "M3 6h18", "M3 12h18", "M3 18h18" ]
+    menu: [ "M3 6h18", "M3 12h18", "M3 18h18" ],
+    chart: [ "M3 3v18h18", "M8 17v-5", "M13 17V8", "M18 17v-9" ]
   }.freeze
 
   # Render a Lucide-style outline SVG icon.
@@ -107,11 +108,30 @@ module SerfDesignHelper
     end
   end
 
+  # Order restrictions for tag display: allergies/intolerances (red) first, then
+  # diets (purple); alphabetically by name within each type. Sorts by the enum's
+  # integer value (not the string) so "diet" does not sort before "intolerance_allergy".
+  def restrictions_in_tag_order(restrictions)
+    restrictions.sort_by { |r| [ Restriction.restriction_types[r.restriction_type], r.name ] }
+  end
+
+  # Inner markup for a dish thumbnail: the attached photo (cropped to fill its
+  # square container via object-fit) or the dish's initials as a placeholder.
+  # The caller provides the wrapper element and its CSS class (.dish-img,
+  # .dish-mini-thumb, .menu-dish-thumb, .alternative-card-img).
+  def dish_thumb(dish)
+    if dish.image.attached?
+      image_tag(dish.image, alt: dish.name, class: "dish-img-photo", loading: "lazy")
+    else
+      content_tag(:span, dish.name.to_s.first(2).upcase, class: "dish-thumb-initials")
+    end
+  end
+
   # Map a Restriction.restriction_type enum value to a tag class.
   def restriction_tag_kind(restriction)
     case restriction.restriction_type
     when "intolerance_allergy" then "allergen"
-    when "religious" then "religious"
+    when "diet" then "diet"
     else "preference"
     end
   end
@@ -162,45 +182,101 @@ module SerfDesignHelper
     end
   end
 
-  # Tags and attributes allowed when sanitizing user-supplied SVG markup
-  # (used for restriction icons).
-  ICON_SVG_TAGS = %w[svg path circle rect g text].freeze
-  ICON_SVG_ATTRS = %w[viewBox xmlns width height fill stroke stroke-width
-                      stroke-linecap stroke-linejoin d cx cy r x y
-                      font-size font-family text-anchor dominant-baseline].freeze
 
-  # Render a sanitized SVG block. Safe to call on user-supplied markup
-  # because the tag/attribute allowlist is strictly bounded.
-  def restriction_icon_svg(svg_string)
-    return "".html_safe if svg_string.blank?
-    sanitize(svg_string, tags: ICON_SVG_TAGS, attributes: ICON_SVG_ATTRS)
-  end
-
-  # Build a link that toggles a value inside one of two array params
-  # (mutually exclusive). Used by the ingredients filter chips: the same
-  # restriction can be either in :include_restrictions or :exclude_restrictions.
-  def toggle_param_link(label, mode:, target:, include_param:, exclude_param:, request:, css: nil)
+  # Build a link that cycles a value through three states inside a pair
+  # of array params: neutral -> exclude -> include -> neutral. Used by
+  # the ingredients filter chips. The chip's visible state reflects the
+  # CURRENT list the target is in; the href points to the NEXT state.
+  def cycle_param_link(label, target:, include_param:, exclude_param:, request:)
     target = target.to_s
     include_ids = Array(request.query_parameters[include_param]).map(&:to_s)
     exclude_ids = Array(request.query_parameters[exclude_param]).map(&:to_s)
 
-    case mode
-    when :include
-      active = include_ids.include?(target)
-      new_include = active ? include_ids - [ target ] : include_ids + [ target ]
-      new_exclude = exclude_ids - [ target ]
-    when :exclude
-      active = exclude_ids.include?(target)
-      new_exclude = active ? exclude_ids - [ target ] : exclude_ids + [ target ]
-      new_include = include_ids - [ target ]
-    end
+    current_state, new_include, new_exclude =
+      if include_ids.include?(target)
+        [ "include", include_ids - [ target ], exclude_ids              ]
+      elsif exclude_ids.include?(target)
+        [ "exclude", include_ids + [ target ], exclude_ids - [ target ] ]
+      else
+        [ nil,       include_ids,              exclude_ids + [ target ] ]
+      end
 
-    new_params = request.query_parameters.except(include_param, exclude_param)
+    new_params = request.query_parameters.except(include_param, exclude_param, "safe_only")
     new_params[include_param] = new_include if new_include.any?
     new_params[exclude_param] = new_exclude if new_exclude.any?
     path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
 
-    link_to(label, path, class: [ "chip", css ].compact, "data-mode": mode, "aria-pressed": active)
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-#{current_state}" if current_state) ].compact,
+      "data-state": current_state,
+      title: t("filters.next_action.#{current_state || 'neutral'}")
+    )
+  end
+
+  # Build a link that toggles a value between neutral and excluded —
+  # two states only, no include step. Used on dishes/menus/elaborations
+  # where inclusive restriction filtering makes no sense.
+  def exclude_param_link(label, target:, exclude_param:, request:)
+    target = target.to_s
+    exclude_ids = Array(request.query_parameters[exclude_param]).map(&:to_s)
+    excluded = exclude_ids.include?(target)
+    new_values = excluded ? exclude_ids - [ target ] : exclude_ids + [ target ]
+
+    new_params = request.query_parameters.except(exclude_param, "safe_only")
+    new_params[exclude_param] = new_values if new_values.any?
+    path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
+
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-exclude" if excluded) ].compact,
+      "data-state": (excluded ? "exclude" : nil),
+      title: t("filters.next_action.#{excluded ? 'exclude_clear' : 'neutral'}")
+    )
+  end
+
+  # Build a link that toggles the safe_only boolean param. When active,
+  # the list is filtered to show only items with no dietary restrictions.
+  def safe_param_link(label, request:)
+    active = request.query_parameters["safe_only"].present?
+    new_params = if active
+      request.query_parameters.except("safe_only")
+    else
+      request.query_parameters.merge("safe_only" => "1")
+    end
+    path = new_params.any? ? "#{request.path}?#{new_params.to_query}" : request.path
+
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-include" if active) ].compact,
+      "data-state": (active ? "include" : nil)
+    )
+  end
+
+  # Build a link that toggles a value into / out of a single array
+  # query param. Binary semantics (selected / not selected) — no
+  # exclude state. Used by filter rows whose options are mutually
+  # non-exclusive but where excluding a value makes no sense
+  # (e.g. dish-type filter on the dishes index).
+  def select_param_link(label, target:, param:, request:)
+    target = target.to_s
+    current = Array(request.query_parameters[param]).map(&:to_s)
+    active = current.include?(target)
+    next_values = active ? current - [ target ] : current + [ target ]
+
+    new_params = request.query_parameters.except(param)
+    new_params[param] = next_values if next_values.any?
+    path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
+
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-include" if active) ].compact,
+      "data-state": (active ? "include" : nil)
+    )
   end
 
   private

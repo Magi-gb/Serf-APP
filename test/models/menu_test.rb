@@ -1,9 +1,8 @@
 require "test_helper"
 
 class MenuTest < ActiveSupport::TestCase
-  test "creates a menu with valid name and dishes" do
-    dish_ids = [ dishes(:olivas).id, dishes(:paella).id, dishes(:salmó).id, dishes(:gelat).id ]
-    menu = Menu.new(name: "Menú del día", dish_ids: dish_ids)
+  test "creates a menu with valid name and at least one dish" do
+    menu = Menu.new(name: "Menú del día", dish_ids: [ dishes(:olivas).id ])
 
     assert menu.valid?
   end
@@ -16,7 +15,7 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "validates uniqueness of name" do
-    Menu.create!(name: "Menú especial", dish_ids: [ dishes(:olivas).id, dishes(:paella).id, dishes(:salmó).id, dishes(:gelat).id ])
+    Menu.create!(name: "Menú especial", dish_ids: [ dishes(:olivas).id ])
 
     duplicate = Menu.new(name: "Menú especial")
 
@@ -24,10 +23,23 @@ class MenuTest < ActiveSupport::TestCase
     assert duplicate.errors[:name].any?
   end
 
-  test "requires one dish of each type" do
-    menu = Menu.new(name: "Menú incompleto", dish_ids: [ dishes(:olivas).id, dishes(:paella).id ])
+  test "requires at least one dish" do
+    menu = Menu.new(name: "Menú buit")
     assert_not menu.valid?
-    assert menu.errors[:base].any?
+    assert_includes menu.errors[:base], I18n.t("menus.errors.no_dishes")
+  end
+
+  test "does not allow updating a persisted menu to have no dishes" do
+    menu = menus(:weekly_menu)
+    menu.dish_ids = []
+    assert_not menu.valid?
+    assert_includes menu.errors[:base], I18n.t("menus.errors.no_dishes")
+  end
+
+  test "allows updating a persisted menu name without changing dishes" do
+    menu = menus(:weekly_menu)
+    assert menu.update(name: "Menú setmanal actualitzat")
+    assert menu.valid?
   end
 
   test "has many dishes through menu_dishes" do
@@ -45,7 +57,59 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "can add dishes to menu" do
-    menu = Menu.create!(name: "Test menu", dish_ids: [ dishes(:olivas).id, dishes(:paella).id, dishes(:salmó).id, dishes(:gelat).id ])
-    assert menu.dishes.include?(dishes(:paella))
+    menu = Menu.create!(name: "Test menu", dish_ids: [ dishes(:olivas).id ])
+    assert menu.dishes.include?(dishes(:olivas))
+  end
+
+  # ---- restriction filter scopes ----
+
+  test "with_restrictions returns menus containing a matching restriction" do
+    result = Menu.with_restrictions([ restrictions(:gluten).id ])
+
+    assert_includes result, menus(:weekly_menu)
+    assert_not_includes result, menus(:tasting_menu)
+  end
+
+  test "with_restrictions returns ::all when ids are empty or nil" do
+    assert_equal Menu.all.to_a.sort_by(&:id), Menu.with_restrictions([]).to_a.sort_by(&:id)
+    assert_equal Menu.all.to_a.sort_by(&:id), Menu.with_restrictions(nil).to_a.sort_by(&:id)
+  end
+
+  test "with_restrictions is distinct (a menu touching multiple matching ingredients appears once)" do
+    # weekly_menu has bread (gluten) via olivas AND yogurt (lactose) via gelat.
+    # Asking for both restrictions must still return weekly_menu exactly once.
+    result = Menu.with_restrictions([ restrictions(:gluten).id, restrictions(:lactose).id ])
+
+    assert_equal [ menus(:weekly_menu) ], result.to_a
+  end
+
+  test "with_restrictions ORs the match across multiple ids" do
+    # Lactose alone (not gluten) should still bring in weekly_menu.
+    result_lactose_only = Menu.with_restrictions([ restrictions(:lactose).id ])
+    assert_includes result_lactose_only, menus(:weekly_menu)
+
+    # Kosher alone matches nothing (no kosher fixtures).
+    assert_empty Menu.with_restrictions([ restrictions(:kosher).id ])
+  end
+
+  test "without_restrictions excludes menus that touch the listed restrictions" do
+    result = Menu.without_restrictions([ restrictions(:gluten).id ])
+
+    assert_not_includes result, menus(:weekly_menu)
+    assert_includes result, menus(:tasting_menu)
+  end
+
+  test "without_restrictions keeps menus whose ingredients carry no restriction at all" do
+    # tasting_menu has pollastre -> salt (salt has no restrictions).
+    # Even with a non-empty exclude list, tasting_menu must survive.
+    result = Menu.without_restrictions([ restrictions(:gluten).id, restrictions(:lactose).id ])
+
+    assert_includes result, menus(:tasting_menu)
+    assert_not_includes result, menus(:weekly_menu)
+  end
+
+  test "without_restrictions returns ::all when ids are empty or nil" do
+    assert_equal Menu.all.to_a.sort_by(&:id), Menu.without_restrictions([]).to_a.sort_by(&:id)
+    assert_equal Menu.all.to_a.sort_by(&:id), Menu.without_restrictions(nil).to_a.sort_by(&:id)
   end
 end

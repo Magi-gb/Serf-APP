@@ -3,12 +3,7 @@
   <div class="sidebar-head">
     <%= link_to root_path, class: "sidebar-brand", aria: { label: "Serf" } do %>
       <span class="sidebar-brand-mark">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 18h20" />
-          <path d="M4 18a8 8 0 0 1 16 0" />
-          <path d="M12 6v4" />
-          <circle cx="12" cy="5" r="1.2" fill="currentColor" />
-        </svg>
+        <%= render "layouts/brand_logo" %>
       </span>
       <span class="sidebar-brand-name">SerF</span>
     <% end %>
@@ -38,8 +33,16 @@
       <%= serf_icon(:leaf) %><span><%= t("sidebar.ingredients") %></span>
     <% end %>
 
+    <%= link_to elaborations_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "elaborations") } do %>
+      <%= serf_icon(:leaf) %><span><%= t("sidebar.elaborations") %></span>
+    <% end %>
+
     <%= link_to restrictions_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "restrictions") } do %>
       <%= serf_icon(:shield) %><span><%= t("sidebar.restrictions") %></span>
+    <% end %>
+
+    <%= link_to statistics_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "statistics") } do %>
+      <%= serf_icon(:chart) %><span><%= t("sidebar.statistics") %></span>
     <% end %>
 
     <%= link_to protocols_path, class: "sidebar-link", aria: { current: ("page" if controller_name == "protocols") } do %>

@@ -1,7 +1,19 @@
 paella_milk:
   dish: paella
   ingredient: milk
+  essential: true
 
 olivas_bread:
   dish: olivas
   ingredient: bread
+  essential: true
+
+pollastre_salt:
+  dish: pollastre
+  ingredient: salt
+  essential: true
+
+gelat_yogurt:
+  dish: gelat
+  ingredient: yogurt
+  essential: false

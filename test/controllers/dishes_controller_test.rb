@@ -80,7 +80,8 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
         dish: {
           name: "Escalivada",
           description: "Verdures rostides",
-          dish_type: "entrant"
+          dish_type: "entrant",
+          ingredient_ids: [ ingredients(:salt).id ]
         }
       }
     end
@@ -255,5 +256,202 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     delete dish_url(@dish)
 
     assert_redirected_to new_user_session_url
+  end
+
+  test "index with dish_types filter narrows the rendered list" do
+    get dishes_url, params: { dish_types: [ "entrant" ] }
+
+    assert_response :success
+    assert_includes response.body, dishes(:olivas).name        # entrant -> shown
+    assert_not_includes response.body, dishes(:paella).name    # primer -> hidden
+  end
+
+  test "index without filter shows all dishes" do
+    get dishes_url
+
+    assert_response :success
+    assert_includes response.body, dishes(:olivas).name
+    assert_includes response.body, dishes(:paella).name
+  end
+
+  test "index with include_restrictions filter shows only matching dishes" do
+    get dishes_url, params: { include_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_includes response.body, dishes(:olivas).name        # olivas -> bread (gluten)
+    assert_not_includes response.body, dishes(:paella).name    # paella -> milk (no gluten)
+  end
+
+  test "index with exclude_restrictions filter hides matching dishes" do
+    get dishes_url, params: { exclude_restrictions: [ restrictions(:gluten).id ] }
+
+    assert_response :success
+    assert_not_includes response.body, dishes(:olivas).name
+    assert_includes response.body, dishes(:paella).name
+  end
+
+  test "index with combined filters applies all of them" do
+    get dishes_url, params: {
+      dish_types: [ "entrant" ],
+      include_restrictions: [ restrictions(:gluten).id ],
+      exclude_restrictions: [ restrictions(:lactose).id ]
+    }
+
+    assert_response :success
+    # olivas is entrant + has gluten + no lactose -> survives all three filters
+    assert_includes response.body, dishes(:olivas).name
+    # paella is not entrant -> filtered out by dish_types
+    assert_not_includes response.body, dishes(:paella).name
+  end
+
+  test "index reflects active restriction filter state on the chip" do
+    restriction = restrictions(:gluten)
+    get dishes_url, params: { exclude_restrictions: [ restriction.id ] }
+
+    assert_response :success
+    assert_match %r{<a[^>]*data-state="exclude"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
+  end
+
+  test "index reflects active dish_type filter state on the chip" do
+    get dishes_url, params: { dish_types: [ "entrant" ] }
+
+    assert_response :success
+    label = I18n.t("dishes.types.entrant")
+    assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(label)}</a>}, response.body
+  end
+
+  test "create without substituible_ingredient_ids marks all ingredients as essential" do
+    ingredient = ingredients(:milk)
+
+    post dishes_url, params: {
+      dish: {
+        name: "Test essencial per defecte",
+        description: "Desc",
+        dish_type: "entrant",
+        ingredient_ids: [ ingredient.id ]
+      }
+    }
+
+    dish = Dish.last
+    di = dish.dish_ingredients.find_by!(ingredient: ingredient)
+    assert di.essential?
+  end
+
+  test "create with substituible_ingredient_ids marks those ingredients as substituible" do
+    ingredient = ingredients(:milk)
+
+    post dishes_url, params: {
+      dish: {
+        name: "Test substituible",
+        description: "Desc",
+        dish_type: "entrant",
+        ingredient_ids: [ ingredient.id ],
+        substituible_ingredient_ids: [ ingredient.id.to_s ]
+      }
+    }
+
+    dish = Dish.last
+    di = dish.dish_ingredients.find_by!(ingredient: ingredient)
+    assert_not di.essential?
+  end
+
+  test "update with substituible_ingredient_ids marks ingredient as substituible" do
+    ingredient = ingredients(:milk)
+    di = dish_ingredients(:paella_milk)
+    assert di.essential?
+
+    patch dish_url(@dish), params: {
+      dish: {
+        name: @dish.name,
+        ingredient_ids: [ ingredient.id ],
+        substituible_ingredient_ids: [ ingredient.id.to_s ]
+      }
+    }
+
+    assert_not di.reload.essential?
+  end
+
+  test "update without substituible_ingredient_ids marks all ingredients as essential" do
+    di = dish_ingredients(:paella_milk)
+    di.update!(essential: false)
+
+    patch dish_url(@dish), params: {
+      dish: {
+        name: @dish.name,
+        ingredient_ids: [ ingredients(:milk).id ]
+      }
+    }
+
+    assert di.reload.essential?
+  end
+
+  test "show renders essential section for dish with essential ingredients" do
+    get dish_url(@dish)
+
+    assert_response :success
+    assert_match I18n.t("dishes.show.essential_header"), response.body
+  end
+
+  test "show renders substituible section for dish with non-essential ingredients" do
+    get dish_url(dishes(:gelat))
+
+    assert_response :success
+    assert_match I18n.t("dishes.show.substituible_header"), response.body
+  end
+
+  test "show links restriction overview tags to the restriction" do
+    get dish_url(dishes(:olivas)) # olivas -> bread -> gluten
+
+    assert_response :success
+    assert_select "a.tag[href=?]", restriction_path(restrictions(:gluten))
+  end
+
+  test "index with safe_only param returns only dishes with no restrictions" do
+    get dishes_url(safe_only: true)
+
+    assert_response :success
+    safe_ids = Dish.safe.pluck(:id)
+    restricted_ids = Dish.pluck(:id) - safe_ids
+    safe_ids.each { |id| assert_includes response.body, id.to_s } if safe_ids.any?
+    restricted_ids.each { |id| refute Dish.safe.pluck(:id).include?(id) }
+  end
+
+  test "index with safe_only renders the filter chip active" do
+    get dishes_url(safe_only: true)
+
+    assert_response :success
+    assert_match I18n.t("filters.safe_only"), response.body
+  end
+
+  test "create attaches an uploaded image" do
+    image = fixture_file_upload("dish_sample.png", "image/png")
+
+    assert_difference "Dish.count", 1 do
+      post dishes_url, params: {
+        dish: {
+          name: "Plat amb foto",
+          description: "Desc",
+          dish_type: "entrant",
+          ingredient_ids: [ ingredients(:milk).id ],
+          image: image
+        }
+      }
+    end
+
+    assert Dish.last.image.attached?
+  end
+
+  test "update attaches an uploaded image" do
+    image = fixture_file_upload("dish_sample.png", "image/png")
+
+    patch dish_url(@dish), params: {
+      dish: {
+        name: @dish.name,
+        image: image
+      }
+    }
+
+    assert_redirected_to dish_url(@dish)
+    assert @dish.reload.image.attached?
   end
 end

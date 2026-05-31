@@ -1,0 +1,34 @@
+---
+config:
+  layout: fixed
+---
+graph TD
+    subgraph Client
+        NAV[Navegador]
+    end
+
+    subgraph "Servidor Rails (Puma)"
+        RTR[Router<br/>config/routes.rb]
+        MW[Middleware<br/>Devise · Authorizable]
+        CTRL[Controllers]
+        MOD[Models<br/>ActiveRecord]
+        SRV[Services<br/>app/services/]
+        VIEW[Views<br/>ERB + Turbo]
+        I18N[I18n<br/>config/locales/ca.yml]
+    end
+
+    subgraph "Base de dades"
+        SQLITE[SQLite3<br/>dev / test]
+        MYSQL[MySQL<br/>producció]
+    end
+
+    NAV -- "HTTP request" --> RTR
+    RTR --> MW
+    MW --> CTRL
+    CTRL --> MOD
+    CTRL --> SRV
+    CTRL --> VIEW
+    VIEW --> I18N
+    MOD --> SQLITE
+    MOD --> MYSQL
+    VIEW -- "HTML + Turbo Streams" --> NAV

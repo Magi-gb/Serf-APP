@@ -29,6 +29,4 @@
 * Blocs de input: Color de text és 0D0D0D a 50% d'opacitat. Per comoditat s'utilitzarà la traducción a rgba següent: (13, 13, 13, 0.5). Si és un input soble el color de fons base (#F2F2E9), el fons de l'element ha de ser blanc pur (#FFFFFF).
 	* Focus: S'afegeix un *outline* amb un color d'accent. Groc si és selección normal, vermell si s'ha detectat qualsevol error a l'*input*.
 
-.md
-
 

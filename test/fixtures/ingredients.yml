@@ -3,3 +3,9 @@ milk:
 
 bread:
   name: Bread
+
+salt:
+  name: Salt
+
+yogurt:
+  name: Yogurt

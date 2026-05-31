@@ -2,7 +2,7 @@
   <%= render "shared/form_errors", object: dish %>
 
   <div class="field">
-    <%= form.label :name, t("dishes.form.name"), class: "label" %>
+    <%= form.label :name, t("dishes.form.name"), class: "label required" %>
     <%= form.text_field :name, class: "input" %>
   </div>
 
@@ -13,62 +13,171 @@
 
   <div class="field">
     <%= form.label :dish_type, t("dishes.form.dish_type"), class: "label" %>
-    <%= form.select :dish_type,
-                    Dish.dish_types.keys.map { |k| [t("dishes.types.#{k}"), k] },
-                    {}, class: "select" %>
-  </div>
-
-  <%# DESIGN-GAP: design lets the form mark each ingredient as "imprescindible / substituïble".
-      That maps to a future `essential` boolean on DishIngredient (already in the planned model
-      per CLAUDE.md). Until added, the form only attaches ingredients without that classification. %>
-  <fieldset class="field picker"
-            data-controller="picker"
-            data-picker-singular-value="<%= t("pickers.selected_one") %>"
-            data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
-    <legend class="label"><%= t("dishes.form.ingredients") %></legend>
-
-    <div class="picker-toolbar">
-      <div class="picker-search search">
-        <span class="search-icon"><%= serf_icon(:search) %></span>
-        <input type="search"
-               class="input"
-               placeholder="<%= t("pickers.search_placeholder") %>"
-               data-picker-target="search"
-               data-action="input->picker#refresh keydown->picker#preventSubmit">
-      </div>
-      <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
-      <button type="button"
-              class="chip"
-              aria-pressed="false"
-              data-picker-target="onlySelected"
-              data-action="click->picker#toggleOnlySelected">
-        <%= t("pickers.only_selected") %>
-      </button>
-    </div>
-
-    <div class="checkbox-cards">
-      <% @ingredients.each do |ingredient| %>
-        <% search_text = ([ ingredient.name ] + ingredient.restrictions.map(&:name)).join(" ") %>
-        <label class="checkbox-card"
-               data-picker-target="item"
-               data-search-text="<%= search_text %>">
-          <%= form.check_box :ingredient_ids,
-                              { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
-                              ingredient.id, nil %>
-          <span><%= ingredient.name %></span>
-          <% if ingredient.restrictions.any? %>
-            <span class="row">
-              <% ingredient.restrictions.first(3).each do |restriction| %>
-                <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
-              <% end %>
-            </span>
-          <% end %>
+    <div class="dish-type-grid">
+      <% Dish.dish_types.keys.each do |type| %>
+        <label class="dish-type-card" data-type="<%= type %>">
+          <%= form.radio_button :dish_type, type %>
+          <span class="dish-type-dot"></span>
+          <span><%= t("dishes.types.#{type}") %></span>
         </label>
       <% end %>
     </div>
+  </div>
 
-    <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
-  </fieldset>
+  <div class="field">
+    <%= form.label :image, t("dishes.form.image"), class: "label" %>
+    <div class="image-field">
+      <div class="image-preview">
+        <% if dish.image.attached? %>
+          <%= image_tag dish.image, alt: dish.name %>
+        <% else %>
+          <span><%= dish.name.to_s.first(2).upcase.presence || "?" %></span>
+        <% end %>
+      </div>
+      <%= form.label :image, class: "upload-btn" do %>
+        <%= serf_icon(:plus) %>
+        <span><%= dish.image.attached? ? t("dishes.form.change_image") : t("dishes.form.upload_image") %></span>
+        <%= form.file_field :image,
+                            accept: Dish::IMAGE_CONTENT_TYPES.join(","),
+                            class: "visually-hidden" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label required"><%= t("dishes.form.ingredients") %></label>
+    <div class="picker card"
+         data-controller="picker"
+         data-picker-singular-value="<%= t("pickers.selected_one") %>"
+         data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
+      <div class="card-body">
+        <div class="picker-toolbar">
+          <div class="picker-search search">
+            <span class="search-icon"><%= serf_icon(:search) %></span>
+            <input type="search"
+                   class="input"
+                   placeholder="<%= t("pickers.search_placeholder") %>"
+                   data-picker-target="search"
+                   data-action="input->picker#refresh keydown->picker#preventSubmit">
+          </div>
+          <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+          <button type="button"
+                  class="chip"
+                  aria-pressed="false"
+                  data-picker-target="onlySelected"
+                  data-action="click->picker#toggleOnlySelected">
+            <%= t("pickers.only_selected") %>
+          </button>
+        </div>
+
+        <div class="checkbox-cards">
+          <% @ingredients.each do |ingredient| %>
+            <% search_text = ([ ingredient.name ] + ingredient.restrictions.map(&:name)).join(" ") %>
+            <% is_selected = dish.ingredient_ids.include?(ingredient.id) %>
+            <% is_essential = @dish_essential_ingredient_ids.include?(ingredient.id) %>
+            <div class="checkbox-card"
+                 data-controller="essential-toggle"
+                 data-picker-target="item"
+                 data-search-text="<%= search_text %>">
+              <label class="checkbox-card-label">
+                <%= form.check_box :ingredient_ids,
+                                    { multiple: true, include_hidden: false,
+                                      class: "ingredient-select",
+                                      data: { action: "change->picker#refresh change->essential-toggle#onCheck" } },
+                                    ingredient.id, nil %>
+                <span><%= ingredient.name %></span>
+                <% if ingredient.restrictions.any? %>
+                  <span class="row">
+                    <% ingredient.restrictions.first(3).each do |restriction| %>
+                      <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                    <% end %>
+                  </span>
+                <% end %>
+              </label>
+              <div class="essential-toggle-wrap" data-essential-toggle-target="wrap" <%= is_selected ? "" : "hidden" %>>
+                <div class="segmented-toggle">
+                  <button type="button"
+                          class="segmented-btn segmented-btn-essential <%= is_essential ? "is-active" : "" %>"
+                          data-essential-toggle-target="essentialBtn"
+                          data-action="click->essential-toggle#setEssential">
+                    <%= t("dishes.form.essential") %>
+                  </button>
+                  <button type="button"
+                          class="segmented-btn segmented-btn-substituible <%= is_essential ? "" : "is-active" %>"
+                          data-essential-toggle-target="substituibleBtn"
+                          data-action="click->essential-toggle#setSubstituible">
+                    <%= t("dishes.form.substituible") %>
+                  </button>
+                </div>
+                <input type="checkbox"
+                       class="essential-select"
+                       name="dish[substituible_ingredient_ids][]"
+                       value="<%= ingredient.id %>"
+                       data-essential-toggle-target="input"
+                       <%= is_essential ? "" : "checked" %>
+                       style="display:none">
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label"><%= t("dishes.form.elaborations") %></label>
+    <div class="picker card"
+         data-controller="picker"
+         data-picker-singular-value="<%= t("pickers.selected_one") %>"
+         data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
+      <div class="card-body">
+        <div class="picker-toolbar">
+          <div class="picker-search search">
+            <span class="search-icon"><%= serf_icon(:search) %></span>
+            <input type="search"
+                   class="input"
+                   placeholder="<%= t("pickers.search_placeholder") %>"
+                   data-picker-target="search"
+                   data-action="input->picker#refresh keydown->picker#preventSubmit">
+          </div>
+          <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+          <button type="button"
+                  class="chip"
+                  aria-pressed="false"
+                  data-picker-target="onlySelected"
+                  data-action="click->picker#toggleOnlySelected">
+            <%= t("pickers.only_selected") %>
+          </button>
+        </div>
+
+        <div class="checkbox-cards">
+          <% @elaborations.each do |elaboration| %>
+            <% restrictions = elaboration.restrictions %>
+            <% search_text = ([ elaboration.name ] + restrictions.map(&:name)).join(" ") %>
+            <label class="checkbox-card"
+                   data-picker-target="item"
+                   data-search-text="<%= search_text %>">
+              <%= form.check_box :elaboration_ids,
+                                  { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
+                                  elaboration.id, nil %>
+              <span><%= elaboration.name %></span>
+              <% if restrictions.any? %>
+                <span class="row">
+                  <% restrictions.first(3).each do |restriction| %>
+                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                  <% end %>
+                </span>
+              <% end %>
+            </label>
+          <% end %>
+        </div>
+
+        <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
+      </div>
+    </div>
+  </div>
 
   <div class="row mt-4">
     <%= form.submit dish.new_record? ? t("dishes.form.submit_create") : t("dishes.form.submit_update"),

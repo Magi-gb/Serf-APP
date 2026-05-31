@@ -10,10 +10,17 @@ en:
         password_confirmation: Confirm password
     errors:
       models:
-        ingredient_alternative:
+        dish:
           attributes:
-            alternative:
-              cannot_add_restrictions: cannot add new restrictions compared to the original ingredient
+            image:
+              invalid_content_type: must be a PNG, JPEG or WEBP image
+              too_large: is too large (maximum %{max} MB)
+            ingredients:
+              blank: must have at least one ingredient
+        elaboration:
+          attributes:
+            ingredients:
+              blank: must have at least one ingredient
     models:
       protocol:
         one: Protocol
@@ -40,17 +47,24 @@ en:
       title: Edit dish
     form:
       cancel: Cancel
+      change_image: Change photo
       description: Description
       dish_type: Dish type
+      elaborations: Elaborations
+      essential: Essential
+      image: Image
       ingredients: Ingredients
       name: Dish name
       submit_create: Create dish
       submit_update: Save changes
+      substituible: Substitutable
+      upload_image: Upload a photo
     index:
       new_dish: New dish
       no_dishes: No dishes found.
       search_placeholder: Search dish
       title: Dishes
+      types_filter: Type
     messages:
       created_success: Dish created successfully.
       destroyed_success: Dish deleted successfully.
@@ -62,13 +76,50 @@ en:
       delete: Delete dish
       description: Description
       edit: Edit
+      elaborations: Elaborations
+      essential_header: Essential
+      essential_subtitle: Cannot be removed or substituted
       ingredients: Ingredients
+      no_description: No description
       no_ingredients: This dish has no associated ingredients
+      substituible_header: Substitutable
+      substituible_subtitle: Can be adapted based on restrictions
     types:
       entrant: Starter
       postre: Dessert
       primer: First course
       segon: Second course
+  elaborations:
+    edit:
+      title: Edit elaboration
+    form:
+      cancel: Cancel
+      description: Description
+      ingredients: Ingredients
+      name: Elaboration name
+      submit_create: Create elaboration
+      submit_update: Save changes
+    index:
+      ingredients_count: ingredients
+      new_elaboration: New elaboration
+      no_elaborations: No elaborations found.
+      no_restrictions: No restriction
+      search_placeholder: Search an elaboration
+      title: Elaborations
+    messages:
+      created_success: Elaboration created successfully.
+      destroyed_success: Elaboration deleted successfully.
+      updated_success: Elaboration updated successfully.
+    new:
+      title: New elaboration
+    show:
+      confirm_delete: Are you sure you want to delete this elaboration?
+      delete: Delete
+      edit: Edit details
+      ingredients: Ingredients
+      no_ingredients: This elaboration has no associated ingredients
+      not_used_in_dishes: This elaboration is not used in any dish
+      used_in_dishes: Dishes using it
   errors:
     form_header:
       one: '1 error prevented saving:'
@@ -92,8 +143,13 @@ en:
         other: "%{count} errors prevented saving:"
   filters:
     clear: Clear filters
-    exclude: Exclude
-    include: Include
+    dietary_restrictions: Restrictions
+    next_action:
+      exclude: Click to include
+      exclude_clear: Click to clear filter
+      include: Click to clear filter
+      neutral: Click to exclude
+    safe_only: No restrictions
   flash:
     alert: alert
     notice: notice
@@ -108,27 +164,14 @@ en:
       dashboard_title: Dashboard
       kpis:
         dishes: Active dishes
-        dishes_trend_placeholder: Total in catalogue
         menus: Published menus
-        menus_trend_placeholder: Total in catalogue
         restrictions: Restrictions
         restrictions_trend: Complete catalogue
-        users: Staff
-        users_trend_placeholder: Total registered
-      no_activity_yet: No activity recorded yet.
+        safe_dishes: Safe dishes
+        safe_dishes_trend: No restrictions
       quick_access: Quick access
-      recent_activity: Recent activity
       title: Serf
-      waiter_description: Here you will see the options available for waiters.
-      waiter_features: Waiter Features
       welcome: Welcome, %{username}!
-  ingredient_alternatives:
-    create:
-      success: Alternative added successfully.
-    destroy:
-      success: Alternative removed successfully.
-    update_collection:
-      success: Alternatives saved successfully.
   ingredients:
     create:
       success: Ingredient created successfully.
@@ -138,9 +181,9 @@ en:
       title: Edit ingredient
     form:
       description: Description
+      diet_restrictions: Diet restrictions
       intolerance_allergies: Intolerances and allergies
       name: Ingredient name
-      religious_restrictions: Religious restrictions
       restrictions: Dietary restrictions
       submit_create: Create ingredient
       submit_update: Save changes
@@ -154,7 +197,6 @@ en:
       title: New ingredient
     show:
       allergen_badge: Allergen
-      alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this ingredient?
       delete: Delete
       delete_warning:
@@ -165,12 +207,9 @@ en:
       edit: Edit details
       linked_dishes: Linked dishes
       linked_restrictions: Linked restrictions
-      no_alternatives: There are no alternatives associated yet.
-      no_available_alternatives: There are no ingredients available as an alternative.
       no_restrictions: No dietary restrictions associated
       not_used_in_dishes: This ingredient is not used in any dish
       restrictions: Associated restrictions
-      save_alternatives: Save alternatives
       used_in_dishes: Dishes containing it
     update:
       success: Ingredient updated successfully.
@@ -181,15 +220,10 @@ en:
     headline_html: Mistake-free kitchen,<br>menus for everyone.
     subhead: Dishes, ingredients and restrictions management for the Cal Blay restaurant group.
   menus:
-    coverage:
-      gluten: Gluten-free
-      lactose: Lactose-free
-      vegan: Vegan
-      vegetarian: Vegetarian
     edit:
       title: Edit menu
     errors:
-      missing_dish_type: Menu must have a dish of type %{type}
+      no_dishes: Menu must have at least one dish
     form:
       cancel: Cancel
       dishes: Dishes
@@ -208,9 +242,11 @@ en:
     new:
       title: New menu
     show:
+      alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this menu?
-      coverage_hint: Approximation — a dish counts as compatible if none of its ingredients carry the restriction. Without a `essential` flag on DishIngredient we cannot tell adaptable from blocking.
-      coverage_title: Restriction coverage
+      coverage_hint: Approximation — a dish violates a restriction if any of its ingredients carries it. Without an `essential` flag on DishIngredient we cannot tell adaptable from blocking.
+      coverage_none: No restriction is violated in this menu.
+      coverage_title: Restriction violations
       delete: Delete menu
       detail_last_edited: Last edited
       detail_restaurant: Restaurant
@@ -222,6 +258,7 @@ en:
       kpi_price: Price
       kpi_sections: Sections
       kpi_validity: Validity
+      no_alternatives: No alternatives available
       no_dishes: This menu has no associated dishes
   pickers:
     none: No results for this search.
@@ -270,31 +307,58 @@ en:
     edit:
       title: Edit Restriction
     form:
-      bg_color: Background colour
       cancel: Cancel
       description: Detailed description
-      icon_svg: Icon (SVG code)
       name: Restriction name
       restriction_type: Restriction type
+      severity: Severity
       submit: Save restriction
     index:
+      col_code: Code
+      col_dishes: Dishes
+      col_elaborations: Elaborations
+      col_ingredients: Ingredients
+      col_menus: Menus
+      col_name: Restriction
+      col_severity: Severity
+      efsa_badge: EFSA Annex II
       empty: No restrictions saved yet.
+      filter_all: All
+      search_placeholder: Search restrictions or code…
+      showing: Showing %{shown} of %{total}
+      subtitle:
+        one: 1 active restriction
+        other: "%{count} active restrictions"
       title: Restrictions
+      view_grouped: Grouped
+      view_list: List
     messages:
       created_success: Restriction created successfully.
       destroyed_success: Restriction deleted successfully.
       updated_success: Restriction updated successfully.
     new:
       title: Create New Restriction
+    severity:
+      high: High
+      low: Low
+      medium: Medium
     show:
+      affected_dishes: Affected dishes
       confirm_delete: Are you sure you want to delete this restriction?
       delete: Delete Restriction
-      description_title: Restriction description
       edit: Edit
-      no_description: No additional description.
+      metadata_code: Code
+      metadata_last_edited: Last edited
+      metadata_severity: Severity
+      metadata_source: Regulatory source
+      metadata_title: Metadata
+      metadata_type: Type
+      no_dishes: No dish contains this restriction.
+      no_ingredients: No ingredients associated with this restriction.
+      related_ingredients: Ingredients containing it
     types:
+      diet: Diet
       intolerance_allergy: Intolerance/Allergy
-      religious: Religious
   sessions:
     new:
       authorized_only_note: Access is for authorised staff only. Contact an administrator to request an account.
@@ -305,6 +369,7 @@ en:
     close: Close menu
     dashboard: Home
     dishes: Dishes
+    elaborations: Elaborations
     emergencies: Emergencies
     ingredients: Ingredients
     logout: Sign out
@@ -313,7 +378,22 @@ en:
     personal: Staff
     protocols: Protocols
     restrictions: Restrictions
+    statistics: Statistics
     toggle: Open sidebar menu
+  statistics:
+    index:
+      charts:
+        dish_type_distribution: Dish type distribution
+        restrictions_by_dishes: Restrictions by affected dishes
+        restrictions_by_type: Affected dishes by category
+        safe_vs_restricted: Safe vs restricted dishes
+      dishes: Affected dishes
+      menus: Affected menus
+      restricted_label: With restrictions
+      safe_dishes_count: "%{count} dishes with no restrictions"
+      safe_label: Safe
+      title: Statistics
+      total_dishes_count: "%{count} total dishes"
   users:
     create:
       success: User created successfully.

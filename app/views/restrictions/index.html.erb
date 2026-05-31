@@ -1,11 +1,12 @@
 <% content_for :title, t("restrictions.index.title") %>
-<% view = params[:view].presence || "grid" %>
+<% view = params[:view].presence || "grouped" %>
+<% type_filter = params[:type].to_s %>
+<% q = params[:q].to_s %>
+<% sort_params = { q: q.presence, view: view, type: type_filter.presence } %>
 
-<%# DESIGN-GAP: design groups restrictions in 4 buckets (al·lèrgens / intoleràncies /
-    religioses / preferències) with an "EFSA Annex II" badge for the official bucket.
-    Our enum only has 2 values: intolerance_allergy + religious. "Preferences" don't
-    exist. EFSA flag doesn't exist. We render flat-grouped by the existing enum. %>
-<%= render "shared/topbar", title: t("restrictions.index.title") do %>
+<%= render "shared/topbar",
+    title: t("restrictions.index.title"),
+    subtitle: t("restrictions.index.subtitle", count: @restrictions.size) do %>
   <% if current_user.admin? || current_user.kitchen_manager? %>
     <%= link_to new_restriction_path, class: "btn btn-primary btn-sm" do %>
       <%= serf_icon(:plus) %><%= t("sidebar.new_restriction") %>
@@ -15,59 +16,89 @@
 
 <div class="content">
   <div class="toolbar">
-    <div></div>
-    <%= view_toggle(view, request, default_view: "grid") %>
+    <%= form_with url: restrictions_path, method: :get, class: "search" do |f| %>
+      <span class="search-icon"><%= serf_icon(:search) %></span>
+      <%= f.search_field :q, value: q, placeholder: t("restrictions.index.search_placeholder"), class: "input" %>
+      <%= f.hidden_field :view, value: view %>
+      <%= f.hidden_field :sort, value: @sort_col if @sort_col != "name" %>
+      <%= f.hidden_field :dir, value: @sort_dir if @sort_dir != "asc" %>
+      <% if view == "list" && type_filter.present? %>
+        <%= f.hidden_field :type, value: type_filter %>
+      <% end %>
+    <% end %>
+    <div class="rx-view-toggle">
+      <%= link_to t("restrictions.index.view_grouped"),
+            restrictions_path(view: "grouped", q: q.presence, sort: @sort_col, dir: @sort_dir),
+            class: "rx-view-btn #{'is-active' if view == 'grouped'}" %>
+      <%= link_to t("restrictions.index.view_list"),
+            restrictions_path(view: "list", q: q.presence, sort: @sort_col, dir: @sort_dir),
+            class: "rx-view-btn #{'is-active' if view == 'list'}" %>
+    </div>
   </div>
 
-  <% if @restrictions.any? %>
-    <% if view == "grid" %>
-      <div class="col">
-        <% @restrictions.group_by(&:restriction_type).each do |type, group| %>
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title"><%= t("restrictions.types.#{type}") %></h3>
-              <span class="muted"><%= group.size %></span>
+  <% if view == "list" %>
+    <div class="toolbar-filters">
+      <%= link_to restrictions_path(view: "list", q: q.presence, sort: @sort_col, dir: @sort_dir),
+            class: "chip", "aria-pressed": type_filter.blank?.to_s do %>
+        <%= t("restrictions.index.filter_all") %>
+        <span class="chip-count"><%= @restrictions.size %></span>
+      <% end %>
+      <% Restriction.restriction_types.keys.each do |type| %>
+        <% type_count = @restrictions.count { |r| r.restriction_type == type } %>
+        <%= link_to restrictions_path(view: "list", q: q.presence, type: type, sort: @sort_col, dir: @sort_dir),
+              class: "chip", "aria-pressed": (type_filter == type).to_s do %>
+          <%= t("restrictions.types.#{type}") %>
+          <span class="chip-count"><%= type_count %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="card rx-catalog">
+    <div class="rx-legend">
+      <span><%= t("restrictions.index.col_code") %></span>
+      <%= rx_sort_link(t("restrictions.index.col_name"), "name", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params) %>
+      <%= rx_sort_link(t("restrictions.index.col_severity"), "severity", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params) %>
+      <%= rx_sort_link(t("restrictions.index.col_dishes"), "dishes_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+      <%= rx_sort_link(t("restrictions.index.col_elaborations"), "elaborations_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+      <%= rx_sort_link(t("restrictions.index.col_menus"), "menus_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+      <%= rx_sort_link(t("restrictions.index.col_ingredients"), "ingredients_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+    </div>
+
+    <% if view == "grouped" %>
+      <% if @restrictions.empty? %>
+        <div class="empty-state"><%= t("restrictions.index.empty") %></div>
+      <% else %>
+        <% Restriction.restriction_types.keys.each do |type| %>
+          <% group = @restrictions.select { |r| r.restriction_type == type } %>
+          <% next if group.empty? %>
+          <div class="rx-section">
+            <div class="rx-section-header">
+              <span class="rx-section-label"><%= t("restrictions.types.#{type}") %></span>
+              <span class="rx-section-rule"></span>
+              <% if type == "intolerance_allergy" %>
+                <span class="rx-efsa-badge"><%= t("restrictions.index.efsa_badge") %></span>
+              <% end %>
+              <span class="rx-section-count"><%= group.size %></span>
             </div>
-            <div class="card-body">
-              <div class="grid grid-4">
-                <% group.each do |restriction| %>
-                  <%= link_to restriction_path(restriction), class: "restr" do %>
-                    <span class="restr-bubble" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
-                      <% if restriction.icon_svg.present? %>
-                        <%= sanitize(restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
-                      <% else %>
-                        <%= restriction.name.first(4).upcase %>
-                      <% end %>
-                    </span>
-                    <span class="restr-name"><%= restriction.name %></span>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
+            <% group.each do |restriction| %>
+              <%= render "restriction_row", restriction: restriction %>
+            <% end %>
           </div>
         <% end %>
-      </div>
+      <% end %>
     <% else %>
-      <div class="card">
-        <% @restrictions.each do |restriction| %>
-          <%= link_to restriction_path(restriction), class: "card-row is-link" do %>
-            <span class="restr-bubble restr-bubble-sm" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
-              <% if restriction.icon_svg.present? %>
-                <%= sanitize(restriction.icon_svg, tags: %w[svg path circle rect g], attributes: %w[viewBox width height fill stroke stroke-width d cx cy r x y]) %>
-              <% else %>
-                <%= restriction.name.first(3).upcase %>
-              <% end %>
-            </span>
-            <div class="grow">
-              <div class="strong"><%= restriction.name %></div>
-              <div class="muted mt-1"><%= t("restrictions.types.#{restriction.restriction_type}") %></div>
-            </div>
-            <span class="muted"><%= serf_icon(:chevron) %></span>
-          <% end %>
+      <% filtered = type_filter.present? ? @restrictions.select { |r| r.restriction_type == type_filter } : @restrictions %>
+      <% if filtered.empty? %>
+        <div class="empty-state"><%= t("restrictions.index.empty") %></div>
+      <% else %>
+        <% filtered.each do |restriction| %>
+          <%= render "restriction_row", restriction: restriction %>
         <% end %>
-      </div>
+        <div class="rx-footer">
+          <%= t("restrictions.index.showing", shown: filtered.size, total: @restrictions.size) %>
+        </div>
+      <% end %>
     <% end %>
-  <% else %>
-    <div class="empty-state"><%= t("restrictions.index.empty") %></div>
-  <% end %>
+  </div>
 </div>

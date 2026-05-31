@@ -1,0 +1,94 @@
+<% content_for :title, t("elaborations.index.title") %>
+<% view = params[:view].presence || "list" %>
+
+<%= render "shared/topbar", title: t("elaborations.index.title") do %>
+  <%= form_with url: elaborations_path, method: :get, local: true, class: "search" do |f| %>
+    <span class="search-icon"><%= serf_icon(:search) %></span>
+    <%= f.search_field :search, value: params[:search], placeholder: t("elaborations.index.search_placeholder"), class: "input" %>
+  <% end %>
+  <% if current_user.admin? || current_user.kitchen_manager? %>
+    <%= link_to new_elaboration_path, class: "btn btn-primary btn-sm" do %>
+      <%= serf_icon(:plus) %><%= t("elaborations.index.new_elaboration") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="content">
+  <div class="toolbar">
+    <div class="toolbar-filters">
+      <span class="muted"><%= t("filters.dietary_restrictions") %>:</span>
+      <%= safe_param_link(t("filters.safe_only"), request: request) %>
+      <% @restrictions.each do |restriction| %>
+        <%= exclude_param_link(restriction.name,
+              target: restriction.id,
+              exclude_param: "exclude_restrictions",
+              request: request) %>
+      <% end %>
+      <% if params[:exclude_restrictions].present? || params[:safe_only].present? %>
+        <%= link_to t("filters.clear"),
+              elaborations_path(request.query_parameters.except(:exclude_restrictions, :include_restrictions, :safe_only)),
+              class: "chip-clear" %>
+      <% end %>
+    </div>
+    <%= view_toggle(view, request, default_view: "list") %>
+  </div>
+
+  <% if @elaborations.any? %>
+    <% if view == "grid" %>
+      <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
+        <% @elaborations.each do |elaboration| %>
+          <% restrictions = elaboration.restrictions %>
+          <%= link_to elaboration_path(elaboration), class: "card" do %>
+            <div class="row">
+              <span class="avatar avatar-sm" style="--avatar-bg: <%= restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
+                <%= serf_icon(:leaf) %>
+              </span>
+              <div class="grow">
+                <div class="strong"><%= elaboration.name %></div>
+                <div class="muted mt-1"><%= elaboration.ingredients.size %> <%= t("elaborations.index.ingredients_count") %></div>
+              </div>
+            </div>
+            <% if elaboration.description.present? %>
+              <p class="muted mt-2 mb-0 truncate-2"><%= elaboration.description %></p>
+            <% end %>
+            <% if restrictions.any? %>
+              <div class="row mt-2">
+                <% restrictions.each do |restriction| %>
+                  <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="muted mt-2"><%= t("elaborations.index.no_restrictions") %></div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="card">
+        <% @elaborations.each do |elaboration| %>
+          <% restrictions = elaboration.restrictions %>
+          <%= link_to elaboration_path(elaboration), class: "card-row is-link" do %>
+            <span class="avatar avatar-sm" style="--avatar-bg: <%= restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
+              <%= serf_icon(:leaf) %>
+            </span>
+            <div class="grow">
+              <div class="strong"><%= elaboration.name %></div>
+              <% if restrictions.any? %>
+                <div class="row mt-2">
+                  <% restrictions.each do |restriction| %>
+                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="muted mt-2"><%= t("elaborations.index.no_restrictions") %></div>
+              <% end %>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="empty-state"><%= t("elaborations.index.no_elaborations") %></div>
+  <% end %>
+</div>

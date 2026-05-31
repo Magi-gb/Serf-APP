@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "statistics", to: "statistics#index"
   devise_for :users, skip: [ :registrations, :passwords ]
 
   get "up" => "rails/health#show", as: :rails_health_check
@@ -6,13 +7,11 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   resources :users, constraints: { id: /\d+/ }
-  resources :ingredients, constraints: { id: /\d+/ } do
-    member do
-      patch :alternatives, to: "ingredient_alternatives#update_collection"
-    end
-    resources :alternatives, only: %i[create destroy], controller: "ingredient_alternatives"
+  resources :ingredients, constraints: { id: /\d+/ }
+  resources :elaborations, constraints: { id: /\d+/ }
+  resources :menus, constraints: { id: /\d+/ } do
+    get :alternatives, on: :member
   end
-  resources :menus, constraints: { id: /\d+/ }
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
   resources :dishes
