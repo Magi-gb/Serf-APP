@@ -45,10 +45,10 @@ end
 
 # Diet Restrictions
 restrictions = [
-  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌", restriction_type: :religious },
-  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️", restriction_type: :religious },
-  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️", restriction_type: :religious },
-  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12", emoji: "☸️", restriction_type: :religious },
+  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌", restriction_type: :diet },
+  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️", restriction_type: :diet },
+  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️", restriction_type: :diet },
+  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12", emoji: "☸️", restriction_type: :diet },
   { name: "Vegà", desc: "Sense cap producte d'origen animal.", bg_color: "#27AE60", emoji: "🌿", restriction_type: :preference },
   { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71", emoji: "🥗", restriction_type: :preference }
 ]

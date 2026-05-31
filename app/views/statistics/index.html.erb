@@ -11,9 +11,8 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-            <span class="restr-bubble"
-              style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>;
-                     --restr-fg: var(--text-on-brand);">
+            <span class="restr-bubble restr-bubble-on-color"
+              style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>;">
 
               <% if restriction.icon_svg.present? %>
                 <%= restriction_icon_svg(restriction.icon_svg) %>
@@ -34,12 +33,12 @@
         </div>
 
         <div class="card-body">
-          <div class="row" style="justify-content: space-between;">
+          <div class="row-spread">
             <span><%= t("statistics.index.dishes") %></span>
             <strong><%= stat[:dishes_count] %></strong>
           </div>
 
-          <div class="row mt-2" style="justify-content: space-between;">
+          <div class="row-spread mt-2">
             <span><%= t("statistics.index.menus") %></span>
             <strong><%= stat[:menus_count] %></strong>
           </div>

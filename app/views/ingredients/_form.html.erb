@@ -39,7 +39,8 @@
     <%
       group_labels = {
         intolerance_allergy: [ t("ingredients.form.intolerance_allergies"), "allergen" ],
-        diet: [ t("ingredients.form.diet_restrictions"), "diet" ]
+        diet: [ t("ingredients.form.diet_restrictions"), "diet" ],
+        preference: [ t("ingredients.form.preference_restrictions"), "preference" ]
       }
     %>
     <% group_labels.each do |type, (label, tag_kind)| %>
@@ -69,8 +70,8 @@
 
     <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
 
-    <%# DESIGN-GAP: design has a 4th group "Preferències" — Restriction enum only has
-        intolerance_allergy + diet. Need to add a `preference` value (and EFSA flag). %>
+    <%# DESIGN-GAP: design groups restrictions into 4 buckets with an "EFSA Annex II" badge.
+        Current enum has intolerance_allergy + diet + preference. EFSA flag not yet implemented. %>
   </fieldset>
 
   <div class="row mt-4">
