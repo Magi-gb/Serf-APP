@@ -1,9 +1,16 @@
 require "test_helper"
 
 class DishTest < ActiveSupport::TestCase
-  test "is valid with name, description and dish_type" do
+  test "is valid with name, description, dish_type and at least one ingredient" do
     dish = Dish.new(name: "Test Dish", description: "Test description", dish_type: :entrant)
+    dish.ingredients << ingredients(:milk)
     assert dish.valid?
+  end
+
+  test "is invalid without ingredients" do
+    dish = Dish.new(name: "Test Dish", description: "Test description", dish_type: :entrant)
+    assert_not dish.valid?
+    assert dish.errors[:ingredients].any?
   end
 
   test "validates presence of name" do

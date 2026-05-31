@@ -7,12 +7,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   resources :users, constraints: { id: /\d+/ }
-  resources :ingredients, constraints: { id: /\d+/ } do
-    member do
-      patch :alternatives, to: "ingredient_alternatives#update_collection"
-    end
-    resources :alternatives, only: %i[create destroy], controller: "ingredient_alternatives"
-  end
+  resources :ingredients, constraints: { id: /\d+/ }
   resources :menus, constraints: { id: /\d+/ } do
     get :alternatives, on: :member
   end

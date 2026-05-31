@@ -20,7 +20,7 @@ class StatisticsController < ApplicationController
         dishes_count: dishes_count,
         menus_count: menus_count
       }
-    end
+    end.sort_by { |s| -s[:dishes_count] }
 
     @total_dishes_count = Dish.count
     @safe_dishes_count = Dish

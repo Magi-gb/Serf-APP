@@ -1,9 +1,8 @@
 require "test_helper"
 
 class MenuTest < ActiveSupport::TestCase
-  test "creates a menu with valid name and dishes" do
-    dish_ids = [ dishes(:olivas).id, dishes(:paella).id, dishes(:salmó).id, dishes(:gelat).id ]
-    menu = Menu.new(name: "Menú del día", dish_ids: dish_ids)
+  test "creates a menu with valid name and at least one dish" do
+    menu = Menu.new(name: "Menú del día", dish_ids: [ dishes(:olivas).id ])
 
     assert menu.valid?
   end
@@ -16,7 +15,7 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "validates uniqueness of name" do
-    Menu.create!(name: "Menú especial", dish_ids: [ dishes(:olivas).id, dishes(:paella).id, dishes(:salmó).id, dishes(:gelat).id ])
+    Menu.create!(name: "Menú especial", dish_ids: [ dishes(:olivas).id ])
 
     duplicate = Menu.new(name: "Menú especial")
 
@@ -24,10 +23,23 @@ class MenuTest < ActiveSupport::TestCase
     assert duplicate.errors[:name].any?
   end
 
-  test "requires one dish of each type" do
-    menu = Menu.new(name: "Menú incompleto", dish_ids: [ dishes(:olivas).id, dishes(:paella).id ])
+  test "requires at least one dish" do
+    menu = Menu.new(name: "Menú buit")
     assert_not menu.valid?
-    assert menu.errors[:base].any?
+    assert_includes menu.errors[:base], I18n.t("menus.errors.no_dishes")
+  end
+
+  test "does not allow updating a persisted menu to have no dishes" do
+    menu = menus(:weekly_menu)
+    menu.dish_ids = []
+    assert_not menu.valid?
+    assert_includes menu.errors[:base], I18n.t("menus.errors.no_dishes")
+  end
+
+  test "allows updating a persisted menu name without changing dishes" do
+    menu = menus(:weekly_menu)
+    assert menu.update(name: "Menú setmanal actualitzat")
+    assert menu.valid?
   end
 
   test "has many dishes through menu_dishes" do
@@ -45,8 +57,8 @@ class MenuTest < ActiveSupport::TestCase
   end
 
   test "can add dishes to menu" do
-    menu = Menu.create!(name: "Test menu", dish_ids: [ dishes(:olivas).id, dishes(:paella).id, dishes(:salmó).id, dishes(:gelat).id ])
-    assert menu.dishes.include?(dishes(:paella))
+    menu = Menu.create!(name: "Test menu", dish_ids: [ dishes(:olivas).id ])
+    assert menu.dishes.include?(dishes(:olivas))
   end
 
   # ---- restriction filter scopes ----

@@ -80,7 +80,8 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
         dish: {
           name: "Escalivada",
           description: "Verdures rostides",
-          dish_type: "entrant"
+          dish_type: "entrant",
+          ingredient_ids: [ ingredients(:salt).id ]
         }
       }
     end

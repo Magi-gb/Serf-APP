@@ -61,6 +61,7 @@
           <div class="card-header">
             <h3 class="card-title">
               <%= t("dishes.types.#{type}") %>
+              <span class="muted"> · <%= group.size %></span>
             </h3>
           </div>
           <% group.each do |dish| %>
@@ -80,20 +81,21 @@
         <h3 class="card-title"><%= t("menus.show.coverage_title") %></h3>
       </div>
       <div class="card-body col">
-        <%# Best-effort: a dish is "compatible" with X if none of its
-            ingredients carry X. Without `DishIngredient#essential` we cannot
-            tell "substitutable" from "blocking". %>
-        <% @coverage.each do |slot| %>
-          <% pct = slot[:total].zero? ? 0 : ((slot[:compatible].to_f / slot[:total]) * 100).round %>
-          <div class="coverage-row">
-            <div class="coverage-head">
-              <span><%= t("menus.coverage.#{slot[:key]}") %></span>
-              <span class="strong"><%= slot[:compatible] %> / <%= slot[:total] %></span>
+        <% if @coverage.any? %>
+          <% @coverage.each do |slot| %>
+            <% pct = ((slot[:violated].to_f / slot[:total]) * 100).round %>
+            <div class="coverage-row">
+              <div class="coverage-head">
+                <span><%= slot[:restriction].name %></span>
+                <span class="strong"><%= slot[:violated] %> / <%= slot[:total] %></span>
+              </div>
+              <div class="coverage-bar">
+                <div class="coverage-bar-fill coverage-bar-fill-<%= slot[:tag_kind] %>" style="width: <%= pct %>%;"></div>
+              </div>
             </div>
-            <div class="coverage-bar">
-              <div class="coverage-bar-fill coverage-bar-fill-<%= slot[:tag_kind] %>" style="width: <%= pct %>%;"></div>
-            </div>
-          </div>
+          <% end %>
+        <% else %>
+          <p class="muted"><%= t("menus.show.coverage_none") %></p>
         <% end %>
       </div>
       <div class="card-foot muted"><%= t("menus.show.coverage_hint") %></div>

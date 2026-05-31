@@ -10,10 +10,10 @@ en:
         password_confirmation: Confirm password
     errors:
       models:
-        ingredient_alternative:
+        dish:
           attributes:
-            alternative:
-              cannot_add_restrictions: cannot add new restrictions compared to the original ingredient
+            ingredients:
+              blank: must have at least one ingredient
     models:
       protocol:
         one: Protocol
@@ -122,13 +122,6 @@ en:
       quick_access: Quick access
       title: Serf
       welcome: Welcome, %{username}!
-  ingredient_alternatives:
-    create:
-      success: Alternative added successfully.
-    destroy:
-      success: Alternative removed successfully.
-    update_collection:
-      success: Alternatives saved successfully.
   ingredients:
     create:
       success: Ingredient created successfully.
@@ -154,7 +147,6 @@ en:
       title: New ingredient
     show:
       allergen_badge: Allergen
-      alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this ingredient?
       delete: Delete
       delete_warning:
@@ -165,12 +157,9 @@ en:
       edit: Edit details
       linked_dishes: Linked dishes
       linked_restrictions: Linked restrictions
-      no_alternatives: There are no alternatives associated yet.
-      no_available_alternatives: There are no ingredients available as an alternative.
       no_restrictions: No dietary restrictions associated
       not_used_in_dishes: This ingredient is not used in any dish
       restrictions: Associated restrictions
-      save_alternatives: Save alternatives
       used_in_dishes: Dishes containing it
     update:
       success: Ingredient updated successfully.
@@ -181,15 +170,10 @@ en:
     headline_html: Mistake-free kitchen,<br>menus for everyone.
     subhead: Dishes, ingredients and restrictions management for the Cal Blay restaurant group.
   menus:
-    coverage:
-      gluten: Gluten-free
-      lactose: Lactose-free
-      vegan: Vegan
-      vegetarian: Vegetarian
     edit:
       title: Edit menu
     errors:
-      missing_dish_type: Menu must have a dish of type %{type}
+      no_dishes: Menu must have at least one dish
     form:
       cancel: Cancel
       dishes: Dishes
@@ -210,8 +194,9 @@ en:
     show:
       alternatives_title: Alternatives
       confirm_delete: Are you sure you want to delete this menu?
-      coverage_hint: Approximation — a dish counts as compatible if none of its ingredients carry the restriction. Without a `essential` flag on DishIngredient we cannot tell adaptable from blocking.
-      coverage_title: Restriction coverage
+      coverage_hint: Approximation — a dish violates a restriction if any of its ingredients carries it. Without an `essential` flag on DishIngredient we cannot tell adaptable from blocking.
+      coverage_none: No restriction is violated in this menu.
+      coverage_title: Restriction violations
       delete: Delete menu
       detail_last_edited: Last edited
       detail_restaurant: Restaurant

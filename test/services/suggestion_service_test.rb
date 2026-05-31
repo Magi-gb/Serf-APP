@@ -58,8 +58,9 @@ class SuggestionServiceTest < ActiveSupport::TestCase
   private
 
   def dish_with(type, ingredients)
-    dish = Dish.create!(name: "sim #{Dish.count}", description: "d", dish_type: type)
+    dish = Dish.new(name: "sim #{Dish.count}", description: "d", dish_type: type)
     dish.ingredients = ingredients
+    dish.save!
     dish
   end
 end

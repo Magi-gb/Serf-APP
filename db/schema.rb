@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_31_120000) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_31_181802) do
   create_table "dish_ingredients", force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "ingredient_id", null: false
@@ -28,17 +28,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_31_120000) do
     t.datetime "updated_at", null: false
     t.integer "dish_type", default: 0, null: false
     t.check_constraint "dish_type IN (0, 1, 2, 3)", name: "chk_dishes_dish_type"
-  end
-
-  create_table "ingredient_alternatives", force: :cascade do |t|
-    t.integer "ingredient_id", null: false
-    t.integer "alternative_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["alternative_id"], name: "index_ingredient_alternatives_on_alternative_id"
-    t.index ["ingredient_id", "alternative_id"], name: "idx_on_ingredient_id_alternative_id_d7c7e5c594", unique: true
-    t.index ["ingredient_id"], name: "index_ingredient_alternatives_on_ingredient_id"
-    t.check_constraint "ingredient_id != alternative_id", name: "ingredient_alternative_not_self"
   end
 
   create_table "ingredient_restrictions", force: :cascade do |t|
@@ -110,8 +99,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_31_120000) do
 
   add_foreign_key "dish_ingredients", "dishes"
   add_foreign_key "dish_ingredients", "ingredients"
-  add_foreign_key "ingredient_alternatives", "ingredients"
-  add_foreign_key "ingredient_alternatives", "ingredients", column: "alternative_id"
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
   add_foreign_key "menu_dishes", "dishes"

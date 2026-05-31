@@ -8,6 +8,7 @@ class Dish < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
+  validates :ingredients, presence: true
   enum :dish_type, { entrant: 0, primer: 1, segon: 2, postre: 3 }
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
