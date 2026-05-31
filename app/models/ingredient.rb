@@ -3,6 +3,8 @@ class Ingredient < ApplicationRecord
   has_many :restrictions, through: :ingredient_restrictions
   has_many :dish_ingredients, dependent: :destroy
   has_many :dishes, through: :dish_ingredients
+  has_many :elaboration_ingredients, dependent: :destroy
+  has_many :elaborations, through: :elaboration_ingredients
 
   scope :search, ->(query) { query.present? ? where("name LIKE ?", "%#{query}%") : all }
   scope :with_restrictions, ->(ids) {

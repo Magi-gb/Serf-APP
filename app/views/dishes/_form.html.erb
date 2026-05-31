@@ -106,6 +106,59 @@
     </div>
   </div>
 
+  <div class="field">
+    <label class="label"><%= t("dishes.form.elaborations") %></label>
+    <div class="picker card"
+         data-controller="picker"
+         data-picker-singular-value="<%= t("pickers.selected_one") %>"
+         data-picker-plural-value="<%= t("pickers.selected_other", count: '%{count}') %>">
+      <div class="card-body">
+        <div class="picker-toolbar">
+          <div class="picker-search search">
+            <span class="search-icon"><%= serf_icon(:search) %></span>
+            <input type="search"
+                   class="input"
+                   placeholder="<%= t("pickers.search_placeholder") %>"
+                   data-picker-target="search"
+                   data-action="input->picker#refresh keydown->picker#preventSubmit">
+          </div>
+          <span class="picker-count" data-picker-target="count"><%= t("pickers.selected_other", count: 0) %></span>
+          <button type="button"
+                  class="chip"
+                  aria-pressed="false"
+                  data-picker-target="onlySelected"
+                  data-action="click->picker#toggleOnlySelected">
+            <%= t("pickers.only_selected") %>
+          </button>
+        </div>
+
+        <div class="checkbox-cards">
+          <% @elaborations.each do |elaboration| %>
+            <% restrictions = elaboration.restrictions %>
+            <% search_text = ([ elaboration.name ] + restrictions.map(&:name)).join(" ") %>
+            <label class="checkbox-card"
+                   data-picker-target="item"
+                   data-search-text="<%= search_text %>">
+              <%= form.check_box :elaboration_ids,
+                                  { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
+                                  elaboration.id, nil %>
+              <span><%= elaboration.name %></span>
+              <% if restrictions.any? %>
+                <span class="row">
+                  <% restrictions.first(3).each do |restriction| %>
+                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                  <% end %>
+                </span>
+              <% end %>
+            </label>
+          <% end %>
+        </div>
+
+        <div class="picker-empty" data-picker-target="empty" hidden><%= t("pickers.none") %></div>
+      </div>
+    </div>
+  </div>
+
   <div class="row mt-4">
     <%= form.submit dish.new_record? ? t("dishes.form.submit_create") : t("dishes.form.submit_update"),
                     class: "btn btn-primary" %>

@@ -10,8 +10,14 @@ class MenuCoverage
   # @return [Array<Hash>] one entry per violated restriction with
   #   :restriction, :violated, :total, :tag_kind. Empty when no violations.
   def call
-    total = @menu.dishes.size
-    return [] if total.zero?
+    dish_ids = @menu.dishes.map(&:id)
+    return [] if dish_ids.empty?
+
+    total = dish_ids.size
+    @dishes = Dish.where(id: dish_ids)
+                  .includes(ingredients: :restrictions,
+                            elaborations: { ingredients: :restrictions })
+                  .to_a
 
     Restriction.order(:name).filter_map do |restriction|
       violated = count_violated(restriction)
@@ -24,8 +30,9 @@ class MenuCoverage
   private
 
   def count_violated(restriction)
-    @menu.dishes.count do |dish|
-      dish.ingredients.any? { |ing| ing.restrictions.include?(restriction) }
+    @dishes.count do |dish|
+      all_ingredients = dish.ingredients + dish.elaborations.flat_map(&:ingredients)
+      all_ingredients.any? { |ing| ing.restrictions.include?(restriction) }
     end
   end
 

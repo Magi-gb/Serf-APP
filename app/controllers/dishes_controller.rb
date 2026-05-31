@@ -21,11 +21,13 @@ class DishesController < ApplicationController
   def new
     @dish = Dish.new
     @ingredients = Ingredient.includes(:restrictions).order(:name)
+    @elaborations = Elaboration.order(:name)
     @dish_essential_ingredient_ids = []
   end
 
   def edit
     @ingredients = Ingredient.includes(:restrictions).order(:name)
+    @elaborations = Elaboration.order(:name)
     @dish_essential_ingredient_ids = @dish.dish_ingredients.where(essential: true).pluck(:ingredient_id)
   end
 
@@ -38,6 +40,7 @@ class DishesController < ApplicationController
       redirect_to @dish, notice: t("dishes.messages.created_success")
     else
       @ingredients = Ingredient.includes(:restrictions).order(:name)
+      @elaborations = Elaboration.order(:name)
       @dish_essential_ingredient_ids = @dish.ingredient_ids - substituible_ids
       render :new, status: :unprocessable_entity
     end
@@ -51,6 +54,7 @@ class DishesController < ApplicationController
       redirect_to @dish, notice: t("dishes.messages.updated_success")
     else
       @ingredients = Ingredient.includes(:restrictions).order(:name)
+      @elaborations = Elaboration.order(:name)
       @dish_essential_ingredient_ids = @dish.ingredient_ids - substituible_ids
       render :edit, status: :unprocessable_entity
     end
@@ -68,7 +72,7 @@ class DishesController < ApplicationController
   end
 
   def dish_params
-    params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [])
+    params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [], elaboration_ids: [])
   end
 
   def extract_substituible_ingredient_ids

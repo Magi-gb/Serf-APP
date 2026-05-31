@@ -42,6 +42,7 @@ ca:
       cancel: Cancel·lar
       description: Descripció
       dish_type: Tipus de plat
+      elaborations: Elaboracions
       essential: Imprescindible
       ingredients: Ingredients
       name: Nom del plat
@@ -65,6 +66,7 @@ ca:
       delete: Eliminar plat
       description: Descripció
       edit: Editar
+      elaborations: Elaboracions
       essential_header: Imprescindibles
       essential_subtitle: No es poden treure ni substituir
       ingredients: Ingredients
@@ -77,6 +79,37 @@ ca:
       postre: Postre
       primer: Primer plat
       segon: Segon plat
+  elaborations:
+    edit:
+      title: Editar elaboració
+    form:
+      cancel: Cancel·lar
+      description: Descripció
+      ingredients: Ingredients
+      name: Nom de l'elaboració
+      submit_create: Crear elaboració
+      submit_update: Desar canvis
+    index:
+      ingredients_count: ingredients
+      new_elaboration: Nova elaboració
+      no_elaborations: No s'han trobat elaboracions.
+      no_restrictions: Cap restricció
+      search_placeholder: Cerca una elaboració
+      title: Elaboracions
+    messages:
+      created_success: Elaboració creada correctament.
+      destroyed_success: Elaboració eliminada correctament.
+      updated_success: Elaboració actualitzada correctament.
+    new:
+      title: Nova elaboració
+    show:
+      confirm_delete: Segur que vols eliminar aquesta elaboració?
+      delete: Eliminar
+      edit: Editar dades
+      ingredients: Ingredients
+      no_ingredients: Aquesta elaboració no té ingredients associats
+      not_used_in_dishes: Aquesta elaboració no s'utilitza en cap plat
+      used_in_dishes: Plats que l'utilitzen
   errors:
     form_header:
       one: '1 error ha impedit guardar:'
@@ -324,6 +357,7 @@ ca:
     close: Tanca el menú
     dashboard: Inici
     dishes: Plats
+    elaborations: Elaboracions
     emergencies: Emergències
     ingredients: Ingredients
     logout: Tancar sessió

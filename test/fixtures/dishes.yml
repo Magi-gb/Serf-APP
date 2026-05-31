@@ -58,4 +58,7 @@ jamó:
   description: "Jamó ibèric de qualitat superior"
   dish_type: entrant
 
-
+lasanya:
+  name: "Lasanya"
+  description: "Pasta amb bolonyesa i beixamel"
+  dish_type: primer

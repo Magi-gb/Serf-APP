@@ -1,0 +1,7 @@
+bolognesa_bread:
+  elaboration: bolognesa
+  ingredient: bread
+
+beixamel_milk:
+  elaboration: beixamel
+  ingredient: milk

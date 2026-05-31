@@ -1,0 +1,8 @@
+<% content_for :title, t("elaborations.edit.title") %>
+
+<%= render "shared/topbar", title: t("elaborations.edit.title"),
+    subtitle: breadcrumb([t("elaborations.index.title"), elaborations_path], [@elaboration.name, elaboration_path(@elaboration)], [t("elaborations.edit.title"), nil]) %>
+
+<div class="content">
+  <%= render "form", elaboration: @elaboration, ingredients: @ingredients %>
+</div>

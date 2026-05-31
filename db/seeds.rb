@@ -114,61 +114,60 @@ def mark_essential(dish, *ingredient_names)
   end
 end
 
-entrant_pa = Dish.find_or_create_by!(name: "Pa amb tomàquet") do |p|
-  p.description = "Pa torrat amb tomàquet i oli d'oliva verge"
-  p.dish_type = :entrant
-end
+entrant_pa = Dish.find_or_initialize_by(name: "Pa amb tomàquet")
+entrant_pa.description = "Pa torrat amb tomàquet i oli d'oliva verge"
+entrant_pa.dish_type = :entrant
 entrant_pa.ingredients = [
   Ingredient.find_by!(name: "Pa de sèsam"),
   Ingredient.find_by!(name: "Tomàquet"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+entrant_pa.save!
 mark_essential(entrant_pa, "Pa de sèsam", "Tomàquet")
 
-entrant_olivas = Dish.find_or_create_by!(name: "Olivas variades") do |p|
-  p.description = "Olives de diverses varietats amb herbes aromàtiques"
-  p.dish_type = :entrant
-end
+entrant_olivas = Dish.find_or_initialize_by(name: "Olivas variades")
+entrant_olivas.description = "Olives de diverses varietats amb herbes aromàtiques"
+entrant_olivas.dish_type = :entrant
 entrant_olivas.ingredients = [
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Herbes aromàtiques")
 ]
+entrant_olivas.save!
 
-entrant_gamba = Dish.find_or_create_by!(name: "Gamba amb mostassa") do |p|
-  p.description = "Gambeta amb salsa de mostassa i herbes"
-  p.dish_type = :entrant
-end
+entrant_gamba = Dish.find_or_initialize_by(name: "Gamba amb mostassa")
+entrant_gamba.description = "Gambeta amb salsa de mostassa i herbes"
+entrant_gamba.dish_type = :entrant
 entrant_gamba.ingredients = [
   Ingredient.find_by!(name: "Gamba"),
   Ingredient.find_by!(name: "Salsa de mostassa"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+entrant_gamba.save!
 
-entrant_tomata = Dish.find_or_create_by!(name: "Tomata amb formatge") do |p|
-  p.description = "Tomata fresca amb mozzarella"
-  p.dish_type = :entrant
-end
+entrant_tomata = Dish.find_or_initialize_by(name: "Tomata amb formatge")
+entrant_tomata.description = "Tomata fresca amb mozzarella"
+entrant_tomata.dish_type = :entrant
 entrant_tomata.ingredients = [
   Ingredient.find_by!(name: "Tomàquet"),
   Ingredient.find_by!(name: "Llet sencera")
 ]
+entrant_tomata.save!
 
-primer_paella = Dish.find_or_create_by!(name: "Paella de marisco") do |p|
-  p.description = "Paella amb gamba, musclo i altres mariscos"
-  p.dish_type = :primer
-end
+primer_paella = Dish.find_or_initialize_by(name: "Paella de marisco")
+primer_paella.description = "Paella amb gamba, musclo i altres mariscos"
+primer_paella.dish_type = :primer
 primer_paella.ingredients = [
   Ingredient.find_by!(name: "Farina de blat"),
   Ingredient.find_by!(name: "Gamba"),
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Verduretes variades")
 ]
+primer_paella.save!
 mark_essential(primer_paella, "Farina de blat", "Gamba")
 
-primer_macarrons = Dish.find_or_create_by!(name: "Macarrons a la carbonara") do |p|
-  p.description = "Pasta amb salsa carbonara clàssica"
-  p.dish_type = :primer
-end
+primer_macarrons = Dish.find_or_initialize_by(name: "Macarrons a la carbonara")
+primer_macarrons.description = "Pasta amb salsa carbonara clàssica"
+primer_macarrons.dish_type = :primer
 primer_macarrons.ingredients = [
   Ingredient.find_by!(name: "Farina de blat"),
   Ingredient.find_by!(name: "Ou de gallina"),
@@ -176,151 +175,176 @@ primer_macarrons.ingredients = [
   Ingredient.find_by!(name: "Bacon"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+primer_macarrons.save!
 
-primer_arros = Dish.find_or_create_by!(name: "Arròs a banda") do |p|
-  p.description = "Arròs cuinat amb brou de peix i verdures"
-  p.dish_type = :primer
-end
+primer_arros = Dish.find_or_initialize_by(name: "Arròs a banda")
+primer_arros.description = "Arròs cuinat amb brou de peix i verdures"
+primer_arros.dish_type = :primer
 primer_arros.ingredients = [
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Verduretes variades")
 ]
+primer_arros.save!
 
-primer_macarrons_vegana = Dish.find_or_create_by!(name: "Macarrons vegans") do |p|
-  p.description = "Pasta sense gluten amb salsa de tomàquet i soja"
-  p.dish_type = :primer
-end
+primer_macarrons_vegana = Dish.find_or_initialize_by(name: "Macarrons vegans")
+primer_macarrons_vegana.description = "Pasta sense gluten amb salsa de tomàquet i soja"
+primer_macarrons_vegana.dish_type = :primer
 primer_macarrons_vegana.ingredients = [
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Tomàquet"),
   Ingredient.find_by!(name: "Soja texturitzada"),
   Ingredient.find_by!(name: "Herbes aromàtiques")
 ]
+primer_macarrons_vegana.save!
 
-segon_salmó = Dish.find_or_create_by!(name: "Salmó a la sal") do |p|
-  p.description = "Filet de salmó cuinat a la sal amb herbes"
-  p.dish_type = :segon
-end
+segon_salmó = Dish.find_or_initialize_by(name: "Salmó a la sal")
+segon_salmó.description = "Filet de salmó cuinat a la sal amb herbes"
+segon_salmó.dish_type = :segon
 segon_salmó.ingredients = [
   Ingredient.find_by!(name: "Salmó fresc"),
   Ingredient.find_by!(name: "Herbes aromàtiques"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+segon_salmó.save!
 
-segon_pollastre = Dish.find_or_create_by!(name: "Pollastre al forn") do |p|
-  p.description = "Pollastre rostit amb herbes aromàtiques i patates"
-  p.dish_type = :segon
-end
+segon_pollastre = Dish.find_or_initialize_by(name: "Pollastre al forn")
+segon_pollastre.description = "Pollastre rostit amb herbes aromàtiques i patates"
+segon_pollastre.dish_type = :segon
 segon_pollastre.ingredients = [
   Ingredient.find_by!(name: "Pollastre"),
   Ingredient.find_by!(name: "Herbes aromàtiques"),
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Verduretes variades")
 ]
+segon_pollastre.save!
 
-segon_truita = Dish.find_or_create_by!(name: "Truita a la meunière") do |p|
-  p.description = "Truita fresca amb salsa de mantega i llimona"
-  p.dish_type = :segon
-end
+segon_truita = Dish.find_or_initialize_by(name: "Truita a la meunière")
+segon_truita.description = "Truita fresca amb salsa de mantega i llimona"
+segon_truita.dish_type = :segon
 segon_truita.ingredients = [
   Ingredient.find_by!(name: "Truita"),
   Ingredient.find_by!(name: "Llet sencera"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+segon_truita.save!
 
-segon_merluça = Dish.find_or_create_by!(name: "Merluça al vapor") do |p|
-  p.description = "Merluça fresca al vapor amb verduretes"
-  p.dish_type = :segon
-end
+segon_merluça = Dish.find_or_initialize_by(name: "Merluça al vapor")
+segon_merluça.description = "Merluça fresca al vapor amb verduretes"
+segon_merluça.dish_type = :segon
 segon_merluça.ingredients = [
   Ingredient.find_by!(name: "Merluça"),
   Ingredient.find_by!(name: "Verduretes variades"),
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Herbes aromàtiques")
 ]
+segon_merluça.save!
 
-segon_vedella = Dish.find_or_create_by!(name: "Vedella amb salsa") do |p|
-  p.description = "Carn de vedella cuinada amb verdures"
-  p.dish_type = :segon
-end
+segon_vedella = Dish.find_or_initialize_by(name: "Vedella amb salsa")
+segon_vedella.description = "Carn de vedella cuinada amb verdures"
+segon_vedella.dish_type = :segon
 segon_vedella.ingredients = [
   Ingredient.find_by!(name: "Carn de vedella"),
   Ingredient.find_by!(name: "Verduretes variades"),
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Herbes aromàtiques")
 ]
+segon_vedella.save!
 
-postre_gelat = Dish.find_or_create_by!(name: "Gelat artesanal") do |p|
-  p.description = "Gelat casolà amb sabors variats: vainella, xocolata, pistacho"
-  p.dish_type = :postre
-end
+postre_gelat = Dish.find_or_initialize_by(name: "Gelat artesanal")
+postre_gelat.description = "Gelat casolà amb sabors variats: vainella, xocolata, pistacho"
+postre_gelat.dish_type = :postre
 postre_gelat.ingredients = [
   Ingredient.find_by!(name: "Llet sencera"),
   Ingredient.find_by!(name: "Vainilla"),
   Ingredient.find_by!(name: "Xocolata negra")
 ]
+postre_gelat.save!
 
-postre_flan = Dish.find_or_create_by!(name: "Flà tradicional") do |p|
-  p.description = "Flà clàssic amb caramel crematosquè"
-  p.dish_type = :postre
-end
+postre_flan = Dish.find_or_initialize_by(name: "Flà tradicional")
+postre_flan.description = "Flà clàssic amb caramel crematosquè"
+postre_flan.dish_type = :postre
 postre_flan.ingredients = [
   Ingredient.find_by!(name: "Ou de gallina"),
   Ingredient.find_by!(name: "Llet sencera"),
   Ingredient.find_by!(name: "Caramel")
 ]
+postre_flan.save!
 
-postre_tiramisú = Dish.find_or_create_by!(name: "Tiramisú") do |p|
-  p.description = "Postre italià amb mascarpone i cacao"
-  p.dish_type = :postre
-end
+postre_tiramisú = Dish.find_or_initialize_by(name: "Tiramisú")
+postre_tiramisú.description = "Postre italià amb mascarpone i cacao"
+postre_tiramisú.dish_type = :postre
 postre_tiramisú.ingredients = [
   Ingredient.find_by!(name: "Ou de gallina"),
   Ingredient.find_by!(name: "Mascarpone"),
   Ingredient.find_by!(name: "Café"),
   Ingredient.find_by!(name: "Xocolata negra")
 ]
+postre_tiramisú.save!
 
-postre_brownie = Dish.find_or_create_by!(name: "Brownie de xocolata") do |p|
-  p.description = "Brownie casolà amb xocolata fon al centre"
-  p.dish_type = :postre
-end
+postre_brownie = Dish.find_or_initialize_by(name: "Brownie de xocolata")
+postre_brownie.description = "Brownie casolà amb xocolata fon al centre"
+postre_brownie.dish_type = :postre
 postre_brownie.ingredients = [
   Ingredient.find_by!(name: "Farina de blat"),
   Ingredient.find_by!(name: "Xocolata negra"),
   Ingredient.find_by!(name: "Ou de gallina"),
   Ingredient.find_by!(name: "Llet sencera")
 ]
+postre_brownie.save!
 
-postre_sorbet = Dish.find_or_create_by!(name: "Sorbet de fruites") do |p|
-  p.description = "Sorbet vegà amb fruites del bosc"
-  p.dish_type = :postre
-end
+postre_sorbet = Dish.find_or_initialize_by(name: "Sorbet de fruites")
+postre_sorbet.description = "Sorbet vegà amb fruites del bosc"
+postre_sorbet.dish_type = :postre
 postre_sorbet.ingredients = [
   Ingredient.find_by!(name: "Berena de bosc"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+postre_sorbet.save!
 
-entrant_embotits = Dish.find_or_create_by!(name: "Taula d'embotits") do |p|
-  p.description = "Selecció de pernil, llonganissa i xoriç artesans"
-  p.dish_type = :entrant
-end
+entrant_embotits = Dish.find_or_initialize_by(name: "Taula d'embotits")
+entrant_embotits.description = "Selecció de pernil, llonganissa i xoriç artesans"
+entrant_embotits.dish_type = :entrant
 entrant_embotits.ingredients = [
   Ingredient.find_by!(name: "Pernil"),
   Ingredient.find_by!(name: "Llonganissa"),
   Ingredient.find_by!(name: "Xoriç")
 ]
+entrant_embotits.save!
 
-segon_porc = Dish.find_or_create_by!(name: "Llom de porc a la brasa") do |p|
-  p.description = "Llom de porc a la brasa amb cansalada i herbes aromàtiques"
-  p.dish_type = :segon
-end
+segon_porc = Dish.find_or_initialize_by(name: "Llom de porc a la brasa")
+segon_porc.description = "Llom de porc a la brasa amb cansalada i herbes aromàtiques"
+segon_porc.dish_type = :segon
 segon_porc.ingredients = [
   Ingredient.find_by!(name: "Porc"),
   Ingredient.find_by!(name: "Cansalada"),
   Ingredient.find_by!(name: "Herbes aromàtiques"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+segon_porc.save!
+
+elaboration_bolognesa = Elaboration.find_or_create_by!(name: "Salsa bolonyesa") do |e|
+  e.description = "Salsa italiana de tomàquet amb carn picada de vedella"
+end
+elaboration_bolognesa.ingredients = [
+  Ingredient.find_by!(name: "Carn de vedella"),
+  Ingredient.find_by!(name: "Tomàquet"),
+  Ingredient.find_by!(name: "Oli d'oliva")
+]
+
+elaboration_beixamel = Elaboration.find_or_create_by!(name: "Beixamel") do |e|
+  e.description = "Salsa blanca clàssica a base de llet i farina"
+end
+elaboration_beixamel.ingredients = [
+  Ingredient.find_by!(name: "Llet sencera"),
+  Ingredient.find_by!(name: "Farina de blat"),
+  Ingredient.find_by!(name: "Oli d'oliva")
+]
+
+primer_lasanya = Dish.find_or_initialize_by(name: "Lasanya de vedella")
+primer_lasanya.description = "Pasta farcida amb bolonyesa i gratinada amb beixamel"
+primer_lasanya.dish_type = :primer
+primer_lasanya.elaborations = [ elaboration_bolognesa, elaboration_beixamel ]
+primer_lasanya.save!
 
 Menu.find_or_create_by!(name: "Menú setmanal") do |m|
   m.dishes = [ entrant_pa, primer_paella, segon_salmó, postre_gelat ]

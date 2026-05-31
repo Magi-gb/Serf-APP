@@ -45,6 +45,19 @@ class MenuCoverageTest < ActiveSupport::TestCase
     assert_empty MenuCoverage.new(menu).call
   end
 
+  test "counts violations through elaboration ingredients" do
+    # lasanya has bolognesa elaboration → bread → gluten (no direct ingredients)
+    menu = Menu.new(name: "Lasanya test menu")
+    menu.dishes << dishes(:lasanya)
+
+    result = MenuCoverage.new(menu).call
+    restriction_names = result.map { |r| r[:restriction].name }
+
+    assert_includes restriction_names, restrictions(:gluten).name
+    gluten_slot = result.find { |r| r[:restriction] == restrictions(:gluten) }
+    assert_equal 1, gluten_slot[:violated]
+  end
+
   test "tag_kind is allergen for intolerance_allergy restrictions" do
     result = MenuCoverage.new(menus(:weekly_menu)).call
     gluten_slot = result.find { |r| r[:restriction] == restrictions(:gluten) }

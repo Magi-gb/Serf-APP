@@ -11,6 +11,16 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2026_05_31_190844) do
+  create_table "dish_elaborations", force: :cascade do |t|
+    t.integer "dish_id", null: false
+    t.integer "elaboration_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id", "elaboration_id"], name: "index_dish_elaborations_on_dish_and_elaboration", unique: true
+    t.index ["dish_id"], name: "index_dish_elaborations_on_dish_id"
+    t.index ["elaboration_id"], name: "index_dish_elaborations_on_elaboration_id"
+  end
+
   create_table "dish_ingredients", force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "ingredient_id", null: false
@@ -29,6 +39,24 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_31_190844) do
     t.datetime "updated_at", null: false
     t.integer "dish_type", default: 0, null: false
     t.check_constraint "dish_type IN (0, 1, 2, 3)", name: "chk_dishes_dish_type"
+  end
+
+  create_table "elaboration_ingredients", force: :cascade do |t|
+    t.integer "elaboration_id", null: false
+    t.integer "ingredient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["elaboration_id", "ingredient_id"], name: "index_elaboration_ingredients_on_elaboration_and_ingredient", unique: true
+    t.index ["elaboration_id"], name: "index_elaboration_ingredients_on_elaboration_id"
+    t.index ["ingredient_id"], name: "index_elaboration_ingredients_on_ingredient_id"
+  end
+
+  create_table "elaborations", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_elaborations_on_name", unique: true
   end
 
   create_table "ingredient_restrictions", force: :cascade do |t|
@@ -98,8 +126,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_31_190844) do
     t.check_constraint "role IN (0, 1, 2)", name: "chk_users_role"
   end
 
+  add_foreign_key "dish_elaborations", "dishes"
+  add_foreign_key "dish_elaborations", "elaborations"
   add_foreign_key "dish_ingredients", "dishes"
   add_foreign_key "dish_ingredients", "ingredients"
+  add_foreign_key "elaboration_ingredients", "elaborations"
+  add_foreign_key "elaboration_ingredients", "ingredients"
   add_foreign_key "ingredient_restrictions", "ingredients"
   add_foreign_key "ingredient_restrictions", "restrictions"
   add_foreign_key "menu_dishes", "dishes"

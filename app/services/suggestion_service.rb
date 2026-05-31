@@ -21,15 +21,18 @@ class SuggestionService
     excluded_ids = restrictions_to_exclude.map(&:id).to_set
     own_ingredient_ids = @dish.ingredient_ids.to_set
 
-    # Same category and not the dish itself. Eager-load ingredients and their
-    # restrictions so scoring the candidates below does not trigger N+1 queries.
+    # Same category and not the dish itself. Eager-load ingredients and elaborations
+    # (with their ingredients and restrictions) to avoid N+1 queries.
     candidates = Dish.where(dish_type: @dish.dish_type)
                      .where.not(id: @dish.id)
-                     .includes(ingredients: :restrictions)
+                     .includes(ingredients: :restrictions,
+                               elaborations: { ingredients: :restrictions })
 
-    # Discard any candidate carrying an excluded restriction.
+    # Discard any candidate carrying an excluded restriction through any ingredient
+    # (direct or via an elaboration).
     compatible = candidates.reject do |dish|
-      dish.ingredients.any? { |ingredient| ingredient.restrictions.any? { |r| excluded_ids.include?(r.id) } }
+      all_ingredients = dish.ingredients + dish.elaborations.flat_map(&:ingredients)
+      all_ingredients.any? { |ingredient| ingredient.restrictions.any? { |r| excluded_ids.include?(r.id) } }
     end
 
     # Rank by shared-ingredient count (descending) and keep the top three.
