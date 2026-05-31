@@ -15,6 +15,12 @@
 # definits aquí són utilitzats per algun plat.
 # ============================================================================
 
+# Adjuntar imatges als plats encua un ActiveStorage::AnalyzeJob. Amb l'adaptador
+# :async per defecte, aquest job s'executa en un fil en segon pla i competeix amb
+# el fil principal pel bloqueig d'escriptura de SQLite ("database is locked").
+# Executar els jobs en línia mentre sembrem evita aquesta condició de cursa.
+ActiveJob::Base.queue_adapter = :inline
+
 # ----------------------------------------------------------------------------
 # 1. USUARIS
 # ----------------------------------------------------------------------------
@@ -38,43 +44,54 @@ end
 # ----------------------------------------------------------------------------
 
 # Els 14 al·lèrgens de declaració obligatòria de la UE.
+#
+# La severitat reflecteix la gravetat clínica d'una exposició accidental:
+#   high   → desencadenants habituals de reaccions anafilàctiques greus
+#   medium → al·lèrgies/intoleràncies freqüents però normalment moderades
+#   low    → intoleràncies de reacció lleu (p. ex. asmàtica)
 eu_allergens = [
-  { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats." },
-  { name: "Llet", desc: "Llet i els seus derivats (inclosa la lactosa)." },
-  { name: "Ous", desc: "Ous i productes a base d'ou." },
-  { name: "Peix", desc: "Peix i productes a base de peix." },
-  { name: "Crustacis", desc: "Crustacis i productes a base de crustacis." },
-  { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs." },
-  { name: "Cacahuets", desc: "Cacauets i productes a base de cacauets." },
-  { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats." },
-  { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam." },
-  { name: "Celerí", desc: "Api i productes derivats." },
-  { name: "Mostassa", desc: "Mostassa i productes derivats." },
-  { name: "Sulfits", desc: "Diòxid de sofre i sulfits (> 10 mg/kg o 10 mg/l SO2)." },
-  { name: "Altramús", desc: "Tramussos i productes a base de tramussos." },
-  { name: "Soja", desc: "Soja i productes a base de soja." }
+  { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats.", severity: :medium },
+  { name: "Llet", desc: "Llet i els seus derivats (inclosa la lactosa).", severity: :medium },
+  { name: "Ous", desc: "Ous i productes a base d'ou.", severity: :medium },
+  { name: "Peix", desc: "Peix i productes a base de peix.", severity: :high },
+  { name: "Crustacis", desc: "Crustacis i productes a base de crustacis.", severity: :high },
+  { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs.", severity: :high },
+  { name: "Cacahuets", desc: "Cacauets i productes a base de cacauets.", severity: :high },
+  { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats.", severity: :high },
+  { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam.", severity: :high },
+  { name: "Celerí", desc: "Api i productes derivats.", severity: :medium },
+  { name: "Mostassa", desc: "Mostassa i productes derivats.", severity: :medium },
+  { name: "Sulfits", desc: "Diòxid de sofre i sulfits (> 10 mg/kg o 10 mg/l SO2).", severity: :low },
+  { name: "Altramús", desc: "Tramussos i productes a base de tramussos.", severity: :medium },
+  { name: "Soja", desc: "Soja i productes a base de soja.", severity: :medium }
 ]
 
 eu_allergens.each do |allergen|
   r = Restriction.find_or_initialize_by(name: allergen[:name])
   r.restriction_type = :intolerance_allergy
   r.description = allergen[:desc]
+  r.severity = allergen[:severity]
   r.save!
 end
 
 # Dietes (un ingredient es marca amb la dieta que INCOMPLEIX).
+#
+# No comporten cap emergència mèdica, per això mai són d'alta severitat:
+#   medium → obligacions religioses estrictes
+#   low    → preferències ètiques o d'estil de vida
 diet_restrictions = [
-  { name: "Halal", desc: "Requisits alimentaris islàmics." },
-  { name: "Kosher", desc: "Requisits alimentaris jueus." },
-  { name: "Hindú", desc: "Restriccions alimentàries hinduistes." },
-  { name: "Vegà", desc: "Sense cap producte d'origen animal." },
-  { name: "Vegetarià", desc: "Sense carn ni peix." }
+  { name: "Halal", desc: "Requisits alimentaris islàmics.", severity: :medium },
+  { name: "Kosher", desc: "Requisits alimentaris jueus.", severity: :medium },
+  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", severity: :medium },
+  { name: "Vegà", desc: "Sense cap producte d'origen animal.", severity: :low },
+  { name: "Vegetarià", desc: "Sense carn ni peix.", severity: :low }
 ]
 
 diet_restrictions.each do |restriction|
   r = Restriction.find_or_initialize_by(name: restriction[:name])
   r.restriction_type = :diet
   r.description = restriction[:desc]
+  r.severity = restriction[:severity]
   r.save!
 end
 
@@ -278,6 +295,21 @@ def build_dish(name:, type:, description:, essential:, replaceable: [], elaborat
   dish.save!
   replaceable.each do |n|
     dish.dish_ingredients.find_by!(ingredient: Ingredient.find_by!(name: n)).update!(essential: false)
+  end
+  attach_dish_image(dish)
+end
+
+# Attaches a representative photo from db/seeds/images/ if one exists for the
+# dish (filename = dish name parameterized). Idempotent: skips dishes that
+# already have an image so re-running the seeds doesn't duplicate blobs.
+def attach_dish_image(dish)
+  return if dish.image.attached?
+
+  path = Rails.root.join("db/seeds/images", "#{dish.name.parameterize}.jpg")
+  return unless File.exist?(path)
+
+  File.open(path) do |io|
+    dish.image.attach(io: io, filename: path.basename.to_s, content_type: "image/jpeg")
   end
 end
 
