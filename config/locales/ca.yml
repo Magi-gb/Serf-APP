@@ -201,7 +201,7 @@ ca:
     show:
       alternatives_title: Alternatives
       confirm_delete: Segur que vols eliminar aquest menú?
-      coverage_hint: 'Aproximació: un plat incompleix una restricció si algun dels seus ingredients la porta. Sense el camp ''essencial'' a DishIngredient no podem distingir adaptable de bloquejant.'
+      coverage_hint: Un plat es compta com a incompatible si conté qualsevol ingredient que porti la restricció, fins i tot si l'ingredient és substituïble.
       coverage_none: Cap restricció incomplerta en aquest menú.
       coverage_title: Incompliment de restriccions
       delete: Eliminar menú
@@ -286,6 +286,8 @@ ca:
       description_title: Descripció de la restricció
       edit: Editar
       no_description: Sense descripció addicional.
+      no_ingredients: Cap ingredient associat a aquesta restricció.
+      related_ingredients: Ingredients que la contenen
     types:
       diet: Dieta
       intolerance_allergy: Intolerància/Al·lèrgia

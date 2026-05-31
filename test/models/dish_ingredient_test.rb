@@ -7,9 +7,9 @@ class DishIngredientTest < ActiveSupport::TestCase
     assert_equal ingredients(:milk), di.ingredient
   end
 
-  test "essential defaults to false" do
+  test "essential defaults to true" do
     di = DishIngredient.create!(dish: dishes(:paella), ingredient: ingredients(:yogurt))
-    assert_not di.essential?
+    assert di.essential?
   end
 
   test "essential can be set to true" do
@@ -18,7 +18,7 @@ class DishIngredientTest < ActiveSupport::TestCase
   end
 
   test "essential can be set to false" do
-    di = dish_ingredients(:pollastre_salt)
+    di = dish_ingredients(:gelat_yogurt)
     assert_not di.essential?
   end
 

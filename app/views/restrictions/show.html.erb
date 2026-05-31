@@ -38,8 +38,35 @@
     <div class="card-body"><%= @restriction.description.presence || content_tag(:span, t("restrictions.show.no_description"), class: "muted") %></div>
   </div>
 
-  <%# DESIGN-GAP: design also shows "plats afectats" (with sub/no-sub status) and
-      "ingredients que la contenen" panels. Ingredients ARE available via the
-      association; "plats afectats" would require traversing ingredients→dishes
-      and the `essential` flag for the no-sub status. Not implemented. %>
+  <%# Ingredients that carry this restriction %>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">
+        <%= t("restrictions.show.related_ingredients") %>
+        <span class="muted"> · <%= @ingredients.size %></span>
+      </h3>
+    </div>
+    <div class="card-body">
+      <% if @ingredients.any? %>
+        <div class="col">
+          <% @ingredients.each do |ingredient| %>
+            <%= link_to ingredient_path(ingredient), class: "restriction-card" do %>
+              <span class="avatar" style="--avatar-bg: var(--accent-green);">
+                <%= serf_icon(:leaf) %>
+              </span>
+              <div class="grow">
+                <div class="strong"><%= ingredient.name %></div>
+                <% if ingredient.description.present? %>
+                  <div class="muted mt-1"><%= ingredient.description %></div>
+                <% end %>
+              </div>
+              <span class="muted"><%= serf_icon(:chevron) %></span>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="muted text-center"><%= t("restrictions.show.no_ingredients") %></div>
+      <% end %>
+    </div>
+  </div>
 </div>

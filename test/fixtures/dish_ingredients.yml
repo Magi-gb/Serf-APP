@@ -11,7 +11,7 @@ olivas_bread:
 pollastre_salt:
   dish: pollastre
   ingredient: salt
-  essential: false
+  essential: true
 
 gelat_yogurt:
   dish: gelat

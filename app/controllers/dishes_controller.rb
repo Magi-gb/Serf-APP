@@ -31,27 +31,27 @@ class DishesController < ApplicationController
 
   def create
     @dish = Dish.new(dish_params)
-    essential_ids = extract_essential_ingredient_ids
+    substituible_ids = extract_substituible_ingredient_ids
 
     if @dish.save
-      apply_essential_flags(@dish, essential_ids)
+      apply_essential_flags(@dish, substituible_ids)
       redirect_to @dish, notice: t("dishes.messages.created_success")
     else
       @ingredients = Ingredient.includes(:restrictions).order(:name)
-      @dish_essential_ingredient_ids = essential_ids
+      @dish_essential_ingredient_ids = @dish.ingredient_ids - substituible_ids
       render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    essential_ids = extract_essential_ingredient_ids
+    substituible_ids = extract_substituible_ingredient_ids
 
     if @dish.update(dish_params)
-      apply_essential_flags(@dish, essential_ids)
+      apply_essential_flags(@dish, substituible_ids)
       redirect_to @dish, notice: t("dishes.messages.updated_success")
     else
       @ingredients = Ingredient.includes(:restrictions).order(:name)
-      @dish_essential_ingredient_ids = essential_ids
+      @dish_essential_ingredient_ids = @dish.ingredient_ids - substituible_ids
       render :edit, status: :unprocessable_entity
     end
   end
@@ -71,13 +71,13 @@ class DishesController < ApplicationController
     params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [])
   end
 
-  def extract_essential_ingredient_ids
-    (params.dig(:dish, :essential_ingredient_ids) || []).map(&:to_i)
+  def extract_substituible_ingredient_ids
+    (params.dig(:dish, :substituible_ingredient_ids) || []).map(&:to_i)
   end
 
-  def apply_essential_flags(dish, essential_ids)
+  def apply_essential_flags(dish, substituible_ids)
     dish.dish_ingredients.each do |di|
-      di.update!(essential: essential_ids.include?(di.ingredient_id))
+      di.update!(essential: !substituible_ids.include?(di.ingredient_id))
     end
   end
 end

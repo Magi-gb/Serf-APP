@@ -9,6 +9,7 @@ class RestrictionsController < ApplicationController
 
   # GET /restrictions/1
   def show
+    @ingredients = @restriction.ingredients.order(:name).to_a
   end
 
   # GET /restrictions/new

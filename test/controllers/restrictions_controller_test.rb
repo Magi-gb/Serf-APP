@@ -29,6 +29,20 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show renders ingredients linked to the restriction" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "a[href=?]", ingredient_path(ingredients(:bread))
+  end
+
+  test "show renders no_ingredients message when restriction has no ingredients" do
+    restriction = restrictions(:lactose)
+    restriction.ingredient_restrictions.destroy_all
+    get restriction_url(restriction)
+    assert_response :success
+    assert_select "div.muted", text: I18n.t("restrictions.show.no_ingredients")
+  end
+
   test "should get edit" do
     get edit_restriction_url(@restriction)
     assert_response :success

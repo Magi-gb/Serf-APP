@@ -286,6 +286,8 @@ en:
       description_title: Restriction description
       edit: Edit
       no_description: No additional description.
+      no_ingredients: No ingredients associated with this restriction.
+      related_ingredients: Ingredients containing it
     types:
       diet: Diet
       intolerance_allergy: Intolerance/Allergy

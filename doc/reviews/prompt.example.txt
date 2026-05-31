@@ -16,4 +16,8 @@ You are a very careful and rigorous code reviewer.
 
 Put the review into doc/reviews, commit, and then (if needed) fix the code in a new commit review resolution commit.
 
+<<<<<<< Updated upstream
 NOTE that statistics controller test fails because user is not logged in and redirects to login. Fix and improve the test (make some assertions about the response content).
+=======
+NOTE that statistics controller test fails because user is not logged in and redirects to login. Fix and improve the test (make some assertions about the response content).
+>>>>>>> Stashed changes

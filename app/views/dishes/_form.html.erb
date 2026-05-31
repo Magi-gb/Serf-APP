@@ -91,10 +91,10 @@
                 </div>
                 <input type="checkbox"
                        class="essential-select"
-                       name="dish[essential_ingredient_ids][]"
+                       name="dish[substituible_ingredient_ids][]"
                        value="<%= ingredient.id %>"
                        data-essential-toggle-target="input"
-                       <%= is_essential ? "checked" : "" %>
+                       <%= is_essential ? "" : "checked" %>
                        style="display:none">
               </div>
             </div>
