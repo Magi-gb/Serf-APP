@@ -21,10 +21,12 @@ class DishesController < ApplicationController
   def new
     @dish = Dish.new
     @ingredients = Ingredient.all
+    @elaborations = Elaboration.order(:name)
   end
 
   def edit
     @ingredients = Ingredient.all
+    @elaborations = Elaboration.order(:name)
   end
 
   def create
@@ -34,6 +36,7 @@ class DishesController < ApplicationController
       redirect_to @dish, notice: t("dishes.messages.created_success")
     else
       @ingredients = Ingredient.all
+      @elaborations = Elaboration.order(:name)
       render :new, status: :unprocessable_entity
     end
   end
@@ -43,6 +46,7 @@ class DishesController < ApplicationController
       redirect_to @dish, notice: t("dishes.messages.updated_success")
     else
       @ingredients = Ingredient.all
+      @elaborations = Elaboration.order(:name)
       render :edit, status: :unprocessable_entity
     end
   end
@@ -59,6 +63,6 @@ class DishesController < ApplicationController
   end
 
   def dish_params
-    params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [])
+    params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [], elaboration_ids: [])
   end
 end

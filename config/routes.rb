@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { id: /\d+/ }
   resources :ingredients, constraints: { id: /\d+/ }
+  resources :elaborations, constraints: { id: /\d+/ }
   resources :menus, constraints: { id: /\d+/ } do
     get :alternatives, on: :member
   end
