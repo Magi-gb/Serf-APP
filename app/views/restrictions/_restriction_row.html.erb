@@ -15,6 +15,8 @@
     </div>
     <span class="rx-sev-label sev-<%= restriction.severity %>"><%= t("restrictions.severity.#{restriction.severity}") %></span>
   </div>
-  <span class="rx-col-num <%= 'is-zero' if dish_count.zero? %>"><%= dish_count %></span>
-  <span class="rx-col-num <%= 'is-zero' if restriction.ingredients.size.zero? %>"><%= restriction.ingredients.size %></span>
+  <span class="rx-col-num <%= 'is-zero' if restriction.dishes_count.zero? %>"><%= restriction.dishes_count %></span>
+  <span class="rx-col-num <%= 'is-zero' if restriction.elaborations_count.zero? %>"><%= restriction.elaborations_count %></span>
+  <span class="rx-col-num <%= 'is-zero' if restriction.menus_count.zero? %>"><%= restriction.menus_count %></span>
+  <span class="rx-col-num <%= 'is-zero' if restriction.ingredients_count.zero? %>"><%= restriction.ingredients_count %></span>
 <% end %>

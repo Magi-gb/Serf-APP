@@ -1280,11 +1280,11 @@
 }
 
 /* ===== Restriction catalog (rx-*) ===== */
-/* 5-column grid: code | name+desc | severity | dishes | ingredients */
+/* 7-column grid: code | name+desc | severity | dishes | elaborations | menus | ingredients */
 .serf-design .rx-catalog .rx-legend,
 .serf-design .rx-catalog .rx-row {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) 168px 84px 116px;
+  grid-template-columns: 76px minmax(0, 1fr) 168px 84px 84px 84px 116px;
   column-gap: var(--d-4);
   align-items: center;
   padding: 14px var(--d-6);
@@ -1420,3 +1420,22 @@
   background: var(--surface-hover);
   color: var(--text-strong);
 }
+
+/* ===== Sort links inside rx-catalog legend ===== */
+.serf-design .rx-sort-link {
+  display: block;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.serf-design .rx-sort-link:hover { color: var(--text-strong); }
+.serf-design .rx-sort-link.is-active { color: var(--text-strong); }
+.serf-design .rx-sort-link.rx-col-num { text-align: right; }
+.serf-design .rx-sort-indicator { opacity: 0.5; font-style: normal; }
+.serf-design .rx-sort-link.is-active .rx-sort-indicator { opacity: 1; }

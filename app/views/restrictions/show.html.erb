@@ -131,7 +131,11 @@
         </div>
         <div class="detail-field">
           <div class="detail-field-label"><%= t("restrictions.show.metadata_source") %></div>
-          <div class="detail-field-value muted">---</div>
+          <% if @restriction.intolerance_allergy? %>
+            <div class="detail-field-value"><%= t("restrictions.index.efsa_badge") %></div>
+          <% else %>
+            <div class="detail-field-value muted">---</div>
+          <% end %>
         </div>
         <div class="detail-field">
           <div class="detail-field-label"><%= t("restrictions.show.metadata_last_edited") %></div>

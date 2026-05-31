@@ -304,7 +304,9 @@ en:
     index:
       col_code: Code
       col_dishes: Dishes
+      col_elaborations: Elaborations
       col_ingredients: Ingredients
+      col_menus: Menus
       col_name: Restriction
       col_severity: Severity
       efsa_badge: EFSA Annex II

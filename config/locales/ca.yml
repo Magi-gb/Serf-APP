@@ -304,7 +304,9 @@ ca:
     index:
       col_code: Codi
       col_dishes: Plats
+      col_elaborations: Elaboracions
       col_ingredients: Ingredients
+      col_menus: Menús
       col_name: Restricció
       col_severity: Severitat
       efsa_badge: EFSA Annex II

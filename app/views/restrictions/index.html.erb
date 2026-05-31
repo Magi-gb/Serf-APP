@@ -2,6 +2,7 @@
 <% view = params[:view].presence || "grouped" %>
 <% type_filter = params[:type].to_s %>
 <% q = params[:q].to_s %>
+<% sort_params = { q: q.presence, view: view, type: type_filter.presence } %>
 
 <%= render "shared/topbar",
     title: t("restrictions.index.title"),
@@ -19,30 +20,32 @@
       <span class="search-icon"><%= serf_icon(:search) %></span>
       <%= f.search_field :q, value: q, placeholder: t("restrictions.index.search_placeholder"), class: "input" %>
       <%= f.hidden_field :view, value: view %>
+      <%= f.hidden_field :sort, value: @sort_col if @sort_col != "name" %>
+      <%= f.hidden_field :dir, value: @sort_dir if @sort_dir != "asc" %>
       <% if view == "list" && type_filter.present? %>
         <%= f.hidden_field :type, value: type_filter %>
       <% end %>
     <% end %>
     <div class="rx-view-toggle">
       <%= link_to t("restrictions.index.view_grouped"),
-            restrictions_path(view: "grouped", q: q.presence),
+            restrictions_path(view: "grouped", q: q.presence, sort: @sort_col, dir: @sort_dir),
             class: "rx-view-btn #{'is-active' if view == 'grouped'}" %>
       <%= link_to t("restrictions.index.view_list"),
-            restrictions_path(view: "list", q: q.presence),
+            restrictions_path(view: "list", q: q.presence, sort: @sort_col, dir: @sort_dir),
             class: "rx-view-btn #{'is-active' if view == 'list'}" %>
     </div>
   </div>
 
   <% if view == "list" %>
     <div class="toolbar-filters">
-      <%= link_to restrictions_path(view: "list", q: q.presence),
+      <%= link_to restrictions_path(view: "list", q: q.presence, sort: @sort_col, dir: @sort_dir),
             class: "chip", "aria-pressed": type_filter.blank?.to_s do %>
         <%= t("restrictions.index.filter_all") %>
         <span class="chip-count"><%= @restrictions.size %></span>
       <% end %>
       <% Restriction.restriction_types.keys.each do |type| %>
         <% type_count = @restrictions.count { |r| r.restriction_type == type } %>
-        <%= link_to restrictions_path(view: "list", q: q.presence, type: type),
+        <%= link_to restrictions_path(view: "list", q: q.presence, type: type, sort: @sort_col, dir: @sort_dir),
               class: "chip", "aria-pressed": (type_filter == type).to_s do %>
           <%= t("restrictions.types.#{type}") %>
           <span class="chip-count"><%= type_count %></span>
@@ -54,10 +57,12 @@
   <div class="card rx-catalog">
     <div class="rx-legend">
       <span><%= t("restrictions.index.col_code") %></span>
-      <span><%= t("restrictions.index.col_name") %></span>
-      <span><%= t("restrictions.index.col_severity") %></span>
-      <span class="rx-col-num"><%= t("restrictions.index.col_dishes") %></span>
-      <span class="rx-col-num"><%= t("restrictions.index.col_ingredients") %></span>
+      <%= rx_sort_link(t("restrictions.index.col_name"), "name", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params) %>
+      <%= rx_sort_link(t("restrictions.index.col_severity"), "severity", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params) %>
+      <%= rx_sort_link(t("restrictions.index.col_dishes"), "dishes_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+      <%= rx_sort_link(t("restrictions.index.col_elaborations"), "elaborations_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+      <%= rx_sort_link(t("restrictions.index.col_menus"), "menus_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
+      <%= rx_sort_link(t("restrictions.index.col_ingredients"), "ingredients_count", current_sort: @sort_col, current_dir: @sort_dir, base_params: sort_params, html_class: "rx-col-num") %>
     </div>
 
     <% if view == "grouped" %>
@@ -77,7 +82,7 @@
               <span class="rx-section-count"><%= group.size %></span>
             </div>
             <% group.each do |restriction| %>
-              <%= render "restriction_row", restriction: restriction, dish_count: @dish_counts[restriction.id].to_i %>
+              <%= render "restriction_row", restriction: restriction %>
             <% end %>
           </div>
         <% end %>
@@ -88,7 +93,7 @@
         <div class="empty-state"><%= t("restrictions.index.empty") %></div>
       <% else %>
         <% filtered.each do |restriction| %>
-          <%= render "restriction_row", restriction: restriction, dish_count: @dish_counts[restriction.id].to_i %>
+          <%= render "restriction_row", restriction: restriction %>
         <% end %>
         <div class="rx-footer">
           <%= t("restrictions.index.showing", shown: filtered.size, total: @restrictions.size) %>

@@ -35,6 +35,36 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "div.rx-section-header"
   end
 
+  test "index renders sortable column headers" do
+    get restrictions_url
+    assert_response :success
+    assert_select "a.rx-sort-link", minimum: 6
+  end
+
+  test "index sort by dishes_count desc shows active sort link" do
+    get restrictions_url, params: { sort: "dishes_count", dir: "desc", view: "list" }
+    assert_response :success
+    assert_select "a.rx-sort-link.is-active"
+  end
+
+  test "index rejects unknown sort column and still renders successfully" do
+    get restrictions_url, params: { sort: "malicious; DROP TABLE", view: "list" }
+    assert_response :success
+    assert_select "div.rx-legend"
+  end
+
+  test "show renders EFSA Annex II source for intolerance_allergy" do
+    get restriction_url(restrictions(:gluten))
+    assert_response :success
+    assert_select "div.detail-field-value", text: /EFSA Annex II/
+  end
+
+  test "show renders dash source for diet restriction" do
+    get restriction_url(restrictions(:kosher))
+    assert_response :success
+    assert_select "div.detail-field-value.muted", text: "---"
+  end
+
   test "should get new" do
     get new_restriction_url
     assert_response :success
