@@ -14,8 +14,8 @@ export default class extends Controller {
     const checked = event.target.checked
     this.wrapTarget.hidden = !checked
     if (checked) {
-      // Default to substituïble when first selecting an ingredient
-      this.inputTarget.checked = true
+      // Default to essential/mandatory when first selecting an ingredient
+      this.inputTarget.checked = false
       this._syncButtons()
     } else {
       this.inputTarget.checked = false
