@@ -43,6 +43,10 @@ class Dish < ApplicationRecord
             .select(:id)
     )
   }
+  scope :safe, -> {
+    where.not(id: joins(ingredients: :ingredient_restrictions).select(:id))
+      .where.not(id: joins(elaborations: { ingredients: :ingredient_restrictions }).select(:id))
+  }
 
   private
 

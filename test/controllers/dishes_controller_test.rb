@@ -306,10 +306,10 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
 
   test "index reflects active restriction filter state on the chip" do
     restriction = restrictions(:gluten)
-    get dishes_url, params: { include_restrictions: [ restriction.id ] }
+    get dishes_url, params: { exclude_restrictions: [ restriction.id ] }
 
     assert_response :success
-    assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
+    assert_match %r{<a[^>]*data-state="exclude"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
   end
 
   test "index reflects active dish_type filter state on the chip" do
@@ -397,5 +397,22 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_match I18n.t("dishes.show.substituible_header"), response.body
+  end
+
+  test "index with safe_only param returns only dishes with no restrictions" do
+    get dishes_url(safe_only: true)
+
+    assert_response :success
+    safe_ids = Dish.safe.pluck(:id)
+    restricted_ids = Dish.pluck(:id) - safe_ids
+    safe_ids.each { |id| assert_includes response.body, id.to_s } if safe_ids.any?
+    restricted_ids.each { |id| refute Dish.safe.pluck(:id).include?(id) }
+  end
+
+  test "index with safe_only renders the filter chip active" do
+    get dishes_url(safe_only: true)
+
+    assert_response :success
+    assert_match I18n.t("filters.safe_only"), response.body
   end
 end

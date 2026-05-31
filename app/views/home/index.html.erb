@@ -9,23 +9,23 @@
       <div class="stat-label"><%= t("home.index.kpis.dishes") %></div>
       <div class="stat-value"><%= @dish_count %></div>
       <%# DESIGN-GAP: design shows "+6 aquest mes" — we don't track creation dates per period yet. %>
-      <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
+      <div class="stat-trend"><%= link_to t("home.index.kpis.restrictions_trend"), dishes_path %></div>
     </div>
     <div class="stat">
       <div class="stat-label"><%= t("home.index.kpis.menus") %></div>
       <div class="stat-value"><%= @menu_count %></div>
       <%# DESIGN-GAP: design shows "3 esborranys" — Menu has no draft/published state. %>
-      <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
+      <div class="stat-trend"><%= link_to t("home.index.kpis.restrictions_trend"), menus_path %></div>
     </div>
     <div class="stat">
       <div class="stat-label"><%= t("home.index.kpis.restrictions") %></div>
       <div class="stat-value"><%= @restriction_count %></div>
-      <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
+      <div class="stat-trend"><%= link_to t("home.index.kpis.restrictions_trend"), restrictions_path %></div>
     </div>
     <div class="stat">
       <div class="stat-label"><%= t("home.index.kpis.safe_dishes") %></div>
       <div class="stat-value"><%= @safe_dishes_count %></div>
-      <div class="stat-trend muted"><%= t("home.index.kpis.safe_dishes_trend") %></div>
+      <div class="stat-trend"><%= link_to t("home.index.kpis.safe_dishes_trend"), dishes_path(safe_only: true) %></div>
     </div>
   </div>
 

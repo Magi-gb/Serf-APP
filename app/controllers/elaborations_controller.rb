@@ -4,11 +4,13 @@ class ElaborationsController < ApplicationController
   before_action :set_elaboration, only: %i[show edit update destroy]
 
   def index
-    @elaborations = Elaboration
-      .search(params[:search])
-      .with_restrictions(params[:include_restrictions])
-      .without_restrictions(params[:exclude_restrictions])
-      .order(:name)
+    @elaborations = Elaboration.search(params[:search])
+    @elaborations = if params[:safe_only].present?
+      @elaborations.safe
+    else
+      @elaborations.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
+    end
+    @elaborations = @elaborations.order(:name)
     @restrictions = Restriction.order(:name)
   end
 

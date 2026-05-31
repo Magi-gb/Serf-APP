@@ -24,6 +24,9 @@ class Menu < ApplicationRecord
             .select(:id)
     )
   }
+  scope :safe, -> {
+    where.not(id: joins(dishes: { ingredients: :ingredient_restrictions }).select(:id))
+  }
 
   private
 

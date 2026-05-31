@@ -21,6 +21,9 @@ class Elaboration < ApplicationRecord
             .select(:id)
     )
   }
+  scope :safe, -> {
+    where.not(id: joins(ingredients: :ingredient_restrictions).select(:id))
+  }
 
   validates :name, presence: true, uniqueness: true
 

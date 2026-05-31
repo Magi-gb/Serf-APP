@@ -136,8 +136,10 @@ ca:
     dietary_restrictions: Restriccions
     next_action:
       exclude: Clic per incloure
+      exclude_clear: Clic per esborrar el filtre
       include: Clic per esborrar el filtre
       neutral: Clic per excloure
+    safe_only: Sense restriccions
   flash:
     alert: alert
     notice: notice

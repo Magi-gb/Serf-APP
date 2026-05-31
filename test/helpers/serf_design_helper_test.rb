@@ -138,4 +138,97 @@ class SerfDesignHelperTest < ActionView::TestCase
     assert_match(/class="chip"/, neutral)
     refute_match(/chip-include/, neutral)
   end
+
+  # ---- exclude_param_link (binary neutral <-> exclude, no include step) ----
+
+  def call_exclude_helper(request, target: "7")
+    exclude_param_link(
+      "Gluten",
+      target: target,
+      exclude_param: "exclude_restrictions",
+      request: request
+    )
+  end
+
+  test "exclude_param_link: neutral state transitions to exclude on click" do
+    html = call_exclude_helper(build_request)
+
+    assert_nil data_state_of(html)
+    assert_equal "/ingredients?exclude_restrictions%5B%5D=7", href_of(html)
+    assert_equal I18n.t("filters.next_action.neutral"), title_of(html)
+  end
+
+  test "exclude_param_link: exclude state transitions to neutral on click" do
+    html = call_exclude_helper(build_request("exclude_restrictions%5B%5D=7"))
+
+    assert_equal "exclude", data_state_of(html)
+    assert_equal "/ingredients", href_of(html)
+    assert_equal I18n.t("filters.next_action.exclude_clear"), title_of(html)
+  end
+
+  test "exclude_param_link: preserves unrelated query params" do
+    html = call_exclude_helper(build_request("search=foo&view=grid"))
+    url = href_of(html)
+
+    assert_includes url, "search=foo"
+    assert_includes url, "view=grid"
+    assert_includes url, "exclude_restrictions%5B%5D=7"
+  end
+
+  test "exclude_param_link: removing one value preserves other ids" do
+    html = call_exclude_helper(
+      build_request("exclude_restrictions%5B%5D=5&exclude_restrictions%5B%5D=7"),
+      target: "7"
+    )
+    url = href_of(html)
+
+    assert_includes url, "exclude_restrictions%5B%5D=5"
+    refute_includes url, "exclude_restrictions%5B%5D=7"
+  end
+
+  test "exclude_param_link: renders chip-exclude class only when excluded" do
+    excluded = call_exclude_helper(build_request("exclude_restrictions%5B%5D=7"))
+    neutral  = call_exclude_helper(build_request)
+
+    assert_match(/class="chip chip-exclude"/, excluded)
+    assert_match(/class="chip"/, neutral)
+    refute_match(/chip-exclude/, neutral)
+  end
+
+  # ---- safe_param_link (boolean safe_only toggle) ----
+
+  def call_safe_helper(request)
+    safe_param_link(t("filters.safe_only"), request: request)
+  end
+
+  test "safe_param_link: inactive state adds safe_only param on click" do
+    html = call_safe_helper(build_request)
+
+    assert_nil data_state_of(html)
+    assert_equal "/ingredients?safe_only=1", href_of(html)
+  end
+
+  test "safe_param_link: active state removes safe_only param on click" do
+    html = call_safe_helper(build_request("safe_only=1"))
+
+    assert_equal "include", data_state_of(html)
+    assert_equal "/ingredients", href_of(html)
+  end
+
+  test "safe_param_link: preserves unrelated query params when activating" do
+    html = call_safe_helper(build_request("search=foo&view=grid"))
+    url = href_of(html)
+
+    assert_includes url, "search=foo"
+    assert_includes url, "safe_only=1"
+  end
+
+  test "safe_param_link: renders chip-include class when active" do
+    active  = call_safe_helper(build_request("safe_only=1"))
+    neutral = call_safe_helper(build_request)
+
+    assert_match(/class="chip chip-include"/, active)
+    assert_match(/class="chip"/, neutral)
+    refute_match(/chip-include/, neutral)
+  end
 end

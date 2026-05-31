@@ -17,6 +17,7 @@ class Ingredient < ApplicationRecord
     next all if ids.empty?
     where.not(id: joins(:ingredient_restrictions).where(ingredient_restrictions: { restriction_id: ids }).select(:ingredient_id))
   }
+  scope :safe, -> { where.not(id: joins(:ingredient_restrictions).select(:ingredient_id)) }
 
   validates :name, presence: true, uniqueness: true
 end

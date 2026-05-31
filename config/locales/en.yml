@@ -136,8 +136,10 @@ en:
     dietary_restrictions: Restrictions
     next_action:
       exclude: Click to include
+      exclude_clear: Click to clear filter
       include: Click to clear filter
       neutral: Click to exclude
+    safe_only: No restrictions
   flash:
     alert: alert
     notice: notice

@@ -17,6 +17,7 @@
   <div class="toolbar">
     <div class="toolbar-filters">
       <span class="muted"><%= t("filters.dietary_restrictions") %>:</span>
+      <%= safe_param_link(t("filters.safe_only"), request: request) %>
       <% @restrictions.each do |restriction| %>
         <%= cycle_param_link(restriction.name,
               target: restriction.id,
@@ -24,9 +25,9 @@
               exclude_param: "exclude_restrictions",
               request: request) %>
       <% end %>
-      <% if params[:include_restrictions].present? || params[:exclude_restrictions].present? %>
+      <% if params[:include_restrictions].present? || params[:exclude_restrictions].present? || params[:safe_only].present? %>
         <%= link_to t("filters.clear"),
-              ingredients_path(request.query_parameters.except(:include_restrictions, :exclude_restrictions)),
+              ingredients_path(request.query_parameters.except(:include_restrictions, :exclude_restrictions, :safe_only)),
               class: "chip-clear" %>
       <% end %>
     </div>

@@ -182,7 +182,7 @@ module SerfDesignHelper
         [ nil,       include_ids,              exclude_ids + [ target ] ]
       end
 
-    new_params = request.query_parameters.except(include_param, exclude_param)
+    new_params = request.query_parameters.except(include_param, exclude_param, "safe_only")
     new_params[include_param] = new_include if new_include.any?
     new_params[exclude_param] = new_exclude if new_exclude.any?
     path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
@@ -193,6 +193,47 @@ module SerfDesignHelper
       class: [ "chip", ("chip-#{current_state}" if current_state) ].compact,
       "data-state": current_state,
       title: t("filters.next_action.#{current_state || 'neutral'}")
+    )
+  end
+
+  # Build a link that toggles a value between neutral and excluded —
+  # two states only, no include step. Used on dishes/menus/elaborations
+  # where inclusive restriction filtering makes no sense.
+  def exclude_param_link(label, target:, exclude_param:, request:)
+    target = target.to_s
+    exclude_ids = Array(request.query_parameters[exclude_param]).map(&:to_s)
+    excluded = exclude_ids.include?(target)
+    new_values = excluded ? exclude_ids - [ target ] : exclude_ids + [ target ]
+
+    new_params = request.query_parameters.except(exclude_param, "safe_only")
+    new_params[exclude_param] = new_values if new_values.any?
+    path = new_params.empty? ? request.path : "#{request.path}?#{new_params.to_query}"
+
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-exclude" if excluded) ].compact,
+      "data-state": (excluded ? "exclude" : nil),
+      title: t("filters.next_action.#{excluded ? 'exclude_clear' : 'neutral'}")
+    )
+  end
+
+  # Build a link that toggles the safe_only boolean param. When active,
+  # the list is filtered to show only items with no dietary restrictions.
+  def safe_param_link(label, request:)
+    active = request.query_parameters["safe_only"].present?
+    new_params = if active
+      request.query_parameters.except("safe_only")
+    else
+      request.query_parameters.merge("safe_only" => "1")
+    end
+    path = new_params.any? ? "#{request.path}?#{new_params.to_query}" : request.path
+
+    link_to(
+      label,
+      path,
+      class: [ "chip", ("chip-include" if active) ].compact,
+      "data-state": (active ? "include" : nil)
     )
   end
 

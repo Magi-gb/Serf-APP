@@ -256,11 +256,10 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
 
   test "index reflects active filter state on the chip" do
     restriction = restrictions(:gluten)
-    get menus_url, params: { include_restrictions: [ restriction.id ] }
+    get menus_url, params: { exclude_restrictions: [ restriction.id ] }
 
     assert_response :success
-    # The chip for the included restriction should render with data-state="include".
-    assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
+    assert_match %r{<a[^>]*data-state="exclude"[^>]*>#{Regexp.escape(restriction.name)}</a>}, response.body
   end
 
   test "index exposes all restrictions in the toolbar" do

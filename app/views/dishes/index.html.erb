@@ -26,16 +26,16 @@
       <!-- OLD <span class="toolbar-sep"></span> -->
       <div class="flex-break"></div>
       <span class="muted"><%= t("filters.dietary_restrictions") %>:</span>
+      <%= safe_param_link(t("filters.safe_only"), request: request) %>
       <% @restrictions.each do |restriction| %>
-        <%= cycle_param_link(restriction.name,
+        <%= exclude_param_link(restriction.name,
               target: restriction.id,
-              include_param: "include_restrictions",
               exclude_param: "exclude_restrictions",
               request: request) %>
       <% end %>
-      <% if params[:dish_types].present? || params[:include_restrictions].present? || params[:exclude_restrictions].present? %>
+      <% if params[:dish_types].present? || params[:exclude_restrictions].present? || params[:safe_only].present? %>
         <%= link_to t("filters.clear"),
-              dishes_path(request.query_parameters.except(:dish_types, :include_restrictions, :exclude_restrictions)),
+              dishes_path(request.query_parameters.except(:dish_types, :exclude_restrictions, :include_restrictions, :safe_only)),
               class: "chip-clear" %>
       <% end %>
     </div>
