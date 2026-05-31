@@ -119,13 +119,11 @@ ca:
       dashboard_title: Tauler de control
       kpis:
         dishes: Plats actius
-        dishes_trend_placeholder: Total al catàleg
         menus: Menús publicats
-        menus_trend_placeholder: Total al catàleg
         restrictions: Restriccions
         restrictions_trend: Catàleg complet
-        users: Personal
-        users_trend_placeholder: Total registrat
+        safe_dishes: Plats segurs
+        safe_dishes_trend: Sense restriccions
       quick_access: Accés ràpid
       title: Serf
       welcome: Benvingut, %{username}!
@@ -264,29 +262,54 @@ ca:
     edit:
       title: Editar Restricció
     form:
-      bg_color: Color de fons
       cancel: Cancel·lar
       description: Descripció detallada
-      icon_svg: Icona (codi SVG)
       name: Nom de la restricció
       restriction_type: Tipus de restricció
+      severity: Severitat
       submit: Guardar restricció
     index:
+      col_code: Codi
+      col_dishes: Plats
+      col_ingredients: Ingredients
+      col_name: Restricció
+      col_severity: Severitat
+      efsa_badge: EFSA Annex II
       empty: Encara no hi ha restriccions guardades.
+      filter_all: Totes
+      search_placeholder: Cerca restriccions o codi…
+      showing: Mostrant %{shown} de %{total}
+      subtitle:
+        one: 1 restricció activa
+        other: "%{count} restriccions actives"
       title: Restriccions
+      view_grouped: Agrupat
+      view_list: Llista
     messages:
       created_success: Restricció creada correctament.
       destroyed_success: Restricció eliminada correctament.
       updated_success: Restricció actualitzada correctament.
     new:
       title: Crear Nova Restricció
+    severity:
+      high: Alta
+      low: Baixa
+      medium: Mitjana
     show:
+      affected_dishes: Plats afectats
       confirm_delete: Estàs segur que vols eliminar aquesta restricció?
       delete: Eliminar Restricció
-      description_title: Descripció de la restricció
+      dispensable: Dispensable
       edit: Editar
-      no_description: Sense descripció addicional.
+      metadata_code: Codi
+      metadata_last_edited: Última edició
+      metadata_severity: Severitat
+      metadata_source: Font normativa
+      metadata_title: Metadades
+      metadata_type: Tipus
+      no_dishes: Cap plat conté aquesta restricció.
       no_ingredients: Cap ingredient associat a aquesta restricció.
+      not_dispensable: No dispensable
       related_ingredients: Ingredients que la contenen
     types:
       diet: Dieta

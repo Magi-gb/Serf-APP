@@ -119,13 +119,11 @@ en:
       dashboard_title: Dashboard
       kpis:
         dishes: Active dishes
-        dishes_trend_placeholder: Total in catalogue
         menus: Published menus
-        menus_trend_placeholder: Total in catalogue
         restrictions: Restrictions
         restrictions_trend: Complete catalogue
-        users: Staff
-        users_trend_placeholder: Total registered
+        safe_dishes: Safe dishes
+        safe_dishes_trend: No restrictions
       quick_access: Quick access
       title: Serf
       welcome: Welcome, %{username}!
@@ -264,29 +262,54 @@ en:
     edit:
       title: Edit Restriction
     form:
-      bg_color: Background colour
       cancel: Cancel
       description: Detailed description
-      icon_svg: Icon (SVG code)
       name: Restriction name
       restriction_type: Restriction type
+      severity: Severity
       submit: Save restriction
     index:
+      col_code: Code
+      col_dishes: Dishes
+      col_ingredients: Ingredients
+      col_name: Restriction
+      col_severity: Severity
+      efsa_badge: EFSA Annex II
       empty: No restrictions saved yet.
+      filter_all: All
+      search_placeholder: Search restrictions or code…
+      showing: Showing %{shown} of %{total}
+      subtitle:
+        one: 1 active restriction
+        other: "%{count} active restrictions"
       title: Restrictions
+      view_grouped: Grouped
+      view_list: List
     messages:
       created_success: Restriction created successfully.
       destroyed_success: Restriction deleted successfully.
       updated_success: Restriction updated successfully.
     new:
       title: Create New Restriction
+    severity:
+      high: High
+      low: Low
+      medium: Medium
     show:
+      affected_dishes: Affected dishes
       confirm_delete: Are you sure you want to delete this restriction?
       delete: Delete Restriction
-      description_title: Restriction description
+      dispensable: Dispensable
       edit: Edit
-      no_description: No additional description.
+      metadata_code: Code
+      metadata_last_edited: Last edited
+      metadata_severity: Severity
+      metadata_source: Regulatory source
+      metadata_title: Metadata
+      metadata_type: Type
+      no_dishes: No dish contains this restriction.
       no_ingredients: No ingredients associated with this restriction.
+      not_dispensable: Not dispensable
       related_ingredients: Ingredients containing it
     types:
       diet: Diet

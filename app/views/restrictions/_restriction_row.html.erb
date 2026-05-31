@@ -1,0 +1,20 @@
+<% sev_n = { "high" => 3, "medium" => 2, "low" => 1 }[restriction.severity] || 2 %>
+<%= link_to restriction_path(restriction), class: "rx-row" do %>
+  <span class="rx-code"><%= restriction_code(restriction) %></span>
+  <div class="rx-cell-name">
+    <div class="rx-name"><%= restriction.name %></div>
+    <% if restriction.description.present? %>
+      <div class="rx-desc"><%= restriction.description %></div>
+    <% end %>
+  </div>
+  <div class="rx-sev-meter">
+    <div class="rx-sev-ticks" aria-hidden="true">
+      <% 3.times do |i| %>
+        <span class="rx-sev-tick <%= "is-filled-#{restriction.severity}" if i < sev_n %>"></span>
+      <% end %>
+    </div>
+    <span class="rx-sev-label sev-<%= restriction.severity %>"><%= t("restrictions.severity.#{restriction.severity}") %></span>
+  </div>
+  <span class="rx-col-num <%= 'is-zero' if dish_count.zero? %>"><%= dish_count %></span>
+  <span class="rx-col-num <%= 'is-zero' if restriction.ingredients.size.zero? %>"><%= restriction.ingredients.size %></span>
+<% end %>

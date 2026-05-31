@@ -14,59 +14,130 @@
   <% end %>
 <% end %>
 
-<div class="content col">
-  <div class="card">
-    <div class="card-body row">
-      <span class="restr-bubble" style="--restr-bg: <%= @restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
-        <% if @restriction.icon_svg.present? %>
-          <%= restriction_icon_svg(@restriction.icon_svg) %>
-        <% else %>
+<div class="content show-grid">
+  <div class="col">
+    <%# Hero card %>
+    <div class="card">
+      <div class="card-body row">
+        <span class="restr-bubble">
           <%= @restriction.name.first(4).upcase %>
-        <% end %>
-      </span>
-      <div class="grow">
-        <div class="strong"><%= @restriction.name %></div>
-        <div class="tag tag-<%= restriction_tag_kind(@restriction) %> mt-2">
-          <%= t("restrictions.types.#{@restriction.restriction_type}") %>
+        </span>
+        <div class="grow">
+          <div class="row mt-1 mb-2">
+            <span class="tag tag-<%= restriction_tag_kind(@restriction) %>">
+              <span class="tag-dot"></span>
+              <%= t("restrictions.types.#{@restriction.restriction_type}") %>
+            </span>
+            <span class="tag tag-severity-<%= @restriction.severity %>">
+              <span class="tag-dot"></span>
+              <%= t("restrictions.severity.#{@restriction.severity}") %>
+            </span>
+            <code class="restr-code"><%= restriction_code(@restriction) %></code>
+          </div>
+          <div class="strong"><%= @restriction.name %></div>
+          <% if @restriction.description.present? %>
+            <div class="muted mt-1"><%= @restriction.description %></div>
+          <% end %>
         </div>
+      </div>
+    </div>
+
+    <%# Affected dishes %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= t("restrictions.show.affected_dishes") %>
+          <span class="muted"> · <%= @dishes.size %></span>
+        </h3>
+      </div>
+      <% if @dishes.any? %>
+        <% @dishes.each do |dish| %>
+          <%= link_to dish_path(dish), class: "card-row" do %>
+            <div class="grow">
+              <div class="strong"><%= dish.name %></div>
+              <div class="muted fs-sm"><%= t("dishes.types.#{dish.dish_type}") %></div>
+            </div>
+            <% if @dish_dispensable[dish.id] %>
+              <span class="tag tag-preference"><span class="tag-dot"></span><%= t("restrictions.show.dispensable") %></span>
+            <% else %>
+              <span class="tag tag-allergen"><span class="tag-dot"></span><%= t("restrictions.show.not_dispensable") %></span>
+            <% end %>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="card-body muted text-center"><%= t("restrictions.show.no_dishes") %></div>
+      <% end %>
+    </div>
+
+    <%# Ingredients that carry this restriction %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <%= t("restrictions.show.related_ingredients") %>
+          <span class="muted"> · <%= @ingredients.size %></span>
+        </h3>
+      </div>
+      <div class="card-body">
+        <% if @ingredients.any? %>
+          <div class="col">
+            <% @ingredients.each do |ingredient| %>
+              <%= link_to ingredient_path(ingredient), class: "restriction-card" do %>
+                <span class="avatar" style="--avatar-bg: var(--tag-allergen);">
+                  <%= serf_icon(:leaf) %>
+                </span>
+                <div class="grow">
+                  <div class="strong"><%= ingredient.name %></div>
+                  <% if ingredient.description.present? %>
+                    <div class="muted mt-1"><%= ingredient.description %></div>
+                  <% end %>
+                </div>
+                <span class="muted"><%= serf_icon(:chevron) %></span>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="muted text-center"><%= t("restrictions.show.no_ingredients") %></div>
+        <% end %>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header"><h3 class="card-title"><%= t("restrictions.show.description_title") %></h3></div>
-    <div class="card-body"><%= @restriction.description.presence || content_tag(:span, t("restrictions.show.no_description"), class: "muted") %></div>
-  </div>
-
-  <%# Ingredients that carry this restriction %>
-  <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">
-        <%= t("restrictions.show.related_ingredients") %>
-        <span class="muted"> · <%= @ingredients.size %></span>
-      </h3>
-    </div>
-    <div class="card-body">
-      <% if @ingredients.any? %>
-        <div class="col">
-          <% @ingredients.each do |ingredient| %>
-            <%= link_to ingredient_path(ingredient), class: "restriction-card" do %>
-              <span class="avatar" style="--avatar-bg: var(--accent-green);">
-                <%= serf_icon(:leaf) %>
-              </span>
-              <div class="grow">
-                <div class="strong"><%= ingredient.name %></div>
-                <% if ingredient.description.present? %>
-                  <div class="muted mt-1"><%= ingredient.description %></div>
-                <% end %>
-              </div>
-              <span class="muted"><%= serf_icon(:chevron) %></span>
-            <% end %>
-          <% end %>
+  <aside class="show-side">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title"><%= t("restrictions.show.metadata_title") %></h3></div>
+      <div class="card-body col">
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("restrictions.show.metadata_type") %></div>
+          <div class="detail-field-value">
+            <span class="tag tag-<%= restriction_tag_kind(@restriction) %>">
+              <span class="tag-dot"></span>
+              <%= t("restrictions.types.#{@restriction.restriction_type}") %>
+            </span>
+          </div>
         </div>
-      <% else %>
-        <div class="muted text-center"><%= t("restrictions.show.no_ingredients") %></div>
-      <% end %>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("restrictions.show.metadata_code") %></div>
+          <div class="detail-field-value"><code class="restr-code"><%= restriction_code(@restriction) %></code></div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("restrictions.show.metadata_severity") %></div>
+          <div class="detail-field-value">
+            <span class="tag tag-severity-<%= @restriction.severity %>">
+              <span class="tag-dot"></span>
+              <%= t("restrictions.severity.#{@restriction.severity}") %>
+            </span>
+          </div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("restrictions.show.metadata_source") %></div>
+          <div class="detail-field-value muted">---</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-field-label"><%= t("restrictions.show.metadata_last_edited") %></div>
+          <div class="detail-field-value"><%= @restriction.updated_at.strftime("%-d %b. %Y") %></div>
+        </div>
+      </div>
     </div>
-  </div>
+  </aside>
 </div>

@@ -163,19 +163,6 @@ module SerfDesignHelper
     end
   end
 
-  # Tags and attributes allowed when sanitizing user-supplied SVG markup
-  # (used for restriction icons).
-  ICON_SVG_TAGS = %w[svg path circle rect g text].freeze
-  ICON_SVG_ATTRS = %w[viewBox xmlns width height fill stroke stroke-width
-                      stroke-linecap stroke-linejoin d cx cy r x y
-                      font-size font-family text-anchor dominant-baseline].freeze
-
-  # Render a sanitized SVG block. Safe to call on user-supplied markup
-  # because the tag/attribute allowlist is strictly bounded.
-  def restriction_icon_svg(svg_string)
-    return "".html_safe if svg_string.blank?
-    sanitize(svg_string, tags: ICON_SVG_TAGS, attributes: ICON_SVG_ATTRS)
-  end
 
   # Build a link that cycles a value through three states inside a pair
   # of array params: neutral -> exclude -> include -> neutral. Used by

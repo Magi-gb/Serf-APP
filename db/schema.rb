@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_31_185729) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_31_190844) do
   create_table "dish_ingredients", force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "ingredient_id", null: false
@@ -80,12 +80,12 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_31_185729) do
     t.string "name", null: false
     t.integer "restriction_type", null: false
     t.text "description"
-    t.string "bg_color"
-    t.text "icon_svg"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "severity", default: 1, null: false
     t.index ["name"], name: "index_restrictions_on_name", unique: true
     t.check_constraint "restriction_type IN (0, 1)", name: "chk_restrictions_restriction_type"
+    t.check_constraint "severity IN (0, 1, 2)", name: "chk_restrictions_severity"
   end
 
   create_table "users", force: :cascade do |t|

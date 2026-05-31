@@ -15,13 +15,14 @@
 <% end %>
 
 <% has_allergen = @ingredient.restrictions.any?(&:intolerance_allergy?) %>
+<% has_restriction = @ingredient.restrictions.any? %>
 
 <div class="content show-grid">
   <div class="col">
     <%# Hero %>
     <div class="card">
       <div class="card-body row">
-        <span class="avatar avatar-lg" style="--avatar-bg: <%= has_allergen ? 'var(--brand-red)' : 'var(--accent-green)' %>;">
+        <span class="avatar avatar-lg" style="--avatar-bg: <%= has_restriction ? 'var(--brand-red)' : 'var(--accent-green)' %>;">
           <%= serf_icon(:leaf, size: 28) %>
         </span>
         <div class="grow">
@@ -54,12 +55,8 @@
           <div class="col">
             <% @ingredient.restrictions.each do |restriction| %>
               <%= link_to restriction_path(restriction), class: "restriction-card" do %>
-                <span class="restr-bubble restr-bubble-sm" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
-                  <% if restriction.icon_svg.present? %>
-                    <%= restriction_icon_svg(restriction.icon_svg) %>
-                  <% else %>
-                    <%= restriction.name.first(3).upcase %>
-                  <% end %>
+                <span class="restr-bubble restr-bubble-sm">
+                  <%= restriction.name.first(3).upcase %>
                 </span>
                 <div class="grow">
                   <div class="strong"><%= restriction.name %></div>

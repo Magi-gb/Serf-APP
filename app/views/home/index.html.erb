@@ -4,32 +4,29 @@
 
 <div class="content col">
   <%# === KPI row === %>
-  <div class="grid <%= current_user.admin? ? "grid-4" : "grid-3" %>">
+  <div class="grid grid-4">
     <div class="stat">
       <div class="stat-label"><%= t("home.index.kpis.dishes") %></div>
       <div class="stat-value"><%= @dish_count %></div>
       <%# DESIGN-GAP: design shows "+6 aquest mes" — we don't track creation dates per period yet. %>
-      <div class="stat-trend muted"><%= t("home.index.kpis.dishes_trend_placeholder") %></div>
+      <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
     </div>
     <div class="stat">
       <div class="stat-label"><%= t("home.index.kpis.menus") %></div>
       <div class="stat-value"><%= @menu_count %></div>
       <%# DESIGN-GAP: design shows "3 esborranys" — Menu has no draft/published state. %>
-      <div class="stat-trend muted"><%= t("home.index.kpis.menus_trend_placeholder") %></div>
+      <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
     </div>
     <div class="stat">
       <div class="stat-label"><%= t("home.index.kpis.restrictions") %></div>
       <div class="stat-value"><%= @restriction_count %></div>
       <div class="stat-trend muted"><%= t("home.index.kpis.restrictions_trend") %></div>
     </div>
-    <% if current_user.admin? %>
-      <div class="stat">
-        <div class="stat-label"><%= t("home.index.kpis.users") %></div>
-        <div class="stat-value"><%= @user_count %></div>
-        <%# DESIGN-GAP: "2 nous aquest mes" needs created_at-based scope on User. %>
-        <div class="stat-trend muted"><%= t("home.index.kpis.users_trend_placeholder") %></div>
-      </div>
-    <% end %>
+    <div class="stat">
+      <div class="stat-label"><%= t("home.index.kpis.safe_dishes") %></div>
+      <div class="stat-value"><%= @safe_dishes_count %></div>
+      <div class="stat-trend muted"><%= t("home.index.kpis.safe_dishes_trend") %></div>
+    </div>
   </div>
 
   <%# === Quick access cards by role === %>
@@ -64,5 +61,8 @@
       </div>
     </div>
   <% end %>
+
+  <%# === Statistics charts — visible to all roles === %>
+  <%= render "statistics/charts" %>
 
 </div>

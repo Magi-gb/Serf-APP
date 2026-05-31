@@ -14,10 +14,16 @@ class StatisticsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_url
   end
 
-  test "index requires admin role" do
+  test "index is accessible to kitchen_manager" do
+    sign_in users(:kitchen_manager)
+    get statistics_url
+    assert_response :success
+  end
+
+  test "index is accessible to waiter" do
     sign_in users(:waiter)
     get statistics_url
-    assert_redirected_to root_url
+    assert_response :success
   end
 
   test "index renders restriction names" do

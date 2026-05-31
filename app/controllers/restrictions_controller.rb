@@ -4,12 +4,32 @@ class RestrictionsController < ApplicationController
 
   # GET /restrictions
   def index
-    @restrictions = Restriction.all
+    scope = Restriction.includes(:ingredients)
+    if params[:q].present?
+      q = "%#{params[:q].strip.downcase}%"
+      scope = scope.where("LOWER(name) LIKE ? OR LOWER(description) LIKE ?", q, q)
+    end
+    @restrictions = scope.order(:restriction_type, :name)
+    @dish_counts = Restriction.joins(ingredients: :dish_ingredients)
+                               .group("restrictions.id")
+                               .count("DISTINCT dish_ingredients.dish_id")
   end
 
   # GET /restrictions/1
   def show
     @ingredients = @restriction.ingredients.order(:name).to_a
+    @dishes = Dish.joins(ingredients: :ingredient_restrictions)
+                  .where(ingredient_restrictions: { restriction_id: @restriction.id })
+                  .includes(dish_ingredients: :ingredient)
+                  .distinct
+                  .order(:name)
+    restriction_ingredient_ids = @restriction.ingredient_ids.to_set
+    @dish_dispensable = @dishes.each_with_object({}) do |dish, hash|
+      has_essential = dish.dish_ingredients.any? do |di|
+        restriction_ingredient_ids.include?(di.ingredient_id) && di.essential?
+      end
+      hash[dish.id] = !has_essential
+    end
   end
 
   # GET /restrictions/new
@@ -56,6 +76,6 @@ class RestrictionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def restriction_params
-      params.require(:restriction).permit(:name, :description, :restriction_type, :bg_color, :icon_svg)
+      params.require(:restriction).permit(:name, :description, :restriction_type, :severity)
     end
 end

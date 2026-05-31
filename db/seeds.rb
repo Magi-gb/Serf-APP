@@ -13,52 +13,44 @@ User.find_or_create_by!(username: "cambrer") do |u|
   u.role = :waiter
 end
 
-def emoji_icon(emoji)
-  %(<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><text x="50" y="55" font-size="60" text-anchor="middle" dominant-baseline="central">#{emoji}</text></svg>)
-end
-
 eu_allergens = [
-  { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats.", bg_color: "#E67E22", emoji: "🌾" },
-  { name: "Llet", desc: "Llet i els seus derivats (inclosa la lactosa).", bg_color: "#3498DB", emoji: "🥛" },
-  { name: "Ous", desc: "Ous i productes a base d'ou.", bg_color: "#F1C40F", emoji: "🥚" },
-  { name: "Peix", desc: "Peix i productes a base de peix.", bg_color: "#1ABC9C", emoji: "🐟" },
-  { name: "Crustacis", desc: "Crustacis i productes a base de crustacis.", bg_color: "#E74C3C", emoji: "🦐" },
-  { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs.", bg_color: "#2C3E50", emoji: "🦑" },
-  { name: "Cacahuets", desc: "Cacauets i productes a base de cacauets.", bg_color: "#8E44AD", emoji: "🥜" },
-  { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats.", bg_color: "#D35400", emoji: "🌰" },
-  { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam.", bg_color: "#95A5A6", emoji: "🌱" },
-  { name: "Celerí", desc: "Api i productes derivats.", bg_color: "#27AE60", emoji: "🌿" },
-  { name: "Mostassa", desc: "Mostassa i productes derivats.", bg_color: "#F39C12", emoji: "🌶️" },
-  { name: "Sulfits", desc: "Diòxid de sofre i sulfits (> 10 mg/kg o 10 mg/l SO2).", bg_color: "#7F8C8D", emoji: "🍷" },
-  { name: "Altramús", desc: "Tramussos i productes a base de tramussos.", bg_color: "#F1C40F", emoji: "🫘" },
-  { name: "Soja", desc: "Soja i productes a base de soja.", bg_color: "#2ECC71", emoji: "🌱" }
+  { name: "Gluten (Cereals)", desc: "Cereals que continguin gluten i productes derivats." },
+  { name: "Llet", desc: "Llet i els seus derivats (inclosa la lactosa)." },
+  { name: "Ous", desc: "Ous i productes a base d'ou." },
+  { name: "Peix", desc: "Peix i productes a base de peix." },
+  { name: "Crustacis", desc: "Crustacis i productes a base de crustacis." },
+  { name: "Mol·luscs", desc: "Mol·luscs i productes a base de mol·luscs." },
+  { name: "Cacahuets", desc: "Cacauets i productes a base de cacauets." },
+  { name: "Fruits de closca", desc: "Ametlles, avellanes, nous, anacards, festucs i derivats." },
+  { name: "Sèsam", desc: "Grans de sèsam i productes a base de sèsam." },
+  { name: "Celerí", desc: "Api i productes derivats." },
+  { name: "Mostassa", desc: "Mostassa i productes derivats." },
+  { name: "Sulfits", desc: "Diòxid de sofre i sulfits (> 10 mg/kg o 10 mg/l SO2)." },
+  { name: "Altramús", desc: "Tramussos i productes a base de tramussos." },
+  { name: "Soja", desc: "Soja i productes a base de soja." }
 ]
 
 eu_allergens.each do |allergen|
   r = Restriction.find_or_initialize_by(name: allergen[:name])
   r.restriction_type = :intolerance_allergy
   r.description = allergen[:desc]
-  r.bg_color = allergen[:bg_color]
-  r.icon_svg = emoji_icon(allergen[:emoji])
   r.save!
 end
 
 # Diet Restrictions
 restrictions = [
-  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌", restriction_type: :diet },
-  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️", restriction_type: :diet },
-  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️", restriction_type: :diet },
-  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12", emoji: "☸️", restriction_type: :diet },
-  { name: "Vegà", desc: "Sense cap producte d'origen animal.", bg_color: "#27AE60", emoji: "🌿", restriction_type: :diet },
-  { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71", emoji: "🥗", restriction_type: :diet }
+  { name: "Halal", desc: "Requisits alimentaris islàmics.", restriction_type: :diet },
+  { name: "Kosher", desc: "Requisits alimentaris jueus.", restriction_type: :diet },
+  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", restriction_type: :diet },
+  { name: "Budista", desc: "Restriccions alimentàries budistes.", restriction_type: :diet },
+  { name: "Vegà", desc: "Sense cap producte d'origen animal.", restriction_type: :diet },
+  { name: "Vegetarià", desc: "Sense carn ni peix.", restriction_type: :diet }
 ]
 
 restrictions.each do |restriction|
   r = Restriction.find_or_initialize_by(name: restriction[:name])
   r.restriction_type = restriction[:restriction_type]
   r.description = restriction[:desc]
-  r.bg_color = restriction[:bg_color]
-  r.icon_svg = emoji_icon(restriction[:emoji])
   r.save!
 end
 

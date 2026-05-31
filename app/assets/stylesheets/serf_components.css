@@ -230,6 +230,7 @@
   display: flex; align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+  margin-bottom: var(--d-4);
 }
 .serf-design .toolbar-sep {
   width: 1px; height: 24px;
@@ -729,6 +730,26 @@
 .serf-design .tag-intolerance { background: var(--tag-intolerance-soft); color: var(--tag-intolerance); border-color: oklch(from var(--tag-intolerance) l c h / 0.25); }
 
 .serf-design .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; display: inline-block; }
+.serf-design .tag-severity-low { background: var(--accent-green-soft); color: var(--accent-green); border-color: oklch(from var(--accent-green) l c h / 0.25); }
+.serf-design .tag-severity-medium { background: var(--state-warning-soft); color: var(--state-warning); border-color: oklch(from var(--state-warning) l c h / 0.25); }
+.serf-design .tag-severity-high { background: var(--brand-red-soft); color: var(--brand-red); border-color: var(--brand-red-border); }
+
+/* ===== Restriction code badge ===== */
+.serf-design .restr-code { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-muted); font-style: normal; }
+
+/* ===== Severity chips (form) ===== */
+.serf-design .severity-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.serf-design .severity-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 var(--d-3); border-radius: var(--r-pill);
+  background: var(--surface-raised); border: 1.5px solid var(--surface-border);
+  font-size: var(--fs-sm); font-weight: 500; cursor: pointer; transition: all 0.12s;
+}
+.serf-design .severity-chip input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.serf-design .severity-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.serf-design .severity-chip-low:has(input:checked) { color: var(--accent-green); border-color: var(--accent-green); background: var(--accent-green-soft); }
+.serf-design .severity-chip-medium:has(input:checked) { color: var(--state-warning); border-color: var(--state-warning); background: var(--state-warning-soft); }
+.serf-design .severity-chip-high:has(input:checked) { color: var(--brand-red); border-color: var(--brand-red); background: var(--brand-red-soft); }
 
 /* ===== Restriction icons (the colored circles) ===== */
 .serf-design .restr {
@@ -1256,4 +1277,146 @@
   .serf-design .login-brand-claim { display: none; }
   .serf-design .login-brand-foot { display: none; }
   .serf-design .login-form-panel { padding: 24px; }
+}
+
+/* ===== Restriction catalog (rx-*) ===== */
+/* 5-column grid: code | name+desc | severity | dishes | ingredients */
+.serf-design .rx-catalog .rx-legend,
+.serf-design .rx-catalog .rx-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 168px 84px 116px;
+  column-gap: var(--d-4);
+  align-items: center;
+  padding: 14px var(--d-6);
+}
+.serf-design .rx-catalog .rx-legend {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-sunken);
+}
+.serf-design .rx-catalog .rx-legend span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.serf-design .rx-catalog .rx-row {
+  border-top: 1px solid var(--surface-divider);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.serf-design .rx-catalog .rx-row:hover { background: var(--surface-hover); }
+.serf-design .rx-code {
+  font-family: ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.serf-design .rx-cell-name { min-width: 0; }
+.serf-design .rx-name { font-size: 14px; font-weight: 600; color: var(--text-strong); }
+.serf-design .rx-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.serf-design .rx-col-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.serf-design .rx-col-num.is-zero { color: var(--text-subtle); }
+.serf-design .rx-section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 16px var(--d-6) 12px;
+}
+.serf-design .rx-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-strong);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  white-space: nowrap;
+}
+.serf-design .rx-section-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--surface-divider);
+  align-self: center;
+}
+.serf-design .rx-efsa-badge {
+  font-size: 11px;
+  color: var(--text-subtle);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.serf-design .rx-section-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.serf-design .rx-sev-meter { display: flex; align-items: center; gap: 9px; }
+.serf-design .rx-sev-ticks { display: flex; gap: 3px; }
+.serf-design .rx-sev-tick {
+  width: 16px;
+  height: 4px;
+  border-radius: 1px;
+  background: var(--surface-border);
+}
+.serf-design .rx-sev-tick.is-filled-high { background: var(--text-strong); }
+.serf-design .rx-sev-tick.is-filled-medium { background: var(--text); }
+.serf-design .rx-sev-tick.is-filled-low { background: var(--text-muted); }
+.serf-design .rx-sev-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.serf-design .rx-sev-label.sev-high { color: var(--text-strong); font-weight: 700; }
+.serf-design .rx-sev-label.sev-medium { color: var(--text); font-weight: 600; }
+.serf-design .rx-sev-label.sev-low { color: var(--text-muted); font-weight: 600; }
+.serf-design .rx-footer {
+  padding: 12px var(--d-6);
+  border-top: 1px solid var(--surface-divider);
+  background: var(--surface-sunken);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+/* Text-based view toggle (restrictions index) */
+.serf-design .rx-view-toggle {
+  display: inline-flex;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.serf-design .rx-view-btn {
+  padding: 8px 16px;
+  border: none;
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1.2;
+}
+.serf-design .rx-view-btn + .rx-view-btn { border-left: 1px solid var(--surface-border); }
+.serf-design .rx-view-btn.is-active {
+  background: var(--text-strong);
+  color: var(--surface-raised);
+}
+.serf-design .rx-view-btn:hover:not(.is-active) {
+  background: var(--surface-hover);
+  color: var(--text-strong);
 }

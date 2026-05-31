@@ -39,7 +39,7 @@
         <% @ingredients.each do |ingredient| %>
           <%= link_to ingredient_path(ingredient), class: "card ingredient-grid-card" do %>
             <div class="row">
-              <span class="avatar avatar-sm" style="--avatar-bg: <%= ingredient.restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
+              <span class="avatar avatar-sm" style="--avatar-bg: <%= ingredient.restrictions.any? ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
                 <%= serf_icon(:leaf) %>
               </span>
               <div class="grow">
@@ -66,7 +66,7 @@
       <div class="card">
         <% @ingredients.each do |ingredient| %>
           <%= link_to ingredient_path(ingredient), class: "card-row is-link" do %>
-            <span class="avatar avatar-sm" style="--avatar-bg: <%= ingredient.restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
+            <span class="avatar avatar-sm" style="--avatar-bg: <%= ingredient.restrictions.any? ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
               <%= serf_icon(:leaf) %>
             </span>
             <div class="grow">

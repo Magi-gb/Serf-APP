@@ -11,6 +11,30 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "index renders catalog table with legend columns" do
+    get restrictions_url
+    assert_select "div.rx-legend"
+    assert_select "a.rx-row"
+  end
+
+  test "index search filters by name" do
+    get restrictions_url, params: { q: "Gluten" }
+    assert_response :success
+    assert_select "a.rx-row", minimum: 1
+  end
+
+  test "index list view shows type filter chips" do
+    get restrictions_url, params: { view: "list" }
+    assert_response :success
+    assert_select "a.chip"
+  end
+
+  test "index grouped view shows section headers" do
+    get restrictions_url, params: { view: "grouped" }
+    assert_response :success
+    assert_select "div.rx-section-header"
+  end
+
   test "should get new" do
     get new_restriction_url
     assert_response :success
@@ -18,10 +42,41 @@ class RestrictionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create restriction" do
     assert_difference("Restriction.count") do
-      post restrictions_url, params: { restriction: { name: "Ou", description: "Conté ou", restriction_type: :intolerance_allergy } }
+      post restrictions_url, params: { restriction: { name: "Ou", description: "Conté ou", restriction_type: :intolerance_allergy, severity: :high } }
     end
 
     assert_redirected_to restriction_url(Restriction.last)
+    assert_equal "high", Restriction.last.severity
+  end
+
+  test "show renders severity tag" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "span.tag-severity-high"
+  end
+
+  test "show renders metadata section" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "aside.show-side"
+  end
+
+  test "show renders not_dispensable tag for dish with essential ingredient" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "span.tag-allergen", text: /No dispensable/
+  end
+
+  test "show renders dispensable tag for dish with non-essential ingredient" do
+    get restriction_url(restrictions(:lactose))
+    assert_response :success
+    assert_select "span.tag-preference", text: /Dispensable/
+  end
+
+  test "show renders affected dishes section" do
+    get restriction_url(@restriction)
+    assert_response :success
+    assert_select "a[href=?]", dish_path(dishes(:olivas))
   end
 
   test "should show restriction" do

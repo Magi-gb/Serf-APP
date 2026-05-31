@@ -39,4 +39,21 @@ class RestrictionTest < ActiveSupport::TestCase
       restriction.destroy
     end
   end
+
+  test "severity defaults to medium" do
+    restriction = Restriction.new(name: "Test #{Time.current.to_i}", restriction_type: :intolerance_allergy)
+    assert restriction.medium?
+  end
+
+  test "accepts low severity" do
+    restriction = Restriction.new(name: "Test #{Time.current.to_i}", restriction_type: :diet, severity: :low)
+    assert restriction.valid?
+    assert restriction.low?
+  end
+
+  test "accepts high severity" do
+    restriction = Restriction.new(name: "Test #{Time.current.to_i}", restriction_type: :intolerance_allergy, severity: :high)
+    assert restriction.valid?
+    assert restriction.high?
+  end
 end
