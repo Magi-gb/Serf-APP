@@ -1,6 +1,6 @@
 @startuml Serf - Diagrama de classes
 
-' Generat a partir de db/schema.rb (versió 2026_05_11_140000)
+' Generat a partir de db/schema.rb (versió 2026_05_31_195303)
 ' Convencions:
 '   {id}         -> clau primària (a la dreta del tipus)
 '   {clau-xxx}   -> restricció UNIQUE (a la dreta del tipus)
@@ -39,16 +39,26 @@ class Menu {
 note right of Menu
   RIT: la unicitat de name és insensible
        a majúscules/minúscules
-  RIT: si el menú té plats, ha de contenir
-       almenys un plat de cada tipus
-       (entrant, primer, segon, postre)
+  RIT: un menú ha de contenir almenys un plat
 end note
 
 class Dish {
   id : integer {id}
   name : string
-  description : text
+  description : text [0..1]
   dish_type : DishType
+  created_at : datetime
+  updated_at : datetime
+}
+note right of Dish
+  RIT: un plat ha de tenir almenys un
+       ingredient o una elaboració
+end note
+
+class Elaboration {
+  id : integer {id}
+  name : string {clau-nom}
+  description : text [0..1]
   created_at : datetime
   updated_at : datetime
 }
@@ -66,11 +76,20 @@ class Restriction {
   name : string {clau-nom}
   restriction_type : RestrictionType
   description : text [0..1]
-  bg_color : string [0..1]
-  icon_svg : text [0..1]
+  severity : Severity
+  ingredients_count : integer
+  elaborations_count : integer
+  dishes_count : integer
+  menus_count : integer
   created_at : datetime
   updated_at : datetime
 }
+note right of Restriction
+  Els camps *_count són comptadors
+  denormalitzats (caches) recalculats
+  quan canvien les associacions; no són
+  dades introduïdes per l'usuari.
+end note
 
 class Protocol {
   id : integer {id}
@@ -107,9 +126,16 @@ enum RestrictionType {
   diet = 1
 }
 
+enum Severity {
+  low = 0
+  medium = 1
+  high = 2
+}
+
 User ..> Role : << use >>
 Dish ..> DishType : << use >>
 Restriction ..> RestrictionType : << use >>
+Restriction ..> Severity : << use >>
 
 ' ===========================================================================
 ' ASSOCIACIONS N..N (nom en català + cardinalitats)
@@ -117,21 +143,19 @@ Restriction ..> RestrictionType : << use >>
 
 Menu "0..*" -- "0..*" Dish : Composició >
 
-Dish "0..*" -- "0..*" Ingredient : Elaboració >
+' Un plat es construeix amb ingredients directes i/o elaboracions.
+Dish "0..*" -- "0..*" Ingredient : Ingredient directe >
+Dish "0..*" -- "0..*" Elaboration : Elaboració >
+
+' L'atribut `essential` distingeix els ingredients bloquejants dels
+' substituïbles dins d'un plat: és la regla de domini clau del sistema.
+class DishIngredient <<association>> {
+  essential : boolean = true
+}
+(Dish, Ingredient) .. DishIngredient
+
+Elaboration "0..*" -- "0..*" Ingredient : Composició >
 
 Ingredient "0..*" -- "0..*" Restriction : Incompatibilitat >
-
-' Associació autoreferencial: un ingredient pot ser substituït per
-' diversos ingredients alternatius, i alhora pot fer d'alternativa
-' per a molts altres.
-Ingredient "0..* origen" -- "0..* alternativa" Ingredient : Substitució >
-note bottom
-  RIT (Substitució):
-    · un ingredient no pot ser alternativa
-      de si mateix (origen ≠ alternativa)
-    · una alternativa no pot afegir cap
-      restricció que l'ingredient original
-      no tingui ja
-end note
 
 @enduml
