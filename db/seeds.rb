@@ -308,7 +308,7 @@ def attach_dish_image(dish)
   path = Rails.root.join("db/seeds/images", "#{dish.name.parameterize}.jpg")
   return unless File.exist?(path)
 
-  File.open(path) do |io|
+  File.open(path, "rb") do |io|
     dish.image.attach(io: io, filename: path.basename.to_s, content_type: "image/jpeg")
   end
 end
