@@ -1,0 +1,23 @@
+ sequenceDiagram
+      actor U as Usuari (kitchen_manager/admin)
+      participant B as Navegador
+      participant R as Router
+      participant C as IngredientsController
+      participant M as Ingredient
+      participant IR as IngredientRestriction
+
+      U->>B: Omple formulari (nom + N restriccions)
+      B->>R: POST /ingredients (name, restriction_ids[])
+      R->>C: #create
+      C->>C: require_kitchen_manager_or_above!
+      C->>M: Ingredient.new(ingredient_params)
+      M-->>C: @ingredient
+      C->>M: @ingredient.save
+      M->>M: save (persisteix ingredient)
+      loop per cada restriction_id
+          M->>IR: create(this.id, restriction_id)
+      end
+      IR-->>M: ok
+      M-->>C: true
+      C-->>B: 302 redirect ? /ingredients (flash notice)
+      B-->>U: Llista d'ingredients

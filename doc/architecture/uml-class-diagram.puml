@@ -19,7 +19,6 @@ hide circle
 ' ===========================================================================
 
 class User {
-  id : integer {id}
   username : string {clau-nomusuari}
   encrypted_password : string
   role : Role
@@ -31,19 +30,17 @@ note right of User
 end note
 
 class Menu {
-  id : integer {id}
   name : string {clau-nom}
   created_at : datetime
   updated_at : datetime
 }
 note right of Menu
-  RIT: la unicitat de name és insensible
-       a majúscules/minúscules
-  RIT: un menú ha de contenir almenys un plat
+  RIT: si el menú té plats, ha de contenir almenys
+       un plat de cada tipus (entrant, primer,
+       segon, postre)
 end note
 
 class Dish {
-  id : integer {id}
   name : string
   description : text [0..1]
   dish_type : DishType
@@ -56,7 +53,6 @@ note right of Dish
 end note
 
 class Elaboration {
-  id : integer {id}
   name : string {clau-nom}
   description : text [0..1]
   created_at : datetime
@@ -64,7 +60,6 @@ class Elaboration {
 }
 
 class Ingredient {
-  id : integer {id}
   name : string {clau-nom}
   description : text [0..1]
   created_at : datetime
@@ -72,7 +67,6 @@ class Ingredient {
 }
 
 class Restriction {
-  id : integer {id}
   name : string {clau-nom}
   restriction_type : RestrictionType
   description : text [0..1]
@@ -92,7 +86,6 @@ note right of Restriction
 end note
 
 class Protocol {
-  id : integer {id}
   name : string {clau-nom}
   description : text [0..1]
   created_at : datetime
@@ -130,16 +123,16 @@ enum Severity {
   high = 2
 }
 
-User ..> Role : << use >>
-Dish ..> DishType : << use >>
-Restriction ..> RestrictionType : << use >>
-Restriction ..> Severity : << use >>
+User ..> Role
+Dish ..> DishType
+Restriction .right.> RestrictionType
+Restriction .right.> Severity
 
 ' ===========================================================================
 ' ASSOCIACIONS N..N (nom en català + cardinalitats)
 ' ===========================================================================
 
-Menu "0..*" -- "0..*" Dish : Composició >
+Menu "0..*" -- "1..*" Dish : Composició >
 
 ' Un plat es construeix amb ingredients directes i/o elaboracions.
 Dish "0..*" -- "0..*" Ingredient : Ingredient directe >
@@ -152,7 +145,7 @@ class DishIngredient <<association>> {
 }
 (Dish, Ingredient) .. DishIngredient
 
-Elaboration "0..*" -- "0..*" Ingredient : Composició >
+Elaboration "0..*" -- "1..*" Ingredient : Composició >
 
 Ingredient "0..*" -- "0..*" Restriction : Incompatibilitat >
 
