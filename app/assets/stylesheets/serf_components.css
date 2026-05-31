@@ -860,6 +860,16 @@
 .serf-design .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .serf-design .grid-4 { grid-template-columns: repeat(4, 1fr); }
 .serf-design .grid-8 { grid-template-columns: repeat(8, 1fr); }
+.serf-design .grid-span-2 { grid-column: span 2; }
+
+/* ===== KPI summary strip ===== */
+.serf-design .kpi-strip { display: flex; gap: var(--d-4); margin-bottom: var(--d-5); flex-wrap: wrap; }
+.serf-design .kpi { flex: 1; min-width: 160px; background: var(--surface-raised); border: 1px solid var(--surface-divider); border-radius: var(--r-md); padding: var(--d-4) var(--d-5); }
+.serf-design .kpi-number { font-size: var(--fs-3xl); font-weight: 700; color: var(--accent-green); line-height: 1; }
+.serf-design .kpi-label { font-size: var(--fs-sm); color: var(--text-muted); margin-top: var(--d-1); }
+
+/* ===== Chart card ===== */
+.serf-design .chart-wrap { position: relative; height: 260px; }
 
 @media (max-width: 1024px) {
   .serf-design .app-shell { grid-template-columns: 64px 1fr; }

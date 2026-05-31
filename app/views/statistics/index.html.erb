@@ -1,10 +1,137 @@
 <% content_for :title, t("statistics.index.title") %>
 
-<%= render "shared/topbar",
-    title: t("statistics.index.title") %>
+<%= render "shared/topbar", title: t("statistics.index.title") %>
 
 <div class="content">
-  <div class="grid grid-3">
+
+  <%# KPI strip %>
+  <div class="kpi-strip">
+    <div class="kpi">
+      <div class="kpi-number"><%= @safe_dishes_count %></div>
+      <div class="kpi-label"><%= t("statistics.index.safe_dishes_count", count: @safe_dishes_count) %></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-number"><%= @total_dishes_count %></div>
+      <div class="kpi-label"><%= t("statistics.index.total_dishes_count", count: @total_dishes_count) %></div>
+    </div>
+  </div>
+
+  <%# Charts — 2-column grid %>
+  <% restricted_count = @total_dishes_count - @safe_dishes_count %>
+
+  <%
+    restrictions_labels   = @restrictions_stats.map { |s| s[:restriction].name }
+    restrictions_dishes   = @restrictions_stats.map { |s| s[:dishes_count] }
+
+    safe_vs_labels   = [ t("statistics.index.safe_label"), t("statistics.index.restricted_label") ]
+    safe_vs_data     = [ @safe_dishes_count, restricted_count ]
+
+    top_ing_labels  = @top_ingredients.map(&:first)
+    top_ing_data    = @top_ingredients.map(&:last)
+
+    dish_type_labels = @dish_type_counts.keys.map { |k| t("dishes.types.#{k}") }
+    dish_type_data   = @dish_type_counts.values
+
+    by_type_labels = @restrictions_by_type.map { |r| t("restrictions.types.#{r[:type]}") }
+    by_type_data   = @restrictions_by_type.map { |r| r[:dishes_count] }
+  %>
+
+  <div class="grid grid-2 mt-4">
+
+    <%# Bar: restrictions by affected dishes %>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><%= t("statistics.index.charts.restrictions_by_dishes") %></h3>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap">
+          <canvas data-controller="chart"
+                  data-chart-type-value="bar"
+                  data-chart-labels-value="<%= restrictions_labels.to_json %>"
+                  data-chart-datasets-value="<%= [ { label: t("statistics.index.dishes"), data: restrictions_dishes, backgroundColor: "oklch(0.6 0.18 30 / 0.7)", borderColor: "oklch(0.6 0.18 30)", borderWidth: 1, borderRadius: 4 } ].to_json %>"
+                  data-chart-options-value="<%= { indexAxis: "x", plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }.to_json %>">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <%# Doughnut: safe vs restricted dishes %>
+    <% unless @total_dishes_count.zero? %>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><%= t("statistics.index.charts.safe_vs_restricted") %></h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas data-controller="chart"
+                    data-chart-type-value="doughnut"
+                    data-chart-labels-value="<%= safe_vs_labels.to_json %>"
+                    data-chart-datasets-value="<%= [ { data: safe_vs_data, backgroundColor: [ "oklch(0.65 0.13 150 / 0.8)", "oklch(0.62 0.2 25 / 0.8)" ], borderColor: [ "oklch(0.65 0.13 150)", "oklch(0.62 0.2 25)" ], borderWidth: 1 } ].to_json %>">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Horizontal bar: top ingredients by restriction count %>
+    <% if @top_ingredients.any? %>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><%= t("statistics.index.charts.top_ingredients") %></h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas data-controller="chart"
+                    data-chart-type-value="bar"
+                    data-chart-labels-value="<%= top_ing_labels.to_json %>"
+                    data-chart-datasets-value="<%= [ { label: t("statistics.index.dishes"), data: top_ing_data, backgroundColor: "oklch(0.55 0.13 280 / 0.7)", borderColor: "oklch(0.55 0.13 280)", borderWidth: 1, borderRadius: 4 } ].to_json %>"
+                    data-chart-options-value="<%= { indexAxis: "y", plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }.to_json %>">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Doughnut: dish type distribution %>
+    <% unless @total_dishes_count.zero? %>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><%= t("statistics.index.charts.dish_type_distribution") %></h3>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas data-controller="chart"
+                    data-chart-type-value="doughnut"
+                    data-chart-labels-value="<%= dish_type_labels.to_json %>"
+                    data-chart-datasets-value="<%= [ { data: dish_type_data, backgroundColor: [ "oklch(0.65 0.14 70 / 0.8)", "oklch(0.6 0.13 150 / 0.8)", "oklch(0.6 0.18 30 / 0.8)", "oklch(0.55 0.13 280 / 0.8)" ], borderWidth: 1 } ].to_json %>">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Bar: affected dishes by restriction type (full width) %>
+    <div class="card grid-span-2">
+      <div class="card-header">
+        <h3 class="card-title"><%= t("statistics.index.charts.restrictions_by_type") %></h3>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap">
+          <canvas data-controller="chart"
+                  data-chart-type-value="bar"
+                  data-chart-labels-value="<%= by_type_labels.to_json %>"
+                  data-chart-datasets-value="<%= [ { label: t("statistics.index.dishes"), data: by_type_data, backgroundColor: [ "oklch(0.6 0.18 30 / 0.7)", "oklch(0.55 0.13 280 / 0.7)", "oklch(0.6 0.13 150 / 0.7)" ], borderColor: [ "oklch(0.6 0.18 30)", "oklch(0.55 0.13 280)", "oklch(0.6 0.13 150)" ], borderWidth: 1, borderRadius: 4 } ].to_json %>"
+                  data-chart-options-value="<%= { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }.to_json %>">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <%# Per-restriction detail cards %>
+  <h2 class="mt-4"><%= t("sidebar.restrictions") %></h2>
+  <div class="grid grid-3 mt-3">
     <% @restrictions_stats.each do |stat| %>
       <% restriction = stat[:restriction] %>
 
@@ -46,4 +173,5 @@
       </div>
     <% end %>
   </div>
+
 </div>
