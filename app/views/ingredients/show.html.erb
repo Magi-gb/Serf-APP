@@ -80,18 +80,21 @@
       <div class="card-header">
         <h3 class="card-title">
           <%= t("ingredients.show.used_in_dishes") %>
-          <span class="muted"> · <%= @ingredient.dishes.size %></span>
+          <span class="muted"> · <%= @dishes.size %></span>
         </h3>
       </div>
       <div class="card-body">
-        <% if @ingredient.dishes.any? %>
+        <% if @dishes.any? %>
           <div class="grid grid-2">
-            <% @ingredient.dishes.each do |dish| %>
+            <% @dishes.each do |dish| %>
               <%= link_to dish_path(dish), class: "dish-mini" do %>
                 <div class="dish-mini-thumb"><%= dish.name.first(2).upcase %></div>
                 <div class="grow">
                   <div class="strong"><%= dish.name %></div>
                   <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
+                  <%= render "shared/restriction_tags",
+                             restrictions: dish.ingredients.flat_map(&:restrictions).uniq,
+                             wrapper_class: "wrap gap-1 mt-1" %>
                 </div>
               <% end %>
             <% end %>

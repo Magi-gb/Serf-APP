@@ -9,6 +9,7 @@ class DishesController < ApplicationController
       .of_types(params[:dish_types])
       .with_restrictions(params[:include_restrictions])
       .without_restrictions(params[:exclude_restrictions])
+      .includes(ingredients: :restrictions)
       .order(name: :asc)
     @dish_types = Dish.dish_types.keys
     @restrictions = Restriction.order(:name)

@@ -61,26 +61,10 @@
           <div class="card-header">
             <h3 class="card-title">
               <%= t("dishes.types.#{type}") %>
-              <span class="muted"> · <%= group.size %></span>
             </h3>
           </div>
           <% group.each do |dish| %>
-            <%= link_to dish_path(dish), class: "menu-dish-row" do %>
-              <div class="menu-dish-thumb"><%= dish.name.first(2).upcase %></div>
-              <div class="grow">
-                <div class="strong"><%= dish.name %></div>
-                <% restrictions = dish.ingredients.flat_map(&:restrictions).uniq %>
-                <% if restrictions.any? %>
-                  <div class="row mt-1">
-                    <% restrictions.each do |r| %>
-                      <span class="tag tag-<%= restriction_tag_kind(r) %>"><span class="tag-dot"></span><%= r.name %></span>
-                    <% end %>
-                  </div>
-                <% end %>
-              </div>
-              <%# DESIGN-GAP: per-dish price is missing on Dish. %>
-              <span class="menu-dish-price muted">—</span>
-            <% end %>
+            <%= render "dish_card", dish: dish, menu: @menu %>
           <% end %>
         </div>
       <% end %>

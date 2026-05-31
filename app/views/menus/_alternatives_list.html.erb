@@ -1,0 +1,17 @@
+<% if alternatives.any? %>
+  <% alternatives.each do |alternative| %>
+    <div class="alternative-card">
+      <div class="alternative-card-img">
+        <span><%= alternative.name.first(2).upcase %></span>
+      </div>
+      <div class="alternative-card-body">
+        <h4 class="alternative-card-title"><%= alternative.name %></h4>
+        <%= render "shared/restriction_tags",
+                   restrictions: alternative.ingredients.flat_map(&:restrictions).uniq,
+                   wrapper_class: "mt-1", dot: true %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="muted"><%= t("menus.show.no_alternatives") %></div>
+<% end %>
