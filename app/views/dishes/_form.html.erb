@@ -13,17 +13,14 @@
 
   <div class="field">
     <%= form.label :dish_type, t("dishes.form.dish_type"), class: "label" %>
-    <div class="card">
-      <div class="card-body">
-        <div class="row">
-          <% Dish.dish_types.keys.each do |type| %>
-            <label class="row mb-0">
-              <%= form.radio_button :dish_type, type %>
-              <span><%= t("dishes.types.#{type}") %></span>
-            </label>
-          <% end %>
-        </div>
-      </div>
+    <div class="dish-type-grid">
+      <% Dish.dish_types.keys.each do |type| %>
+        <label class="dish-type-card" data-type="<%= type %>">
+          <%= form.radio_button :dish_type, type %>
+          <span class="dish-type-dot"></span>
+          <span><%= t("dishes.types.#{type}") %></span>
+        </label>
+      <% end %>
     </div>
   </div>
 
