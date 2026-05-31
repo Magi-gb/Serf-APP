@@ -20,8 +20,9 @@
   <% restricted_count = @total_dishes_count - @safe_dishes_count %>
 
   <%
-    restrictions_labels = @restrictions_stats.map { |s| s[:restriction].name }
-    restrictions_dishes = @restrictions_stats.map { |s| s[:dishes_count] }
+    active_stats        = @restrictions_stats.select { |s| s[:dishes_count] > 0 }
+    restrictions_labels = active_stats.map { |s| s[:restriction].name }
+    restrictions_dishes = active_stats.map { |s| s[:dishes_count] }
 
     safe_vs_labels = [ t("statistics.index.safe_label"), t("statistics.index.restricted_label") ]
     safe_vs_data   = [ @safe_dishes_count, restricted_count ]

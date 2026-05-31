@@ -87,7 +87,14 @@ ingredients_data = [
   { name: "Mascarpone", description: "Formatge mascarpone italià.", restrictions: [ "Llet" ] },
   { name: "Café", description: "Café natural sense cafeina.", restrictions: [] },
   { name: "Galetes digestives", description: "Galetes digestives sense afegits.", restrictions: [ "Gluten (Cereals)" ] },
-  { name: "Berena de bosc", description: "Framboesa, aranya, gerds.", restrictions: [] }
+  { name: "Berena de bosc", description: "Framboesa, aranya, gerds.", restrictions: [] },
+  { name: "Porc", description: "Carn fresca de porc.", restrictions: [ "Halal", "Kosher" ] },
+  { name: "Pernil", description: "Pernil curat de porc (serrano o ibèric).", restrictions: [ "Halal", "Kosher" ] },
+  { name: "Llonganissa", description: "Embotit de porc curat.", restrictions: [ "Halal", "Kosher" ] },
+  { name: "Botifarra", description: "Salsitxa fresca de porc.", restrictions: [ "Halal", "Kosher" ] },
+  { name: "Xoriç", description: "Embotit de porc amb pebre vermell.", restrictions: [ "Halal", "Kosher" ] },
+  { name: "Bacon", description: "Cansalada fumada de porc.", restrictions: [ "Halal", "Kosher" ] },
+  { name: "Cansalada", description: "Cansalada de porc salada.", restrictions: [ "Halal", "Kosher" ] }
 ]
 
 ingredients_data.each do |data|
@@ -165,6 +172,7 @@ primer_macarrons.ingredients = [
   Ingredient.find_by!(name: "Farina de blat"),
   Ingredient.find_by!(name: "Ou de gallina"),
   Ingredient.find_by!(name: "Llet sencera"),
+  Ingredient.find_by!(name: "Bacon"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
 
@@ -289,6 +297,27 @@ postre_sorbet = Dish.find_or_create_by!(name: "Sorbet de fruites") do |p|
 end
 postre_sorbet.ingredients = [
   Ingredient.find_by!(name: "Berena de bosc"),
+  Ingredient.find_by!(name: "Oli d'oliva")
+]
+
+entrant_embotits = Dish.find_or_create_by!(name: "Taula d'embotits") do |p|
+  p.description = "Selecció de pernil, llonganissa i xoriç artesans"
+  p.dish_type = :entrant
+end
+entrant_embotits.ingredients = [
+  Ingredient.find_by!(name: "Pernil"),
+  Ingredient.find_by!(name: "Llonganissa"),
+  Ingredient.find_by!(name: "Xoriç")
+]
+
+segon_porc = Dish.find_or_create_by!(name: "Llom de porc a la brasa") do |p|
+  p.description = "Llom de porc a la brasa amb cansalada i herbes aromàtiques"
+  p.dish_type = :segon
+end
+segon_porc.ingredients = [
+  Ingredient.find_by!(name: "Porc"),
+  Ingredient.find_by!(name: "Cansalada"),
+  Ingredient.find_by!(name: "Herbes aromàtiques"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
 
