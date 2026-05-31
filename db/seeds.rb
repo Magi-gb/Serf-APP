@@ -276,8 +276,8 @@ elaborations_data = [
 elaborations_data.each do |data|
   elaboration = Elaboration.find_or_initialize_by(name: data[:name])
   elaboration.description = data[:description]
-  elaboration.save!
   elaboration.ingredients = data[:ingredients].map { |name| Ingredient.find_by!(name: name) }
+  elaboration.save!
 end
 
 # ----------------------------------------------------------------------------

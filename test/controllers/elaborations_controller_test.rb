@@ -72,7 +72,11 @@ class ElaborationsControllerTest < ActionDispatch::IntegrationTest
   test "create stores an elaboration" do
     assert_difference "Elaboration.count", 1 do
       post elaborations_url, params: {
-        elaboration: { name: "Romesco", description: "Salsa catalana de fruits secs" }
+        elaboration: {
+          name: "Romesco",
+          description: "Salsa catalana de fruits secs",
+          ingredient_ids: [ ingredients(:milk).id ]
+        }
       }
     end
 

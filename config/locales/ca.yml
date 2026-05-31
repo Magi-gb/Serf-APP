@@ -17,6 +17,10 @@ ca:
               too_large: és massa gran (màxim %{max} MB)
             ingredients:
               blank: ha de tenir almenys un ingredient
+        elaboration:
+          attributes:
+            ingredients:
+              blank: ha de tenir almenys un ingredient
     models:
       protocol:
         one: Protocol

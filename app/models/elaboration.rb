@@ -26,6 +26,7 @@ class Elaboration < ApplicationRecord
   }
 
   validates :name, presence: true, uniqueness: true
+  validates :ingredients, presence: true
 
   def restrictions
     ingredients.flat_map(&:restrictions).uniq

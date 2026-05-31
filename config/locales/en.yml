@@ -17,6 +17,10 @@ en:
               too_large: is too large (maximum %{max} MB)
             ingredients:
               blank: must have at least one ingredient
+        elaboration:
+          attributes:
+            ingredients:
+              blank: must have at least one ingredient
     models:
       protocol:
         one: Protocol

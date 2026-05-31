@@ -1,13 +1,15 @@
 require "test_helper"
 
 class ElaborationTest < ActiveSupport::TestCase
-  test "is valid with name" do
+  test "is valid with name and at least one ingredient" do
     elaboration = Elaboration.new(name: "Salsa de tomàquet")
+    elaboration.ingredients << ingredients(:milk)
     assert elaboration.valid?
   end
 
-  test "is valid with name and description" do
+  test "is valid with name, description and at least one ingredient" do
     elaboration = Elaboration.new(name: "Salsa de tomàquet", description: "Tomàquet fregit")
+    elaboration.ingredients << ingredients(:milk)
     assert elaboration.valid?
   end
 
@@ -17,9 +19,19 @@ class ElaborationTest < ActiveSupport::TestCase
     assert elaboration.errors[:name].any?
   end
 
+  test "is invalid without ingredients" do
+    elaboration = Elaboration.new(name: "Sense ingredients")
+    assert_not elaboration.valid?
+    assert elaboration.errors[:ingredients].any?
+  end
+
   test "is invalid with duplicate name" do
-    Elaboration.create!(name: "Duplicat")
+    duplicate = Elaboration.new(name: "Duplicat")
+    duplicate.ingredients << ingredients(:milk)
+    duplicate.save!
+
     elaboration = Elaboration.new(name: "Duplicat")
+    elaboration.ingredients << ingredients(:milk)
     assert_not elaboration.valid?
     assert elaboration.errors[:name].any?
   end

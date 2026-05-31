@@ -2,7 +2,7 @@
   <%= render "shared/form_errors", object: elaboration %>
 
   <div class="field">
-    <%= form.label :name, t("elaborations.form.name"), class: "label" %>
+    <%= form.label :name, t("elaborations.form.name"), class: "label required" %>
     <%= form.text_field :name, class: "input" %>
   </div>
 
@@ -12,7 +12,7 @@
   </div>
 
   <div class="field">
-    <label class="label"><%= t("elaborations.form.ingredients") %></label>
+    <label class="label required"><%= t("elaborations.form.ingredients") %></label>
     <div class="picker card"
          data-controller="picker"
          data-picker-singular-value="<%= t("pickers.selected_one") %>"
