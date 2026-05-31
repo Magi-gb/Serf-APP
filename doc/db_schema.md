@@ -100,7 +100,7 @@
 - **`created_at`: NOT NULL**
 - **`updated_at`: NOT NULL**
 
-### Protocols(id, name, description, bg_color, icon_svg, created_at, updated_at)
+### Protocols(id, name, description, created_at, updated_at)
 
 - `name`: UNIQUE NOT NULL
 - `created_at`: NOT NULL
