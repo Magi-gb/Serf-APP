@@ -25,11 +25,7 @@ module LoadsStatistics
     end.sort_by { |s| -s[:dishes_count] }
 
     @total_dishes_count = Dish.count
-    @safe_dishes_count = Dish
-      .left_joins(ingredients: :ingredient_restrictions)
-      .where(ingredient_restrictions: { id: nil })
-      .distinct
-      .count
+    @safe_dishes_count = Dish.safe.count
 
     raw_type_counts = Dish.group(:dish_type).count
     @dish_type_counts = Dish.dish_types.keys.index_with { |type| raw_type_counts[type] || 0 }

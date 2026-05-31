@@ -48,10 +48,26 @@ class StatisticsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match I18n.t("statistics.index.safe_label"), response.body
     assert_match I18n.t("statistics.index.restricted_label"), response.body
-    safe_count = Dish.left_joins(ingredients: :ingredient_restrictions)
-      .where(ingredient_restrictions: { id: nil }).distinct.count
-    assert_includes response.body, safe_count.to_s
+    assert_includes response.body, Dish.safe.count.to_s
     assert_includes response.body, Dish.count.to_s
+  end
+
+  test "safe dish count excludes dishes restricted only through elaborations" do
+    dish = dishes(:lasanya)
+    assert_empty dish.ingredients, "fixture must have no direct ingredients"
+    assert dish.elaborations.joins(ingredients: :ingredient_restrictions).exists?,
+      "fixture must be restricted via an elaboration"
+
+    buggy_count = Dish.left_joins(ingredients: :ingredient_restrictions)
+      .where(ingredient_restrictions: { id: nil }).distinct.count
+    assert_not_equal buggy_count, Dish.safe.count,
+      "fixtures must distinguish the elaboration path"
+
+    get statistics_url
+
+    assert_response :success
+    assert_includes response.body, %(<div class="kpi-number">#{Dish.safe.count}</div>)
+    assert_not_includes response.body, %(<div class="kpi-number">#{buggy_count}</div>)
   end
 
   test "index renders chart titles" do
