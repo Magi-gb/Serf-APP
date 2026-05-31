@@ -15,8 +15,6 @@ class ProtocolUpdateTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "input[name='protocol[name]']"
     assert_select "textarea[name='protocol[description]']"
-    assert_select "input[name='protocol[bg_color]']", count: 0
-    assert_select "textarea[name='protocol[icon_svg]']", count: 0
   end
 
   test "admin can update protocol" do
@@ -33,19 +31,6 @@ class ProtocolUpdateTest < ActionDispatch::IntegrationTest
     @protocol.reload
     assert_equal "Protocol actualitzat", @protocol.name
     assert_equal "Descripcio actualitzada", @protocol.description
-  end
-
-  test "admin cannot update visual fields from protocol form params" do
-    sign_in @admin
-
-    assert_no_changes -> { [ @protocol.reload.bg_color, @protocol.reload.icon_svg ] } do
-      patch protocol_url(@protocol), params: {
-        protocol: {
-          bg_color: "#ffffff",
-          icon_svg: "<svg></svg>"
-        }
-      }
-    end
   end
 
   test "admin sees edit form again when update is invalid" do

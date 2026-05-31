@@ -95,8 +95,6 @@ class Protocol {
   id : integer {id}
   name : string {clau-nom}
   description : text [0..1]
-  bg_color : string [0..1]
-  icon_svg : text [0..1]
   created_at : datetime
   updated_at : datetime
 }

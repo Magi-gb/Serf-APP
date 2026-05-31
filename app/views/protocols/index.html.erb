@@ -25,7 +25,7 @@
         <% @protocols.each do |protocol| %>
           <%= link_to protocol_path(protocol), class: "card ingredient-grid-card" do %>
             <div class="row">
-              <span class="avatar avatar-sm" style="--avatar-bg: <%= protocol.bg_color.presence || 'var(--accent-blue)' %>;">
+              <span class="avatar avatar-sm">
                 <%= serf_icon(:alert) %>
               </span>
               <div class="grow">
@@ -42,7 +42,7 @@
       <div class="card">
         <% @protocols.each do |protocol| %>
           <%= link_to protocol_path(protocol), class: "card-row is-link" do %>
-            <span class="avatar avatar-sm" style="--avatar-bg: <%= protocol.bg_color.presence || 'var(--accent-blue)' %>;">
+            <span class="avatar avatar-sm">
               <%= serf_icon(:alert) %>
             </span>
             <div class="grow">
