@@ -23,6 +23,10 @@
       <% else %>
         <span class="muted"><%= t("dishes.show.no_ingredients") %></span>
       <% end %>
+
+      <%= render "shared/restriction_tags",
+                 restrictions: @dish.ingredients.flat_map(&:restrictions).uniq,
+                 wrapper_class: "wrap gap-1 mt-3" %>
     </div>
   </div>
 

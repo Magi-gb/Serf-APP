@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     end
     resources :alternatives, only: %i[create destroy], controller: "ingredient_alternatives"
   end
-  resources :menus, constraints: { id: /\d+/ }
+  resources :menus, constraints: { id: /\d+/ } do
+    get :alternatives, on: :member
+  end
   resource :profile, only: [ :show, :edit, :update ]
   resources :restrictions
   resources :dishes

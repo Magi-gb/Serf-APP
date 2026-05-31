@@ -31,7 +31,7 @@
               <span class="muted"><%= group.size %></span>
             </div>
             <div class="card-body">
-              <div class="grid grid-4">
+              <div class="grid grid-8">
                 <% group.each do |restriction| %>
                   <%= link_to restriction_path(restriction), class: "restr" do %>
                     <span class="restr-bubble" style="--restr-bg: <%= restriction.bg_color.presence || 'var(--accent-green-soft)' %>; --restr-fg: var(--text-on-brand);">
