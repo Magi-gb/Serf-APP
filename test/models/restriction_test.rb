@@ -114,4 +114,11 @@ class RestrictionTest < ActiveSupport::TestCase
     assert restriction.valid?
     assert restriction.high?
   end
+
+  test "database rejects a negative counter cache" do
+    restriction = restrictions(:gluten)
+    assert_raises(ActiveRecord::StatementInvalid) do
+      restriction.update_columns(ingredients_count: -1)
+    end
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_05_31_195303) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_31_200000) do
   create_table "dish_elaborations", force: :cascade do |t|
     t.integer "dish_id", null: false
     t.integer "elaboration_id", null: false
@@ -116,6 +116,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_05_31_195303) do
     t.integer "dishes_count", default: 0, null: false
     t.integer "menus_count", default: 0, null: false
     t.index ["name"], name: "index_restrictions_on_name", unique: true
+    t.check_constraint "dishes_count >= 0", name: "chk_restrictions_dishes_count"
+    t.check_constraint "elaborations_count >= 0", name: "chk_restrictions_elaborations_count"
+    t.check_constraint "ingredients_count >= 0", name: "chk_restrictions_ingredients_count"
+    t.check_constraint "menus_count >= 0", name: "chk_restrictions_menus_count"
     t.check_constraint "restriction_type IN (0, 1)", name: "chk_restrictions_restriction_type"
     t.check_constraint "severity IN (0, 1, 2)", name: "chk_restrictions_severity"
   end
