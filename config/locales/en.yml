@@ -42,10 +42,12 @@ en:
       cancel: Cancel
       description: Description
       dish_type: Dish type
+      essential: Essential
       ingredients: Ingredients
       name: Dish name
       submit_create: Create dish
       submit_update: Save changes
+      substituible: Substitutable
     index:
       new_dish: New dish
       no_dishes: No dishes found.
@@ -63,8 +65,13 @@ en:
       delete: Delete dish
       description: Description
       edit: Edit
+      essential_header: Essential
+      essential_subtitle: Cannot be removed or substituted
       ingredients: Ingredients
+      no_description: No description
       no_ingredients: This dish has no associated ingredients
+      substituible_header: Substitutable
+      substituible_subtitle: Can be adapted based on restrictions
     types:
       entrant: Starter
       postre: Dessert

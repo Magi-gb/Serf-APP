@@ -7,6 +7,21 @@ class DishIngredientTest < ActiveSupport::TestCase
     assert_equal ingredients(:milk), di.ingredient
   end
 
+  test "essential defaults to false" do
+    di = DishIngredient.create!(dish: dishes(:paella), ingredient: ingredients(:yogurt))
+    assert_not di.essential?
+  end
+
+  test "essential can be set to true" do
+    di = dish_ingredients(:paella_milk)
+    assert di.essential?
+  end
+
+  test "essential can be set to false" do
+    di = dish_ingredients(:pollastre_salt)
+    assert_not di.essential?
+  end
+
   test "validates uniqueness of dish_id scoped to ingredient_id" do
     existing = dish_ingredients(:paella_milk)
     duplicate = DishIngredient.new(dish_id: existing.dish_id, ingredient_id: existing.ingredient_id)

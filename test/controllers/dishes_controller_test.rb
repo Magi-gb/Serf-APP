@@ -319,4 +319,83 @@ class DishesControllerTest < ActionDispatch::IntegrationTest
     label = I18n.t("dishes.types.entrant")
     assert_match %r{<a[^>]*data-state="include"[^>]*>#{Regexp.escape(label)}</a>}, response.body
   end
+
+  test "create with essential_ingredient_ids marks ingredients as essential" do
+    ingredient = ingredients(:milk)
+
+    post dishes_url, params: {
+      dish: {
+        name: "Test essencial",
+        description: "Desc",
+        dish_type: "entrant",
+        ingredient_ids: [ ingredient.id ],
+        essential_ingredient_ids: [ ingredient.id.to_s ]
+      }
+    }
+
+    dish = Dish.last
+    di = dish.dish_ingredients.find_by!(ingredient: ingredient)
+    assert di.essential?
+  end
+
+  test "create without essential_ingredient_ids leaves ingredients as substituible" do
+    ingredient = ingredients(:milk)
+
+    post dishes_url, params: {
+      dish: {
+        name: "Test substituible",
+        description: "Desc",
+        dish_type: "entrant",
+        ingredient_ids: [ ingredient.id ]
+      }
+    }
+
+    dish = Dish.last
+    di = dish.dish_ingredients.find_by!(ingredient: ingredient)
+    assert_not di.essential?
+  end
+
+  test "update with essential_ingredient_ids marks ingredient as essential" do
+    ingredient = ingredients(:milk)
+    di = dish_ingredients(:paella_milk)
+    di.update!(essential: false)
+
+    patch dish_url(@dish), params: {
+      dish: {
+        name: @dish.name,
+        ingredient_ids: [ ingredient.id ],
+        essential_ingredient_ids: [ ingredient.id.to_s ]
+      }
+    }
+
+    assert di.reload.essential?
+  end
+
+  test "update removing from essential_ingredient_ids clears essential flag" do
+    di = dish_ingredients(:paella_milk)
+    assert di.essential?
+
+    patch dish_url(@dish), params: {
+      dish: {
+        name: @dish.name,
+        ingredient_ids: [ ingredients(:milk).id ]
+      }
+    }
+
+    assert_not di.reload.essential?
+  end
+
+  test "show renders essential section for dish with essential ingredients" do
+    get dish_url(@dish)
+
+    assert_response :success
+    assert_match I18n.t("dishes.show.essential_header"), response.body
+  end
+
+  test "show renders substituible section for dish with non-essential ingredients" do
+    get dish_url(dishes(:pollastre))
+
+    assert_response :success
+    assert_match I18n.t("dishes.show.substituible_header"), response.body
+  end
 end

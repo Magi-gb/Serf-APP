@@ -115,6 +115,13 @@ crustacean_restrict = Restriction.find_by!(name: "Crustacis")
 vegan_restrict = Restriction.find_by!(name: "Vegà")
 vegetarian_restrict = Restriction.find_by!(name: "Vegetarià")
 
+def mark_essential(dish, *ingredient_names)
+  ingredient_names.each do |name|
+    ingredient = Ingredient.find_by!(name: name)
+    DishIngredient.find_by!(dish: dish, ingredient: ingredient).update!(essential: true)
+  end
+end
+
 entrant_pa = Dish.find_or_create_by!(name: "Pa amb tomàquet") do |p|
   p.description = "Pa torrat amb tomàquet i oli d'oliva verge"
   p.dish_type = :entrant
@@ -124,6 +131,7 @@ entrant_pa.ingredients = [
   Ingredient.find_by!(name: "Tomàquet"),
   Ingredient.find_by!(name: "Oli d'oliva")
 ]
+mark_essential(entrant_pa, "Pa de sèsam", "Tomàquet")
 
 entrant_olivas = Dish.find_or_create_by!(name: "Olivas variades") do |p|
   p.description = "Olives de diverses varietats amb herbes aromàtiques"
@@ -163,6 +171,7 @@ primer_paella.ingredients = [
   Ingredient.find_by!(name: "Oli d'oliva"),
   Ingredient.find_by!(name: "Verduretes variades")
 ]
+mark_essential(primer_paella, "Farina de blat", "Gamba")
 
 primer_macarrons = Dish.find_or_create_by!(name: "Macarrons a la carbonara") do |p|
   p.description = "Pasta amb salsa carbonara clàssica"

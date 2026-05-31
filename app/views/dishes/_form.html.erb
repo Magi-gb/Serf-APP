@@ -24,9 +24,6 @@
     </div>
   </div>
 
-  <%# DESIGN-GAP: design lets the form mark each ingredient as "imprescindible / substituïble".
-      That maps to a future `essential` boolean on DishIngredient (already in the planned model
-      per CLAUDE.md). Until added, the form only attaches ingredients without that classification. %>
   <div class="field">
     <label class="label required"><%= t("dishes.form.ingredients") %></label>
     <div class="picker card"
@@ -56,21 +53,51 @@
         <div class="checkbox-cards">
           <% @ingredients.each do |ingredient| %>
             <% search_text = ([ ingredient.name ] + ingredient.restrictions.map(&:name)).join(" ") %>
-            <label class="checkbox-card"
-                   data-picker-target="item"
-                   data-search-text="<%= search_text %>">
-              <%= form.check_box :ingredient_ids,
-                                  { multiple: true, include_hidden: false, data: { action: "change->picker#refresh" } },
-                                  ingredient.id, nil %>
-              <span><%= ingredient.name %></span>
-              <% if ingredient.restrictions.any? %>
-                <span class="row">
-                  <% ingredient.restrictions.first(3).each do |restriction| %>
-                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
-                  <% end %>
-                </span>
-              <% end %>
-            </label>
+            <% is_selected = dish.ingredient_ids.include?(ingredient.id) %>
+            <% is_essential = @dish_essential_ingredient_ids.include?(ingredient.id) %>
+            <div class="checkbox-card"
+                 data-controller="essential-toggle"
+                 data-picker-target="item"
+                 data-search-text="<%= search_text %>">
+              <label class="checkbox-card-label">
+                <%= form.check_box :ingredient_ids,
+                                    { multiple: true, include_hidden: false,
+                                      class: "ingredient-select",
+                                      data: { action: "change->picker#refresh change->essential-toggle#onCheck" } },
+                                    ingredient.id, nil %>
+                <span><%= ingredient.name %></span>
+                <% if ingredient.restrictions.any? %>
+                  <span class="row">
+                    <% ingredient.restrictions.first(3).each do |restriction| %>
+                      <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                    <% end %>
+                  </span>
+                <% end %>
+              </label>
+              <div class="essential-toggle-wrap" data-essential-toggle-target="wrap" <%= is_selected ? "" : "hidden" %>>
+                <div class="segmented-toggle">
+                  <button type="button"
+                          class="segmented-btn segmented-btn-essential <%= is_essential ? "is-active" : "" %>"
+                          data-essential-toggle-target="essentialBtn"
+                          data-action="click->essential-toggle#setEssential">
+                    <%= t("dishes.form.essential") %>
+                  </button>
+                  <button type="button"
+                          class="segmented-btn segmented-btn-substituible <%= is_essential ? "" : "is-active" %>"
+                          data-essential-toggle-target="substituibleBtn"
+                          data-action="click->essential-toggle#setSubstituible">
+                    <%= t("dishes.form.substituible") %>
+                  </button>
+                </div>
+                <input type="checkbox"
+                       class="essential-select"
+                       name="dish[essential_ingredient_ids][]"
+                       value="<%= ingredient.id %>"
+                       data-essential-toggle-target="input"
+                       <%= is_essential ? "checked" : "" %>
+                       style="display:none">
+              </div>
+            </div>
           <% end %>
         </div>
 

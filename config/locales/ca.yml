@@ -42,10 +42,12 @@ ca:
       cancel: Cancel·lar
       description: Descripció
       dish_type: Tipus de plat
+      essential: Imprescindible
       ingredients: Ingredients
       name: Nom del plat
       submit_create: Crear plat
       submit_update: Desar canvis
+      substituible: Substituïble
     index:
       new_dish: Nou plat
       no_dishes: No s'han trobat plats.
@@ -63,8 +65,13 @@ ca:
       delete: Eliminar plat
       description: Descripció
       edit: Editar
+      essential_header: Imprescindibles
+      essential_subtitle: No es poden treure ni substituir
       ingredients: Ingredients
+      no_description: Sense descripció
       no_ingredients: Aquest plat no té ingredients associats
+      substituible_header: Substituïbles
+      substituible_subtitle: Es poden adaptar segons restriccions
     types:
       entrant: Entrant
       postre: Postre

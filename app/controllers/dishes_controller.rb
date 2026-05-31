@@ -20,29 +20,38 @@ class DishesController < ApplicationController
 
   def new
     @dish = Dish.new
-    @ingredients = Ingredient.all
+    @ingredients = Ingredient.includes(:restrictions).order(:name)
+    @dish_essential_ingredient_ids = []
   end
 
   def edit
-    @ingredients = Ingredient.all
+    @ingredients = Ingredient.includes(:restrictions).order(:name)
+    @dish_essential_ingredient_ids = @dish.dish_ingredients.where(essential: true).pluck(:ingredient_id)
   end
 
   def create
     @dish = Dish.new(dish_params)
+    essential_ids = extract_essential_ingredient_ids
 
     if @dish.save
+      apply_essential_flags(@dish, essential_ids)
       redirect_to @dish, notice: t("dishes.messages.created_success")
     else
-      @ingredients = Ingredient.all
+      @ingredients = Ingredient.includes(:restrictions).order(:name)
+      @dish_essential_ingredient_ids = essential_ids
       render :new, status: :unprocessable_entity
     end
   end
 
   def update
+    essential_ids = extract_essential_ingredient_ids
+
     if @dish.update(dish_params)
+      apply_essential_flags(@dish, essential_ids)
       redirect_to @dish, notice: t("dishes.messages.updated_success")
     else
-      @ingredients = Ingredient.all
+      @ingredients = Ingredient.includes(:restrictions).order(:name)
+      @dish_essential_ingredient_ids = essential_ids
       render :edit, status: :unprocessable_entity
     end
   end
@@ -55,10 +64,20 @@ class DishesController < ApplicationController
   private
 
   def set_dish
-    @dish = Dish.find(params[:id])
+    @dish = Dish.includes(dish_ingredients: :ingredient, ingredients: :restrictions).find(params[:id])
   end
 
   def dish_params
     params.require(:dish).permit(:name, :description, :dish_type, ingredient_ids: [])
+  end
+
+  def extract_essential_ingredient_ids
+    (params.dig(:dish, :essential_ingredient_ids) || []).map(&:to_i)
+  end
+
+  def apply_essential_flags(dish, essential_ids)
+    dish.dish_ingredients.each do |di|
+      di.update!(essential: essential_ids.include?(di.ingredient_id))
+    end
   end
 end

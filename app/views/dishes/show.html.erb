@@ -21,7 +21,7 @@
       <% if @dish.description.present? %>
         <%= simple_format(@dish.description) %>
       <% else %>
-        <span class="muted"><%= t("dishes.show.no_ingredients") %></span>
+        <span class="muted"><%= t("dishes.show.no_description") %></span>
       <% end %>
 
       <%= render "shared/restriction_tags",
@@ -30,28 +30,62 @@
     </div>
   </div>
 
-  <%# DESIGN-GAP: design shows ingredients split into "imprescindibles" vs "substituïbles"
-      with a red/green sidebar. That requires a `essential` boolean on DishIngredient
-      (planned per CLAUDE.md domain model but not implemented yet). Showing a flat list. %>
   <div class="card">
-    <div class="card-header"><h3 class="card-title"><%= t("dishes.show.ingredients") %></h3></div>
+    <div class="card-header">
+      <h3 class="card-title"><%= t("dishes.show.ingredients") %></h3>
+      <span class="muted"><%= @dish.ingredients.size %></span>
+    </div>
     <% if @dish.ingredients.any? %>
-      <% @dish.ingredients.each do |ingredient| %>
-        <%= link_to ingredient_path(ingredient), class: "card-row is-link" do %>
-          <span class="avatar avatar-sm" style="--avatar-bg: var(--accent-green);">
-            <%= serf_icon(:leaf) %>
-          </span>
-          <div class="grow">
-            <div class="strong"><%= ingredient.name %></div>
-            <% if ingredient.restrictions.any? %>
-              <div class="row mt-2">
-                <% ingredient.restrictions.each do |restriction| %>
-                  <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
-          <span class="muted"><%= serf_icon(:chevron) %></span>
+      <% essential_dis = @dish.dish_ingredients.select(&:essential?) %>
+      <% substituible_dis = @dish.dish_ingredients.reject(&:essential?) %>
+      <% first_section = true %>
+
+      <% if essential_dis.any? %>
+        <div class="ingredient-section-header ingredient-section-first">
+          <span class="ingredient-section-dot" style="background: var(--brand-red)"></span>
+          <span class="ingredient-section-title"><%= t("dishes.show.essential_header") %></span>
+          <span class="ingredient-section-subtitle"><%= t("dishes.show.essential_subtitle") %></span>
+        </div>
+        <% essential_dis.each do |di| %>
+          <%= link_to ingredient_path(di.ingredient), class: "ingredient-row is-link" do %>
+            <span class="ingredient-bar ingredient-bar-essential"></span>
+            <div class="grow">
+              <div class="strong"><%= di.ingredient.name %></div>
+              <% if di.ingredient.restrictions.any? %>
+                <div class="row mt-2">
+                  <% di.ingredient.restrictions.each do |restriction| %>
+                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
+        <% end %>
+        <% first_section = false %>
+      <% end %>
+
+      <% if substituible_dis.any? %>
+        <div class="ingredient-section-header <%= first_section ? "ingredient-section-first" : "" %>">
+          <span class="ingredient-section-dot" style="background: var(--accent-green)"></span>
+          <span class="ingredient-section-title"><%= t("dishes.show.substituible_header") %></span>
+          <span class="ingredient-section-subtitle"><%= t("dishes.show.substituible_subtitle") %></span>
+        </div>
+        <% substituible_dis.each do |di| %>
+          <%= link_to ingredient_path(di.ingredient), class: "ingredient-row is-link" do %>
+            <span class="ingredient-bar ingredient-bar-substituible"></span>
+            <div class="grow">
+              <div class="strong"><%= di.ingredient.name %></div>
+              <% if di.ingredient.restrictions.any? %>
+                <div class="row mt-2">
+                  <% di.ingredient.restrictions.each do |restriction| %>
+                    <span class="tag tag-<%= restriction_tag_kind(restriction) %>"><%= restriction.name %></span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <span class="muted"><%= serf_icon(:chevron) %></span>
+          <% end %>
         <% end %>
       <% end %>
     <% else %>
