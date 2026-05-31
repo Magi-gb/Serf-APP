@@ -19,10 +19,10 @@ class DishTest < ActiveSupport::TestCase
     assert dish.errors[:name].any?
   end
 
-  test "validates presence of description" do
+  test "allows blank description" do
     dish = Dish.new(name: "Test", dish_type: :entrant)
-    assert_not dish.valid?
-    assert dish.errors[:description].any?
+    dish.valid?
+    assert_empty dish.errors[:description]
   end
 
   test "rejects invalid dish_type values" do

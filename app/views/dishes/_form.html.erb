@@ -2,7 +2,7 @@
   <%= render "shared/form_errors", object: dish %>
 
   <div class="field">
-    <%= form.label :name, t("dishes.form.name"), class: "label" %>
+    <%= form.label :name, t("dishes.form.name"), class: "label required" %>
     <%= form.text_field :name, class: "input" %>
   </div>
 
@@ -28,7 +28,7 @@
       That maps to a future `essential` boolean on DishIngredient (already in the planned model
       per CLAUDE.md). Until added, the form only attaches ingredients without that classification. %>
   <div class="field">
-    <label class="label"><%= t("dishes.form.ingredients") %></label>
+    <label class="label required"><%= t("dishes.form.ingredients") %></label>
     <div class="picker card"
          data-controller="picker"
          data-picker-singular-value="<%= t("pickers.selected_one") %>"

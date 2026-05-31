@@ -2,7 +2,7 @@
   <%= render "shared/form_errors", object: ingredient %>
 
   <div class="field">
-    <%= form.label :name, t("ingredients.form.name"), class: "label" %>
+    <%= form.label :name, t("ingredients.form.name"), class: "label required" %>
     <%= form.text_field :name, class: "input" %>
   </div>
 

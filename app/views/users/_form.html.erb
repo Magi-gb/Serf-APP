@@ -2,12 +2,12 @@
   <%= render "shared/form_errors", object: user %>
 
   <div class="field">
-    <%= f.label :username, t("users.form.username"), class: "label" %>
+    <%= f.label :username, t("users.form.username"), class: "label required" %>
     <%= f.text_field :username, class: "input" %>
   </div>
 
   <div class="field">
-    <%= f.label :role, t("users.form.role"), class: "label" %>
+    <%= f.label :role, t("users.form.role"), class: "label required" %>
     <%= f.select :role,
                   User.roles.keys.map { |r| [t("users.roles.#{r}"), r] },
                   {}, class: "select" %>
@@ -17,7 +17,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :password, t("users.form.password"), class: "label" %>
+    <%= f.label :password, t("users.form.password"), class: "label required" %>
     <%= f.password_field :password, class: "input" %>
     <% if user.persisted? %>
       <div class="field-hint"><%= t("users.form.password_hint_edit") %></div>

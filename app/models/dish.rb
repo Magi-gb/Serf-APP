@@ -7,7 +7,7 @@ class Dish < ApplicationRecord
   before_validation :normalize_attributes
 
   validates :name, presence: true
-  validates :description, presence: true
+  # validates :description, presence: true
   validates :ingredients, presence: true
   enum :dish_type, { entrant: 0, primer: 1, segon: 2, postre: 3 }
 
