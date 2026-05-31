@@ -200,9 +200,7 @@ en:
         other: If you delete this ingredient, the %{count} dishes that contain it will be flagged for manual review.
       details: Details
       did_you_know: Did you know?
-      dispensable: Dispensable
       edit: Edit details
-      indispensable: Indispensable
       linked_dishes: Linked dishes
       linked_restrictions: Linked restrictions
       no_restrictions: No dietary restrictions associated

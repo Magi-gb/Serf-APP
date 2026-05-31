@@ -200,9 +200,7 @@ ca:
         other: Si elimines aquest ingredient, els %{count} plats que el contenen quedaran marcats per revisió manual.
       details: Detalls
       did_you_know: Saps que…?
-      dispensable: Dispensable
       edit: Editar dades
-      indispensable: Indispensable
       linked_dishes: Plats vinculats
       linked_restrictions: Restriccions vinculades
       no_restrictions: Cap restricció alimentària associada

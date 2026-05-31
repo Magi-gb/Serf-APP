@@ -68,18 +68,6 @@ class IngredientsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".tag-severity-#{restrictions(:gluten).severity}"
   end
 
-  test "show marks ingredient as indispensable in dishes where it is essential" do
-    get ingredient_url(ingredients(:milk)) # essential in paella
-    assert_response :success
-    assert_select "span.tag", text: I18n.t("ingredients.show.indispensable")
-  end
-
-  test "show marks ingredient as dispensable in dishes where it is substitutable" do
-    get ingredient_url(ingredients(:yogurt)) # not essential in gelat
-    assert_response :success
-    assert_select "span.tag", text: I18n.t("ingredients.show.dispensable")
-  end
-
   test "edit renders form" do
     ingredient = Ingredient.create!(name: "Milk #{Time.current.to_i}")
     get edit_ingredient_url(ingredient)

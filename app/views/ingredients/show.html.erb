@@ -95,13 +95,6 @@
                 <div class="grow">
                   <div class="strong"><%= dish.name %></div>
                   <div class="muted mt-1"><%= t("dishes.types.#{dish.dish_type}") %></div>
-                  <div class="row mt-1">
-                    <% if @dish_essential[dish.id] %>
-                      <span class="tag tag-allergen"><%= serf_icon(:lock) %><%= t("dishes.show.essential_header") %></span>
-                    <% else %>
-                      <span class="tag tag-severity-low"><%= serf_icon(:check) %><%= t("dishes.show.substituible_header") %></span>
-                    <% end %>
-                  </div>
                   <%= render "shared/restriction_tags",
                              restrictions: dish.ingredients.flat_map(&:restrictions).uniq,
                              wrapper_class: "wrap gap-1 mt-1" %>
