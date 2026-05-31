@@ -261,6 +261,7 @@ and the test-coverage gaps (especially a unit test for `Dish#similar`) should be
 | 9 | broad rescue in seeds | `begin/rescue` removed; `find_by!` raises. |
 | 10 | `test/fixtures/files/.keep` deleted | Restored. |
 | — | `row_data_gateway_demo.rb` | Deleted (orphaned root-level PoC). |
+| 11 | restrictions index dumped the raw `types` hash on a phantom third card | Root cause: stale rows with the removed third `restriction_type` (2) — read by the enum as `nil` — plus DB drift (the live check constraint was `IN (0,1,2)`, not `IN (0,1)`). Migration `ConsolidateRestrictionTypes` re-maps type 2 → diet (1) and tightens the constraint to `IN (0,1)`. (Run `bin/rails db:migrate`.) |
 
 After fixes: **258 runs, 701 assertions, 0 failures, 1 skip**; RuboCop and Brakeman clean; i18n
 healthy.
