@@ -319,7 +319,22 @@ en:
     personal: Staff
     protocols: Protocols
     restrictions: Restrictions
+    statistics: Statistics
     toggle: Open sidebar menu
+  statistics:
+    index:
+      charts:
+        dish_type_distribution: Dish type distribution
+        restrictions_by_dishes: Restrictions by affected dishes
+        restrictions_by_type: Affected dishes by category
+        safe_vs_restricted: Safe vs restricted dishes
+      dishes: Affected dishes
+      menus: Affected menus
+      restricted_label: With restrictions
+      safe_dishes_count: "%{count} dishes with no restrictions"
+      safe_label: Safe
+      title: Statistics
+      total_dishes_count: "%{count} total dishes"
   users:
     create:
       success: User created successfully.

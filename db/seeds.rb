@@ -44,18 +44,18 @@ eu_allergens.each do |allergen|
 end
 
 # Diet Restrictions
-diet_restrictions = [
-  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌" },
-  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️" },
-  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️" },
-  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12", emoji: "☸️" },
-  { name: "Vegà", desc: "Sense cap producte d'origen animal.", bg_color: "#27AE60", emoji: "🌿" },
-  { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71", emoji: "🥗" }
+restrictions = [
+  { name: "Halal", desc: "Requisits alimentaris islàmics.", bg_color: "#16A085", emoji: "🕌", restriction_type: :diet },
+  { name: "Kosher", desc: "Requisits alimentaris jueus.", bg_color: "#2980B9", emoji: "✡️", restriction_type: :diet },
+  { name: "Hindú", desc: "Restriccions alimentàries hinduistes.", bg_color: "#E67E22", emoji: "🕉️", restriction_type: :diet },
+  { name: "Budista", desc: "Restriccions alimentàries budistes.", bg_color: "#F39C12", emoji: "☸️", restriction_type: :diet },
+  { name: "Vegà", desc: "Sense cap producte d'origen animal.", bg_color: "#27AE60", emoji: "🌿", restriction_type: :diet },
+  { name: "Vegetarià", desc: "Sense carn ni peix.", bg_color: "#2ECC71", emoji: "🥗", restriction_type: :diet }
 ]
 
-diet_restrictions.each do |restriction|
+restrictions.each do |restriction|
   r = Restriction.find_or_initialize_by(name: restriction[:name])
-  r.restriction_type = :diet
+  r.restriction_type = restriction[:restriction_type]
   r.description = restriction[:desc]
   r.bg_color = restriction[:bg_color]
   r.icon_svg = emoji_icon(restriction[:emoji])

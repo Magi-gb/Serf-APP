@@ -319,7 +319,22 @@ ca:
     personal: Personal
     protocols: Protocols
     restrictions: Restriccions
+    statistics: Estadístiques
     toggle: Obrir menú lateral
+  statistics:
+    index:
+      charts:
+        dish_type_distribution: Distribució per tipus de plat
+        restrictions_by_dishes: Restriccions per plats afectats
+        restrictions_by_type: Plats afectats per categoria
+        safe_vs_restricted: Plats segurs vs restringits
+      dishes: Plats afectats
+      menus: Menús afectats
+      restricted_label: Amb restriccions
+      safe_dishes_count: "%{count} plats sense cap restricció"
+      safe_label: Segurs
+      title: Estadístiques
+      total_dishes_count: "%{count} plats en total"
   users:
     create:
       success: Usuari creat correctament.

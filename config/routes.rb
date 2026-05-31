@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "statistics", to: "statistics#index"
   devise_for :users, skip: [ :registrations, :passwords ]
 
   get "up" => "rails/health#show", as: :rails_health_check

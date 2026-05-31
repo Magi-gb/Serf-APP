@@ -104,7 +104,7 @@ enum DishType {
 
 enum RestrictionType {
   intolerance_allergy = 0
-  religious = 1
+  diet = 1
 }
 
 User ..> Role : << use >>

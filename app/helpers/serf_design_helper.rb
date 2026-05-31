@@ -73,7 +73,8 @@ module SerfDesignHelper
     trend: [ "M22 7l-9.5 9.5-5-5L1 18", "M16 7h6v6" ],
     grid: [ "M3 3h7v7H3z", "M14 3h7v7h-7z", "M14 14h7v7h-7z", "M3 14h7v7H3z" ],
     list: [ "M3 6h18", "M3 12h18", "M3 18h18" ],
-    menu: [ "M3 6h18", "M3 12h18", "M3 18h18" ]
+    menu: [ "M3 6h18", "M3 12h18", "M3 18h18" ],
+    chart: [ "M3 3v18h18", "M8 17v-5", "M13 17V8", "M18 17v-9" ]
   }.freeze
 
   # Render a Lucide-style outline SVG icon.
