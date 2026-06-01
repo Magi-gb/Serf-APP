@@ -112,4 +112,34 @@ class MenuTest < ActiveSupport::TestCase
     assert_equal Menu.all.to_a.sort_by(&:id), Menu.without_restrictions([]).to_a.sort_by(&:id)
     assert_equal Menu.all.to_a.sort_by(&:id), Menu.without_restrictions(nil).to_a.sort_by(&:id)
   end
+
+  # ---- restrictions inherited from elaborations ----
+  #
+  # lasanya has no direct ingredients; its only restriction (gluten) comes from
+  # the bolognesa elaboration's bread ingredient. A menu containing it must
+  # surface that restriction through tags (all_restrictions) and the filter scopes.
+
+  test "all_restrictions inherits restrictions from dish elaborations" do
+    menu = Menu.create!(name: "Menú lasanya", dish_ids: [ dishes(:lasanya).id ])
+
+    assert_equal [ restrictions(:gluten) ], menu.all_restrictions
+  end
+
+  test "with_restrictions matches a restriction inherited from an elaboration" do
+    menu = Menu.create!(name: "Menú lasanya", dish_ids: [ dishes(:lasanya).id ])
+
+    assert_includes Menu.with_restrictions([ restrictions(:gluten).id ]), menu
+  end
+
+  test "without_restrictions excludes a menu carrying the restriction via an elaboration" do
+    menu = Menu.create!(name: "Menú lasanya", dish_ids: [ dishes(:lasanya).id ])
+
+    assert_not_includes Menu.without_restrictions([ restrictions(:gluten).id ]), menu
+  end
+
+  test "safe excludes a menu whose only restriction comes from an elaboration" do
+    menu = Menu.create!(name: "Menú lasanya", dish_ids: [ dishes(:lasanya).id ])
+
+    assert_not_includes Menu.safe, menu
+  end
 end

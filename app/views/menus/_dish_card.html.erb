@@ -1,4 +1,4 @@
-<% restrictions = dish.ingredients.flat_map(&:restrictions).uniq %>
+<% restrictions = dish.all_restrictions %>
 <div class="menu-dish-item"
      data-controller="menu-dish-card"
      data-menu-dish-card-dish-id-value="<%= dish.id %>"

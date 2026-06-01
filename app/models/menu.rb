@@ -11,9 +11,13 @@ class Menu < ApplicationRecord
   scope :with_restrictions, ->(ids) {
     ids = Array(ids).compact_blank
     next all if ids.empty?
-    joins(dishes: { ingredients: :ingredient_restrictions })
-      .where(ingredient_restrictions: { restriction_id: ids })
-      .distinct
+    via_ingredients = joins(dishes: { ingredients: :ingredient_restrictions })
+                        .where(ingredient_restrictions: { restriction_id: ids })
+                        .select(:id)
+    via_elaborations = joins(dishes: { elaborations: { ingredients: :ingredient_restrictions } })
+                         .where(ingredient_restrictions: { restriction_id: ids })
+                         .select(:id)
+    where(id: via_ingredients).or(where(id: via_elaborations))
   }
   scope :without_restrictions, ->(ids) {
     ids = Array(ids).compact_blank
@@ -22,11 +26,23 @@ class Menu < ApplicationRecord
       id: joins(dishes: { ingredients: :ingredient_restrictions })
             .where(ingredient_restrictions: { restriction_id: ids })
             .select(:id)
+    ).where.not(
+      id: joins(dishes: { elaborations: { ingredients: :ingredient_restrictions } })
+            .where(ingredient_restrictions: { restriction_id: ids })
+            .select(:id)
     )
   }
   scope :safe, -> {
     where.not(id: joins(dishes: { ingredients: :ingredient_restrictions }).select(:id))
+      .where.not(id: joins(dishes: { elaborations: { ingredients: :ingredient_restrictions } }).select(:id))
   }
+
+  # Restrictions affecting this menu, gathered from every dish (which in turn
+  # combines its direct ingredients and its elaborations' ingredients),
+  # deduplicated.
+  def all_restrictions
+    dishes.flat_map(&:all_restrictions).uniq
+  end
 
   private
 
