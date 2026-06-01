@@ -92,34 +92,29 @@ class Protocol {
 ' enumerats per fer explícits els valors permesos. La correspondència
 ' enter ↔ símbol és la mateixa que defineixen els `enum` d'ActiveRecord.
 
-enum Role {
-  waiter = 0
-  kitchen_manager = 1
-  admin = 2
-}
-
-enum DishType {
+enum DishType <<enum>> {
   entrant = 0
   primer = 1
   segon = 2
   postre = 3
 }
 
-enum RestrictionType {
+enum RestrictionType <<enum>> {
   intolerance_allergy = 0
   diet = 1
 }
 
-enum Severity {
+enum Role <<enum>> {
+  waiter = 0
+  kitchen_manager = 1
+  admin = 2
+}
+
+enum Severity <<enum>> {
   low = 0
   medium = 1
   high = 2
 }
-
-User ..> Role
-Dish ..> DishType
-Restriction .right.> RestrictionType
-Restriction .right.> Severity
 
 ' ===========================================================================
 ' ASSOCIACIONS N..N (nom en català + cardinalitats)
