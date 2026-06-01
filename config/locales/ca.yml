@@ -383,7 +383,7 @@ ca:
   statistics:
     index:
       charts:
-        dish_type_distribution: Distribució per tipus de plat
+        dishes_by_restriction_count: Plats segons nombre de restriccions
         restrictions_by_dishes: Restriccions per plats afectats
         restrictions_by_type: Plats afectats per categoria
         safe_vs_restricted: Plats segurs vs restringits

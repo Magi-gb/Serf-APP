@@ -271,6 +271,28 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "index shows a restriction tag inherited from a dish elaboration" do
+    # lasanya carries gluten only through its bolognesa elaboration, never a
+    # direct ingredient. The menu card tag must still surface it. Searching by
+    # name isolates this menu so the assertion targets its tag, not the toolbar
+    # chips (which list every restriction regardless).
+    Menu.create!(name: "Menú Lasanya Elaboració", dish_ids: [ dishes(:lasanya).id ])
+
+    get menus_url, params: { search: "Lasanya Elaboració" }
+
+    assert_response :success
+    assert_match %r{<span class="tag tag-[^"]*">#{Regexp.escape(restrictions(:gluten).name)}</span>}, response.body
+  end
+
+  test "safe_only filter excludes a menu whose restriction comes from an elaboration" do
+    menu = Menu.create!(name: "Menú Lasanya Elaboració", dish_ids: [ dishes(:lasanya).id ])
+
+    get menus_url, params: { safe_only: "1" }
+
+    assert_response :success
+    assert_not_includes response.body, menu.name
+  end
+
   # ---- alternatives action ----
   test "alternatives returns alternatives list for waiter" do
     sign_in @waiter

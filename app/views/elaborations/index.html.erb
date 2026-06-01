@@ -38,7 +38,7 @@
       <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px;">
         <% @elaborations.each do |elaboration| %>
           <% restrictions = elaboration.restrictions %>
-          <%= link_to elaboration_path(elaboration), class: "card" do %>
+          <%= link_to elaboration_path(elaboration), class: "card ingredient-grid-card" do %>
             <div class="row">
               <span class="avatar avatar-sm" style="--avatar-bg: <%= restrictions.any?(&:intolerance_allergy?) ? 'var(--tag-allergen)' : 'var(--accent-green)' %>;">
                 <%= serf_icon(:leaf) %>

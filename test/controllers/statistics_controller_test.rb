@@ -76,7 +76,7 @@ class StatisticsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match I18n.t("statistics.index.charts.restrictions_by_dishes"), response.body
     assert_match I18n.t("statistics.index.charts.safe_vs_restricted"), response.body
-    assert_match I18n.t("statistics.index.charts.dish_type_distribution"), response.body
+    assert_match I18n.t("statistics.index.charts.dishes_by_restriction_count"), response.body
     assert_match I18n.t("statistics.index.charts.restrictions_by_type"), response.body
   end
 
@@ -87,13 +87,18 @@ class StatisticsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, restrictions(:gluten).name
   end
 
-  test "index renders dish type labels in distribution chart" do
+  test "index renders restriction-count distribution chart with a bucket per dish count" do
     get statistics_url
 
     assert_response :success
-    Dish.dish_types.each_key do |type|
-      assert_match I18n.t("dishes.types.#{type}"), response.body
-    end
+    counts = Dish
+      .includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions })
+      .map { |dish| dish.all_restrictions.size }
+    expected_buckets = counts.tally
+    max_count = expected_buckets.keys.max || 0
+
+    distribution = (0..max_count).map { |n| expected_buckets[n] || 0 }
+    assert_includes response.body, distribution.to_json
   end
 
   test "index renders restriction type labels in by-type chart" do

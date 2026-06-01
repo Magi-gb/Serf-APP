@@ -14,7 +14,7 @@
   <% end %>
 <% end %>
 
-<% dishes_by_type = @menu.dishes.includes(ingredients: :restrictions).group_by(&:dish_type) %>
+<% dishes_by_type = @menu.dishes.includes({ ingredients: :restrictions }, { elaborations: { ingredients: :restrictions } }).group_by(&:dish_type) %>
 <% total_dishes = @menu.dishes.size %>
 
 <div class="content show-grid">
