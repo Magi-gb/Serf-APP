@@ -26,6 +26,14 @@ class ElaborationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "grid view renders elaboration cards with the grid-card styling class" do
+    get elaborations_url(view: "grid")
+    assert_response :success
+    # The `ingredient-grid-card` modifier supplies padding and resets the link
+    # color/decoration. Without it the cards render unstyled (see ingredients/menus grids).
+    assert_select "a.card.ingredient-grid-card"
+  end
+
   test "show is accessible to all roles" do
     get elaboration_url(@elaboration)
     assert_response :success
