@@ -5,7 +5,7 @@
       <div class="alternative-card-body">
         <h4 class="alternative-card-title"><%= alternative.name %></h4>
         <%= render "shared/restriction_tags",
-                   restrictions: alternative.ingredients.flat_map(&:restrictions).uniq,
+                   restrictions: alternative.all_restrictions,
                    wrapper_class: "mt-1", dot: true %>
       </div>
     </div>

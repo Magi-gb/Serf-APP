@@ -9,7 +9,7 @@ class MenusController < ApplicationController
     else
       @menus.with_restrictions(params[:include_restrictions]).without_restrictions(params[:exclude_restrictions])
     end
-    @menus = @menus.includes(dishes: { ingredients: :restrictions }).order(name: :asc)
+    @menus = @menus.includes(dishes: [ { ingredients: :restrictions }, { elaborations: { ingredients: :restrictions } } ]).order(name: :asc)
     @restrictions = Restriction.ordered
   end
 
