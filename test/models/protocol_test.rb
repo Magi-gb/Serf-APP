@@ -12,6 +12,12 @@ class ProtocolTest < ActiveSupport::TestCase
     assert_includes protocol.errors[:name], I18n.t("errors.messages.blank")
   end
 
+  test "should require a description" do
+    protocol = Protocol.new(name: "Test Protocol")
+    assert_not protocol.valid?
+    assert_includes protocol.errors[:description], I18n.t("errors.messages.blank")
+  end
+
   test "should raise validation error without name" do
     assert_raises ActiveRecord::RecordInvalid do
       Protocol.create!(description: "This is a test.")

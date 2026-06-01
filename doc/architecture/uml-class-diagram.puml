@@ -1,6 +1,6 @@
 @startuml Serf - Diagrama de classes
 
-' Generat a partir de db/schema.rb (versió 2026_05_31_195303)
+' Generat a partir de db/schema.rb (versió 2026_06_01_101457)
 ' Convencions:
 '   {id}         -> clau primària (a la dreta del tipus)
 '   {clau-xxx}   -> restricció UNIQUE (a la dreta del tipus)
@@ -18,12 +18,17 @@ hide circle
 ' ENTITATS
 ' ===========================================================================
 
+note as TimestampsNote
+  Totes les taules tenen els camps de marca de temps
+  **created_at** i **updated_at** (datetime), gestionats
+  automàticament per ActiveRecord. S'ometen dels atributs
+  de cada classe per no recarregar el diagrama.
+end note
+
 class User {
   username : string {clau-nomusuari}
   encrypted_password : string
   role : Role
-  created_at : datetime
-  updated_at : datetime
 }
 note right of User
   RIT: contrasenya mínim 6 caràcters
@@ -31,8 +36,6 @@ end note
 
 class Menu {
   name : string {clau-nom}
-  created_at : datetime
-  updated_at : datetime
 }
 note right of Menu
   RIT: si el menú té plats, ha de contenir almenys
@@ -44,8 +47,6 @@ class Dish {
   name : string
   description : text [0..1]
   dish_type : DishType
-  created_at : datetime
-  updated_at : datetime
 }
 note right of Dish
   RIT: un plat ha de tenir almenys un
@@ -55,15 +56,11 @@ end note
 class Elaboration {
   name : string {clau-nom}
   description : text [0..1]
-  created_at : datetime
-  updated_at : datetime
 }
 
 class Ingredient {
   name : string {clau-nom}
   description : text [0..1]
-  created_at : datetime
-  updated_at : datetime
 }
 
 class Restriction {
@@ -75,8 +72,6 @@ class Restriction {
   elaborations_count : integer
   dishes_count : integer
   menus_count : integer
-  created_at : datetime
-  updated_at : datetime
 }
 note right of Restriction
   Els camps *_count són comptadors
@@ -87,9 +82,7 @@ end note
 
 class Protocol {
   name : string {clau-nom}
-  description : text [0..1]
-  created_at : datetime
-  updated_at : datetime
+  description : text
 }
 
 ' ===========================================================================
