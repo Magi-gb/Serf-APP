@@ -27,8 +27,12 @@ module LoadsStatistics
     @total_dishes_count = Dish.count
     @safe_dishes_count = Dish.safe.count
 
-    raw_type_counts = Dish.group(:dish_type).count
-    @dish_type_counts = Dish.dish_types.keys.index_with { |type| raw_type_counts[type] || 0 }
+    restriction_counts = Dish
+      .includes(ingredients: :restrictions, elaborations: { ingredients: :restrictions })
+      .map { |dish| dish.all_restrictions.size }
+    tally = restriction_counts.tally
+    max_count = tally.keys.max || 0
+    @dishes_by_restriction_count = (0..max_count).index_with { |n| tally[n] || 0 }
 
     @restrictions_by_type = Restriction.restriction_types.keys.map do |type|
       restriction_ids = Restriction.where(restriction_type: type).ids

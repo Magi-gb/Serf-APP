@@ -383,7 +383,7 @@ en:
   statistics:
     index:
       charts:
-        dish_type_distribution: Dish type distribution
+        dishes_by_restriction_count: Dishes by number of restrictions
         restrictions_by_dishes: Restrictions by affected dishes
         restrictions_by_type: Affected dishes by category
         safe_vs_restricted: Safe vs restricted dishes

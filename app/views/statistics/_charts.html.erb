@@ -8,8 +8,8 @@
   safe_vs_labels = [ t("statistics.index.safe_label"), t("statistics.index.restricted_label") ]
   safe_vs_data   = [ @safe_dishes_count, restricted_count ]
 
-  dish_type_labels = @dish_type_counts.keys.map { |k| t("dishes.types.#{k}") }
-  dish_type_data   = @dish_type_counts.values
+  restriction_count_labels = @dishes_by_restriction_count.keys.map(&:to_s)
+  restriction_count_data   = @dishes_by_restriction_count.values
 
   by_type_labels = @restrictions_by_type.map { |r| t("restrictions.types.#{r[:type]}") }
   by_type_data   = @restrictions_by_type.map { |r| r[:dishes_count] }
@@ -52,18 +52,19 @@
     </div>
   <% end %>
 
-  <%# Doughnut: dish type distribution %>
+  <%# Bar: number of dishes by amount of restrictions %>
   <% unless @total_dishes_count.zero? %>
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title"><%= t("statistics.index.charts.dish_type_distribution") %></h3>
+        <h3 class="card-title"><%= t("statistics.index.charts.dishes_by_restriction_count") %></h3>
       </div>
       <div class="card-body">
         <div class="chart-wrap">
           <canvas data-controller="chart"
-                  data-chart-type-value="doughnut"
-                  data-chart-labels-value="<%= dish_type_labels.to_json %>"
-                  data-chart-datasets-value="<%= [ { data: dish_type_data, backgroundColor: [ "oklch(0.65 0.14 70 / 0.8)", "oklch(0.6 0.13 150 / 0.8)", "oklch(0.6 0.18 30 / 0.8)", "oklch(0.55 0.13 280 / 0.8)" ], borderWidth: 1 } ].to_json %>">
+                  data-chart-type-value="bar"
+                  data-chart-labels-value="<%= restriction_count_labels.to_json %>"
+                  data-chart-datasets-value="<%= [ { label: t("statistics.index.dishes"), data: restriction_count_data, backgroundColor: "oklch(0.55 0.13 280 / 0.7)", borderColor: "oklch(0.55 0.13 280)", borderWidth: 1, borderRadius: 4 } ].to_json %>"
+                  data-chart-options-value="<%= { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }.to_json %>">
           </canvas>
         </div>
       </div>
