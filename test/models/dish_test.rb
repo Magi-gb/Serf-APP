@@ -20,6 +20,13 @@ class DishTest < ActiveSupport::TestCase
     assert dish.errors[:name].any?
   end
 
+  test "is invalid with duplicate name" do
+    dish = Dish.new(name: dishes(:paella).name, description: "Test", dish_type: :entrant)
+    dish.ingredients << ingredients(:milk)
+    assert_not dish.valid?
+    assert dish.errors[:name].any?
+  end
+
   test "allows blank description" do
     dish = Dish.new(name: "Test", dish_type: :entrant)
     dish.valid?

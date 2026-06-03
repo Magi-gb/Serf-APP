@@ -13,7 +13,7 @@ class Dish < ApplicationRecord
 
   before_validation :normalize_attributes
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   # validates :description, presence: true
   validate :at_least_one_ingredient_or_elaboration
   validate :acceptable_image

@@ -44,7 +44,7 @@ note right of Menu
 end note
 
 class Dish {
-  name : string
+  name : string {clau-nom}
   description : text [0..1]
   dish_type : DishType
 }

@@ -48,7 +48,7 @@
 
 ### Dishes(id, name, description, dish_type, created_at, updated_at)
 
-- `name`: NOT NULL
+- `name`: **UNIQUE** NOT NULL
 - `dish_type`: **NOT NULL DEFAULT 0** CHECK(dish_type IN (0, 1, 2, 3))
 - `created_at`: NOT NULL
 - `updated_at`: NOT NULL
