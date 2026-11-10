@@ -24,8 +24,9 @@ production:
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: ubiwan.epsevg.upc.edu
-  port: 3306
-  username: amep02
-  password: <REMOVED>
-  database: amep02
+  # Credencials fora del repositori: definiu-les com a variables d'entorn.
+  host: <%= ENV["SERF_DB_HOST"] %>
+  port: <%= ENV.fetch("SERF_DB_PORT") { 3306 } %>
+  username: <%= ENV["SERF_DB_USERNAME"] %>
+  password: <%= ENV["SERF_DB_PASSWORD"] %>
+  database: <%= ENV["SERF_DB_NAME"] %>
