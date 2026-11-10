@@ -8,7 +8,11 @@
 ![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
 ![Scrum](https://img.shields.io/badge/Scrum-3_sprints-6DB33F)
 
-<!-- TODO: captures de l'aplicació -->
+![Kitchen manager dashboard with catalogue statistics](doc/screenshots/dashboard.png)
+
+| Restrictions and their impact · Restriccions i el seu impacte | Staff and roles · Personal i rols |
+|---|---|
+| ![Restrictions list with severity and affected dishes, menus and ingredients](doc/screenshots/restrictions.png) | ![Staff management with the three roles](doc/screenshots/staff.png) |
 
 > **Team project.** Serf was built by a team of 7 students for the course *Ampliació a l'Enginyeria del Programari* (AMEP) at the **UPC – EPSEVG** (Q2 2025-2026), for a **real client from the hospitality sector**. This is a personal copy of the team repository, kept with its full history and authorship. See [Team](#team) and [My contributions](#my-contributions).
 
@@ -75,7 +79,7 @@ graph TD
 More detail in [`doc/architecture/`](doc/architecture/) (database schema and class diagram).
 
 ### Tech stack
-Ruby 3.1 · Rails 7.2 · Hotwire (Turbo, Stimulus) · Importmap · Devise · SQLite / MySQL · Minitest + Capybara/Selenium · Rubocop · Brakeman · GitHub Actions · Dependabot · Taiga
+Ruby 3.1 · Rails 7.2 · Hotwire (Turbo, Stimulus) · Importmap · Chart.js · Devise · SQLite / MySQL · Minitest + Capybara/Selenium · Rubocop · Brakeman · GitHub Actions · Dependabot · Taiga
 
 ### Running it
 See [`doc/setup.md`](doc/setup.md) for the full setup guide (Ruby with rbenv, dependencies, database and tests).
@@ -86,7 +90,7 @@ I was the team's **iteration planning lead**: I ran the sprint planning meetings
 As a developer:
 - **Iteration 1**: models, tables and routes for **ingredients** and **restrictions**, and ingredient editing.
 - **Iteration 2**: the full **dishes CRUD**, back end and front end (model and migration, dish-type enum, routes, controller, views and unit tests).
-- **Iteration 3**: the **full-stack statistics dashboard** (controller, endpoint and front end) and the **reclassification of restriction categories** requested by the client. I also presented the kitchen manager's part of the final demo.
+- **Iteration 3**: the **statistics section**, end to end (controller, data endpoint and first version of the view), which the team later extended with Chart.js charts and brought into the home dashboard; and the **reclassification of restriction categories** requested by the client. I also presented the kitchen manager's part of the final demo.
 
 ---
 
@@ -130,7 +134,7 @@ He estat el **responsable de la planificació de les iteracions**: conduïa les 
 Com a desenvolupador:
 - **Iteració 1**: models, taules i rutes d'**ingredients** i **restriccions**, i l'edició d'ingredients.
 - **Iteració 2**: el **CRUD complet de plats**, backend i frontend (model i migració, enum de tipus de plat, rutes, controlador, vistes i tests unitaris).
-- **Iteració 3**: el **panell d'estadístiques full-stack** (controlador, endpoint i frontend) i la **reclassificació de les categories de restriccions** que va demanar el client. També vaig presentar la part del responsable de cuina a la demo final.
+- **Iteració 3**: l'**apartat d'estadístiques** de cap a peus (controlador, endpoint de dades i primera versió de la vista), que l'equip va ampliar després amb gràfics de Chart.js i va portar al tauler d'inici; i la **reclassificació de les categories de restriccions** que va demanar el client. També vaig presentar la part del responsable de cuina a la demo final.
 
 ---
 
