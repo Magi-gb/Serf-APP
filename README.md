@@ -1,307 +1,149 @@
-# Serf — Sistema de gestió de menús per a restaurants
+# Serf · Menu management for restaurants
 
-**Serf** és una aplicació web per ajudar restaurants a crear i adaptar menús tenint en compte les restriccions alimentàries, intoleràncies i preferències dels comensals.
+**[English](#english) · [Català](#català)**
 
-## Context
+![Ruby on Rails](https://img.shields.io/badge/Ruby_on_Rails_7.2-D30001?logo=rubyonrails&logoColor=white)
+![Ruby](https://img.shields.io/badge/Ruby_3.1-CC342D?logo=ruby&logoColor=white)
+![Hotwire](https://img.shields.io/badge/Hotwire-Turbo_·_Stimulus-5CD8E5)
+![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=githubactions&logoColor=white)
+![Scrum](https://img.shields.io/badge/Scrum-3_sprints-6DB33F)
 
-Aquest projecte es desenvolupa en el marc de l'assignatura **AMEP** (Ampliació a l'Enginyeria del Programari) de la **Universitat Politècnica de Catalunya (UPC)**, a l'**Escola Politècnica Superior d'Enginyeria de Vilanova i la Geltrú (EPSEVG)**.
+<!-- TODO: captures de l'aplicació -->
 
-El client real és **Cal Blay**, una organització que gestiona diversos restaurants i necessita una eina per garantir la seguretat alimentària dels seus comensals. El problema que resolem: quan un grup arriba a un restaurant amb restriccions alimentàries diverses (al·lèrgies, intoleràncies, preferències religioses...), fer un menú compatible manualment és lent i propens a errors humans.
-
-Serf permet:
-- Gestionar el catàleg de **menús, plats, elaboracions i ingredients** amb les seves restriccions associades
-- **Filtrar plats incompatibles** automàticament a partir de les restriccions del grup
-- **Proposar alternatives** quan un ingredient d'un plat és substituïble
-- Mostrar de forma clara totes les restriccions que pot incomplir un plat
-- Gestionar **usuaris amb rols diferenciats**: administrador, responsable de cuina i cambrer
+> **Team project.** Serf was built by a team of 7 students for the course *Ampliació a l'Enginyeria del Programari* (AMEP) at the **UPC – EPSEVG** (Q2 2025-2026), for a **real client from the hospitality sector**. This is a personal copy of the team repository, kept with its full history and authorship. See [Team](#team) and [My contributions](#my-contributions).
 
 ---
 
-## Requisits previs
+## English
 
-- **Ruby 3.1.2** — es recomana gestionar-lo amb [rbenv](https://github.com/rbenv/rbenv)
-- **Bundler** — gestor de dependències de Ruby
-- **SQLite3** — base de dades (inclosa per defecte en la majoria de sistemes)
+### The problem
+When a group arrives at a restaurant with different dietary restrictions (allergies, intolerances, religious or personal diets), building a compatible menu by hand is slow and error-prone. Serf helps restaurant staff do it quickly and safely.
 
-### Instal·lar Ruby amb rbenv
+### Features
+- **Catalogue management**: menus, dishes, elaborations, ingredients and restrictions, plus food-safety protocols.
+- **Safe search**: inclusion, exclusion and category filters on dishes and menus, kept in the URL so a filtered view can be reloaded or shared.
+- **Alternatives**: an algorithm that suggests substitutions on the spot when an ingredient of a dish can be replaced or dropped.
+- **Statistics dashboard**: a quick overview of the strengths and weaknesses of the catalogue in terms of food accessibility.
+- **Roles**: administrator, kitchen manager and waiter, each with its own permissions.
+- **Responsive UI**, Catalan and English translations, and a direct call button to the emergency number 112.
 
-```bash
-# Instal·lar rbenv (si no el tens)
-git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.bashrc
-source ~/.bashrc
+### How we worked
+We followed **Scrum** over an inception phase and **3 iterations**, with a real client giving feedback at the end of each one.
 
-# Instal·lar ruby-build (plugin per instal·lar versions de Ruby)
-git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+- **Ceremonies**: sprint planning, daily scrums, sprint review with a demo for the client, and a retrospective that changed the process for the next iteration.
+- **Taiga**: epics and user stories with story points, split into 3-4 tasks each (*in progress → ready for test → done*). We used the Learning Dashboard to balance the workload.
+- **Git workflow**: one branch per user story from `develop`, a **pull request reviewed by a different team member** before merging, and `develop → main` only at the end of each iteration. `git push --force` was banned on shared branches.
+- **Definition of Done**:
+  - Acceptance criteria met.
+  - Automated tests added and passing.
+  - No style issues (Rubocop) and no security warnings (Brakeman).
+  - Code reviewed, UI checked against the agreed design, CI pipeline green.
+  - Accepted by the iteration lead.
+- **Continuous integration** with GitHub Actions: Brakeman, `importmap audit`, Rubocop and the test suite on every push, plus Dependabot.
+- **AI-assisted development**: plan-first workflow (the plan is reviewed before any code is written, then tests first, then code that the developer reads and approves). Documented in `CLAUDE.md` and `doc/agents/`.
 
-# Instal·lar la versió correcta (definida a .ruby-version) i dependències
-sudo apt update
-sudo apt install build-essential ruby-dev libyaml-dev ruby-bundler libsqlite3-dev pkg-config zlib1g-dev
-rbenv install 3.1.2
+### Architecture
+Monolithic **MVC** Rails application with server-side rendering (ERB + Turbo); there is no separate frontend or REST API.
+
+```mermaid
+graph TD
+    subgraph Client
+        NAV[Browser]
+    end
+    subgraph "Rails server (Puma)"
+        RTR[Router]
+        MW[Middleware<br/>Devise · Authorizable]
+        CTRL[Controllers]
+        MOD[Models<br/>ActiveRecord]
+        SRV[Services]
+        VIEW[Views<br/>ERB + Turbo]
+        I18N[I18n]
+    end
+    subgraph Database
+        SQLITE[SQLite3<br/>dev / test]
+        MYSQL[MySQL<br/>production]
+    end
+    NAV -- "HTTP request" --> RTR
+    RTR --> MW --> CTRL
+    CTRL --> MOD
+    CTRL --> SRV
+    CTRL --> VIEW --> I18N
+    MOD --> SQLITE
+    MOD --> MYSQL
 ```
 
-Un cop dins del directori del projecte, `rbenv` seleccionarà automàticament la versió `3.1.2` gràcies al fitxer `.ruby-version`.
+More detail in [`doc/architecture/`](doc/architecture/) (database schema and class diagram).
+
+### Tech stack
+Ruby 3.1 · Rails 7.2 · Hotwire (Turbo, Stimulus) · Importmap · Devise · SQLite / MySQL · Minitest + Capybara/Selenium · Rubocop · Brakeman · GitHub Actions · Dependabot · Taiga
+
+### Running it
+See [`doc/setup.md`](doc/setup.md) for the full setup guide (Ruby with rbenv, dependencies, database and tests).
+
+### My contributions
+I was the team's **iteration planning lead**: I ran the sprint planning meetings and wrote the planning report for each iteration (goals, backlog with story points and work assignment).
+
+As a developer:
+- **Iteration 1**: models, tables and routes for **ingredients** and **restrictions**, and ingredient editing.
+- **Iteration 2**: the full **dishes CRUD**, back end and front end (model and migration, dish-type enum, routes, controller, views and unit tests).
+- **Iteration 3**: the **full-stack statistics dashboard** (controller, endpoint and front end) and the **reclassification of restriction categories** requested by the client. I also presented the kitchen manager's part of the final demo.
 
 ---
 
-## Preparar l'entorn de desenvolupament
+## Català
 
-```bash
-# Clonar el repositori
-git clone https://github.com/AMEP-EPSEVG/Serf-APP.git
-cd Serf-APP
+### El problema
+Quan un grup arriba a un restaurant amb restriccions alimentàries diverses (al·lèrgies, intoleràncies, dietes religioses o personals), fer un menú compatible a mà és lent i propens a errors. Serf ajuda el personal del restaurant a fer-ho de manera ràpida i segura.
 
-# Instal·lar les dependències
-# Opció A — instal·lació estàndard (recomanada si tens permisos)
-bundle config set --local path ./vendor/bundle
-bundle install
+### Funcionalitats
+- **Gestió del catàleg**: menús, plats, elaboracions, ingredients i restriccions, a més de protocols de seguretat alimentària.
+- **Cerca segura**: filtres d'inclusió, d'exclusió i de categoria a plats i menús, que es guarden a l'URL perquè una vista filtrada es pugui recarregar o compartir.
+- **Alternatives**: un algorisme que suggereix substitucions al moment quan un ingredient d'un plat es pot canviar o treure.
+- **Panell d'estadístiques**: una visió ràpida dels punts forts i febles del catàleg pel que fa a accessibilitat alimentària.
+- **Rols**: administrador, responsable de cuina i cambrer, cadascun amb els seus permisos.
+- **Interfície responsive**, traduccions al català i a l'anglès, i botó de trucada directa al 112.
 
-# Opció B — instal·lació a un directori local (útil en entorns compartits)
-bundle install --path vendor/bundle
-```
+### Com hem treballat
+Hem seguit **Scrum** en una fase d'incepció i **3 iteracions**, amb un client real que donava retroacció al final de cadascuna.
 
-> Si fas servir l'opció B, recorda que tots els comandaments de Rails s'han d'executar amb el prefix `bundle exec`.
+- **Cerimònies**: sprint planning, daily scrums, sprint review amb demo per al client i retrospectiva que canviava el procés de la iteració següent.
+- **Taiga**: èpiques i històries d'usuari amb story points, dividides en 3-4 tasques (*in progress → ready for test → done*). Fèiem servir el Learning Dashboard per equilibrar la càrrega de feina.
+- **Flux de Git**: una branca per història d'usuari a partir de `develop`, un **pull request revisat per un altre membre** abans de fer merge, i `develop → main` només en acabar cada iteració. `git push --force` prohibit a les branques compartides.
+- **Definition of Done**:
+  - Criteris d'acceptació complerts.
+  - Tests automàtics nous i en verd.
+  - Sense problemes d'estil (Rubocop) ni avisos de seguretat (Brakeman).
+  - Codi revisat, interfície coherent amb el disseny acordat i pipeline de CI en verd.
+  - Acceptada pel responsable de la iteració.
+- **Integració contínua** amb GitHub Actions: Brakeman, `importmap audit`, Rubocop i els tests a cada push, a més de Dependabot.
+- **Desenvolupament assistit per IA**: primer el pla (es revisa abans d'escriure codi), després els tests i després el codi, que el desenvolupador llegeix i aprova. Documentat a `CLAUDE.md` i `doc/agents/`.
 
-```bash
-# Crear i inicialitzar la base de dades
-bin/rails db:create db:migrate
+### Arquitectura
+Aplicació Rails **MVC** monolítica amb renderització al servidor (ERB + Turbo), sense frontend separat ni API REST. Diagrama a la secció anglesa i més detall a [`doc/architecture/`](doc/architecture/).
 
-# Carregar les dades inicials (crea l'usuari admin per defecte)
-bin/rails db:seed
+### Posada en marxa
+Vegeu [`doc/setup.md`](doc/setup.md).
 
-# Alternativament, es pot fer servir el següent ordre, el qual crea la BBDD (db:create), carrega l'esquema (db:schema:load), executa les migracions (db:migrate) i els seeds (db:ssed)
-bin/rails db:setup
-```
+### La meva aportació
+He estat el **responsable de la planificació de les iteracions**: conduïa les reunions de sprint planning i redactava l'informe de planificació de cada iteració (objectius, backlog amb story points i repartiment de la feina).
 
----
-
-## Executar l'aplicació
-
-```bash
-bin/rails server
-# o si has instal·lat les gems localment:
-bundle exec rails server
-```
-
-L'aplicació estarà disponible a [http://localhost:3000](http://localhost:3000).
-
----
-
-## Migracions de la base de dades
-
-Les migracions són fitxers Ruby (a `db/migrate/`) que defineixen canvis incrementals a l'esquema de la base de dades. Rails les executa en ordre cronològic.
-
-### Comandes principals
-
-```bash
-# Executar totes les migracions pendents
-bin/rails db:migrate
-
-# Revertir l'última migració
-bin/rails db:rollback
-
-# Revertir les últimes N migracions
-bin/rails db:rollback STEP=3
-
-# Veure l'estat de les migracions (quines s'han executat i quines falten)
-bin/rails db:migrate:status
-
-# Recrear la base de dades des de zero (drop + create + migrate + seed)
-bin/rails db:reset
-```
-
-### Crear una nova migració
-
-```bash
-# Crear una migració buida
-bin/rails generate migration NomDeLaMigracio
-
-# Crear una migració per afegir una columna
-bin/rails generate migration AddColumnToTable column:type
-# Exemple: bin/rails generate migration AddDescriptionToDishes description:text
-
-# Crear una migració per crear una taula
-bin/rails generate migration CreateTableName column1:type column2:type
-# Exemple: bin/rails generate migration CreateDishes name:string price:decimal menu:references
-```
-
-Les migracions generades es troben a `db/migrate/` amb un timestamp al nom del fitxer (p. ex. `20260411120000_create_dishes.rb`). Edita el fitxer generat si cal ajustar detalls (índexs, valors per defecte, restriccions `null: false`, etc.) i després executa `bin/rails db:migrate`.
-
-> **Important:** Un cop una migració ha estat pujada a la branca compartida, **no la modifiquis directament**. Crea una nova migració per corregir l'esquema.
+Com a desenvolupador:
+- **Iteració 1**: models, taules i rutes d'**ingredients** i **restriccions**, i l'edició d'ingredients.
+- **Iteració 2**: el **CRUD complet de plats**, backend i frontend (model i migració, enum de tipus de plat, rutes, controlador, vistes i tests unitaris).
+- **Iteració 3**: el **panell d'estadístiques full-stack** (controlador, endpoint i frontend) i la **reclassificació de les categories de restriccions** que va demanar el client. També vaig presentar la part del responsable de cuina a la demo final.
 
 ---
 
-## Executar els tests
+## Team
 
-El projecte usa **MiniTest**, el framework de tests per defecte de Rails.
+| Member | Role in the team |
+|---|---|
+| Néstor Alonso López | Inception lead |
+| Jean Carlos Cardenas Paucar | Iteration 3 lead |
+| Arnau Castillo Moyano | Iteration 2 lead |
+| **Magí Garcia Bedós** | **Iteration planning lead** |
+| Guillem Lago Bonilla | Demo lead |
+| Sofía Peña Narváez | Final report and presentation |
+| Thomas Scalise Belusini | Iteration 1 lead |
 
-```bash
-# Tots els tests
-bin/rails test
-
-# Només tests de models
-bin/rails test test/models/
-
-# Només tests de controladors
-bin/rails test test/controllers/
-
-# Un test concret
-bin/rails test test/models/user_test.rb
-```
-
----
-
-## Eines de qualitat de codi
-
-```bash
-# Linting (RuboCop)
-bin/rubocop
-
-# Anàlisi de seguretat estàtica
-bin/brakeman
-
-# Gestió de traduccions (i18n-tasks)
-i18n-tasks missing            # Mostra claus de traducció que falten
-i18n-tasks unused             # Mostra claus de traducció no utilitzades
-i18n-tasks normalize          # Ordena i normalitza els fitxers de locale
-i18n-tasks health             # Revisió completa de l'estat de les traduccions
-```
-
----
-
-## Internacionalització (I18n)
-
-L'aplicació utilitza el sistema d'**internacionalització de Rails (I18n)** per gestionar tots els textos visibles a la interfície. L'idioma per defecte és el **català** (`:ca`).
-
-### Com funciona
-
-1. **Cap text hardcoded a les vistes.** Tots els textos visibles es defineixen com a claus de traducció als fitxers de locale.
-2. A les vistes ERB s'utilitza el helper `t()` (abreviatura de `I18n.t()`), i als controladors/models `I18n.t()`.
-3. Les traduccions es defineixen a `config/locales/ca.yml` (català) i `config/locales/en.yml` (anglès base). Les traduccions de Devise estan a `config/locales/devise.en.yml`.
-4. La configuració del locale es troba a `config/application.rb`:
-   - `config.i18n.default_locale = :ca`
-   - `config.i18n.available_locales = [:ca]`
-
-### Exemple
-
-```erb
-<%# A la vista: %>
-<h1><%= t('home.index.title') %></h1>
-```
-
-```yaml
-# A config/locales/ca.yml:
-ca:
-  home:
-    index:
-      title: "Benvingut a Serf"
-```
-
-### Validació amb i18n-tasks
-
-El projecte inclou la gem **[i18n-tasks](https://github.com/glebm/i18n-tasks)** per mantenir la qualitat de les traduccions. Aquesta eina:
-
-- **Detecta claus que falten** (`i18n-tasks missing`) — claus usades al codi però no definides als fitxers de locale
-- **Detecta claus no utilitzades** (`i18n-tasks unused`) — claus definides als fitxers de locale però mai referenciades al codi
-- **Normalitza** els fitxers YAML (`i18n-tasks normalize`) — ordena les claus alfabèticament i aplica un format consistent
-- **Verifica interpolacions** — comprova que les variables dins les traduccions siguin consistents entre locales
-
-La configuració d'i18n-tasks es troba a `config/i18n-tasks.yml`. A més, hi ha tests automatitzats a `test/i18n_test.rb` que verifiquen:
-- No hi ha claus de traducció que faltin
-- Els fitxers de locale estan normalitzats
-- Les interpolacions són consistents
-
----
-
-## Estàndards de desenvolupament
-
-Tot el codi del projecte ha de seguir aquestes normes:
-
-1. **Tot testat.** Cap codi es considera complet sense els seus tests corresponents (models, controladors, serveis, integracions). Codi sense tests és codi inacabat.
-2. **Coherència d'estil (RuboCop).** Tot el codi ha de passar `bin/rubocop` amb zero ofenses. No s'accepten commits que introdueixin noves ofenses.
-3. **Coherència visual.** La interfície ha de ser consistent amb els mockups i amb la resta de l'aplicació. Reutilitza les classes CSS i components existents sempre que sigui possible. Només crea estils nous quan sigui estrictament necessari — en aquest cas, el nom ha de seguir les convencions existents i l'estil s'ha d'ubicar a la secció corresponent del full d'estils.
-4. **Sense estils en línia.** Mai fer servir atributs `style="..."` a les vistes ERB. Utilitza sempre classes o IDs definits als fulls d'estils.
-5. **I18n obligatori.** Tots els textos visibles a la interfície han d'usar claus de traducció (`t()` / `I18n.t()`). No es permet text hardcoded a vistes ni missatges flash.
-6. **DRY (Don't Repeat Yourself).** Evita codi duplicat. Extreu lògica compartida a helpers, partials, mòduls, concerns o serveis segons correspongui.
-7. **Simplicitat.** No implementis funcionalitats especulatives ni abstraccions "per si de cas". Si no es necessita ara, no es construeix.
-8. **Llegibilitat.** El codi ha de ser clar i fàcil de seguir. Noms descriptius, estructura lògica, sense complexitat innecessària.
-9. **Sense codi mort.** No deixis codi comentat, fitxers buits generats automàticament, variables no utilitzades ni blocs obsolets. Si no es fa servir, s'elimina.
-10. **Seguretat (Brakeman).** Tot el codi ha de passar l'anàlisi de seguretat estàtica amb `bin/brakeman` sense warnings nous. Executeu-lo abans de fer commit.
-11. **Neteja de scaffold.** Després d'usar `rails generate`, elimina tot el que no es necessiti: fitxers `.jbuilder`, blocs `respond_to` amb `format.json`, vistes placeholder (`create.html.erb`, `update.html.erb`), rutes GET generades automàticament que dupliquin les de `resources`, i qualsevol altre fitxer generat que no s'utilitzi.
-12. **Codi sempre en anglès.** Tots els noms de models, taules, columnes, variables, mètodes i classes han de ser en anglès. El català és només per a la interfície d'usuari (via I18n) i els missatges de commit.
-13. **Control d'accés.** Els controladors han d'aplicar els guards del concern `Authorizable` (`require_admin!`, `require_kitchen_manager_or_above!`, etc.) segons correspongui. Avalua quines accions requereixen restricció en cada cas.
-14. **Validacions als models.** Tot model ha de tenir les validacions necessàries per garantir la integritat de les dades. Si un camp és obligatori, ha de tenir també `null: false` a la migració. Si un camp ha de ser únic, a més del `validates :uniqueness` al model, cal afegir un índex amb constraint `UNIQUE` a la migració.
-15. **Convencions REST.** Utilitza `resources` per definir les rutes. No creïs rutes manuals que dupliquin les que `resources` ja proporciona. Les accions del controlador han de seguir els verbs HTTP estàndard (GET, POST, PATCH, DELETE).
-16. **`dependent: :destroy` a les associacions.** Tota relació `has_many` amb taula join ha de declarar `dependent: :destroy` per evitar registres orfes quan s'elimina el registre pare.
-
----
-
-## Flux de treball amb Git
-
-### Branques principals
-
-- **`main`** — Conté el codi de la iteració finalitzada. Només rep merges des de `develop` quan la iteració està completada.
-- **`develop`** — Branca de la iteració en curs. Conté les tasques completades i revisades. Es crea a partir de `main`.
-
-### Branques de feature
-
-Les branques de feature es creen a partir de `develop` i s'hi tornen a integrar mitjançant **Pull Request** amb revisió de codi.
-
-```
-main ← develop ← feature/la-meva-tasca
-```
-
-**Abans de demanar revisió (Pull Request)**, la branca de feature s'ha d'actualitzar fent merge de `develop` dins d'ella:
-
-```bash
-git checkout feature/la-meva-tasca
-git merge develop
-# Resol conflictes si n'hi ha
-git push
-```
-
-### Dependències entre tasques
-
-Si una feature o tasca depèn d'una altra, la branca de la tasca dependent s'ha de crear **a partir de la branca de la qual depèn**, no de `develop`:
-
-```
-develop ← feature/tasca-base ← feature/tasca-dependent
-```
-
-### Treball compartit en una mateixa feature
-
-Quan diversos desenvolupadors treballen en la mateixa feature, hi ha dues estratègies:
-
-1. **Branca compartida directa.** Tots treballen sobre la mateixa branca i gestionen els conflictes entre ells. Sempre s'ha d'usar `git pull --no-rebase` (mai `git pull --rebase`) per mantenir l'historial clar i evitar reescriure commits dels companys.
-
-2. **Branca base comuna + branques individuals.** Es crea una branca compartida com a base, i cada desenvolupador crea la seva pròpia branca a partir d'aquesta per treballar en les seves tasques concretes. Això redueix conflictes i facilita la integració.
-
-### Regles importants
-
-- **Resoleu conflictes amb cura.** Reviseu sempre els conflictes detingudament per no sobreescriure la feina dels companys d'equip.
-- **`git pull --no-rebase` sempre**, mai `git pull --rebase`. Rebase reescriu l'historial i pot provocar pèrdua de feina en branques compartides.
-- **`git push --force` prohibit** per a desenvolupadors no experts que no sàpiguen exactament què estan fent. Especialment prohibit en branques compartides, i **absolutament prohibit a `main` i `develop`**.
-
----
-
-## Estructura del projecte
-
-```
-app/
-  controllers/    # Lògica de peticions HTTP
-  models/         # Models ActiveRecord (User, Menu, Dish, Ingredient, Restriction...)
-  views/          # Plantilles ERB
-  services/       # Lògica de negoci complexa (SuggestionService, etc.)
-config/
-  routes.rb       # Definició de rutes RESTful
-db/
-  migrate/        # Migracions de la base de dades
-test/             # Tests MiniTest
-```
-
----
-
-## Documentació de l'arquitectura
-
-Diagrames d'arquitectura i flux disponibles a:
-**https://github.com/AMEP-EPSEVG/Serf-Pages** (publicats via GitHub Pages)
+Original repository: `AMEP-EPSEVG/Serf-APP` (private).
